@@ -53,6 +53,11 @@ class User implements UserInterface
      */
     private $isStaffUTT;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $personalCalendarURL;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -175,6 +180,18 @@ class User implements UserInterface
     public function setIsStaffUTT(bool $isStaffUTT): self
     {
         $this->isStaffUTT = $isStaffUTT;
+
+        return $this;
+    }
+
+    public function getPersonalCalendarURL(): ?string
+    {
+        return $this->personalCalendarURL;
+    }
+
+    public function setPersonalCalendarURL(?string $personalCalendarURL): self
+    {
+        $this->personalCalendarURL = $personalCalendarURL;
 
         return $this;
     }
