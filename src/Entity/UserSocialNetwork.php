@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserSocialNetworkRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\User;
 
 use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
@@ -78,12 +79,12 @@ class UserSocialNetwork
         return $this->id;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(user $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
