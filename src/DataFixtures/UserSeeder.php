@@ -12,14 +12,24 @@ use App\Entity\UserBDEContribution;
 use App\Entity\Semester;
 use App\Repository\UserRepository;
 use App\Repository\SemesterRepository;
+use App\DataFixtures\SemesterGenerator;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\Validator\Constraints\IsNull;
 
-class UsersRandomData extends Fixture
+class UserSeeder extends Fixture implements DependentFixtureInterface
 {
+
+    public function getDependencies()
+    {
+        return [
+            SemesterGenerator::class,
+        ];
+    }
+
     public function load(ObjectManager $manager)
     {
 
@@ -34,11 +44,8 @@ class UsersRandomData extends Fixture
             $user->setFirstName($faker->firstName);
             $user->setLastName($faker->lastName);
             $userRepository = $manager->getRepository(User::class);
-            $user->setLogin(UsersRandomData::generateLogin($user->getFirstName(), $user->getLastName(), $userRepository));
-
-            //  On persiste l'User pour y avoir accès après
+            $user->setLogin(UserSeeder::generateLogin($user->getFirstName(), $user->getLastName(), $userRepository));
             $manager->persist($user);
-            $manager->flush();
 
 
             //  Création d'un timestamps pour chaque User
@@ -57,10 +64,8 @@ class UsersRandomData extends Fixture
                 $days = (new DateTime())->diff($timestamps->getLastLoginDate())->days;
                 $timestamps->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             }
-
-            //  On persiste le timestamps pour y avoir accès après
             $manager->persist($timestamps);
-            $manager->flush();
+            
 
 
             //  Création d'un socialNetwork pour chaque User
