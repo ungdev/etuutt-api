@@ -7,7 +7,10 @@ use App\Entity\UserBan;
 use App\Entity\UserRGPD;
 use App\Entity\UserSocialNetwork;
 use App\Entity\UserTimestamps;
+use App\Entity\UserBDEContribution;
+use App\Entity\Semester;
 use App\Repository\UserRepository;
+use App\Repository\SemesterRepository;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -21,10 +24,7 @@ class UsersRandomData extends Fixture
 
         $faker = Factory::create("fr_FR");
 
-        // $userRepository = $manager->getRepository(User::class);
-        // dump($userRepository->findAll());
-
-        for ($i=0; $i < 500; $i++) {
+        for ($i=0; $i < 100; $i++) {
 
             //  Créations d'un User
             $user = new User();
@@ -34,11 +34,16 @@ class UsersRandomData extends Fixture
             $userRepository = $manager->getRepository(User::class);
             $user->setLogin(UsersRandomData::generateLogin($user->getFirstName(), $user->getLastName(), $userRepository));
 
+            //  On persiste l'User pour y avoir accès après
+            $manager->persist($user);
+            $manager->flush();
+
 
             //  Création d'un timestamps pour chaque User
             $timestamps = new UserTimestamps();
             $timestamps->setUser($user);
-            $timestamps->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+            $createdAt = $faker->dateTimeBetween('-3 years', 'now');
+            $timestamps->setCreatedAt($createdAt);
             $days = (new DateTime())->diff($timestamps->getCreatedAt())->days;
             $timestamps->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             //  First and last login
@@ -50,6 +55,10 @@ class UsersRandomData extends Fixture
                 $days = (new DateTime())->diff($timestamps->getLastLoginDate())->days;
                 $timestamps->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             }
+
+            //  On persiste le timestamps pour y avoir accès après
+            $manager->persist($timestamps);
+            $manager->flush();
 
 
             //  Création d'un socialNetwork pour chaque User
@@ -71,9 +80,10 @@ class UsersRandomData extends Fixture
                 $socialNetwork->setPseudoDiscord($faker->word);
             }
             $socialNetwork->setWantDiscordUTT($faker->boolean(75));
+            $manager->persist($socialNetwork);
 
 
-            //  Création d'un socialNetwork pour chaque User
+            //  Création d'un RGPD pour chaque User
             $RGPD = new UserRGPD();
             $RGPD->setUser($user);
             if ($faker->boolean(75)) {
@@ -82,6 +92,7 @@ class UsersRandomData extends Fixture
             if ($faker->boolean(75)) {
                 $RGPD->setIsKeepingAccount($faker->boolean(50));
             }
+            $manager->persist($RGPD);
 
 
             //  Ban aléatoire d'un User (Avec une chance de 1%)
@@ -101,17 +112,28 @@ class UsersRandomData extends Fixture
                 else {
                     $userBan->setBannedExpiration($faker->dateTimeBetween('-'.$days.' days', '+30 days'));
                 }
-
                 //  On persiste le ban
                 $manager->persist($userBan);
             }
 
 
-            //  On persiste les données
-            $manager->persist($user);
-            $manager->persist($timestamps);
-            $manager->persist($socialNetwork);
-            $manager->persist($RGPD);
+            //  Création d'une cotisation BDE pour quelques User
+            if ($faker->boolean(75)) {
+                $BDEContribution = new UserBDEContribution();
+                $BDEContribution->setUser($user);
+                
+                $BDEContribution->setStart($faker->dateTimeBetween($createdAt));
+
+                $semesterRepository = $manager->getRepository(Semester::class);
+                $contributionSemester = $semesterRepository->getSemesterOfDate($BDEContribution->getStart());
+
+                $BDEContribution->setEnd($contributionSemester->getEnd());
+
+                $BDEContribution->setStartSemester($contributionSemester);
+                $BDEContribution->setEndSemester($contributionSemester);
+
+                $manager->persist($BDEContribution);
+            }
 
 
             //  Sauvegarde des actions précédentes en DB

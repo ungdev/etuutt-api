@@ -83,9 +83,15 @@ class User
      */
     private $RGPD;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserBDEContribution::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $BDEContributions;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
+        $this->BDEContributions = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -218,6 +224,36 @@ class User
         }
 
         $this->RGPD = $RGPD;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserBDEContribution[]
+     */
+    public function getBDEContributions(): Collection
+    {
+        return $this->BDEContributions;
+    }
+
+    public function addBDEContribution(UserBDEContribution $bDEContribution): self
+    {
+        if (!$this->BDEContributions->contains($bDEContribution)) {
+            $this->BDEContributions[] = $bDEContribution;
+            $bDEContribution->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBDEContribution(UserBDEContribution $bDEContribution): self
+    {
+        if ($this->BDEContributions->removeElement($bDEContribution)) {
+            // set the owning side to null (unless already changed)
+            if ($bDEContribution->getUser() === $this) {
+                $bDEContribution->setUser(null);
+            }
+        }
 
         return $this;
     }
