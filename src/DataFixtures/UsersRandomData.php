@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\EtuUTTTeam;
 use App\Entity\User;
 use App\Entity\UserBan;
 use App\Entity\UserRGPD;
@@ -23,8 +24,9 @@ class UsersRandomData extends Fixture
     {
 
         $faker = Factory::create("fr_FR");
+        $semesterRepository = $manager->getRepository(Semester::class);
 
-        for ($i=0; $i < 100; $i++) {
+        for ($i=0; $i < 300; $i++) {
 
             //  Créations d'un User
             $user = new User();
@@ -124,7 +126,6 @@ class UsersRandomData extends Fixture
                 
                 $BDEContribution->setStart($faker->dateTimeBetween($createdAt));
 
-                $semesterRepository = $manager->getRepository(Semester::class);
                 $contributionSemester = $semesterRepository->getSemesterOfDate($BDEContribution->getStart());
 
                 $BDEContribution->setEnd($contributionSemester->getEnd());
@@ -133,6 +134,34 @@ class UsersRandomData extends Fixture
                 $BDEContribution->setEndSemester($contributionSemester);
 
                 $manager->persist($BDEContribution);
+            }
+
+
+            //  On ajoute un User à la team EtuUTT
+            if ($faker->boolean(2)) {
+                $EtuUTTTeam = new EtuUTTTeam();
+                $EtuUTTTeam->setUser($user);
+
+                $role = "";
+                for ($j=0; $j < 5; $j++) { 
+                    $role .= "<p>";
+                    for ($k=0; $k < 9; $k++) { 
+                        $role .= $faker->word();
+                    }
+                    $role .= "</p>";
+                }
+                $EtuUTTTeam->setRole($role);
+                
+                $EtuUTTMemberSemester = $semesterRepository->getSemesterOfDate($createdAt);
+                $EtuUTTTeam->addSemester($EtuUTTMemberSemester);
+
+                //  Une chance sur deux que l'User soit dans la team deux semestres de suite
+                if ($faker->boolean()) {
+                    $EtuUTTMemberSemester = $semesterRepository->getNextSemester($EtuUTTMemberSemester);
+                    $EtuUTTTeam->addSemester($EtuUTTMemberSemester);
+                }
+
+                $manager->persist($EtuUTTTeam);
             }
 
 
