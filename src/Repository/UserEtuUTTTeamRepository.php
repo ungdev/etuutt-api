@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\EtuUTTTeam;
+use App\Entity\UserEtuUTTTeam;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method EtuUTTTeam|null find($id, $lockMode = null, $lockVersion = null)
- * @method EtuUTTTeam|null findOneBy(array $criteria, array $orderBy = null)
- * @method EtuUTTTeam[]    findAll()
- * @method EtuUTTTeam[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UserEtuUTTTeam|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UserEtuUTTTeam|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UserEtuUTTTeam[]    findAll()
+ * @method UserEtuUTTTeam[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EtuUTTTeamRepository extends ServiceEntityRepository
+class UserEtuUTTTeamRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, EtuUTTTeam::class);
+        parent::__construct($registry, UserEtuUTTTeam::class);
     }
 
     // /**
-    //  * @return EtuUTTTeam[] Returns an array of EtuUTTTeam objects
+    //  * @return UserEtuUTTTeam[] Returns an array of UserEtuUTTTeam objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class EtuUTTTeamRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?EtuUTTTeam
+    public function findOneBySomeField($value): ?UserEtuUTTTeam
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.exampleField = :val')

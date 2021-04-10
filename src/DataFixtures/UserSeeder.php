@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\EtuUTTTeam;
+use App\Entity\UserEtuUTTTeam;
 use App\Entity\User;
 use App\Entity\UserBan;
 use App\Entity\UserRGPD;
@@ -144,7 +144,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
 
             //  On ajoute un User à la team EtuUTT
             if ($faker->boolean(2)) {
-                $EtuUTTTeam = new EtuUTTTeam();
+                $EtuUTTTeam = new UserEtuUTTTeam();
                 $EtuUTTTeam->setUser($user);
 
                 $role = "";

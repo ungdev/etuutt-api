@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\EtuUTTTeamRepository;
+use App\Repository\UserEtuUTTTeamRepository;
 use App\Entity\User;
 use App\Entity\Semester;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,10 +15,10 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 
 /**
  * @ApiResource()
- * @ORM\Entity(repositoryClass=EtuUTTTeamRepository::class)
- * @ORM\Table(name="etuutt_team")
+ * @ORM\Entity(repositoryClass=UserEtuUTTTeamRepository::class)
+ * @ORM\Table(name="user_etuutt_team")
  */
-class EtuUTTTeam
+class UserEtuUTTTeam
 {
     /**
      * @ORM\Id
@@ -39,8 +39,8 @@ class EtuUTTTeam
     /**
      * @ORM\ManyToMany(targetEntity=Semester::class)
      * @ORM\JoinTable(
-     *      name="etuutt_team_semesters",
-     *      joinColumns={@ORM\JoinColumn(name="etuutt_team_id", referencedColumnName="id")},
+     *      name="user_etuutt_team_semesters",
+     *      joinColumns={@ORM\JoinColumn(name="user_etuutt_team_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="semester_code", referencedColumnName="code")}
      * )
      */
