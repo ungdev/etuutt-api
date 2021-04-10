@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Semester;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * @method Semester|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,22 +22,20 @@ class SemesterRepository extends ServiceEntityRepository
         parent::__construct($registry, Semester::class);
     }
 
-    // /**
-    //  * @return Semester[] Returns an array of Semester objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param DateTime $date The date of which we want to find the semester
+     * @return Semester Returns the semester in which there is the input date
+     */
+    public function getSemesterOfDate(DateTime $date)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('s.start <= :now')
+            ->andWhere('s.end >= :now')
+            ->setParameter('now', $date)
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Semester
