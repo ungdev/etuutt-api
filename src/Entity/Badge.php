@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\BadgeRepository;
 use App\Entity\Traduction;
+use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Uid\Uuid;
@@ -71,6 +74,21 @@ class Badge
      * @Assert\DateTime
      */
     private $deletedAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="badges")
+     * @ORM\JoinTable(
+     *      name="users_badges",
+     *      joinColumns={@ORM\JoinColumn(name="badge_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -157,6 +175,30 @@ class Badge
     public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->users->removeElement($user);
 
         return $this;
     }
