@@ -10,9 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\UserTimestamps;
 use App\Entity\UserBan;
+use App\Entity\UserBranche;
 use App\Entity\UserSocialNetwork;
 use App\Entity\UserRGPD;
 use App\Entity\Badge;
+use App\Repository\UserBanRepository;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 
@@ -96,6 +98,11 @@ class User
      * )
      */
     private $badges;
+
+    /**
+     * @ORM\OneToOne(targetEntity=UserBranche::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $branche;
 
     public function __construct()
     {
@@ -291,6 +298,23 @@ class User
         if ($this->badges->removeElement($badge)) {
             $badge->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getBranche(): ?UserBranche
+    {
+        return $this->branche;
+    }
+
+    public function setBranche(UserBranche $branche): self
+    {
+        // set the owning side of the relation if necessary
+        if ($branche->getUser() !== $this) {
+            $branche->setUser($this);
+        }
+
+        $this->branche = $branche;
 
         return $this;
     }
