@@ -12,6 +12,7 @@ use App\Entity\UserTimestamps;
 use App\Entity\UserBan;
 use App\Entity\UserSocialNetwork;
 use App\Entity\UserRGPD;
+use App\Entity\Badge;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 
@@ -28,9 +29,7 @@ class User
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      * 
-     * @Assert\Uuid(
-     *     versions = 4
-     * )
+     * @Assert\Uuid(versions = 4)
      */
     private $id;
 
@@ -88,10 +87,21 @@ class User
      */
     private $BDEContributions;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="users")
+     * @ORM\JoinTable(
+     *      name="users_badges",
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      joinColumns={@ORM\JoinColumn(name="badge_id", referencedColumnName="id")}
+     * )
+     */
+    private $badges;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
         $this->BDEContributions = new ArrayCollection();
+        $this->badges = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -253,6 +263,33 @@ class User
             if ($bDEContribution->getUser() === $this) {
                 $bDEContribution->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Badge[]
+     */
+    public function getBadges(): Collection
+    {
+        return $this->badges;
+    }
+
+    public function addBadge(Badge $badge): self
+    {
+        if (!$this->badges->contains($badge)) {
+            $this->badges[] = $badge;
+            $badge->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBadge(Badge $badge): self
+    {
+        if ($this->badges->removeElement($badge)) {
+            $badge->removeUser($this);
         }
 
         return $this;

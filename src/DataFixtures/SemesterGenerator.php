@@ -8,19 +8,18 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Validator\Constraints\Date;
 
-class SemestersRandomData extends Fixture
+class SemesterGenerator extends Fixture
 {
     public function load(ObjectManager $manager)
     {
 
-        $iteratorDate = new DateTime('1994-01-31');
-        $nowDate = new DateTime("now");
+        $iteratorDate = new DateTime("1994-01-31");
+        $limitDate = new DateTime("2090-01-31");
 
-        while ($iteratorDate < $nowDate) {
+        while ($iteratorDate < $limitDate) {
             $startDate = clone $iteratorDate;
             $iteratorDate->modify('+6 month');
             $endDate = clone $iteratorDate;
-
             
             if ($startDate->format("Y") != $endDate->format("Y")) {
                 $code = "A";

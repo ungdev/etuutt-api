@@ -22,6 +22,7 @@ class SemesterRepository extends ServiceEntityRepository
         parent::__construct($registry, Semester::class);
     }
 
+
     /**
      * @param DateTime $date The date of which we want to find the semester
      * @return Semester Returns the semester in which there is the input date
@@ -36,6 +37,23 @@ class SemesterRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+
+    /**
+     * @param Semester $semester The semester of which the next one is returned
+     * @return Semester Returns the next semester
+     */
+    public function getNextSemester(Semester $semester)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.start >= :end')
+            ->setParameter('end', $semester->getEnd())
+            ->orderBy('s.start', 'ASC')
+            ->getQuery()
+            ->getResult()[0]
+        ;
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Semester

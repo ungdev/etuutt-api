@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\UserEtuUTTTeam;
 use App\Entity\User;
 use App\Entity\UserBan;
 use App\Entity\UserRGPD;
@@ -11,20 +12,31 @@ use App\Entity\UserBDEContribution;
 use App\Entity\Semester;
 use App\Repository\UserRepository;
 use App\Repository\SemesterRepository;
+use App\DataFixtures\SemesterGenerator;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\Validator\Constraints\IsNull;
 
-class UsersRandomData extends Fixture
+class UserSeeder extends Fixture implements DependentFixtureInterface
 {
+
+    public function getDependencies()
+    {
+        return [
+            SemesterGenerator::class,
+        ];
+    }
+
     public function load(ObjectManager $manager)
     {
 
         $faker = Factory::create("fr_FR");
+        $semesterRepository = $manager->getRepository(Semester::class);
 
-        for ($i=0; $i < 100; $i++) {
+        for ($i=0; $i < 300; $i++) {
 
             //  Créations d'un User
             $user = new User();
@@ -32,11 +44,8 @@ class UsersRandomData extends Fixture
             $user->setFirstName($faker->firstName);
             $user->setLastName($faker->lastName);
             $userRepository = $manager->getRepository(User::class);
-            $user->setLogin(UsersRandomData::generateLogin($user->getFirstName(), $user->getLastName(), $userRepository));
-
-            //  On persiste l'User pour y avoir accès après
+            $user->setLogin(UserSeeder::generateLogin($user->getFirstName(), $user->getLastName(), $userRepository));
             $manager->persist($user);
-            $manager->flush();
 
 
             //  Création d'un timestamps pour chaque User
@@ -55,10 +64,8 @@ class UsersRandomData extends Fixture
                 $days = (new DateTime())->diff($timestamps->getLastLoginDate())->days;
                 $timestamps->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             }
-
-            //  On persiste le timestamps pour y avoir accès après
             $manager->persist($timestamps);
-            $manager->flush();
+            
 
 
             //  Création d'un socialNetwork pour chaque User
@@ -124,7 +131,6 @@ class UsersRandomData extends Fixture
                 
                 $BDEContribution->setStart($faker->dateTimeBetween($createdAt));
 
-                $semesterRepository = $manager->getRepository(Semester::class);
                 $contributionSemester = $semesterRepository->getSemesterOfDate($BDEContribution->getStart());
 
                 $BDEContribution->setEnd($contributionSemester->getEnd());
@@ -133,6 +139,34 @@ class UsersRandomData extends Fixture
                 $BDEContribution->setEndSemester($contributionSemester);
 
                 $manager->persist($BDEContribution);
+            }
+
+
+            //  On ajoute un User à la team EtuUTT
+            if ($faker->boolean(2)) {
+                $EtuUTTTeam = new UserEtuUTTTeam();
+                $EtuUTTTeam->setUser($user);
+
+                $role = "";
+                for ($j=0; $j < 5; $j++) { 
+                    $role .= "<p>";
+                    for ($k=0; $k < 9; $k++) { 
+                        $role .= $faker->word();
+                    }
+                    $role .= "</p>";
+                }
+                $EtuUTTTeam->setRole($role);
+                
+                $EtuUTTMemberSemester = $semesterRepository->getSemesterOfDate($createdAt);
+                $EtuUTTTeam->addSemester($EtuUTTMemberSemester);
+
+                //  Une chance sur deux que l'User soit dans la team deux semestres de suite
+                if ($faker->boolean()) {
+                    $EtuUTTMemberSemester = $semesterRepository->getNextSemester($EtuUTTMemberSemester);
+                    $EtuUTTTeam->addSemester($EtuUTTMemberSemester);
+                }
+
+                $manager->persist($EtuUTTTeam);
             }
 
 

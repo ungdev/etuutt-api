@@ -17,6 +17,8 @@ class Semester
     /**
      * @ORM\Id
      * @ORM\Column(type="string", length=10)
+     * 
+     * @Assert\Regex("/^(A|P)\d{2}$/")
      */
     private $code;
 
