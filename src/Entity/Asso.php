@@ -5,22 +5,31 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AssoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=AssoRepository::class)
+ * @ORM\Table(name="assos")
  */
 class Asso
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="uuid")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
+     * 
+     * @Assert\Uuid(versions = 4)
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, unique=true)
+     * 
+     * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
     private $login;
 
@@ -30,27 +39,35 @@ class Asso
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\ManyToOne(targetEntity=Traduction::class)
+     * @ORM\JoinColumn(name="description_short_traduction_code", referencedColumnName="code")
      */
-    private $contactMail;
+    private $descriptionShortTraduction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Traduction::class)
+     * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
+     */
+    private $descriptionTraduction;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     * 
+     * @Assert\Email
+     */
+    private $mail;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * 
+     * @Assert\Regex("/^0[0-9]{9}$/")
      */
     private $phoneNumber;
 
     /**
-     * @ORM\Column(type="string", length=200)
-     */
-    private $descriptionShort;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
-
-    /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * 
+     * @Assert\Url
      */
     private $website;
 
@@ -61,20 +78,26 @@ class Asso
 
     /**
      * @ORM\Column(type="datetime")
+     * 
+     * @Assert\DateTime
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
+     * 
+     * @Assert\DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * 
+     * @Assert\DateTime
      */
     private $deletedAt;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -103,14 +126,38 @@ class Asso
         return $this;
     }
 
-    public function getContactMail(): ?string
+    public function getDescriptionShortTraduction(): ?Traduction
     {
-        return $this->contactMail;
+        return $this->descriptionShortTraduction;
     }
 
-    public function setContactMail(string $contactMail): self
+    public function setDescriptionShortTraduction(?Traduction $descriptionShortTraduction): self
     {
-        $this->contactMail = $contactMail;
+        $this->descriptionShortTraduction = $descriptionShortTraduction;
+
+        return $this;
+    }
+
+    public function getDescriptionTraduction(): ?Traduction
+    {
+        return $this->descriptionTraduction;
+    }
+
+    public function setDescriptionTraduction(?Traduction $descriptionTraduction): self
+    {
+        $this->descriptionTraduction = $descriptionTraduction;
+
+        return $this;
+    }
+
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    public function setMail(string $mail): self
+    {
+        $this->mail = $mail;
 
         return $this;
     }
@@ -123,30 +170,6 @@ class Asso
     public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
-
-        return $this;
-    }
-
-    public function getDescriptionShort(): ?string
-    {
-        return $this->descriptionShort;
-    }
-
-    public function setDescriptionShort(string $descriptionShort): self
-    {
-        $this->descriptionShort = $descriptionShort;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }
@@ -210,4 +233,5 @@ class Asso
 
         return $this;
     }
+
 }
