@@ -91,11 +91,6 @@ class User
 
     /**
      * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="users")
-     * @ORM\JoinTable(
-     *      name="users_badges",
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      joinColumns={@ORM\JoinColumn(name="badge_id", referencedColumnName="id")}
-     * )
      */
     private $badges;
 
@@ -109,11 +104,17 @@ class User
      */
     private $formation;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Group::class, mappedBy="users")
+     */
+    private $groups;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
         $this->BDEContributions = new ArrayCollection();
         $this->badges = new ArrayCollection();
+        $this->groups = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -337,6 +338,33 @@ class User
         }
 
         $this->formation = $formation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getGroups(): Collection
+    {
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group): self
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+            $group->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(Group $group): self
+    {
+        if ($this->groups->removeElement($group)) {
+            $group->removeUser($this);
+        }
 
         return $this;
     }
