@@ -104,6 +104,11 @@ class User
      */
     private $branche;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UserFormation::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $formation;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
@@ -315,6 +320,23 @@ class User
         }
 
         $this->branche = $branche;
+
+        return $this;
+    }
+
+    public function getFormation(): ?UserFormation
+    {
+        return $this->formation;
+    }
+
+    public function setFormation(UserFormation $formation): self
+    {
+        // set the owning side of the relation if necessary
+        if ($formation->getUser() !== $this) {
+            $formation->setUser($this);
+        }
+
+        $this->formation = $formation;
 
         return $this;
     }

@@ -14,14 +14,18 @@ use App\Repository\BrancheRepository;
 use App\Repository\FiliereRepository;
 use App\Repository\SemesterRepository;
 use App\DataFixtures\SemesterGenerator;
+use App\Entity\Formation;
+use App\Entity\FormationFollowingMethod;
+use App\Entity\UserFormation;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use DateTime;
 use Faker\Factory;
 
 use function Symfony\Component\String\b;
 
-class BrancheFiliereSeeder extends Fixture implements DependentFixtureInterface
+class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureInterface
 {
 
     public function getDependencies()
@@ -156,8 +160,108 @@ class BrancheFiliereSeeder extends Fixture implements DependentFixtureInterface
 
             $manager->persist($userBranche);
         }
-
         $manager->flush();
+
+
+        //  Création de formations
+        for ($i=0; $i < 3; $i++) {
+            switch ($i) {
+                case 0:
+                    $formation = new Formation("Ingénieur");
+                    break;
+                case 1:
+                    $formation = new Formation("Doctorat");
+                    break;
+                case 2:
+                    $formation = new Formation("Master");
+                    break;
+            }
+
+            //  Création d'une traduction
+            $descriptionTraduction = new Traduction("Formation:".$formation->getName());
+            $formation->setDescriptionTraduction($descriptionTraduction);
+
+            $description = "";
+            for ($j=0; $j < 5; $j++) { 
+                $description .= "<p>";
+                for ($k=0; $k < 9; $k++) { 
+                    $description .= $faker->word();
+                }
+                $description .= "</p>";
+            }
+            $descriptionTraduction->setFrench($description);
+            $descriptionTraduction->setEnglish($description);
+            $descriptionTraduction->setSpanish($description);
+            $descriptionTraduction->setGerman($description);
+            $descriptionTraduction->setChinese($description);
+
+            $manager->persist($descriptionTraduction);
+
+            $manager->persist($formation);
+
+        }
+        $manager->flush();
+
+
+        //  Création de following methodes
+        for ($i=0; $i < 3; $i++) {
+            switch ($i) {
+                case 0:
+                    $followingMethod = new FormationFollowingMethod("Présentiel");
+                    break;
+                case 1:
+                    $followingMethod = new FormationFollowingMethod("Distanciel");
+                    break;
+                case 2:
+                    $followingMethod = new FormationFollowingMethod("Alternance");
+                    break;
+            }
+
+            //  Création d'une traduction
+            $descriptionTraduction = new Traduction("FollowingMethod:".$followingMethod->getName());
+            $followingMethod->setDescriptionTraduction($descriptionTraduction);
+
+            $description = "";
+            for ($j=0; $j < 5; $j++) { 
+                $description .= "<p>";
+                for ($k=0; $k < 9; $k++) { 
+                    $description .= $faker->word();
+                }
+                $description .= "</p>";
+            }
+            $descriptionTraduction->setFrench($description);
+            $descriptionTraduction->setEnglish($description);
+            $descriptionTraduction->setSpanish($description);
+            $descriptionTraduction->setGerman($description);
+            $descriptionTraduction->setChinese($description);
+
+            $manager->persist($descriptionTraduction);
+
+            $manager->persist($followingMethod);
+
+        }
+        $manager->flush();
+
+
+        //  Création de UserFormation
+
+        //  Récupération des users, formations, et méthode de suivi
+        $users = $userRepository->findAll();
+        $formations = $manager->getRepository(Formation::class)->findAll();
+        $followingMethod = $manager->getRepository(FormationFollowingMethod::class)->findAll();
+        
+        foreach ($users as $user) {
+            $userFormation = new UserFormation();
+            $userFormation->setUser($user);
+            $userFormation->setFormation($faker->randomElement($formations));
+            $userFormation->setFollowingMethod($faker->randomElement($followingMethod));
+            $days = (new DateTime())->diff($user->getTimestamps()->getCreatedAt())->days;
+            $userFormation->setCreatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+
+            $manager->persist($userFormation);
+        }
+        $manager->flush();
+
 
     }
 }
