@@ -23,8 +23,6 @@ use Doctrine\Persistence\ObjectManager;
 use DateTime;
 use Faker\Factory;
 
-use function Symfony\Component\String\b;
-
 class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureInterface
 {
 
