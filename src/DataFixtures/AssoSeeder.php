@@ -28,8 +28,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
 
         //  Création de 40 associations
         for ($i=0; $i < 40; $i++) {
-
-            //  Créations d'un Badge
+            //  Créations d'une Asso
             $asso = new Asso();
 
             $asso->setLogin(strtolower($faker->word."_".$faker->word));
@@ -42,7 +41,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $manager->persist($descriptionShortTraduction);
 
             $description = "<p>";
-            for ($k=0; $k < 9; $k++) { 
+            for ($k=0; $k < 9; $k++) {
                 $description .= $faker->word() . " ";
             }
             $description .= "</p>";
@@ -59,9 +58,9 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $manager->persist($descriptionTraduction);
 
             $description = "";
-            for ($j=0; $j < 5; $j++) { 
+            for ($j=0; $j < 5; $j++) {
                 $description .= "<p>";
-                for ($k=0; $k < 9; $k++) { 
+                for ($k=0; $k < 9; $k++) {
                     $description .= $faker->word();
                 }
                 $description .= "</p>";
@@ -91,8 +90,6 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             //  On persiste l'asso dans la base de données
             $manager->persist($asso);
             $manager->flush();
-
         }
-
     }
 }
