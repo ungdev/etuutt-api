@@ -109,6 +109,11 @@ class User
      */
     private $groups;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UserPreference::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $preference;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
@@ -365,6 +370,23 @@ class User
         if ($this->groups->removeElement($group)) {
             $group->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getPreference(): ?UserPreference
+    {
+        return $this->preference;
+    }
+
+    public function setPreference(UserPreference $preference): self
+    {
+        // set the owning side of the relation if necessary
+        if ($preference->getUser() !== $this) {
+            $preference->setUser($this);
+        }
+
+        $this->preference = $preference;
 
         return $this;
     }

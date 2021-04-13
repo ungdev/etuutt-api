@@ -13,6 +13,7 @@ use App\Entity\Semester;
 use App\Repository\UserRepository;
 use App\Repository\SemesterRepository;
 use App\DataFixtures\SemesterGenerator;
+use App\Entity\UserPreference;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
