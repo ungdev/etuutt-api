@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AssoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Uid\Uuid;
@@ -96,6 +98,17 @@ class Asso
      * @Assert\DateTime
      */
     private $deletedAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Keyword::class, inversedBy="assos")
+     * @ORM\JoinTable(name="asso_keywords")
+     */
+    private $keywords;
+
+    public function __construct()
+    {
+        $this->keywords = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -234,4 +247,27 @@ class Asso
         return $this;
     }
 
+    /**
+     * @return Collection|Keyword[]
+     */
+    public function getKeywords(): Collection
+    {
+        return $this->keywords;
+    }
+
+    public function addKeyword(Keyword $keyword): self
+    {
+        if (!$this->keywords->contains($keyword)) {
+            $this->keywords[] = $keyword;
+        }
+
+        return $this;
+    }
+
+    public function removeKeyword(Keyword $keyword): self
+    {
+        $this->keywords->removeElement($keyword);
+
+        return $this;
+    }
 }
