@@ -114,10 +114,16 @@ class Asso
      */
     private $assoMessages;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="assos")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
         $this->assoMessages = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -306,6 +312,33 @@ class Asso
             if ($assoMessage->getAsso() === $this) {
                 $assoMessage->setAsso(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->addAsso($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeAsso($this);
         }
 
         return $this;
