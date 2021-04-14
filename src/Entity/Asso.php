@@ -101,13 +101,23 @@ class Asso
 
     /**
      * @ORM\ManyToMany(targetEntity=Keyword::class, inversedBy="assos")
-     * @ORM\JoinTable(name="asso_keywords")
+     * @ORM\JoinTable(
+     *     name="assos_keywords",
+     *     joinColumns={@ORM\JoinColumn(name="asso_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="keyword", referencedColumnName="name")}
+     * )
      */
     private $keywords;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AssoMessage::class, mappedBy="asso", orphanRemoval=true)
+     */
+    private $assoMessages;
 
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
+        $this->assoMessages = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -267,6 +277,36 @@ class Asso
     public function removeKeyword(Keyword $keyword): self
     {
         $this->keywords->removeElement($keyword);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AssoMessage[]
+     */
+    public function getAssoMessages(): Collection
+    {
+        return $this->assoMessages;
+    }
+
+    public function addAssoMessage(AssoMessage $assoMessage): self
+    {
+        if (!$this->assoMessages->contains($assoMessage)) {
+            $this->assoMessages[] = $assoMessage;
+            $assoMessage->setAsso($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssoMessage(AssoMessage $assoMessage): self
+    {
+        if ($this->assoMessages->removeElement($assoMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($assoMessage->getAsso() === $this) {
+                $assoMessage->setAsso(null);
+            }
+        }
 
         return $this;
     }

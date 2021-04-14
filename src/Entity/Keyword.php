@@ -8,8 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 
 /**
  * @ApiResource()
@@ -20,15 +18,6 @@ class Keyword
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     *
-     * @Assert\Uuid(versions = 4)
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="string", length=30, unique=true)
      *
      * @Assert\Regex("/^[a-z]{1,30}$/")
@@ -44,11 +33,6 @@ class Keyword
     public function __construct()
     {
         $this->assos = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getName(): ?string
