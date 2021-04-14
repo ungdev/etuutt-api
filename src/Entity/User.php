@@ -119,12 +119,18 @@ class User
      */
     private $infos;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $addresses;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
         $this->BDEContributions = new ArrayCollection();
         $this->badges = new ArrayCollection();
         $this->groups = new ArrayCollection();
+        $this->adresses = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -409,6 +415,36 @@ class User
         }
 
         $this->infos = $infos;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserAddress[]
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    public function addAdress(UserAddress $address): self
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses[] = $address;
+            $address->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(UserAddress $address): self
+    {
+        if ($this->addresses->removeElement($address)) {
+            // set the owning side to null (unless already changed)
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
+            }
+        }
 
         return $this;
     }

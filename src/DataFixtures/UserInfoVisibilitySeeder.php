@@ -10,6 +10,7 @@ use App\Entity\Group;
 use App\Entity\UserPreference;
 use App\Entity\User;
 use App\Entity\UserInfos;
+use App\Entity\UserAddress;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -59,10 +60,25 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             $infos->setBirthday($faker->dateTimeBetween("-25 years", "-20 years"));
             $this->setFieldVisibility($infos, "addBirthdayVisibility", $faker, $groupRepo);
             $infos->setAvatar($faker->imageUrl());
-            $infos->setNickname($faker->word());
-            $infos->setPassions($faker->word()." ".$faker->word()." ".$faker->word());
-            $infos->setWebsite($faker->imageUrl());
+                if ($faker->boolean(80)) {
+                $infos->setNickname($faker->word());
+                $infos->setPassions($faker->word()." ".$faker->word()." ".$faker->word());
+                $infos->setWebsite($faker->imageUrl());
+            }
             $manager->persist($infos);
+            
+
+            //  On ajoute de 0 à 2 addresses pour l'utilisateur
+            for ($i=0; $i < $faker->numberBetween(0, 2); $i++) { 
+                $address = new UserAddress();
+                $address->setUser($user);
+                $address->setPostalCode($faker->postcode());
+                $address->setCity($faker->city());
+                $address->setCountry($faker->country());
+                $this->setFieldVisibility($address, "addAddressVisibility", $faker, $groupRepo);
+                $manager->persist($address);
+            }
+            
             
             
         }
