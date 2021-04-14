@@ -7,6 +7,7 @@ use App\DataFixtures\GroupSeeder;
 use App\Repository\UserRepository;
 use App\Repository\GroupRepository;
 use App\Entity\Group;
+use App\Entity\UserMailsPhones;
 use App\Entity\UserPreference;
 use App\Entity\User;
 use App\Entity\UserInfos;
@@ -78,6 +79,17 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
                 $this->setFieldVisibility($address, "addAddressVisibility", $faker, $groupRepo);
                 $manager->persist($address);
             }
+
+
+            //  On ajoute une entité UserMailsPhones
+            $mailPhone = new UserMailsPhones();
+            $mailPhone->setUser($user);
+            $mailPhone->setMailPersonnal($faker->email());
+            $mailPhone->setMailUTT($faker->email());
+            $mailPhone->setPhoneNumber($faker->phoneNumber());
+            $this->setFieldVisibility($mailPhone, "addMailPersonnalVisibility", $faker, $groupRepo);
+            $this->setFieldVisibility($mailPhone, "addPhoneNumberVisibility", $faker, $groupRepo);
+            $manager->persist($mailPhone);
             
             
             

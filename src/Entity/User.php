@@ -124,6 +124,11 @@ class User
      */
     private $addresses;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UserMailsPhones::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $mailsPhones;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
@@ -445,6 +450,23 @@ class User
                 $address->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMailsPhones(): ?UserMailsPhones
+    {
+        return $this->mailsPhones;
+    }
+
+    public function setMailsPhones(UserMailsPhones $mailsPhones): self
+    {
+        // set the owning side of the relation if necessary
+        if ($mailsPhones->getUser() !== $this) {
+            $mailsPhones->setUser($this);
+        }
+
+        $this->mailsPhones = $mailsPhones;
 
         return $this;
     }
