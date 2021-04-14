@@ -32,7 +32,7 @@ class KeywordSeeder extends Fixture implements DependentFixtureInterface
             //Créations d'un mot-clé
             $keyword = new Keyword();
 
-            $keyword->setName($faker->word.$faker->word);
+            $keyword->setName(str_shuffle($faker->word.$faker->word));
 
             //On persiste le mot-clé dans la base de données
             $manager->persist($keyword);
