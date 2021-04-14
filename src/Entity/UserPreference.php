@@ -62,6 +62,12 @@ class UserPreference
         $this->scheduleVisibility = new ArrayCollection();
     }
 
+    public function caller($to_call, $arg) {
+        if (is_callable([$this, $to_call])) {
+            $this->$to_call($arg);
+        }
+    }
+
     public function getId(): ?Uuid
     {
         return $this->id;

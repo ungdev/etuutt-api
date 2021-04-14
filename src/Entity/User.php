@@ -114,6 +114,11 @@ class User
      */
     private $preference;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UserInfos::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $infos;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
@@ -387,6 +392,23 @@ class User
         }
 
         $this->preference = $preference;
+
+        return $this;
+    }
+
+    public function getInfos(): ?UserInfos
+    {
+        return $this->infos;
+    }
+
+    public function setInfos(UserInfos $infos): self
+    {
+        // set the owning side of the relation if necessary
+        if ($infos->getUser() !== $this) {
+            $infos->setUser($this);
+        }
+
+        $this->infos = $infos;
 
         return $this;
     }
