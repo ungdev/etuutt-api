@@ -80,9 +80,20 @@ class Event
      */
     private $deletedAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="events")
+     * @ORM\JoinTable(
+     *     name="events_categories",
+     *     joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="category", referencedColumnName="name")}
+     * )
+     */
+    private $categories;
+
     public function __construct()
     {
         $this->assos = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -218,6 +229,30 @@ class Event
     public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->categories->removeElement($category);
 
         return $this;
     }
