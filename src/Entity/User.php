@@ -129,6 +129,11 @@ class User
      */
     private $mailsPhones;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserOtherAttributValue::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $otherAttributs;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
@@ -136,6 +141,7 @@ class User
         $this->badges = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->adresses = new ArrayCollection();
+        $this->otherAttributs = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -467,6 +473,36 @@ class User
         }
 
         $this->mailsPhones = $mailsPhones;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserOtherAttributValue[]
+     */
+    public function getOtherAttributs(): Collection
+    {
+        return $this->otherAttributs;
+    }
+
+    public function addOtherAttribut(UserOtherAttributValue $otherAttribut): self
+    {
+        if (!$this->otherAttributs->contains($otherAttribut)) {
+            $this->otherAttributs[] = $otherAttribut;
+            $otherAttribut->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOtherAttribut(UserOtherAttributValue $otherAttribut): self
+    {
+        if ($this->otherAttributs->removeElement($otherAttribut)) {
+            // set the owning side to null (unless already changed)
+            if ($otherAttribut->getUser() === $this) {
+                $otherAttribut->setUser(null);
+            }
+        }
 
         return $this;
     }
