@@ -5,9 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\AssoMessage;
 use App\Entity\Asso;
 use App\Entity\Traduction;
-use App\Repository\UserRepository;
-use App\Repository\AssoMessageRepository;
-use App\DataFixtures\UserSeeder;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -28,12 +25,12 @@ class AssoMessageSeeder extends Fixture implements DependentFixtureInterface
 
         $faker = Factory::create("fr_FR");
 
+        //Récupération des assos
+        $assoRepository = $manager->getRepository(Asso::class);
+        $assos = $assoRepository->findAll();
+
         for ($i=0; $i < 100; $i++) {
             $assoMessage = new AssoMessage();
-
-            //Récupération des assos
-            $assoRepository = $manager->getRepository(Asso::class);
-            $assos = $assoRepository->findAll();
 
             //Attribution de message à des assos
             $assoMessage->setAsso($faker->randomElement($assos));
@@ -62,11 +59,11 @@ class AssoMessageSeeder extends Fixture implements DependentFixtureInterface
             $assoMessage->setSendToMobile($faker->boolean(30));
             $assoMessage->setSendAsDaymail($faker->boolean(80));
 
-            $assoMessage->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+            $assoMessage->setCreatedAt($faker->dateTimeBetween('-3 years'));
 
-            //On persiste le Badge dans la base de données
+            //On persiste message dans la base de données
             $manager->persist($assoMessage);
-            $manager->flush();
         }
+        $manager->flush();
     }
 }

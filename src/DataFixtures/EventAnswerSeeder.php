@@ -17,15 +17,17 @@ class EventAnswerSeeder extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
+            UserSeeder::class,
             EventSeeder::class,
         ];
     }
 
     public function load(ObjectManager $manager)
     {
+
         $faker = Factory::create("fr_FR");
 
-        //Récupération des assos
+        //Récupération des événements et des utilisateurs
         $eventRepository = $manager->getRepository(Event::class);
         $events = $eventRepository->findAll();
         $userRepository = $manager->getRepository(User::class);
@@ -66,7 +68,6 @@ class EventAnswerSeeder extends Fixture implements DependentFixtureInterface
             //On persiste event_answer dans la base de données
             $manager->persist($eventAnswer);
         }
-
         $manager->flush();
     }
 }

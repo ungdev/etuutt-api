@@ -4,9 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Event;
-use App\Repository\EventRepository;
-use App\Repository\CategoryRepository;
-use App\DataFixtures\EventSeeder;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -26,6 +23,7 @@ class CategorySeeder extends Fixture implements DependentFixtureInterface
     {
 
         $faker = Factory::create("fr_FR");
+        $categories = [];
 
         //Création de 50 catégories
         for ($i=0; $i < 50; $i++) {
@@ -38,23 +36,21 @@ class CategorySeeder extends Fixture implements DependentFixtureInterface
             }
             $category->setName($name);
 
+            array_push($categories, $category);
             //On persiste la catégorie dans la base de données
             $manager->persist($category);
-            $manager->flush();
         }
+        $manager->flush();
 
-        //  Attribution de catégories à des events
+        //Attribution de catégories à des events
 
-        //  Récupération des assos et des mots-clé
+        //Récupération des events
         $eventRepository = $manager->getRepository(Event::class);
         $events = $eventRepository->findAll();
-        $categoryRepository = $manager->getRepository(Category::class);
-        $categories = $categoryRepository->findAll();
 
         foreach ($events as $event) {
             for ($i=0; $i < $faker->numberBetween(1, 3); $i++) {
-                $keyword = $faker->randomElement($categories);
-                $event->addCategory($keyword);
+                $event->addCategory($faker->randomElement($categories));
             }
         }
         $manager->flush();

@@ -5,9 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\Event;
 use App\Entity\Asso;
 use App\Entity\Traduction;
-use App\Repository\AssoRepository;
-use App\Repository\EventRepository;
-use App\DataFixtures\AssoSeeder;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -29,16 +26,25 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
 
         $faker = Factory::create("fr_FR");
 
+        //Récupération des assos
+        $assoRepository = $manager->getRepository(Asso::class);
+        $assos = $assoRepository->findAll();
+
         //Création de 30 events
         for ($i=0; $i < 30; $i++) {
             //Création d'un event
             $event = new Event();
 
+            for ($j=0; $j < $faker->numberBetween(1, 3); $j++) {
+                $event->addAsso($faker->randomElement($assos));
+            }
+
             $event->setTitle(str_shuffle($faker->word.$faker->word.$faker->word));
 
             //Création des dates de début et de fin de event
             $event->setBegin($faker->dateTimeThisYear);
-            $event->setEnd($faker->dateTimeBetween('now', '+'.$faker->numberBetween(1, 15).' days'));
+            $days = (new DateTime())->diff($event->getBegin())->days;
+            $event->setEnd($faker->dateTimeBetween('-'.$days.' days'));
 
             $event->setIsAllDay($faker->boolean(75));
 
@@ -75,20 +81,6 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
 
             //On persiste event dans la base de données
             $manager->persist($event);
-            $manager->flush();
-        }
-
-        //Récupération des assos
-        $assoRepository = $manager->getRepository(Asso::class);
-        $assos = $assoRepository->findAll();
-        $eventRepository = $manager->getRepository(Event::class);
-        $events = $eventRepository->findAll();
-
-        foreach ($events as $event) {
-            for ($i=0; $i < $faker->numberBetween(1, 3); $i++) {
-                $asso = $faker->randomElement($assos);
-                $event->addAsso($asso);
-            }
         }
         $manager->flush();
     }
