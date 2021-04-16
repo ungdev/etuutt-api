@@ -90,10 +90,16 @@ class Event
      */
     private $categories;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EventAnswer::class, mappedBy="event", orphanRemoval=true)
+     */
+    private $eventAnswers;
+
     public function __construct()
     {
         $this->assos = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->eventAnswers = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -253,6 +259,36 @@ class Event
     public function removeCategory(Category $category): self
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EventAnswer[]
+     */
+    public function getEventAnswers(): Collection
+    {
+        return $this->eventAnswers;
+    }
+
+    public function addEventAnswer(EventAnswer $eventAnswer): self
+    {
+        if (!$this->eventAnswers->contains($eventAnswer)) {
+            $this->eventAnswers[] = $eventAnswer;
+            $eventAnswer->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventAnswer(EventAnswer $eventAnswer): self
+    {
+        if ($this->eventAnswers->removeElement($eventAnswer)) {
+            // set the owning side to null (unless already changed)
+            if ($eventAnswer->getEvent() === $this) {
+                $eventAnswer->setEvent(null);
+            }
+        }
 
         return $this;
     }
