@@ -41,11 +41,15 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\DateTime
      */
     private $begin;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\DateTime
      */
     private $end;
 
@@ -67,16 +71,22 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @Assert\DateTime
      */
     private $deletedAt;
 

@@ -45,6 +45,8 @@ class AssoMessage
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\DateTime
      */
     private $date;
 
@@ -60,6 +62,8 @@ class AssoMessage
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\DateTime
      */
     private $createdAt;
 
