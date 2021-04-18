@@ -23,14 +23,14 @@ class Asso
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     * 
+     *
      * @Assert\Uuid(versions = 4)
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
-     * 
+     *
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
     private $login;
@@ -54,21 +54,21 @@ class Asso
 
     /**
      * @ORM\Column(type="string", length=100)
-     * 
+     *
      * @Assert\Email
      */
     private $mail;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
-     * 
+     *
      * @Assert\Regex("/^0[0-9]{9}$/")
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * 
+     *
      * @Assert\Url
      */
     private $website;
@@ -80,21 +80,21 @@ class Asso
 
     /**
      * @ORM\Column(type="datetime")
-     * 
+     *
      * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
-     * 
+     *
      * @Assert\DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * 
+     *
      * @Assert\DateTime
      */
     private $deletedAt;
@@ -119,11 +119,17 @@ class Asso
      */
     private $events;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AssoGroup::class, mappedBy="asso", orphanRemoval=true)
+     */
+    private $assoGroups;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
         $this->assoMessages = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->assoGroups = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -339,6 +345,36 @@ class Asso
     {
         if ($this->events->removeElement($event)) {
             $event->removeAsso($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AssoGroup[]
+     */
+    public function getAssoGroups(): Collection
+    {
+        return $this->assoGroups;
+    }
+
+    public function addAssoGroup(AssoGroup $assoGroup): self
+    {
+        if (!$this->assoGroups->contains($assoGroup)) {
+            $this->assoGroups[] = $assoGroup;
+            $assoGroup->setAsso($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssoGroup(AssoGroup $assoGroup): self
+    {
+        if ($this->assoGroups->removeElement($assoGroup)) {
+            // set the owning side to null (unless already changed)
+            if ($assoGroup->getAsso() === $this) {
+                $assoGroup->setAsso(null);
+            }
         }
 
         return $this;
