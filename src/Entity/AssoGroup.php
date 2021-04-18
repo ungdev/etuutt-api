@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AssoGroupRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Uid\Uuid;
@@ -60,6 +62,16 @@ class AssoGroup
      * @Assert\DateTime
      */
     private $createdAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AssoMember::class, mappedBy="groupName", orphanRemoval=true)
+     */
+    private $assoMembers;
+
+    public function __construct()
+    {
+        $this->assoMembers = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -134,6 +146,36 @@ class AssoGroup
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AssoMember[]
+     */
+    public function getAssoMembers(): Collection
+    {
+        return $this->assoMembers;
+    }
+
+    public function addAssoMember(AssoMember $assoMember): self
+    {
+        if (!$this->assoMembers->contains($assoMember)) {
+            $this->assoMembers[] = $assoMember;
+            $assoMember->setGroupName($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssoMember(AssoMember $assoMember): self
+    {
+        if ($this->assoMembers->removeElement($assoMember)) {
+            // set the owning side to null (unless already changed)
+            if ($assoMember->getGroupName() === $this) {
+                $assoMember->setGroupName(null);
+            }
+        }
 
         return $this;
     }
