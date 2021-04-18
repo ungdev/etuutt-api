@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AssoMemberRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Uid\Uuid;
@@ -45,6 +47,32 @@ class AssoMember
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class)
+     * @ORM\JoinTable(
+     *     name="asso_members_roles",
+     *     joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="name")}
+     * )
+     */
+    private $roles;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Permission::class)
+     * @ORM\JoinTable(
+     *     name="asso_members_permissions",
+     *     joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="permission", referencedColumnName="name")}
+     * )
+     */
+    private $permissions;
+
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+        $this->permissions = new ArrayCollection();
+    }
+
     public function getId(): ?Uuid
     {
         return $this->id;
@@ -82,6 +110,54 @@ class AssoMember
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getRoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        $this->roles->removeElement($role);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Permission[]
+     */
+    public function getPermissions(): Collection
+    {
+        return $this->permissions;
+    }
+
+    public function addPermission(Permission $permission): self
+    {
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions[] = $permission;
+        }
+
+        return $this;
+    }
+
+    public function removePermission(Permission $permission): self
+    {
+        $this->permissions->removeElement($permission);
 
         return $this;
     }
