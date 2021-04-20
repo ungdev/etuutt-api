@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CovoitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
@@ -102,6 +104,16 @@ class Covoit
      * @Assert\DateTime
      */
     private $updatedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CovoitMessage::class, mappedBy="covoit", orphanRemoval=true)
+     */
+    private $covoitMessages;
+
+    public function __construct()
+    {
+        $this->covoitMessages = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -248,6 +260,36 @@ class Covoit
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CovoitMessage[]
+     */
+    public function getCovoitMessages(): Collection
+    {
+        return $this->covoitMessages;
+    }
+
+    public function addCovoitMessage(CovoitMessage $covoitMessage): self
+    {
+        if (!$this->covoitMessages->contains($covoitMessage)) {
+            $this->covoitMessages[] = $covoitMessage;
+            $covoitMessage->setCovoit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCovoitMessage(CovoitMessage $covoitMessage): self
+    {
+        if ($this->covoitMessages->removeElement($covoitMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($covoitMessage->getCovoit() === $this) {
+                $covoitMessage->setCovoit(null);
+            }
+        }
 
         return $this;
     }

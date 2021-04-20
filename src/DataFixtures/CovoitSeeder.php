@@ -25,7 +25,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
 
         $faker = Factory::create("fr_FR");
 
-        //  Récupération des users et des badges
+        //Récupération des users
         $userRepository = $manager->getRepository(User::class);
         $users = $userRepository->findAll();
 
@@ -34,8 +34,10 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             //Créations d'un covoit
             $covoit = new Covoit();
 
+            //On ajoute un user en tant qu'auteur du covoit
             $covoit->setUser($faker->randomElement($users));
 
+            //Création d'une description
             $description = "";
             for ($j=0; $j < 5; $j++) {
                 $description .= "<p>";
@@ -50,10 +52,12 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
 
             $covoit->setPrice($faker->numberBetween(10, 30));
 
+            //On a 75% de chance d'avoir un URL
             if ($faker->boolean(75)) {
                 $covoit->setBlablacarUrl($faker->imageUrl());
             }
 
+            //Création des timestamps et des addresses
             $covoit->setCreatedAt($faker->dateTimeBetween('-3 years'));
 
             $days = (new DateTime())->diff($covoit->getCreatedAt())->days;
@@ -69,6 +73,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $days = (new DateTime())->diff($covoit->getStartDate())->days;
             $covoit->setEndDate($faker->dateTimeBetween('-'.$days.' days'));
 
+            //On persiste le covoit dans la base de données
             $manager->persist($covoit);
         }
         $manager->flush();
