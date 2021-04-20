@@ -35,7 +35,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoit = new Covoit();
 
             //On ajoute un user en tant qu'auteur du covoit
-            $covoit->setUser($faker->randomElement($users));
+            $covoit->setAuthor($faker->randomElement($users));
 
             //Création d'une description
             $description = "";
@@ -55,6 +55,17 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             //On a 75% de chance d'avoir un URL
             if ($faker->boolean(75)) {
                 $covoit->setBlablacarUrl($faker->imageUrl());
+            }
+
+            //On remplit la liste d'utilisateurs si IsFull est vrai, sinon on en met un nombre aléatoire inférieur
+            $subscribedUsers = [];
+            array_push($subscribedUsers, $covoit->getAuthor());
+            for ($j=0; $j < $covoit->getIsFull() ? $covoit->getCapacity() : $faker->numberBetween(0, $covoit->getCapacity() - 1); $j++) {
+                do {
+                    $newUser = $faker->randomElement($users);
+                } while (in_array($newUser, $subscribedUsers));
+                array_push($subscribedUsers, $newUser);
+                $covoit->addUser($newUser);
             }
 
             //Création des timestamps et des addresses

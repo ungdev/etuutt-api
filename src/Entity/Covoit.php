@@ -32,7 +32,7 @@ class Covoit
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private $author;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -110,9 +110,20 @@ class Covoit
      */
     private $covoitMessages;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class)
+     * @ORM\JoinTable(
+     *      name="covoits_users",
+     *      inverseJoinColumns={@ORM\JoinColumn(name="covoit_id", referencedColumnName="id")},
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     * )
+     */
+    private $users;
+
     public function __construct()
     {
         $this->covoitMessages = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -120,14 +131,14 @@ class Covoit
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getAuthor(): ?User
     {
-        return $this->user;
+        return $this->author;
     }
 
-    public function setUser(?User $user): self
+    public function setAuthor(?User $user): self
     {
-        $this->user = $user;
+        $this->author = $user;
 
         return $this;
     }
@@ -290,6 +301,30 @@ class Covoit
                 $covoitMessage->setCovoit(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->users->removeElement($user);
 
         return $this;
     }
