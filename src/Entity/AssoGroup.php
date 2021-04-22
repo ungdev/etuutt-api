@@ -48,6 +48,9 @@ class AssoGroup
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\Type("int")
+     * @Assert\Positive
      */
     private $position;
 

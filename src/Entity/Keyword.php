@@ -26,7 +26,6 @@ class Keyword
 
     /**
      * @ORM\ManyToMany(targetEntity=Asso::class, mappedBy="keywords")
-     * @ORM\JoinTable(name="asso_keywords")
      */
     private $assos;
 
