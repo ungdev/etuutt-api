@@ -7,11 +7,10 @@ use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
- * @method Semester|null find($id, $lockMode = null, $lockVersion = null)
- * @method Semester|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|Semester find($id, $lockMode = null, $lockVersion = null)
+ * @method null|Semester findOneBy(array $criteria, array $orderBy = null)
  * @method Semester[]    findAll()
  * @method Semester[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -22,9 +21,9 @@ class SemesterRepository extends ServiceEntityRepository
         parent::__construct($registry, Semester::class);
     }
 
-
     /**
      * @param DateTime $date The date of which we want to find the semester
+     *
      * @return Semester Returns the semester in which there is the input date
      */
     public function getSemesterOfDate(DateTime $date)
@@ -38,9 +37,9 @@ class SemesterRepository extends ServiceEntityRepository
         ;
     }
 
-
     /**
      * @param Semester $semester The semester of which the next one is returned
+     *
      * @return Semester Returns the next semester
      */
     public function getNextSemester(Semester $semester)
@@ -53,7 +52,6 @@ class SemesterRepository extends ServiceEntityRepository
             ->getResult()[0]
         ;
     }
-
 
     /*
     public function findOneBySomeField($value): ?Semester

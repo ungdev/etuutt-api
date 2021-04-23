@@ -7,44 +7,41 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\UserTimestamps;
-use App\Entity\UserBan;
-use App\Entity\UserBranche;
-use App\Entity\UserSocialNetwork;
-use App\Entity\UserRGPD;
-use App\Entity\Badge;
-use App\Repository\UserBanRepository;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="users")
  */
 class User
 {
     /**
+     * @ORM\OneToMany(targetEntity=UserBan::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    protected $bans;
+    /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     * 
-     * @Assert\Uuid(versions = 4)
+     *
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
-     * 
+     *
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
     private $login;
 
     /**
      * @ORM\Column(type="integer", nullable=true, unique=true)
-     * 
+     *
      * @Assert\Type("int")
      * @Assert\Positive
      */
@@ -52,14 +49,14 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
-     * 
+     *
      * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * 
+     *
      * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
      */
     private $lastName;
@@ -73,11 +70,6 @@ class User
      * @ORM\OneToOne(targetEntity=UserSocialNetwork::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $socialNetwork;
-
-    /**
-    * @ORM\OneToMany(targetEntity=UserBan::class, mappedBy="user", cascade={"persist", "remove"})
-    */
-    protected $bans;
 
     /**
      * @ORM\OneToOne(targetEntity=UserRGPD::class, mappedBy="user", cascade={"persist", "remove"})
@@ -309,7 +301,7 @@ class User
     }
 
     /**
-     * @return Collection|Badge[]
+     * @return Badge[]|Collection
      */
     public function getBadges(): Collection
     {

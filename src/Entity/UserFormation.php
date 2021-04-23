@@ -2,14 +2,11 @@
 
 namespace App\Entity;
 
-use App\Entity\User;
-use App\Entity\Formation;
-use App\Entity\FormationFollowingMethod;
 use App\Repository\UserFormationRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserFormationRepository::class)
@@ -22,8 +19,8 @@ class UserFormation
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     * 
-     * @Assert\Uuid(versions = 4)
+     *
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 

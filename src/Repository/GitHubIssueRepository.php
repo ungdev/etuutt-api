@@ -7,8 +7,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method GitHubIssue|null find($id, $lockMode = null, $lockVersion = null)
- * @method GitHubIssue|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|GitHubIssue find($id, $lockMode = null, $lockVersion = null)
+ * @method null|GitHubIssue findOneBy(array $criteria, array $orderBy = null)
  * @method GitHubIssue[]    findAll()
  * @method GitHubIssue[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */

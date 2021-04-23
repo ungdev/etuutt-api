@@ -6,8 +6,8 @@ use App\Repository\UserMailsPhonesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,8 +21,8 @@ class UserMailsPhones
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     * 
-     * @Assert\Uuid(versions = 4)
+     *
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 
@@ -34,14 +34,14 @@ class UserMailsPhones
 
     /**
      * @ORM\Column(type="string", length=255)
-     * 
+     *
      * @Assert\Email
      */
     private $mailUTT;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * 
+     *
      * @Assert\Email
      */
     private $mailPersonnal;
@@ -49,9 +49,9 @@ class UserMailsPhones
     /**
      * @ORM\ManyToMany(targetEntity=Group::class)
      * @ORM\JoinTable(
-     *      name="user_visibility_mail_perso",
-     *      joinColumns={@ORM\JoinColumn(name="user_mails_phones_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     *     name="user_visibility_mail_perso",
+     *     joinColumns={@ORM\JoinColumn(name="user_mails_phones_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
      * )
      */
     private $mailPersonnalVisibility;
@@ -63,11 +63,11 @@ class UserMailsPhones
 
     /**
      * @ORM\ManyToMany(targetEntity=Group::class)
-     * 
+     *
      * @ORM\JoinTable(
-     *      name="user_visibility_phone_number",
-     *      joinColumns={@ORM\JoinColumn(name="user_mails_phones_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     *     name="user_visibility_phone_number",
+     *     joinColumns={@ORM\JoinColumn(name="user_mails_phones_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
      * )
      */
     private $phoneNumberVisibility;
@@ -78,9 +78,10 @@ class UserMailsPhones
         $this->phoneNumberVisibility = new ArrayCollection();
     }
 
-    public function caller($to_call, $arg) {
-        if (is_callable([$this, $to_call])) {
-            $this->$to_call($arg);
+    public function caller($to_call, $arg)
+    {
+        if (\is_callable([$this, $to_call])) {
+            $this->{$to_call}($arg);
         }
     }
 

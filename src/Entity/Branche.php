@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Traduction;
-use App\Entity\Filiere;
 use App\Repository\BrancheRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,7 +17,7 @@ class Branche
     /**
      * @ORM\Id
      * @ORM\Column(type="string", length=10)
-     * 
+     *
      * @Assert\Regex("/^[A-Z\d]{1,10}$/")
      */
     private $code;
@@ -60,7 +58,7 @@ class Branche
      */
     private $filieres;
 
-    public function __construct(String $code = null)
+    public function __construct(string $code = null)
     {
         $this->code = $code;
         $this->filieres = new ArrayCollection();

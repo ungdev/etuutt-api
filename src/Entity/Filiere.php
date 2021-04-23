@@ -2,11 +2,8 @@
 
 namespace App\Entity;
 
-use App\Entity\Traduction;
-use App\Entity\Branche;
 use App\Repository\FiliereRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=FiliereRepository::class)
@@ -37,7 +34,7 @@ class Filiere
      */
     private $descriptionTraduction;
 
-    public function __construct(String $code = null)
+    public function __construct(string $code = null)
     {
         $this->code = $code;
     }

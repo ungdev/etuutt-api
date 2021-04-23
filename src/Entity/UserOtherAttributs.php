@@ -20,12 +20,12 @@ class UserOtherAttributs
 
     /**
      * @ORM\Column(type="string", length=50)
-     * 
+     *
      * @Assert\Choice({"bool", "int", "float", "string", "longtext", "date", "datetime"})
      */
     private $type;
 
-    public function __construct(String $name = null)
+    public function __construct(string $name = null)
     {
         $this->name = $name;
     }

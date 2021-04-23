@@ -2,30 +2,23 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
-use App\Entity\Traduction;
 use App\Entity\Branche;
-use App\Entity\Semester;
-use App\DataFixtures\UserSeeder;
 use App\Entity\Filiere;
-use App\Entity\UserBranche;
-use App\Repository\UserRepository;
-use App\Repository\BrancheRepository;
-use App\Repository\FiliereRepository;
-use App\Repository\SemesterRepository;
-use App\DataFixtures\SemesterGenerator;
 use App\Entity\Formation;
 use App\Entity\FormationFollowingMethod;
+use App\Entity\Semester;
+use App\Entity\Traduction;
+use App\Entity\User;
+use App\Entity\UserBranche;
 use App\Entity\UserFormation;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use DateTime;
 use Faker\Factory;
 
 class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -36,34 +29,31 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
     public function load(ObjectManager $manager)
     {
-
-        $faker = Factory::create("fr_FR");
-
+        $faker = Factory::create('fr_FR');
 
         //  Création du TC et de 8 branches
-        for ($i=0; $i < 9; $i++) {
-
+        for ($i = 0; $i < 9; ++$i) {
             //  Créations d'une entité
-            if ($i == 0) {
-                $code = "TC";
+            if (0 === $i) {
+                $code = 'TC';
             } else {
                 $code = strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter);
             }
             $branche = new Branche($code);
 
-            $branche->setName(implode(" ",$faker->words));
+            $branche->setName(implode(' ', $faker->words));
 
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction("Branche:".$branche->getCode());
+            $descriptionTraduction = new Traduction('Branche:'.$branche->getCode());
             $branche->setDescriptionTraduction($descriptionTraduction);
 
-            $description = "";
-            for ($j=0; $j < 5; $j++) { 
-                $description .= "<p>";
-                for ($k=0; $k < 9; $k++) { 
+            $description = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $description .= '<p>';
+                for ($k = 0; $k < 9; ++$k) {
                     $description .= $faker->word();
                 }
-                $description .= "</p>";
+                $description .= '</p>';
             }
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
@@ -72,45 +62,42 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $descriptionTraduction->setChinese($description);
 
             $manager->persist($descriptionTraduction);
-            
-            
+
             //  Création des autres informations pour les branches
-            if ($i != 0) {
+            if (0 !== $i) {
                 $branche->setExitSalary($faker->numberBetween(35000, 45000));
-                $branche->setEmploymentRate($faker->numberBetween(7500, 10000)/100);
-                $branche->setCDIRate($faker->numberBetween(7500, 10000)/100);
-                $branche->setAbroadEmploymentRate($faker->numberBetween(7500, 10000)/100);
+                $branche->setEmploymentRate($faker->numberBetween(7500, 10000) / 100);
+                $branche->setCDIRate($faker->numberBetween(7500, 10000) / 100);
+                $branche->setAbroadEmploymentRate($faker->numberBetween(7500, 10000) / 100);
             }
-            
+
             //  On persiste l'entité dans la base de données
             $manager->persist($branche);
             $manager->flush();
         }
 
-
         //  Création de filières pour les branches, hors TC
         $brancheRepository = $manager->getRepository(Branche::class);
         $branches = $brancheRepository->findAll();
         foreach ($branches as $branche) {
-            if ($branche->getCode() != "TC") {
-
+            if ('TC' !== $branche->getCode()) {
                 //  Génération de 3 filières pour chaque branche
-                for ($i=0; $i < 3; $i++) { 
+                for ($i = 0; $i < 3; ++$i) {
                     $filiere = new Filiere(strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter));
                     $filiere->setBranche($branche);
-                    $filiere->setName(implode(" ", $faker->words));
+                    $filiere->setName(implode(' ', $faker->words));
 
                     //  Création d'une traduction
-                    $descriptionTraduction = new Traduction("Filiere:".$filiere->getCode());
+                    $descriptionTraduction = new Traduction('Filiere:'.$filiere->getCode());
                     $filiere->setDescriptionTraduction($descriptionTraduction);
 
-                    $description = "";
-                    for ($j=0; $j < 5; $j++) { 
-                        $description .= "<p>";
-                        for ($k=0; $k < 9; $k++) { 
+                    $description = '';
+                    for ($j = 0; $j < 5; ++$j) {
+                        $description .= '<p>';
+                        for ($k = 0; $k < 9; ++$k) {
                             $description .= $faker->word();
                         }
-                        $description .= "</p>";
+                        $description .= '</p>';
                     }
                     $descriptionTraduction->setFrench($description);
                     $descriptionTraduction->setEnglish($description);
@@ -122,11 +109,9 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
                     $manager->persist($filiere);
                 }
-                
             }
         }
         $manager->flush();
-
 
         //  Attribution de branche et de filiere aux utilisateurs (UserBranche)
 
@@ -139,7 +124,6 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         $branches = $brancheRepository->findAll();
 
         foreach ($users as $user) {
-
             //  Création de la variable pivot
             $userBranche = new UserBranche();
             $userBranche->setUser($user);
@@ -154,38 +138,42 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $createdAt = $user->getTimestamps()->getCreatedAt();
             $userBranche->setCreatedAt($createdAt);
             $userBranche->setSemester($semesterRepository->getSemesterOfDate($createdAt));
-            $userBranche->setSemesterNumber($faker->numberBetween(1,6));
+            $userBranche->setSemesterNumber($faker->numberBetween(1, 6));
 
             $manager->persist($userBranche);
         }
         $manager->flush();
 
-
         //  Création de formations
-        for ($i=0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             switch ($i) {
                 case 0:
-                    $formation = new Formation("Ingénieur");
+                    $formation = new Formation('Ingénieur');
+
                     break;
+
                 case 1:
-                    $formation = new Formation("Doctorat");
+                    $formation = new Formation('Doctorat');
+
                     break;
+
                 case 2:
-                    $formation = new Formation("Master");
+                    $formation = new Formation('Master');
+
                     break;
             }
 
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction("Formation:".$formation->getName());
+            $descriptionTraduction = new Traduction('Formation:'.$formation->getName());
             $formation->setDescriptionTraduction($descriptionTraduction);
 
-            $description = "";
-            for ($j=0; $j < 5; $j++) { 
-                $description .= "<p>";
-                for ($k=0; $k < 9; $k++) { 
+            $description = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $description .= '<p>';
+                for ($k = 0; $k < 9; ++$k) {
                     $description .= $faker->word();
                 }
-                $description .= "</p>";
+                $description .= '</p>';
             }
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
@@ -196,36 +184,39 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $manager->persist($descriptionTraduction);
 
             $manager->persist($formation);
-
         }
         $manager->flush();
 
-
         //  Création de following methodes
-        for ($i=0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             switch ($i) {
                 case 0:
-                    $followingMethod = new FormationFollowingMethod("Présentiel");
+                    $followingMethod = new FormationFollowingMethod('Présentiel');
+
                     break;
+
                 case 1:
-                    $followingMethod = new FormationFollowingMethod("Distanciel");
+                    $followingMethod = new FormationFollowingMethod('Distanciel');
+
                     break;
+
                 case 2:
-                    $followingMethod = new FormationFollowingMethod("Alternance");
+                    $followingMethod = new FormationFollowingMethod('Alternance');
+
                     break;
             }
 
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction("FollowingMethod:".$followingMethod->getName());
+            $descriptionTraduction = new Traduction('FollowingMethod:'.$followingMethod->getName());
             $followingMethod->setDescriptionTraduction($descriptionTraduction);
 
-            $description = "";
-            for ($j=0; $j < 5; $j++) { 
-                $description .= "<p>";
-                for ($k=0; $k < 9; $k++) { 
+            $description = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $description .= '<p>';
+                for ($k = 0; $k < 9; ++$k) {
                     $description .= $faker->word();
                 }
-                $description .= "</p>";
+                $description .= '</p>';
             }
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
@@ -236,10 +227,8 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $manager->persist($descriptionTraduction);
 
             $manager->persist($followingMethod);
-
         }
         $manager->flush();
-
 
         //  Création de UserFormation
 
@@ -247,7 +236,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         $users = $userRepository->findAll();
         $formations = $manager->getRepository(Formation::class)->findAll();
         $followingMethod = $manager->getRepository(FormationFollowingMethod::class)->findAll();
-        
+
         foreach ($users as $user) {
             $userFormation = new UserFormation();
             $userFormation->setUser($user);
@@ -259,7 +248,5 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $manager->persist($userFormation);
         }
         $manager->flush();
-
-
     }
 }

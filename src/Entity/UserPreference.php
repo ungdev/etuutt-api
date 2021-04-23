@@ -6,9 +6,9 @@ use App\Repository\UserPreferenceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserPreferenceRepository::class)
@@ -21,8 +21,8 @@ class UserPreference
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     * 
-     * @Assert\Uuid(versions = 4)
+     *
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 
@@ -50,9 +50,9 @@ class UserPreference
     /**
      * @ORM\ManyToMany(targetEntity=Group::class)
      * @ORM\JoinTable(
-     *      name="user_visibility_schedule",
-     *      joinColumns={@ORM\JoinColumn(name="user_preferences_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     *     name="user_visibility_schedule",
+     *     joinColumns={@ORM\JoinColumn(name="user_preferences_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
      * )
      */
     private $scheduleVisibility;
@@ -62,9 +62,10 @@ class UserPreference
         $this->scheduleVisibility = new ArrayCollection();
     }
 
-    public function caller($to_call, $arg) {
-        if (is_callable([$this, $to_call])) {
-            $this->$to_call($arg);
+    public function caller($to_call, $arg)
+    {
+        if (\is_callable([$this, $to_call])) {
+            $this->{$to_call}($arg);
         }
     }
 
@@ -144,5 +145,4 @@ class UserPreference
 
         return $this;
     }
-
 }

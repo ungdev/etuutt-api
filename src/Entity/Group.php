@@ -3,16 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\Badge;
-use App\Entity\User;
 use App\Repository\GroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="groups")
  */
@@ -29,13 +26,13 @@ class Group
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */
     private $descriptionTraduction;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="groups")
      * @ORM\JoinTable(
-     *      name="users_groups",
-     *      joinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *     name="users_groups",
+     *     joinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      * )
      */
     private $users;
@@ -55,7 +52,7 @@ class Group
      */
     private $deletedAt;
 
-    public function __construct(String $name = null)
+    public function __construct(string $name = null)
     {
         $this->name = $name;
         $this->users = new ArrayCollection();
@@ -137,5 +134,4 @@ class Group
 
         return $this;
     }
-
 }

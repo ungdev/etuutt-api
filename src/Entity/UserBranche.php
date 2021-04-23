@@ -3,14 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\UserBrancheRepository;
-use App\Entity\User;
-use App\Entity\Branche;
-use App\Entity\Filiere;
-use App\Entity\Semester;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserBrancheRepository::class)
@@ -23,8 +19,8 @@ class UserBranche
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     * 
-     * @Assert\Uuid(versions = 4)
+     *
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 
@@ -59,7 +55,7 @@ class UserBranche
 
     /**
      * @ORM\Column(type="datetime")
-     * 
+     *
      * @Assert\DateTime
      */
     private $createdAt;
@@ -140,5 +136,4 @@ class UserBranche
 
         return $this;
     }
-
 }

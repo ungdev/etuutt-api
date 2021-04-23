@@ -2,10 +2,8 @@
 
 namespace App\Entity;
 
-use App\Entity\Traduction;
 use App\Repository\FormationRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
@@ -25,7 +23,7 @@ class Formation
      */
     private $descriptionTraduction;
 
-    public function __construct(String $name = null)
+    public function __construct(string $name = null)
     {
         $this->name = $name;
     }

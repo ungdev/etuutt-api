@@ -4,11 +4,9 @@ namespace App\Entity;
 
 use App\Repository\UserSocialNetworkRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\User;
-
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserSocialNetworkRepository::class)
@@ -21,8 +19,8 @@ class UserSocialNetwork
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     * 
-     * @Assert\Uuid(versions = 4)
+     *
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 
@@ -34,28 +32,28 @@ class UserSocialNetwork
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * 
+     *
      * @Assert\Url
      */
     private $facebook;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * 
+     *
      * @Assert\Url
      */
     private $twitter;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * 
+     *
      * @Assert\Url
      */
     private $instagram;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * 
+     *
      * @Assert\Url
      */
     private $linkedin;
@@ -67,7 +65,7 @@ class UserSocialNetwork
 
     /**
      * @ORM\Column(type="boolean")
-     * 
+     *
      * @Assert\Type("bool")
      */
     private $wantDiscordUTT;
