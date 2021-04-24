@@ -7,8 +7,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Covoit|null find($id, $lockMode = null, $lockVersion = null)
- * @method Covoit|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|Covoit find($id, $lockMode = null, $lockVersion = null)
+ * @method null|Covoit findOneBy(array $criteria, array $orderBy = null)
  * @method Covoit[]    findAll()
  * @method Covoit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */

@@ -15,7 +15,7 @@ class Traduction
     /**
      * @ORM\Id
      * @ORM\Column(type="string", length=100)
-     * 
+     *
      * @Assert\Regex("/^[a-zA-Z\d _-:]{1,100}$/")
      */
     private $code;
@@ -45,7 +45,7 @@ class Traduction
      */
     private $chinese;
 
-    public function __construct(String $code = null)
+    public function __construct(string $code = null)
     {
         $this->code = $code;
     }

@@ -5,12 +5,12 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CovoitAlertRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource
  * @ORM\Entity(repositoryClass=CovoitAlertRepository::class)
  * @ORM\Table(name="covoit_alerts")
  */
@@ -22,7 +22,7 @@ class CovoitAlert
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions = 4)
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 

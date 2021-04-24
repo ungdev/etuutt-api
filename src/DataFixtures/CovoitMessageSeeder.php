@@ -13,7 +13,6 @@ use Faker\Factory;
 
 class CovoitMessageSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -23,7 +22,7 @@ class CovoitMessageSeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
 
         //Récupération des covoits et des users
         $covoitRepository = $manager->getRepository(Covoit::class);
@@ -32,7 +31,7 @@ class CovoitMessageSeeder extends Fixture implements DependentFixtureInterface
         $users = $userRepository->findAll();
 
         //Création de 100 covoitMessages
-        for ($i=0; $i < 100; $i++) {
+        for ($i = 0; $i < 100; ++$i) {
             //Créations d'un covoitMessage
             $covoitMessage = new CovoitMessage();
 
@@ -43,11 +42,11 @@ class CovoitMessageSeeder extends Fixture implements DependentFixtureInterface
             $covoitMessage->setAuthor($faker->randomElement($users));
 
             //Création du texte
-            $text = "";
-            for ($j=0; $j < 5; $j++) {
-                $text .= "<p>";
+            $text = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $text .= '<p>';
                 $text .= str_repeat($faker->word, 9);
-                $text .= "</p>";
+                $text .= '</p>';
             }
             $covoitMessage->setText($text);
 

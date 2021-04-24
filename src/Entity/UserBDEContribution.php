@@ -4,12 +4,9 @@ namespace App\Entity;
 
 use App\Repository\UserBDEContributionRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\User;
-use App\Entity\Semester;
-
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserBDEContributionRepository::class)
@@ -22,8 +19,8 @@ class UserBDEContribution
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     * 
-     * @Assert\Uuid(versions = 4)
+     *
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 
@@ -47,14 +44,14 @@ class UserBDEContribution
 
     /**
      * @ORM\Column(type="date")
-     * 
+     *
      * @Assert\Date
      */
     private $start;
 
     /**
      * @ORM\Column(type="date")
-     * 
+     *
      * @Assert\Date
      */
     private $end;

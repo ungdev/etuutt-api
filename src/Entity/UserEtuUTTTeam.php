@@ -4,17 +4,15 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserEtuUTTTeamRepository;
-use App\Entity\User;
-use App\Entity\Semester;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource
  * @ORM\Entity(repositoryClass=UserEtuUTTTeamRepository::class)
  * @ORM\Table(name="user_etuutt_team")
  */
@@ -25,8 +23,8 @@ class UserEtuUTTTeam
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     * 
-     * @Assert\Uuid(versions = 4)
+     *
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 
@@ -39,9 +37,9 @@ class UserEtuUTTTeam
     /**
      * @ORM\ManyToMany(targetEntity=Semester::class)
      * @ORM\JoinTable(
-     *      name="user_etuutt_team_semesters",
-     *      joinColumns={@ORM\JoinColumn(name="user_etuutt_team_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="semester_code", referencedColumnName="code")}
+     *     name="user_etuutt_team_semesters",
+     *     joinColumns={@ORM\JoinColumn(name="user_etuutt_team_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="semester_code", referencedColumnName="code")}
      * )
      */
     private $semester;

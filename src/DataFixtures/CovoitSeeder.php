@@ -12,7 +12,6 @@ use Faker\Factory;
 
 class CovoitSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -22,15 +21,14 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
 
         //Récupération des users
         $userRepository = $manager->getRepository(User::class);
         $users = $userRepository->findAll();
 
         //Création de 30 covoits
-        for ($i=0; $i < 30; $i++) {
+        for ($i = 0; $i < 30; ++$i) {
             //Créations d'un covoit
             $covoit = new Covoit();
 
@@ -38,11 +36,11 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoit->setAuthor($faker->randomElement($users));
 
             //Création d'une description
-            $description = "";
-            for ($j=0; $j < 5; $j++) {
-                $description .= "<p>";
+            $description = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $description .= '<p>';
                 $description .= str_repeat($faker->word, 9);
-                $description .= "</p>";
+                $description .= '</p>';
             }
             $covoit->setDescription($description);
 
@@ -57,12 +55,12 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
 
             //On remplit la liste d'utilisateurs si IsFull est vrai, sinon on en met un nombre aléatoire inférieur
             $subscribedUsers = [];
-            array_push($subscribedUsers, $covoit->getAuthor());
-            for ($j=0; $j < $faker->numberBetween(0, $covoit->getCapacity()); $j++) {
+            $subscribedUsers[] = $covoit->getAuthor();
+            for ($j = 0; $j < $faker->numberBetween(0, $covoit->getCapacity()); ++$j) {
                 do {
                     $newUser = $faker->randomElement($users);
-                } while (in_array($newUser, $subscribedUsers));
-                array_push($subscribedUsers, $newUser);
+                } while (\in_array($newUser, $subscribedUsers, true));
+                $subscribedUsers[] = $newUser;
                 $covoit->addUser($newUser);
             }
 

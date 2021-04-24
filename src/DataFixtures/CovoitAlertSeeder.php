@@ -12,7 +12,6 @@ use Faker\Factory;
 
 class CovoitAlertSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -22,14 +21,14 @@ class CovoitAlertSeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
 
         //Récupération des users
         $userRepository = $manager->getRepository(User::class);
         $users = $userRepository->findAll();
 
         //Création de 30 covoitAlerts
-        for ($i=0; $i < 30; $i++) {
+        for ($i = 0; $i < 30; ++$i) {
             //Créations d'une covoitAlert
             $covoitAlert = new CovoitAlert();
 

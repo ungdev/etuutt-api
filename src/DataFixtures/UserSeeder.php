@@ -2,27 +2,23 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\UserEtuUTTTeam;
+use App\Entity\Semester;
 use App\Entity\User;
 use App\Entity\UserBan;
+use App\Entity\UserBDEContribution;
+use App\Entity\UserEtuUTTTeam;
 use App\Entity\UserRGPD;
 use App\Entity\UserSocialNetwork;
 use App\Entity\UserTimestamps;
-use App\Entity\UserBDEContribution;
-use App\Entity\Semester;
 use App\Repository\UserRepository;
-use App\Repository\SemesterRepository;
-use App\DataFixtures\SemesterGenerator;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use Symfony\Component\Validator\Constraints\IsNull;
 
 class UserSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -32,21 +28,18 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
         $semesterRepository = $manager->getRepository(Semester::class);
 
-        for ($i=0; $i < 300; $i++) {
-
+        for ($i = 0; $i < 300; ++$i) {
             //  Créations d'un User
             $user = new User();
-            $user->setStudentId(44000+$i);
+            $user->setStudentId(44000 + $i);
             $user->setFirstName($faker->firstName);
             $user->setLastName($faker->lastName);
             $userRepository = $manager->getRepository(User::class);
-            $user->setLogin(UserSeeder::generateLogin($user->getFirstName(), $user->getLastName(), $userRepository));
+            $user->setLogin(self::generateLogin($user->getFirstName(), $user->getLastName(), $userRepository));
             $manager->persist($user);
-
 
             //  Création d'un timestamps pour chaque User
             $timestamps = new UserTimestamps();
@@ -65,8 +58,6 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
                 $timestamps->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             }
             $manager->persist($timestamps);
-            
-
 
             //  Création d'un socialNetwork pour chaque User
             $socialNetwork = new UserSocialNetwork();
@@ -89,7 +80,6 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             $socialNetwork->setWantDiscordUTT($faker->boolean(75));
             $manager->persist($socialNetwork);
 
-
             //  Création d'un RGPD pour chaque User
             $RGPD = new UserRGPD();
             $RGPD->setUser($user);
@@ -101,10 +91,8 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             }
             $manager->persist($RGPD);
 
-
             //  Ban aléatoire d'un User (Avec une chance de 1%)
             if ($faker->boolean(1)) {
-
                 //  Création d'un objet UserBan
                 $userBan = new UserBan();
                 $userBan->setUser($user);
@@ -115,20 +103,18 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
                 //  50% de chance de ReadOnly, 50% de Banned
                 if ($faker->boolean(50)) {
                     $userBan->setReadOnlyExpiration($faker->dateTimeBetween('-'.$days.' days', '+30 days'));
-                }
-                else {
+                } else {
                     $userBan->setBannedExpiration($faker->dateTimeBetween('-'.$days.' days', '+30 days'));
                 }
                 //  On persiste le ban
                 $manager->persist($userBan);
             }
 
-
             //  Création d'une cotisation BDE pour quelques User
             if ($faker->boolean(75)) {
                 $BDEContribution = new UserBDEContribution();
                 $BDEContribution->setUser($user);
-                
+
                 $BDEContribution->setStart($faker->dateTimeBetween($createdAt));
 
                 $contributionSemester = $semesterRepository->getSemesterOfDate($BDEContribution->getStart());
@@ -141,22 +127,21 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
                 $manager->persist($BDEContribution);
             }
 
-
             //  On ajoute un User à la team EtuUTT
             if ($faker->boolean(2)) {
                 $EtuUTTTeam = new UserEtuUTTTeam();
                 $EtuUTTTeam->setUser($user);
 
-                $role = "";
-                for ($j=0; $j < 5; $j++) { 
-                    $role .= "<p>";
-                    for ($k=0; $k < 9; $k++) { 
+                $role = '';
+                for ($j = 0; $j < 5; ++$j) {
+                    $role .= '<p>';
+                    for ($k = 0; $k < 9; ++$k) {
                         $role .= $faker->word();
                     }
-                    $role .= "</p>";
+                    $role .= '</p>';
                 }
                 $EtuUTTTeam->setRole($role);
-                
+
                 $EtuUTTMemberSemester = $semesterRepository->getSemesterOfDate($createdAt);
                 $EtuUTTTeam->addSemester($EtuUTTMemberSemester);
 
@@ -169,51 +154,46 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
                 $manager->persist($EtuUTTTeam);
             }
 
-
             //  Sauvegarde des actions précédentes en DB
             $manager->flush();
         }
     }
 
-
-
-
     /**
-     * Cette fonction génère le login à partir du firstname et du lastname
-     * @param String $firstName Le prénom de l'utilisateur
-     * @param String $lastName Le nom de famille de l'utilisateur
+     * Cette fonction génère le login à partir du firstname et du lastname.
+     *
+     * @param string         $firstName      Le prénom de l'utilisateur
+     * @param string         $lastName       Le nom de famille de l'utilisateur
      * @param UserRepository $userRepository Le repository pour accéder aux Users
-     * @return String $login Le login de l'utilisateur
+     *
+     * @return string $login Le login de l'utilisateur
      */
-    public static function generateLogin(String $firstName = null, String $lastName = null, UserRepository $userRepository)
+    public static function generateLogin(string $firstName = null, string $lastName = null, UserRepository $userRepository)
     {
-        
-        $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
-                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
-                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
-                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
-                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
+        $unwanted_array = ['Š' => 'S', 'š' => 's', 'Ž' => 'Z', 'ž' => 'z', 'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'A', 'Ç' => 'C', 'È' => 'E', 'É' => 'E',
+            'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O', 'Ù' => 'U',
+            'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ý' => 'Y', 'Þ' => 'B', 'ß' => 'Ss', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'a', 'ç' => 'c',
+            'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o',
+            'ö' => 'o', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'þ' => 'b', 'ÿ' => 'y', ];
 
         $firstName = strtr($firstName, $unwanted_array);
         $lastName = strtr($lastName, $unwanted_array);
 
-        $firstName = str_replace(" ", "_", strtolower($firstName));
-        $lastName = str_replace(" ", "_", strtolower($lastName));
+        $firstName = str_replace(' ', '_', strtolower($firstName));
+        $lastName = str_replace(' ', '_', strtolower($lastName));
 
         $login = substr($lastName, 0, 7);
-        $login .= substr($firstName, 0, 8-strlen($login));
+        $login .= substr($firstName, 0, 8 - \strlen($login));
 
         //  On recherche si un utilisateur a déjà ce login
         $numberSameLogin = 0;
-        while (!is_null($userRepository->findOneBy(['login' => $login]))) {
-            $numberSameLogin++;
+        while (null !== $userRepository->findOneBy(['login' => $login])) {
+            ++$numberSameLogin;
             //  On enlève le dernier caractère du login
-            substr_replace($login ,"", -1);
+            substr_replace($login, '', -1);
             $login .= $numberSameLogin;
         }
 
         return $login;
     }
-
-
 }
