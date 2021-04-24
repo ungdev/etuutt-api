@@ -48,8 +48,6 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
 
             $covoit->setCapacity($faker->numberBetween(1, 4));
 
-            $covoit->setIsFull($faker->boolean(10));
-
             $covoit->setPrice($faker->numberBetween(10, 30));
 
             //On a 75% de chance d'avoir un URL
@@ -60,7 +58,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             //On remplit la liste d'utilisateurs si IsFull est vrai, sinon on en met un nombre aléatoire inférieur
             $subscribedUsers = [];
             array_push($subscribedUsers, $covoit->getAuthor());
-            for ($j=0; $j < $covoit->getIsFull() ? $covoit->getCapacity() : $faker->numberBetween(0, $covoit->getCapacity() - 1); $j++) {
+            for ($j=0; $j < $faker->numberBetween(0, $covoit->getCapacity()); $j++) {
                 do {
                     $newUser = $faker->randomElement($users);
                 } while (in_array($newUser, $subscribedUsers));

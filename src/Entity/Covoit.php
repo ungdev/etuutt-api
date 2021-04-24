@@ -48,11 +48,6 @@ class Covoit
     private $capacity;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isFull;
-
-    /**
      * @ORM\Column(type="integer")
      *
      * @Assert\Type("int")
@@ -167,18 +162,6 @@ class Covoit
         return $this;
     }
 
-    public function getIsFull(): ?bool
-    {
-        return $this->isFull;
-    }
-
-    public function setIsFull(bool $isFull): self
-    {
-        $this->isFull = $isFull;
-
-        return $this;
-    }
-
     public function getPrice(): ?int
     {
         return $this->price;
@@ -273,6 +256,14 @@ class Covoit
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    /**
+     * @return bool - Return a boolean to indicate if the number of users linked to the covoit is equal or superior to the capacity
+     */
+    public function isFull(): bool
+    {
+        return $this->getUsers()->count() >= $this->getCapacity();
     }
 
     /**
