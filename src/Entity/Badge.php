@@ -3,14 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\BadgeRepository;
-use App\Entity\Traduction;
-use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BadgeRepository::class)
@@ -23,21 +21,21 @@ class Badge
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     * 
-     * @Assert\Uuid(versions = 4)
+     *
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * 
+     *
      * @Assert\Regex("/^[A-Za-z:]{1,50}$/")
      */
     private $serie;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
-     * 
+     *
      * @Assert\Type("int")
      * @Assert\Positive
      */
@@ -45,7 +43,7 @@ class Badge
 
     /**
      * @ORM\Column(type="string", length=100)
-     * 
+     *
      * @Assert\Regex("/^[a-zA-Z\d _-]{1,100}$/")
      */
     private $name;
@@ -63,14 +61,14 @@ class Badge
 
     /**
      * @ORM\Column(type="datetime")
-     * 
+     *
      * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * 
+     *
      * @Assert\DateTime
      */
     private $deletedAt;
@@ -78,9 +76,9 @@ class Badge
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="badges")
      * @ORM\JoinTable(
-     *      name="users_badges",
-     *      joinColumns={@ORM\JoinColumn(name="badge_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *     name="users_badges",
+     *     joinColumns={@ORM\JoinColumn(name="badge_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      * )
      */
     private $users;

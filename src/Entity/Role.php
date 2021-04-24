@@ -7,7 +7,7 @@ use App\Repository\RoleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource
  * @ORM\Entity(repositoryClass=RoleRepository::class)
  * @ORM\Table(name="roles")
  */

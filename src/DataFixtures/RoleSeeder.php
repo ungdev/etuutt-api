@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Role;
 use App\Entity\AssoMember;
+use App\Entity\Role;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -11,7 +11,6 @@ use Faker\Factory;
 
 class RoleSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -21,17 +20,17 @@ class RoleSeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
         $roles = [];
 
         //Création de 100 rôles
-        for ($i=0; $i < 100; $i++) {
+        for ($i = 0; $i < 100; ++$i) {
             //Créations d'un rôle
             $role = new Role();
 
             $role->setName(str_shuffle($faker->word.$faker->word));
 
-            array_push($roles, $role);
+            $roles[] = $role;
             //On persiste le rôle dans la base de données
             $manager->persist($role);
         }
@@ -44,7 +43,7 @@ class RoleSeeder extends Fixture implements DependentFixtureInterface
         $assoMembers = $assoMemberRepository->findAll();
 
         foreach ($assoMembers as $assoMember) {
-            for ($i=0; $i < $faker->numberBetween(0, 5); $i++) {
+            for ($i = 0; $i < $faker->numberBetween(0, 5); ++$i) {
                 $assoMember->addRole($faker->randomElement($roles));
             }
         }

@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Event;
 use App\Entity\Asso;
+use App\Entity\Event;
 use App\Entity\Traduction;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,7 +13,6 @@ use Faker\Factory;
 
 class EventSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -23,19 +22,18 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
 
         //Récupération des assos
         $assoRepository = $manager->getRepository(Asso::class);
         $assos = $assoRepository->findAll();
 
         //Création de 30 events
-        for ($i=0; $i < 30; $i++) {
+        for ($i = 0; $i < 30; ++$i) {
             //Création d'un event
             $event = new Event();
 
-            for ($j=0; $j < $faker->numberBetween(1, 3); $j++) {
+            for ($j = 0; $j < $faker->numberBetween(1, 3); ++$j) {
                 $event->addAsso($faker->randomElement($assos));
             }
 
@@ -53,15 +51,15 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             }
 
             //Création d'une traduction
-            $descriptionTraduction = new Traduction("Event:".$event->getTitle());
+            $descriptionTraduction = new Traduction('Event:'.$event->getTitle());
             $event->setDescriptionTraduction($descriptionTraduction);
             $manager->persist($descriptionTraduction);
 
-            $description = "";
-            for ($j=0; $j < 3; $j++) {
-                $description .= "<p>";
+            $description = '';
+            for ($j = 0; $j < 3; ++$j) {
+                $description .= '<p>';
                 $description .= str_repeat($faker->word, 9);
-                $description .= "</p>";
+                $description .= '</p>';
             }
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);

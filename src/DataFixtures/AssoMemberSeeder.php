@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\AssoMember;
 use App\Entity\AssoGroup;
+use App\Entity\AssoMember;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -12,7 +12,6 @@ use Faker\Factory;
 
 class AssoMemberSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -23,8 +22,7 @@ class AssoMemberSeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
 
         //Récupération des utilisateurs et des groupes
         $userRepository = $manager->getRepository(User::class);
@@ -35,7 +33,7 @@ class AssoMemberSeeder extends Fixture implements DependentFixtureInterface
         //On attribue un utilisateur à entre 0 et 3 groupes
         foreach ($users as $user) {
             $currentGroupAssos = [];
-            for ($i=0; $i < $faker->numberBetween(0, 3); $i++) {
+            for ($i = 0; $i < $faker->numberBetween(0, 3); ++$i) {
                 $assoMember = new AssoMember();
 
                 $assoMember->setUser($user);
@@ -43,8 +41,8 @@ class AssoMemberSeeder extends Fixture implements DependentFixtureInterface
                 //Assignation du membre à un groupe (un membre ne peut pas faire partie de plusieurs groupes d'une même asso)
                 do {
                     $group = $faker->randomElement($assoGroups);
-                } while (in_array($group->getAsso(), $currentGroupAssos));
-                array_push($currentGroupAssos, $group->getAsso());
+                } while (\in_array($group->getAsso(), $currentGroupAssos, true));
+                $currentGroupAssos[] = $group->getAsso();
                 $assoMember->setGroupName($group);
 
                 $assoMember->setCreatedAt($faker->dateTimeBetween('-3 years'));

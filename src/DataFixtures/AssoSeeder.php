@@ -11,45 +11,42 @@ use Faker\Factory;
 
 class AssoSeeder extends Fixture
 {
-
     public function load(ObjectManager $manager)
     {
-
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
 
         //Création de 40 associations
-        for ($i=0; $i < 40; $i++) {
+        for ($i = 0; $i < 40; ++$i) {
             //Créations d'une Asso
             $asso = new Asso();
 
-            $asso->setLogin(strtolower($faker->word."_".$faker->word.$faker->word));
-            $asso->setName($faker->word." ".$faker->word);
+            $asso->setLogin(strtolower($faker->word.'_'.$faker->word.$faker->word));
+            $asso->setName($faker->word.' '.$faker->word);
 
             //Création d'une traduction pour la petite description
-            $descriptionShortTraduction = new Traduction("Asso:".$asso->getName().":ShortDesc");
+            $descriptionShortTraduction = new Traduction('Asso:'.$asso->getName().':ShortDesc');
             $asso->setDescriptionShortTraduction($descriptionShortTraduction);
             $manager->persist($descriptionShortTraduction);
 
-            $description = "<p>";
+            $description = '<p>';
             $description .= str_repeat($faker->word.' ', 9);
-            $description .= "</p>";
+            $description .= '</p>';
             $descriptionShortTraduction->setFrench($description);
             $descriptionShortTraduction->setEnglish($description);
             $descriptionShortTraduction->setSpanish($description);
             $descriptionShortTraduction->setGerman($description);
             $descriptionShortTraduction->setChinese($description);
 
-
             //Création d'une traduction pour la description
-            $descriptionTraduction = new Traduction("Asso:".$asso->getName().":Desc");
+            $descriptionTraduction = new Traduction('Asso:'.$asso->getName().':Desc');
             $asso->setDescriptionTraduction($descriptionTraduction);
             $manager->persist($descriptionTraduction);
 
-            $description = "";
-            for ($j=0; $j < 5; $j++) {
-                $description .= "<p>";
+            $description = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $description .= '<p>';
                 $description .= str_repeat($faker->word, 9);
-                $description .= "</p>";
+                $description .= '</p>';
             }
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);

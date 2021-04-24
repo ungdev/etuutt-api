@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\EventAnswer;
 use App\Entity\Event;
+use App\Entity\EventAnswer;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,7 +13,6 @@ use Faker\Factory;
 
 class EventAnswerSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -24,8 +23,7 @@ class EventAnswerSeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
 
         //Récupération des événements et des utilisateurs
         $eventRepository = $manager->getRepository(Event::class);
@@ -34,7 +32,7 @@ class EventAnswerSeeder extends Fixture implements DependentFixtureInterface
         $users = $userRepository->findAll();
 
         //Création de 100 event_answers
-        for ($i=0; $i < 100; $i++) {
+        for ($i = 0; $i < 100; ++$i) {
             //Création d'une event_answer
             $eventAnswer = new EventAnswer();
 
@@ -47,11 +45,11 @@ class EventAnswerSeeder extends Fixture implements DependentFixtureInterface
             $eventAnswer->setAnswer($faker->randomElement($possibleAnswers));
 
             //Création du commentaire
-            $comment = "";
-            for ($j=0; $j < 3; $j++) {
-                $comment .= "<p>";
+            $comment = '';
+            for ($j = 0; $j < 3; ++$j) {
+                $comment .= '<p>';
                 $comment .= str_repeat($faker->word, 9);
-                $comment .= "</p>";
+                $comment .= '</p>';
             }
             $eventAnswer->setComment($comment);
 

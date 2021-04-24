@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\AssoGroup;
 use App\Entity\Asso;
+use App\Entity\AssoGroup;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -11,7 +11,6 @@ use Faker\Factory;
 
 class AssoGroupSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -21,14 +20,14 @@ class AssoGroupSeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
 
         //Récupération des assos
         $assoRepository = $manager->getRepository(Asso::class);
         $assos = $assoRepository->findAll();
 
         //Liste de groupes à créer par associations
-        $toCreate = ["members", "presidents", "vice-presidents"];
+        $toCreate = ['members', 'presidents', 'vice-presidents'];
 
         foreach ($assos as $asso) {
             foreach ($toCreate as $name) {

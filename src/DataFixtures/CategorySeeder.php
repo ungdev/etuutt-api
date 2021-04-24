@@ -11,7 +11,6 @@ use Faker\Factory;
 
 class CategorySeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -21,22 +20,21 @@ class CategorySeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
         $categories = [];
 
         //Création de 50 catégories
-        for ($i=0; $i < 50; $i++) {
+        for ($i = 0; $i < 50; ++$i) {
             //Créations d'une catégorie
             $category = new Category();
 
-            $name = "";
-            for ($j=0; $j < $faker->numberBetween(5, 20); $j++) {
+            $name = '';
+            for ($j = 0; $j < $faker->numberBetween(5, 20); ++$j) {
                 $name .= $faker->randomLetter;
             }
             $category->setName($name);
 
-            array_push($categories, $category);
+            $categories[] = $category;
             //On persiste la catégorie dans la base de données
             $manager->persist($category);
         }
@@ -49,7 +47,7 @@ class CategorySeeder extends Fixture implements DependentFixtureInterface
         $events = $eventRepository->findAll();
 
         foreach ($events as $event) {
-            for ($i=0; $i < $faker->numberBetween(1, 3); $i++) {
+            for ($i = 0; $i < $faker->numberBetween(1, 3); ++$i) {
                 $event->addCategory($faker->randomElement($categories));
             }
         }

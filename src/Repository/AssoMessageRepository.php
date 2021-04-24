@@ -7,8 +7,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method AssoMessage|null find($id, $lockMode = null, $lockVersion = null)
- * @method AssoMessage|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|AssoMessage find($id, $lockMode = null, $lockVersion = null)
+ * @method null|AssoMessage findOneBy(array $criteria, array $orderBy = null)
  * @method AssoMessage[]    findAll()
  * @method AssoMessage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */

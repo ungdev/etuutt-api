@@ -7,12 +7,12 @@ use App\Repository\AssoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource
  * @ORM\Entity(repositoryClass=AssoRepository::class)
  * @ORM\Table(name="assos")
  */
@@ -24,7 +24,7 @@ class Asso
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions = 4)
+     * @Assert\Uuid(versions=4)
      */
     private $id;
 
@@ -294,7 +294,7 @@ class Asso
     }
 
     /**
-     * @return Collection|AssoMessage[]
+     * @return AssoMessage[]|Collection
      */
     public function getAssoMessages(): Collection
     {
@@ -351,7 +351,7 @@ class Asso
     }
 
     /**
-     * @return Collection|AssoGroup[]
+     * @return AssoGroup[]|Collection
      */
     public function getAssoGroups(): Collection
     {

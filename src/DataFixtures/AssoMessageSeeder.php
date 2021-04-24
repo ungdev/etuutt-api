@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\AssoMessage;
 use App\Entity\Asso;
+use App\Entity\AssoMessage;
 use App\Entity\Traduction;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -12,7 +12,6 @@ use Faker\Factory;
 
 class AssoMessageSeeder extends Fixture implements DependentFixtureInterface
 {
-
     public function getDependencies()
     {
         return [
@@ -22,14 +21,13 @@ class AssoMessageSeeder extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-
-        $faker = Factory::create("fr_FR");
+        $faker = Factory::create('fr_FR');
 
         //Récupération des assos
         $assoRepository = $manager->getRepository(Asso::class);
         $assos = $assoRepository->findAll();
 
-        for ($i=0; $i < 100; $i++) {
+        for ($i = 0; $i < 100; ++$i) {
             $assoMessage = new AssoMessage();
 
             //Attribution de message à des assos
@@ -38,15 +36,15 @@ class AssoMessageSeeder extends Fixture implements DependentFixtureInterface
             $assoMessage->setTitle(str_shuffle($faker->word.$faker->word));
 
             //Création d'une traduction
-            $descriptionTraduction = new Traduction("AssoMessage:".$assoMessage->getTitle());
+            $descriptionTraduction = new Traduction('AssoMessage:'.$assoMessage->getTitle());
             $assoMessage->setBodyTraduction($descriptionTraduction);
             $manager->persist($descriptionTraduction);
 
-            $description = "";
-            for ($j=0; $j < 5; $j++) {
-                $description .= "<p>";
+            $description = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $description .= '<p>';
                 $description .= str_repeat($faker->word, 9);
-                $description .= "</p>";
+                $description .= '</p>';
             }
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);

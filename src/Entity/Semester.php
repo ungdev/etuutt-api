@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource
  * @ORM\Entity(repositoryClass=SemesterRepository::class)
  * @ORM\Table(name="semesters")
  */
@@ -17,26 +17,26 @@ class Semester
     /**
      * @ORM\Id
      * @ORM\Column(type="string", length=10)
-     * 
+     *
      * @Assert\Regex("/^(A|P)\d{2}$/")
      */
     private $code;
 
     /**
      * @ORM\Column(type="date")
-     * 
+     *
      * @Assert\Date
      */
     private $start;
 
     /**
      * @ORM\Column(type="date")
-     * 
+     *
      * @Assert\Date
      */
     private $end;
 
-    public function __construct(String $code = null)
+    public function __construct(string $code = null)
     {
         $this->code = $code;
     }

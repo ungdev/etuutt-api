@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource
  * @ORM\Entity(repositoryClass=KeywordRepository::class)
  * @ORM\Table(name="keywords")
  */
@@ -47,7 +47,7 @@ class Keyword
     }
 
     /**
-     * @return Collection|Asso[]
+     * @return Asso[]|Collection
      */
     public function getAssos(): Collection
     {

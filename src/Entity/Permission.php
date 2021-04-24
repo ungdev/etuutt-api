@@ -7,7 +7,7 @@ use App\Repository\PermissionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource
  * @ORM\Entity(repositoryClass=PermissionRepository::class)
  * @ORM\Table(name="permissions")
  */
