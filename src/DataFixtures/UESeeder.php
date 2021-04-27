@@ -2,25 +2,37 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Semester;
 use App\Entity\UE;
+use App\Entity\User;
+use App\Entity\UserUESubscription;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class UESeeder extends Fixture
+class UESeeder extends Fixture implements DependentFixtureInterface
 {
+    public function getDependencies()
+    {
+        return [
+            UserSeeder::class,
+        ];
+    }
+
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
 
+        //  Création de 100 UEs
         for ($i = 0; $i < 100; ++$i) {
             //  Créations d'une UE
             $ue = new UE();
             $ue->setCode(strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomDigit.$faker->randomDigit));
-            $name = "";
+            $name = '';
             for ($k = 0; $k < 9; ++$k) {
-                $name .= ($faker->word() . " ");
+                $name .= ($faker->word().' ');
             }
             $ue->setName($name);
             $ue->setValidationRate($faker->randomFloat(2, 50, 100));
@@ -30,7 +42,23 @@ class UESeeder extends Fixture
             $days = (new DateTime())->diff($ue->getCreatedAt())->days;
             $ue->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             $manager->persist($ue);
+        }
+        $manager->flush();
 
+        //  Ajout de 6 UEs pour tous les utilisateurs
+        $users = $manager->getRepository(User::class)->findAll();
+        $ues = $manager->getRepository(UE::class)->findAll();
+        $semesterRepo = $manager->getRepository(Semester::class);
+        foreach ($users as $user) {
+            //  Pour chaque utilisateur, on ajoute 6 UEs
+            for ($i = 0; $i < 6; ++$i) {
+                $subscription = new UserUESubscription();
+                $subscription->setUser($user);
+                $subscription->setUE($faker->randomElement($ues));
+                $subscription->setCreatedAt(new DateTime());
+                $subscription->setSemester($semesterRepo->getSemesterOfDate($subscription->getCreatedAt()));
+                $manager->persist($subscription);
+            }
         }
         $manager->flush();
     }

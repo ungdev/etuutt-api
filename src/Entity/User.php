@@ -126,6 +126,11 @@ class User
      */
     private $otherAttributs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $UEsSubscriptions;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
@@ -134,6 +139,7 @@ class User
         $this->groups = new ArrayCollection();
         $this->adresses = new ArrayCollection();
         $this->otherAttributs = new ArrayCollection();
+        $this->UEsSubscriptions = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -493,6 +499,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($otherAttribut->getUser() === $this) {
                 $otherAttribut->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserUESubscription[]
+     */
+    public function getUEsSubscriptions(): Collection
+    {
+        return $this->UEsSubscriptions;
+    }
+
+    public function addUEsSubscription(UserUESubscription $userUESubscription): self
+    {
+        if (!$this->UEsSubscriptions->contains($userUESubscription)) {
+            $this->UEsSubscriptions[] = $userUESubscription;
+            $userUESubscription->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUEsSubscription(UserUESubscription $userUESubscription): self
+    {
+        if ($this->UEsSubscriptions->removeElement($userUESubscription)) {
+            // set the owning side to null (unless already changed)
+            if ($userUESubscription->getUser() === $this) {
+                $userUESubscription->setUser(null);
             }
         }
 

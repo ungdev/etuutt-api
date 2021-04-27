@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\UE;
+use App\Entity\UserUE;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|UE find($id, $lockMode = null, $lockVersion = null)
- * @method null|UE findOneBy(array $criteria, array $orderBy = null)
- * @method UE[]    findAll()
- * @method UE[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|UserUE find($id, $lockMode = null, $lockVersion = null)
+ * @method null|UserUE findOneBy(array $criteria, array $orderBy = null)
+ * @method UserUE[]    findAll()
+ * @method UserUE[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UERepository extends ServiceEntityRepository
+class UserUERepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UE::class);
+        parent::__construct($registry, UserUE::class);
     }
 
     // /**
-    //  * @return UE[] Returns an array of UE objects
+    //  * @return UserUE[] Returns an array of UserUE objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class UERepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?UE
+    public function findOneBySomeField($value): ?UserUE
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.exampleField = :val')

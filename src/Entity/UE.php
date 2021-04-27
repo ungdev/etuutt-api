@@ -4,13 +4,15 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UERepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource
  * @ORM\Entity(repositoryClass=UERepository::class)
  * @ORM\Table(name="ues")
  */
@@ -55,6 +57,16 @@ class UE
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="UE", orphanRemoval=true)
+     */
+    private $usersSubscriptions;
+
+    public function __construct()
+    {
+        $this->usersSubscriptions = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -129,6 +141,36 @@ class UE
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserUESubscription[]
+     */
+    public function getUserUESubscriptions(): Collection
+    {
+        return $this->usersSubscriptions;
+    }
+
+    public function addUserUESubscriptions(UserUESubscription $userUESubscription): self
+    {
+        if (!$this->UserUESubscriptions->contains($userUESubscription)) {
+            $this->UserUESubscriptions[] = $userUESubscription;
+            $userUESubscription->setUE($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserUESubscriptions(UserUESubscription $userUESubscription): self
+    {
+        if ($this->UserUESubscriptions->removeElement($userUESubscription)) {
+            // set the owning side to null (unless already changed)
+            if ($userUESubscription->getUE() === $this) {
+                $userUESubscription->setUE(null);
+            }
+        }
 
         return $this;
     }
