@@ -69,9 +69,15 @@ class UE
      */
     private $filiere;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UECredit::class, mappedBy="UE", orphanRemoval=true)
+     */
+    private $credits;
+
     public function __construct()
     {
         $this->usersSubscriptions = new ArrayCollection();
+        $this->credits = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -189,6 +195,36 @@ class UE
     public function setFiliere(?Filiere $filiere): self
     {
         $this->filiere = $filiere;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UECredit[]
+     */
+    public function getCredits(): Collection
+    {
+        return $this->credits;
+    }
+
+    public function addCredit(UECredit $credit): self
+    {
+        if (!$this->credits->contains($credit)) {
+            $this->credits[] = $credit;
+            $credit->setUE($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCredit(UECredit $credit): self
+    {
+        if ($this->credits->removeElement($credit)) {
+            // set the owning side to null (unless already changed)
+            if ($credit->getUE() === $this) {
+                $credit->setUE(null);
+            }
+        }
 
         return $this;
     }

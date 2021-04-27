@@ -4,6 +4,8 @@ namespace App\DataFixtures;
 
 use App\Entity\Semester;
 use App\Entity\UE;
+use App\Entity\UECredit;
+use App\Entity\UECreditCategory;
 use App\Entity\User;
 use App\Entity\UserUESubscription;
 use DateTime;
@@ -24,6 +26,18 @@ class UESeeder extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
+
+        //  Création de 6 catégories d'UEs
+        for ($i = 0; $i < 6; ++$i) {
+            $category = new UECreditCategory($faker->randomLetter.$faker->randomLetter.$faker->randomLetter);
+            $name = '';
+            for ($k = 0; $k < 9; ++$k) {
+                $name .= ($faker->word().' ');
+            }
+            $category->setName($name);
+            $manager->persist($category);
+        }
+        $manager->flush();
 
         //  Création de 100 UEs
         for ($i = 0; $i < 100; ++$i) {
@@ -58,6 +72,19 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $subscription->setCreatedAt(new DateTime());
                 $subscription->setSemester($semesterRepo->getSemesterOfDate($subscription->getCreatedAt()));
                 $manager->persist($subscription);
+            }
+        }
+        $manager->flush();
+
+        //  Attribution de crédits aux UEs
+        $categories = $manager->getRepository(UECreditCategory::class)->findAll();
+        foreach ($ues as $ue) {
+            for ($i = 0; $i < $faker->numberBetween(1, 2); ++$i) {
+                $credits = new UECredit();
+                $credits->setUE($ue);
+                $credits->setCategory($faker->randomElement($categories));
+                $credits->setCredits($faker->numberBetween(2, 6));
+                $manager->persist($credits);
             }
         }
         $manager->flush();
