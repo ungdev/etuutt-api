@@ -8,6 +8,7 @@ use App\Entity\Formation;
 use App\Entity\FormationFollowingMethod;
 use App\Entity\Semester;
 use App\Entity\Traduction;
+use App\Entity\UE;
 use App\Entity\User;
 use App\Entity\UserBranche;
 use App\Entity\UserFormation;
@@ -24,6 +25,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         return [
             UserSeeder::class,
             SemesterGenerator::class,
+            UESeeder::class,
         ];
     }
 
@@ -79,6 +81,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         //  Création de filières pour les branches, hors TC
         $brancheRepository = $manager->getRepository(Branche::class);
         $branches = $brancheRepository->findAll();
+        $ues = $manager->getRepository(UE::class)->findAll();
         foreach ($branches as $branche) {
             if ('TC' !== $branche->getCode()) {
                 //  Génération de 3 filières pour chaque branche
@@ -86,6 +89,11 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
                     $filiere = new Filiere(strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter));
                     $filiere->setBranche($branche);
                     $filiere->setName(implode(' ', $faker->words));
+
+                    //  Attribution de 3 UEs pour chaque filiere
+                    for ($j = 0; $j < 3; ++$j) {
+                        $filiere->addUE($faker->randomElement($ues));
+                    }
 
                     //  Création d'une traduction
                     $descriptionTraduction = new Traduction('Filiere:'.$filiere->getCode());

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FiliereRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,9 +36,15 @@ class Filiere
      */
     private $descriptionTraduction;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UE::class, mappedBy="filiere")
+     */
+    private $UEs;
+
     public function __construct(string $code = null)
     {
         $this->code = $code;
+        $this->UEs = new ArrayCollection();
     }
 
     public function getCode(): ?string
@@ -77,6 +85,36 @@ class Filiere
     public function setDescriptionTraduction(?Traduction $descriptionTraduction): self
     {
         $this->descriptionTraduction = $descriptionTraduction;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UE[]
+     */
+    public function getUEs(): Collection
+    {
+        return $this->UEs;
+    }
+
+    public function addUE(UE $uE): self
+    {
+        if (!$this->UEs->contains($uE)) {
+            $this->UEs[] = $uE;
+            $uE->setFiliere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUE(UE $uE): self
+    {
+        if ($this->UEs->removeElement($uE)) {
+            // set the owning side to null (unless already changed)
+            if ($uE->getFiliere() === $this) {
+                $uE->setFiliere(null);
+            }
+        }
 
         return $this;
     }

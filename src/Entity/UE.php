@@ -63,6 +63,12 @@ class UE
      */
     private $usersSubscriptions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Filiere::class, inversedBy="UEs")
+     * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
+     */
+    private $filiere;
+
     public function __construct()
     {
         $this->usersSubscriptions = new ArrayCollection();
@@ -171,6 +177,18 @@ class UE
                 $userUESubscription->setUE(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFiliere(): ?Filiere
+    {
+        return $this->filiere;
+    }
+
+    public function setFiliere(?Filiere $filiere): self
+    {
+        $this->filiere = $filiere;
 
         return $this;
     }
