@@ -74,10 +74,16 @@ class UE
      */
     private $credits;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="UE", orphanRemoval=true)
+     */
+    private $starVotes;
+
     public function __construct()
     {
         $this->usersSubscriptions = new ArrayCollection();
         $this->credits = new ArrayCollection();
+        $this->starVotes = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -223,6 +229,36 @@ class UE
             // set the owning side to null (unless already changed)
             if ($credit->getUE() === $this) {
                 $credit->setUE(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UEStarVote[]
+     */
+    public function getStarVotes(): Collection
+    {
+        return $this->starVotes;
+    }
+
+    public function addStarVote(UEStarVote $starVote): self
+    {
+        if (!$this->starVotes->contains($starVote)) {
+            $this->starVotes[] = $starVote;
+            $starVote->setUE($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStarVote(UEStarVote $starVote): self
+    {
+        if ($this->starVotes->removeElement($starVote)) {
+            // set the owning side to null (unless already changed)
+            if ($starVote->getUE() === $this) {
+                $starVote->setUE(null);
             }
         }
 

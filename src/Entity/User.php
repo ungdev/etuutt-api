@@ -131,6 +131,11 @@ class User
      */
     private $UEsSubscriptions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $UEStarVotes;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
@@ -140,6 +145,7 @@ class User
         $this->adresses = new ArrayCollection();
         $this->otherAttributs = new ArrayCollection();
         $this->UEsSubscriptions = new ArrayCollection();
+        $this->UEStarVotes = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -529,6 +535,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($userUESubscription->getUser() === $this) {
                 $userUESubscription->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UEStarVote[]
+     */
+    public function getUEStarVotes(): Collection
+    {
+        return $this->UEStarVotes;
+    }
+
+    public function addUEStarVote(UEStarVote $uEStarVote): self
+    {
+        if (!$this->UEStarVotes->contains($uEStarVote)) {
+            $this->UEStarVotes[] = $uEStarVote;
+            $uEStarVote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUEStarVote(UEStarVote $uEStarVote): self
+    {
+        if ($this->UEStarVotes->removeElement($uEStarVote)) {
+            // set the owning side to null (unless already changed)
+            if ($uEStarVote->getUser() === $this) {
+                $uEStarVote->setUser(null);
             }
         }
 

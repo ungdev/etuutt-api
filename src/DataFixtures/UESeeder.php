@@ -3,9 +3,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\Semester;
+use App\Entity\Traduction;
 use App\Entity\UE;
 use App\Entity\UECredit;
 use App\Entity\UECreditCategory;
+use App\Entity\UEStarCriterion;
+use App\Entity\UEStarVote;
 use App\Entity\User;
 use App\Entity\UserUESubscription;
 use DateTime;
@@ -85,6 +88,52 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $credits->setCategory($faker->randomElement($categories));
                 $credits->setCredits($faker->numberBetween(2, 6));
                 $manager->persist($credits);
+            }
+        }
+        $manager->flush();
+
+        //  Création de critères de notations pour les UEs
+        for ($i = 0; $i < 6; ++$i) {
+            $criterion = new UEStarCriterion();
+            $name = '';
+            for ($k = 0; $k < 9; ++$k) {
+                $name .= ($faker->word().' ');
+            }
+            $criterion->setName($name);
+            //  Création d'une traduction
+            $descriptionTraduction = new Traduction('UE_Star_Criterion:'.$criterion->getName());
+            $criterion->setDescriptionTraduction($descriptionTraduction);
+
+            $description = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $description .= '<p>';
+                for ($k = 0; $k < 9; ++$k) {
+                    $description .= $faker->word();
+                }
+                $description .= '</p>';
+            }
+            $descriptionTraduction->setFrench($description);
+            $descriptionTraduction->setEnglish($description);
+            $descriptionTraduction->setSpanish($description);
+            $descriptionTraduction->setGerman($description);
+            $descriptionTraduction->setChinese($description);
+
+            $manager->persist($descriptionTraduction);
+            $manager->persist($criterion);
+        }
+        $manager->flush();
+
+        //  Attribution de stars pour les UEs
+        $criterions = $manager->getRepository(UEStarCriterion::class)->findAll();
+        foreach ($ues as $ue) {
+            for ($i = 0; $i < $faker->numberBetween(0, 90); ++$i) {
+                $vote = new UEStarVote();
+                $vote->setUE($ue);
+                $vote->setCriterion($faker->randomElement($criterions));
+                $vote->setUser($faker->randomElement($users));
+                $vote->setValue($faker->numberBetween(1, 5));
+                $vote->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+                $manager->persist($vote);
             }
         }
         $manager->flush();
