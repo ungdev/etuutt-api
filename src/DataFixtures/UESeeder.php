@@ -9,6 +9,7 @@ use App\Entity\UECredit;
 use App\Entity\UECreditCategory;
 use App\Entity\UEStarCriterion;
 use App\Entity\UEStarVote;
+use App\Entity\UEWorkTime;
 use App\Entity\User;
 use App\Entity\UserUESubscription;
 use DateTime;
@@ -63,6 +64,19 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             $ue->addOpenSemester($semesterRepo->getSemesterOfDate($ue->getCreatedAt()));
             $ue->addOpenSemester($semesterRepo->getSemesterOfDate($ue->getUpdatedAt()));
             $manager->persist($ue);
+
+            $workTime = new UEWorkTime();
+            $workTime->setUE($ue);
+            if ($faker->boolean(95)) {
+                $workTime->setCm($faker->numberBetween(0, 90));
+                $workTime->setTd($faker->numberBetween(0, 90));
+                $workTime->setThe($faker->numberBetween(0, 90));
+                $workTime->setTp($faker->numberBetween(0, 90));
+                $workTime->setProjet($faker->numberBetween(0, 90));
+            } else {
+                $workTime->setStage($faker->numberBetween(0, 28));
+            }
+            $manager->persist($workTime);
         }
         $manager->flush();
 

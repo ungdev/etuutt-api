@@ -84,6 +84,11 @@ class UE
      */
     private $openSemester;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UEWorkTime::class, mappedBy="UE", cascade={"persist", "remove"})
+     */
+    private $workTime;
+
     public function __construct()
     {
         $this->usersSubscriptions = new ArrayCollection();
@@ -279,6 +284,23 @@ class UE
     public function removeOpenSemester(Semester $openSemester): self
     {
         $this->openSemester->removeElement($openSemester);
+
+        return $this;
+    }
+
+    public function getWorkTime(): ?UEWorkTime
+    {
+        return $this->workTime;
+    }
+
+    public function setWorkTime(UEWorkTime $workTime): self
+    {
+        // set the owning side of the relation if necessary
+        if ($workTime->getUE() !== $this) {
+            $workTime->setUE($this);
+        }
+
+        $this->workTime = $workTime;
 
         return $this;
     }
