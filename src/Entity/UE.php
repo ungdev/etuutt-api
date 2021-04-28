@@ -94,12 +94,18 @@ class UE
      */
     private $info;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UEAnnal::class, mappedBy="UE", orphanRemoval=true)
+     */
+    private $annals;
+
     public function __construct()
     {
         $this->usersSubscriptions = new ArrayCollection();
         $this->credits = new ArrayCollection();
         $this->starVotes = new ArrayCollection();
         $this->openSemester = new ArrayCollection();
+        $this->annals = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -323,6 +329,36 @@ class UE
         }
 
         $this->info = $info;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UEAnnal[]
+     */
+    public function getAnnals(): Collection
+    {
+        return $this->annals;
+    }
+
+    public function addAnnal(UEAnnal $annal): self
+    {
+        if (!$this->annals->contains($annal)) {
+            $this->annals[] = $annal;
+            $annal->setUE($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnal(UEAnnal $annal): self
+    {
+        if ($this->annals->removeElement($annal)) {
+            // set the owning side to null (unless already changed)
+            if ($annal->getUE() === $this) {
+                $annal->setUE(null);
+            }
+        }
 
         return $this;
     }
