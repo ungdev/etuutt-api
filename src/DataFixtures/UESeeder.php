@@ -7,6 +7,7 @@ use App\Entity\Traduction;
 use App\Entity\UE;
 use App\Entity\UECredit;
 use App\Entity\UECreditCategory;
+use App\Entity\UEInfo;
 use App\Entity\UEStarCriterion;
 use App\Entity\UEStarVote;
 use App\Entity\UEWorkTime;
@@ -77,6 +78,25 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $workTime->setStage($faker->numberBetween(0, 28));
             }
             $manager->persist($workTime);
+
+            $info = new UEInfo();
+            $info->setUE($ue);
+            $text = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $text .= '<p>';
+                for ($k = 0; $k < 9; ++$k) {
+                    $text .= $faker->word();
+                }
+                $text .= '</p>';
+            }
+            $info->setAntecedent($text);
+            $info->setComment($text);
+            $info->setDegree($text);
+            $info->setLanguages($text);
+            $info->setMinors($text);
+            $info->setObjectives($text);
+            $info->setProgramme($text);
+            $manager->persist($info);
         }
         $manager->flush();
 

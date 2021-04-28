@@ -89,6 +89,11 @@ class UE
      */
     private $workTime;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UEInfo::class, mappedBy="UE", cascade={"persist", "remove"})
+     */
+    private $info;
+
     public function __construct()
     {
         $this->usersSubscriptions = new ArrayCollection();
@@ -301,6 +306,23 @@ class UE
         }
 
         $this->workTime = $workTime;
+
+        return $this;
+    }
+
+    public function getInfo(): ?UEInfo
+    {
+        return $this->info;
+    }
+
+    public function setInfo(UEInfo $info): self
+    {
+        // set the owning side of the relation if necessary
+        if ($info->getUE() !== $this) {
+            $info->setUE($this);
+        }
+
+        $this->info = $info;
 
         return $this;
     }
