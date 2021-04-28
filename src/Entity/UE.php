@@ -44,11 +44,6 @@ class UE
     private $validationRate;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $stillAvailable;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -79,11 +74,22 @@ class UE
      */
     private $starVotes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Semester::class)
+     * @ORM\JoinTable(
+     *     name="ue_open_semesters",
+     *     joinColumns={@ORM\JoinColumn(name="ue_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="semester_code", referencedColumnName="code")}
+     * )
+     */
+    private $openSemester;
+
     public function __construct()
     {
         $this->usersSubscriptions = new ArrayCollection();
         $this->credits = new ArrayCollection();
         $this->starVotes = new ArrayCollection();
+        $this->openSemester = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -123,18 +129,6 @@ class UE
     public function setValidationRate(?float $validationRate): self
     {
         $this->validationRate = $validationRate;
-
-        return $this;
-    }
-
-    public function getStillAvailable(): ?bool
-    {
-        return $this->stillAvailable;
-    }
-
-    public function setStillAvailable(bool $stillAvailable): self
-    {
-        $this->stillAvailable = $stillAvailable;
 
         return $this;
     }
@@ -261,6 +255,30 @@ class UE
                 $starVote->setUE(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Semester[]
+     */
+    public function getOpenSemester(): Collection
+    {
+        return $this->openSemester;
+    }
+
+    public function addOpenSemester(Semester $openSemester): self
+    {
+        if (!$this->openSemester->contains($openSemester)) {
+            $this->openSemester[] = $openSemester;
+        }
+
+        return $this;
+    }
+
+    public function removeOpenSemester(Semester $openSemester): self
+    {
+        $this->openSemester->removeElement($openSemester);
 
         return $this;
     }

@@ -30,6 +30,9 @@ class UESeeder extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
+        //  Récupération de $semesterRepo
+        $semesterRepo = $manager->getRepository(Semester::class);
+
         //  Création de 6 catégories d'UEs
         for ($i = 0; $i < 6; ++$i) {
             $category = new UECreditCategory($faker->randomLetter.$faker->randomLetter.$faker->randomLetter);
@@ -53,11 +56,12 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             }
             $ue->setName($name);
             $ue->setValidationRate($faker->randomFloat(2, 50, 100));
-            $ue->setStillAvailable($faker->boolean(80));
             $createdAt = $faker->dateTimeBetween('-3 years', 'now');
             $ue->setCreatedAt($createdAt);
             $days = (new DateTime())->diff($ue->getCreatedAt())->days;
             $ue->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+            $ue->addOpenSemester($semesterRepo->getSemesterOfDate($ue->getCreatedAt()));
+            $ue->addOpenSemester($semesterRepo->getSemesterOfDate($ue->getUpdatedAt()));
             $manager->persist($ue);
         }
         $manager->flush();
@@ -65,7 +69,6 @@ class UESeeder extends Fixture implements DependentFixtureInterface
         //  Ajout de 6 UEs pour tous les utilisateurs
         $users = $manager->getRepository(User::class)->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
-        $semesterRepo = $manager->getRepository(Semester::class);
         foreach ($users as $user) {
             //  Pour chaque utilisateur, on ajoute 6 UEs
             for ($i = 0; $i < 6; ++$i) {
