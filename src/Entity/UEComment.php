@@ -74,9 +74,15 @@ class UEComment
      */
     private $answers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UECommentReport::class, mappedBy="comment", orphanRemoval=true)
+     */
+    private $reports;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->reports = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -204,6 +210,36 @@ class UEComment
             // set the owning side to null (unless already changed)
             if ($answer->getComment() === $this) {
                 $answer->setComment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UECommentReport[]
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(UECommentReport $report): self
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports[] = $report;
+            $report->setComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(UECommentReport $report): self
+    {
+        if ($this->reports->removeElement($report)) {
+            // set the owning side to null (unless already changed)
+            if ($report->getComment() === $this) {
+                $report->setComment(null);
             }
         }
 

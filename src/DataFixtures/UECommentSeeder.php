@@ -3,9 +3,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\Semester;
+use App\Entity\Traduction;
 use App\Entity\UE;
 use App\Entity\UEComment;
 use App\Entity\UECommentAnswer;
+use App\Entity\UECommentReport;
+use App\Entity\UECommentReportReason;
 use App\Entity\UECommentUpvote;
 use App\Entity\User;
 use DateTime;
@@ -98,6 +101,54 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
                 //  On attrape l'erreur d'intégrité : Pas deux votes d'un user pour un commentaire
                 //  => Couple user_id et comment_id unique
             }
+        }
+        $manager->flush();
+
+        //  Création de 5 motifs de report
+        for ($i = 0; $i < 5; ++$i) {
+            $reportReason = new UECommentReportReason($faker->word.$faker->word);
+
+            //  Création d'une traduction
+            $descriptionTraduction = new Traduction('UECommentReportReason:'.$reportReason->getName());
+            $reportReason->setDescriptionTraduction($descriptionTraduction);
+
+            $description = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $description .= '<p>';
+                for ($k = 0; $k < 9; ++$k) {
+                    $description .= $faker->word();
+                }
+                $description .= '</p>';
+            }
+            $descriptionTraduction->setFrench($description);
+            $descriptionTraduction->setEnglish($description);
+            $descriptionTraduction->setSpanish($description);
+            $descriptionTraduction->setGerman($description);
+            $descriptionTraduction->setChinese($description);
+
+            $manager->persist($descriptionTraduction);
+            $manager->persist($reportReason);
+        }
+        $manager->flush();
+
+        //  Création de 20 reports de commentaire
+        $reportReasons = $manager->getRepository(UECommentReportReason::class)->findAll();
+        for ($i = 0; $i < 20; ++$i) {
+            $report = new UECommentReport();
+            $report->setComment($faker->randomElement($comments));
+            $report->setUser($faker->randomElement($users));
+            $report->setReason($faker->randomElement($reportReasons));
+            $body = '';
+            for ($j = 0; $j < 5; ++$j) {
+                $body .= '<p>';
+                for ($k = 0; $k < 9; ++$k) {
+                    $body .= $faker->word();
+                }
+                $body .= '</p>';
+            }
+            $report->setBody($body);
+            $report->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+            $manager->persist($report);
         }
         $manager->flush();
     }
