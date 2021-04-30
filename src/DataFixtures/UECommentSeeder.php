@@ -16,6 +16,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use PDOException;
 
 class UECommentSeeder extends Fixture implements DependentFixtureInterface
 {
@@ -90,16 +91,22 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         //  Créations de 400 upvotes sur des commentaires
+        $upvotes = [];
         for ($i = 0; $i < 400; ++$i) {
-            try {
-                $upvote = new UECommentUpvote();
-                $upvote->setComment($faker->randomElement($comments));
-                $upvote->setUser($faker->randomElement($users));
-                $upvote->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+            $upvote = new UECommentUpvote();
+            $upvote->setComment($faker->randomElement($comments));
+            $upvote->setUser($faker->randomElement($users));
+            $upvote->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+            //  Check si ce upvote existe déjà
+            $alreadyIn = false;
+            foreach ($upvotes as $savedUpvote) {
+                if ($savedUpvote->getComment()->getId() == $upvote->getComment()->getId() && $savedUpvote->getUser()->getId() == $upvote->getUser()->getId()) {
+                    $alreadyIn = true;
+                }
+            }
+            if (!$alreadyIn) {
+                $upvotes[] = $upvote;
                 $manager->persist($upvote);
-            } catch (\Throwable $th) {
-                //  On attrape l'erreur d'intégrité : Pas deux votes d'un user pour un commentaire
-                //  => Couple user_id et comment_id unique
             }
         }
         $manager->flush();

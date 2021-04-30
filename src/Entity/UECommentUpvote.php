@@ -16,6 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         @ORM\UniqueConstraint(name="assignment_unique", columns={"comment_id", "user_id"})
  *     }
  * )
+ * Explication uniqueConstraints :
+ * Le vote d'un user pour un commentaire est unique.
  */
 class UECommentUpvote
 {
