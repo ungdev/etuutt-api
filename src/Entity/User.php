@@ -296,7 +296,7 @@ class User
     }
 
     /**
-     * @return Collection|AssoMember[]
+     * @return AssoMember[]|Collection
      */
     public function getAssoMembers(): Collection
     {
