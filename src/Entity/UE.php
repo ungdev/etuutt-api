@@ -104,6 +104,11 @@ class UE
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UECourse::class, mappedBy="UE")
+     */
+    private $courses;
+
     public function __construct()
     {
         $this->usersSubscriptions = new ArrayCollection();
@@ -112,6 +117,7 @@ class UE
         $this->openSemester = new ArrayCollection();
         $this->annals = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->courses = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -393,6 +399,36 @@ class UE
             // set the owning side to null (unless already changed)
             if ($comment->getUE() === $this) {
                 $comment->setUE(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UECourse[]
+     */
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function addCourse(UECourse $course): self
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses[] = $course;
+            $course->setUE($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourse(UECourse $course): self
+    {
+        if ($this->courses->removeElement($course)) {
+            // set the owning side to null (unless already changed)
+            if ($course->getUE() === $this) {
+                $course->setUE(null);
             }
         }
 
