@@ -4,7 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Asso;
 use App\Entity\Event;
+use App\Entity\EventAnswer;
 use App\Entity\Traduction;
+use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -17,6 +19,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
     {
         return [
             AssoSeeder::class,
+            UserSeeder::class,
         ];
     }
 
@@ -55,12 +58,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             $event->setDescriptionTraduction($descriptionTraduction);
             $manager->persist($descriptionTraduction);
 
-            $description = '';
-            for ($j = 0; $j < 3; ++$j) {
-                $description .= '<p>';
-                $description .= str_repeat($faker->word, 9);
-                $description .= '</p>';
-            }
+            $description = $this->createRandomText(3, 9);
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
             $descriptionTraduction->setSpanish($description);
@@ -81,5 +79,57 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             $manager->persist($event);
         }
         $manager->flush();
+
+        //Récupération des événements et des utilisateurs
+        $eventRepository = $manager->getRepository(Event::class);
+        $events = $eventRepository->findAll();
+        $userRepository = $manager->getRepository(User::class);
+        $users = $userRepository->findAll();
+
+        //Création de 100 event_answers
+        for ($i = 0; $i < 100; ++$i) {
+            //Création d'une event_answer
+            $eventAnswer = new EventAnswer();
+
+            $eventAnswer->setEvent($faker->randomElement($events));
+
+            $eventAnswer->setUser($faker->randomElement($users));
+
+            //Création de la réponse
+            $possibleAnswers = ['yes', 'no', 'probably'];
+            $eventAnswer->setAnswer($faker->randomElement($possibleAnswers));
+
+            //Création du commentaire
+            $comment = $this->createRandomText(3, 9);
+            $eventAnswer->setComment($comment);
+
+            //Création des timestamps
+            $eventAnswer->setCreatedAt($faker->dateTimeBetween('-3 years'));
+            $days = (new DateTime())->diff($eventAnswer->getCreatedAt())->days;
+            $eventAnswer->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
+            //Soft delete aléatoire d'une Event_answer (Avec une chance de 10%)
+            if ($faker->boolean(10)) {
+                $days = (new DateTime())->diff($eventAnswer->getCreatedAt())->days;
+                $eventAnswer->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
+            }
+
+            //On persiste event_answer dans la base de données
+            $manager->persist($eventAnswer);
+        }
+        $manager->flush();
+    }
+
+    protected function createRandomText($nbOfParagraphs, $nbOfWordsPerParagraphs): string
+    {
+        $faker = Factory::create('fr_FR');
+
+        $text = '';
+        for ($j = 0; $j < $nbOfParagraphs; ++$j) {
+            $text .= '<p>';
+            $text .= str_repeat($faker->word, $nbOfWordsPerParagraphs);
+            $text .= '</p>';
+        }
+
+        return $text;
     }
 }

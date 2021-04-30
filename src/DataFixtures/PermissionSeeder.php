@@ -14,7 +14,7 @@ class PermissionSeeder extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            AssoMemberSeeder::class,
+            AssoSeeder::class,
         ];
     }
 
