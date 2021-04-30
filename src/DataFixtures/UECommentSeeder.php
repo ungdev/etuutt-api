@@ -6,6 +6,7 @@ use App\Entity\Semester;
 use App\Entity\UE;
 use App\Entity\UEComment;
 use App\Entity\UECommentAnswer;
+use App\Entity\UECommentUpvote;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -82,6 +83,21 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
                 $answer->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             }
             $manager->persist($answer);
+        }
+        $manager->flush();
+
+        //  Créations de 400 upvotes sur des commentaires
+        for ($i = 0; $i < 400; ++$i) {
+            try {
+                $upvote = new UECommentUpvote();
+                $upvote->setComment($faker->randomElement($comments));
+                $upvote->setUser($faker->randomElement($users));
+                $upvote->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+                $manager->persist($upvote);
+            } catch (\Throwable $th) {
+                //  On attrape l'erreur d'intégrité : Pas deux votes d'un user pour un commentaire
+                //  => Couple user_id et comment_id unique
+            }
         }
         $manager->flush();
     }
