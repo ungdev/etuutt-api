@@ -156,6 +156,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $text .= str_repeat($faker->word, $nbOfWordsPerParagraphs);
             $text .= '</p>';
         }
+
         return $text;
     }
 }
