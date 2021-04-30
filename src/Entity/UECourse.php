@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UECourseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
@@ -69,6 +71,21 @@ class UECourse
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="courses")
+     * @ORM\JoinTable(
+     *     name="user_ue_courses",
+     *     joinColumns={@ORM\JoinColumn(name="course_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     */
+    private $students;
+
+    public function __construct()
+    {
+        $this->students = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -179,6 +196,30 @@ class UECourse
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(User $student): self
+    {
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(User $student): self
+    {
+        $this->students->removeElement($student);
 
         return $this;
     }

@@ -136,6 +136,11 @@ class User
      */
     private $UEStarVotes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=UECourse::class, mappedBy="students")
+     */
+    private $courses;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
@@ -146,6 +151,7 @@ class User
         $this->otherAttributs = new ArrayCollection();
         $this->UEsSubscriptions = new ArrayCollection();
         $this->UEStarVotes = new ArrayCollection();
+        $this->courses = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -566,6 +572,33 @@ class User
             if ($uEStarVote->getUser() === $this) {
                 $uEStarVote->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UECourse[]
+     */
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function addCourse(UECourse $course): self
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses[] = $course;
+            $course->addStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourse(UECourse $course): self
+    {
+        if ($this->courses->removeElement($course)) {
+            $course->removeStudent($this);
         }
 
         return $this;

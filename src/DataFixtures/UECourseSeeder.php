@@ -51,5 +51,15 @@ class UECourseSeeder extends Fixture implements DependentFixtureInterface
             $manager->persist($course);
         }
         $manager->flush();
+
+        //  Inscription des étudiants aux cours
+        $courses = $manager->getRepository(UECourse::class)->findAll();
+        foreach ($courses as $course) {
+            for ($i=0; $i < $faker->numberBetween(10, 50); $i++) {
+                $course->addStudent($faker->randomElement($users));
+            }
+            $manager->persist($course);
+        }
+        $manager->flush();
     }
 }
