@@ -38,13 +38,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoit->setAuthor($faker->randomElement($users));
 
             //Création d'une description
-            $description = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $description .= '<p>';
-                $description .= str_repeat($faker->word, 9);
-                $description .= '</p>';
-            }
-            $covoit->setDescription($description);
+            $covoit->setDescription($this->createRandomText(5, 9));
 
             $covoit->setCapacity($faker->numberBetween(1, 4));
 
@@ -87,10 +81,6 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
         }
         $manager->flush();
 
-        //Récupération des users
-        $userRepository = $manager->getRepository(User::class);
-        $users = $userRepository->findAll();
-
         //Création de 30 covoitAlerts
         for ($i = 0; $i < 30; ++$i) {
             //Créations d'une covoitAlert
@@ -122,11 +112,9 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
         }
         $manager->flush();
 
-        //Récupération des covoits et des users
+        //Récupération des covoits
         $covoitRepository = $manager->getRepository(Covoit::class);
         $covoits = $covoitRepository->findAll();
-        $userRepository = $manager->getRepository(User::class);
-        $users = $userRepository->findAll();
 
         //Création de 100 covoitMessages
         for ($i = 0; $i < 100; ++$i) {
@@ -140,13 +128,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoitMessage->setAuthor($faker->randomElement($users));
 
             //Création du texte
-            $text = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $text .= '<p>';
-                $text .= str_repeat($faker->word, 9);
-                $text .= '</p>';
-            }
-            $covoitMessage->setText($text);
+            $covoitMessage->setText($this->createRandomText(5, 9));
 
             //Création des timestamps
             $covoitMessage->setCreatedAt($faker->dateTimeBetween('-3 years'));
@@ -162,5 +144,18 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $manager->persist($covoitMessage);
         }
         $manager->flush();
+    }
+
+    protected function createRandomText($nbOfParagraphs, $nbOfWordsPerParagraphs): string
+    {
+        $faker = Factory::create('fr_FR');
+
+        $text = '';
+        for ($j = 0; $j < $nbOfParagraphs; ++$j) {
+            $text .= '<p>';
+            $text .= str_repeat($faker->word, $nbOfWordsPerParagraphs);
+            $text .= '</p>';
+        }
+        return $text;
     }
 }
