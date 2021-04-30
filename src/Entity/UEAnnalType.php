@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=UEAnnalTypeRepository::class)
- * @ORM\Table(name="ue_annal_type")
+ * @ORM\Table(name="ue_annal_types")
  */
 class UEAnnalType
 {
