@@ -91,11 +91,17 @@ class User
      */
     private $badges;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AssoMember::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $assoMembers;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
         $this->BDEContributions = new ArrayCollection();
         $this->badges = new ArrayCollection();
+        $this->assoMembers = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -284,6 +290,36 @@ class User
     {
         if ($this->badges->removeElement($badge)) {
             $badge->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AssoMember[]
+     */
+    public function getAssoMembers(): Collection
+    {
+        return $this->assoMembers;
+    }
+
+    public function addAssoMember(AssoMember $assoMember): self
+    {
+        if (!$this->assoMembers->contains($assoMember)) {
+            $this->assoMembers[] = $assoMember;
+            $assoMember->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssoMember(AssoMember $assoMember): self
+    {
+        if ($this->assoMembers->removeElement($assoMember)) {
+            // set the owning side to null (unless already changed)
+            if ($assoMember->getUser() === $this) {
+                $assoMember->setUser(null);
+            }
         }
 
         return $this;
