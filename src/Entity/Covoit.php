@@ -29,12 +29,6 @@ class Covoit
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
@@ -106,7 +100,13 @@ class Covoit
     private $covoitMessages;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="myCovoits")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="passengerCovoits")
      * @ORM\JoinTable(
      *     name="covoits_users",
      *     inverseJoinColumns={@ORM\JoinColumn(name="covoit_id", referencedColumnName="id")},
@@ -131,9 +131,9 @@ class Covoit
         return $this->author;
     }
 
-    public function setAuthor(?User $user): self
+    public function setAuthor(?User $author): self
     {
-        $this->author = $user;
+        $this->author = $author;
 
         return $this;
     }
@@ -259,14 +259,6 @@ class Covoit
     }
 
     /**
-     * @return bool - Return a boolean to indicate if the number of users linked to the covoit is equal or superior to the capacity
-     */
-    public function isFull(): bool
-    {
-        return $this->getUsers()->count() >= $this->getCapacity();
-    }
-
-    /**
      * @return Collection|CovoitMessage[]
      */
     public function getCovoitMessages(): Collection
@@ -318,5 +310,13 @@ class Covoit
         $this->users->removeElement($user);
 
         return $this;
+    }
+
+    /**
+     * @return bool - Return a boolean to indicate if the number of users linked to the covoit is equal or superior to the capacity
+     */
+    public function isFull(): bool
+    {
+        return $this->getUsers()->count() >= $this->getCapacity();
     }
 }

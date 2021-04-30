@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CovoitAlertRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
@@ -10,7 +9,6 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource
  * @ORM\Entity(repositoryClass=CovoitAlertRepository::class)
  * @ORM\Table(name="covoit_alerts")
  */
@@ -27,7 +25,7 @@ class CovoitAlert
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="covoitAlerts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

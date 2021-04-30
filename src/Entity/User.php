@@ -91,11 +91,29 @@ class User
      */
     private $badges;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Covoit::class, mappedBy="author", orphanRemoval=true)
+     */
+    private $createdCovoits;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Covoit::class, mappedBy="users")
+     */
+    private $passengerCovoits;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CovoitAlert::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $covoitAlerts;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
         $this->BDEContributions = new ArrayCollection();
         $this->badges = new ArrayCollection();
+        $this->createdCovoits = new ArrayCollection();
+        $this->passengerCovoits = new ArrayCollection();
+        $this->covoitAlerts = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -284,6 +302,97 @@ class User
     {
         if ($this->badges->removeElement($badge)) {
             $badge->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Covoits où user est le créateur.
+     *
+     * @return Collection|Covoit[]
+     */
+    public function getCreatedCovoits(): Collection
+    {
+        return $this->createdCovoits;
+    }
+
+    public function addCreatedCovoit(Covoit $createdCovoit): self
+    {
+        if (!$this->createdCovoits->contains($createdCovoit)) {
+            $this->createdCovoits[] = $createdCovoit;
+            $createdCovoit->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedCovoit(Covoit $createdCovoit): self
+    {
+        if ($this->createdCovoits->removeElement($createdCovoit)) {
+            // set the owning side to null (unless already changed)
+            if ($createdCovoit->getAuthor() === $this) {
+                $createdCovoit->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Covoits où user est passager.
+     *
+     * @return Collection|Covoit[]
+     */
+    public function getPassengerCovoits(): Collection
+    {
+        return $this->passengerCovoits;
+    }
+
+    public function addPassengerCovoit(Covoit $passengerCovoit): self
+    {
+        if (!$this->passengerCovoits->contains($passengerCovoit)) {
+            $this->passengerCovoits[] = $passengerCovoit;
+            $passengerCovoit->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePassengerCovoit(Covoit $passengerCovoit): self
+    {
+        if ($this->passengerCovoits->removeElement($passengerCovoit)) {
+            $passengerCovoit->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CovoitAlert[]
+     */
+    public function getCovoitAlerts(): Collection
+    {
+        return $this->covoitAlerts;
+    }
+
+    public function addCovoitAlert(CovoitAlert $covoitAlert): self
+    {
+        if (!$this->covoitAlerts->contains($covoitAlert)) {
+            $this->covoitAlerts[] = $covoitAlert;
+            $covoitAlert->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCovoitAlert(CovoitAlert $covoitAlert): self
+    {
+        if ($this->covoitAlerts->removeElement($covoitAlert)) {
+            // set the owning side to null (unless already changed)
+            if ($covoitAlert->getUser() === $this) {
+                $covoitAlert->setUser(null);
+            }
         }
 
         return $this;
