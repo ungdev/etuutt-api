@@ -59,7 +59,7 @@ class UE
     private $usersSubscriptions;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Filiere::class, inversedBy="UEs")
+     * @ORM\ManyToOne(targetEntity=UTTFiliere::class, inversedBy="UEs")
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
     private $filiere;
