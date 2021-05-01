@@ -7,6 +7,7 @@ use App\Entity\AssoGroup;
 use App\Entity\AssoKeyword;
 use App\Entity\AssoMember;
 use App\Entity\AssoMemberPermission;
+use App\Entity\AssoMemberRole;
 use App\Entity\AssoMessage;
 use App\Entity\Traduction;
 use App\Entity\User;
@@ -193,6 +194,31 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         foreach ($assoMembers as $assoMember) {
             for ($i = 0; $i < $faker->numberBetween(0, 5); ++$i) {
                 $assoMember->addPermission($faker->randomElement($permissions));
+            }
+        }
+        $manager->flush();
+
+        //Création de 100 rôles
+        $roles = [];
+        for ($i = 0; $i < 100; ++$i) {
+            //Créations d'un rôle
+            $role = new AssoMemberRole(str_shuffle($faker->word.$faker->word));
+
+            $roles[] = $role;
+            //On persiste le rôle dans la base de données
+            $manager->persist($role);
+        }
+        $manager->flush();
+
+        //Attribution de rôles à des membres
+
+        //Récupération des membres
+        $assoMemberRepository = $manager->getRepository(AssoMember::class);
+        $assoMembers = $assoMemberRepository->findAll();
+
+        foreach ($assoMembers as $assoMember) {
+            for ($i = 0; $i < $faker->numberBetween(0, 5); ++$i) {
+                $assoMember->addRole($faker->randomElement($roles));
             }
         }
         $manager->flush();

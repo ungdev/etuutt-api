@@ -47,7 +47,7 @@ class AssoMember
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Role::class)
+     * @ORM\ManyToMany(targetEntity=AssoMemberRole::class)
      * @ORM\JoinTable(
      *     name="asso_members_roles",
      *     joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
@@ -114,14 +114,14 @@ class AssoMember
     }
 
     /**
-     * @return Collection|Role[]
+     * @return Collection|AssoMemberRole[]
      */
     public function getRoles(): Collection
     {
         return $this->roles;
     }
 
-    public function addRole(Role $role): self
+    public function addRole(AssoMemberRole $role): self
     {
         if (!$this->roles->contains($role)) {
             $this->roles[] = $role;
@@ -130,7 +130,7 @@ class AssoMember
         return $this;
     }
 
-    public function removeRole(Role $role): self
+    public function removeRole(AssoMemberRole $role): self
     {
         $this->roles->removeElement($role);
 

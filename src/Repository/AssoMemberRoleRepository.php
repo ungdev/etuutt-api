@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Role;
+use App\Entity\AssoMemberRole;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|Role find($id, $lockMode = null, $lockVersion = null)
- * @method null|Role findOneBy(array $criteria, array $orderBy = null)
- * @method Role[]    findAll()
- * @method Role[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|AssoMemberRole find($id, $lockMode = null, $lockVersion = null)
+ * @method null|AssoMemberRole findOneBy(array $criteria, array $orderBy = null)
+ * @method AssoMemberRole[]    findAll()
+ * @method AssoMemberRole[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RoleRepository extends ServiceEntityRepository
+class AssoMemberRoleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Role::class);
+        parent::__construct($registry, AssoMemberRole::class);
     }
 
     // /**
-    //  * @return Role[] Returns an array of Role objects
+    //  * @return AssoMemberRole[] Returns an array of AssoMemberRole objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class RoleRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Role
+    public function findOneBySomeField($value): ?AssoMemberRole
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.exampleField = :val')
