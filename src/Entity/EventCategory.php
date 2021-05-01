@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
+use App\Repository\EventCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  * @ORM\Table(name="categories")
  */
-class Category
+class EventCategory
 {
     /**
      * @ORM\Id
@@ -27,21 +27,15 @@ class Category
      */
     private $events;
 
-    public function __construct()
+    public function __construct($name)
     {
+        $this->name = $name;
         $this->events = new ArrayCollection();
     }
 
     public function getName(): ?string
     {
         return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**

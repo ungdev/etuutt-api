@@ -2,14 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category;
+use App\Entity\EventCategory;
 use App\Entity\Event;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class CategorySeeder extends Fixture implements DependentFixtureInterface
+class EventCategorySeeder extends Fixture implements DependentFixtureInterface
 {
     public function getDependencies()
     {
@@ -26,13 +26,11 @@ class CategorySeeder extends Fixture implements DependentFixtureInterface
         //Création de 50 catégories
         for ($i = 0; $i < 50; ++$i) {
             //Créations d'une catégorie
-            $category = new Category();
-
             $name = '';
             for ($j = 0; $j < $faker->numberBetween(5, 20); ++$j) {
                 $name .= $faker->randomLetter;
             }
-            $category->setName($name);
+            $category = new EventCategory($name);
 
             $categories[] = $category;
             //On persiste la catégorie dans la base de données
