@@ -52,7 +52,7 @@ class UserAddress
      * @ORM\JoinTable(
      *     name="user_visibility_addresses",
      *     joinColumns={@ORM\JoinColumn(name="user_address_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
     private $addressVisibility;

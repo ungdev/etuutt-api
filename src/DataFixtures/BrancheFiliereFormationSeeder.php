@@ -2,16 +2,16 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Branche;
-use App\Entity\Filiere;
-use App\Entity\Formation;
-use App\Entity\FormationFollowingMethod;
 use App\Entity\Semester;
 use App\Entity\Traduction;
 use App\Entity\UE;
 use App\Entity\User;
 use App\Entity\UserBranche;
 use App\Entity\UserFormation;
+use App\Entity\UTTBranche;
+use App\Entity\UTTFiliere;
+use App\Entity\UTTFormation;
+use App\Entity\UTTFormationFollowingMethod;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -41,12 +41,12 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             } else {
                 $code = strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter);
             }
-            $branche = new Branche($code);
+            $branche = new UTTBranche($code);
 
             $branche->setName(implode(' ', $faker->words));
 
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction('Branche:'.$branche->getCode());
+            $descriptionTraduction = new Traduction('UTTBranche:'.$branche->getCode());
             $branche->setDescriptionTraduction($descriptionTraduction);
 
             $description = '';
@@ -79,15 +79,15 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         }
 
         //  Création de filières pour les branches, hors TC
-        $brancheRepository = $manager->getRepository(Branche::class);
+        $brancheRepository = $manager->getRepository(UTTBranche::class);
         $branches = $brancheRepository->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
         foreach ($branches as $branche) {
             if ('TC' !== $branche->getCode()) {
                 //  Génération de 3 filières pour chaque branche
                 for ($i = 0; $i < 3; ++$i) {
-                    $filiere = new Filiere(strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter));
-                    $filiere->setBranche($branche);
+                    $filiere = new UTTFiliere(strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter));
+                    $filiere->setUTTBranche($branche);
                     $filiere->setName(implode(' ', $faker->words));
 
                     //  Attribution de 3 UEs pour chaque filiere
@@ -96,7 +96,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
                     }
 
                     //  Création d'une traduction
-                    $descriptionTraduction = new Traduction('Filiere:'.$filiere->getCode());
+                    $descriptionTraduction = new Traduction('UTTFiliere:'.$filiere->getCode());
                     $filiere->setDescriptionTraduction($descriptionTraduction);
 
                     $description = '';
@@ -126,29 +126,29 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         //  Récupération des users et des branches
         $userRepository = $manager->getRepository(User::class);
         $users = $userRepository->findAll();
-        $filiereRepository = $manager->getRepository(Filiere::class);
+        $filiereRepository = $manager->getRepository(UTTFiliere::class);
         $filieres = $filiereRepository->findAll();
         $semesterRepository = $manager->getRepository(Semester::class);
         $branches = $brancheRepository->findAll();
 
         foreach ($users as $user) {
             //  Création de la variable pivot
-            $userBranche = new UserBranche();
-            $userBranche->setUser($user);
+            $userUTTBranche = new UserBranche();
+            $userUTTBranche->setUser($user);
             $branche = $faker->randomElement($branches);
-            $userBranche->setBranche($branche);
+            $userUTTBranche->setUTTBranche($branche);
 
             //  Ajout d'une filière pour la moitié des users
             if ($faker->boolean()) {
-                $userBranche->setFiliere($faker->randomElement($branche->getFilieres()->getValues()));
+                $userUTTBranche->setUTTFiliere($faker->randomElement($branche->getUTTFilieres()->getValues()));
             }
 
             $createdAt = $user->getTimestamps()->getCreatedAt();
-            $userBranche->setCreatedAt($createdAt);
-            $userBranche->setSemester($semesterRepository->getSemesterOfDate($createdAt));
-            $userBranche->setSemesterNumber($faker->numberBetween(1, 6));
+            $userUTTBranche->setCreatedAt($createdAt);
+            $userUTTBranche->setSemester($semesterRepository->getSemesterOfDate($createdAt));
+            $userUTTBranche->setSemesterNumber($faker->numberBetween(1, 6));
 
-            $manager->persist($userBranche);
+            $manager->persist($userUTTBranche);
         }
         $manager->flush();
 
@@ -156,23 +156,23 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         for ($i = 0; $i < 3; ++$i) {
             switch ($i) {
                 case 0:
-                    $formation = new Formation('Ingénieur');
+                    $formation = new UTTFormation('Ingénieur');
 
                     break;
 
                 case 1:
-                    $formation = new Formation('Doctorat');
+                    $formation = new UTTFormation('Doctorat');
 
                     break;
 
                 case 2:
-                    $formation = new Formation('Master');
+                    $formation = new UTTFormation('Master');
 
                     break;
             }
 
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction('Formation:'.$formation->getName());
+            $descriptionTraduction = new Traduction('UTTFormation:'.$formation->getName());
             $formation->setDescriptionTraduction($descriptionTraduction);
 
             $description = '';
@@ -199,17 +199,17 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         for ($i = 0; $i < 3; ++$i) {
             switch ($i) {
                 case 0:
-                    $followingMethod = new FormationFollowingMethod('Présentiel');
+                    $followingMethod = new UTTFormationFollowingMethod('Présentiel');
 
                     break;
 
                 case 1:
-                    $followingMethod = new FormationFollowingMethod('Distanciel');
+                    $followingMethod = new UTTFormationFollowingMethod('Distanciel');
 
                     break;
 
                 case 2:
-                    $followingMethod = new FormationFollowingMethod('Alternance');
+                    $followingMethod = new UTTFormationFollowingMethod('Alternance');
 
                     break;
             }
@@ -242,18 +242,18 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
         //  Récupération des users, formations, et méthode de suivi
         $users = $userRepository->findAll();
-        $formations = $manager->getRepository(Formation::class)->findAll();
-        $followingMethod = $manager->getRepository(FormationFollowingMethod::class)->findAll();
+        $formations = $manager->getRepository(UTTFormation::class)->findAll();
+        $followingMethod = $manager->getRepository(UTTFormationFollowingMethod::class)->findAll();
 
         foreach ($users as $user) {
-            $userFormation = new UserFormation();
-            $userFormation->setUser($user);
-            $userFormation->setFormation($faker->randomElement($formations));
-            $userFormation->setFollowingMethod($faker->randomElement($followingMethod));
+            $userUTTFormation = new UserFormation();
+            $userUTTFormation->setUser($user);
+            $userUTTFormation->setUTTFormation($faker->randomElement($formations));
+            $userUTTFormation->setFollowingMethod($faker->randomElement($followingMethod));
             $days = (new DateTime())->diff($user->getTimestamps()->getCreatedAt())->days;
-            $userFormation->setCreatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+            $userUTTFormation->setCreatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
 
-            $manager->persist($userFormation);
+            $manager->persist($userUTTFormation);
         }
         $manager->flush();
     }

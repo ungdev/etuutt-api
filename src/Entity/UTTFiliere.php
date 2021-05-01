@@ -2,16 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\FiliereRepository;
+use App\Repository\UTTFiliereRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=FiliereRepository::class)
- * @ORM\Table(name="filieres")
+ * @ORM\Entity(repositoryClass=UTTFiliereRepository::class)
+ * @ORM\Table(name="utt_filieres")
  */
-class Filiere
+class UTTFiliere
 {
     /**
      * @ORM\Id
@@ -25,7 +25,7 @@ class Filiere
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Branche::class, inversedBy="filieres")
+     * @ORM\ManyToOne(targetEntity=UTTBranche::class, inversedBy="filieres")
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
      */
     private $branche;
@@ -64,15 +64,15 @@ class Filiere
         return $this;
     }
 
-    public function getBranche(): ?Branche
+    public function getUTTBranche(): ?UTTBranche
     {
         return $this->branche;
     }
 
-    public function setBranche(?Branche $branche): self
+    public function setUTTBranche(?UTTBranche $branche): self
     {
         $this->branche = $branche;
-        $branche->addFiliere($this);
+        $branche->addUTTFiliere($this);
 
         return $this;
     }

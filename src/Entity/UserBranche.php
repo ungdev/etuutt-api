@@ -31,13 +31,13 @@ class UserBranche
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Branche::class)
+     * @ORM\ManyToOne(targetEntity=UTTBranche::class)
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
      */
     private $branche;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Filiere::class)
+     * @ORM\ManyToOne(targetEntity=UTTFiliere::class)
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
     private $filiere;
@@ -77,24 +77,24 @@ class UserBranche
         return $this;
     }
 
-    public function getBranche(): ?Branche
+    public function getUTTBranche(): ?UTTBranche
     {
         return $this->branche;
     }
 
-    public function setBranche(?Branche $branche): self
+    public function setUTTBranche(?UTTBranche $branche): self
     {
         $this->branche = $branche;
 
         return $this;
     }
 
-    public function getFiliere(): ?Filiere
+    public function getUTTFiliere(): ?UTTFiliere
     {
         return $this->filiere;
     }
 
-    public function setFiliere(?Filiere $filiere): self
+    public function setUTTFiliere(?UTTFiliere $filiere): self
     {
         $this->filiere = $filiere;
 

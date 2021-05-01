@@ -215,12 +215,12 @@ class UE
         return $this;
     }
 
-    public function getFiliere(): ?Filiere
+    public function getFiliere(): ?UTTFiliere
     {
         return $this->filiere;
     }
 
-    public function setFiliere(?Filiere $filiere): self
+    public function setFiliere(?UTTFiliere $filiere): self
     {
         $this->filiere = $filiere;
 

@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\BrancheRepository;
+use App\Repository\UTTBrancheRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=BrancheRepository::class)
- * @ORM\Table(name="branches")
+ * @ORM\Entity(repositoryClass=UTTBrancheRepository::class)
+ * @ORM\Table(name="utt_branches")
  */
-class Branche
+class UTTBranche
 {
     /**
      * @ORM\Id
@@ -54,7 +54,7 @@ class Branche
     private $abroadEmploymentRate;
 
     /**
-     * @ORM\OneToMany(targetEntity=Filiere::class, mappedBy="branche", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=UTTFiliere::class, mappedBy="branche", orphanRemoval=true)
      */
     private $filieres;
 
@@ -142,29 +142,29 @@ class Branche
     }
 
     /**
-     * @return Collection|Filiere[]
+     * @return Collection|UTTFiliere[]
      */
-    public function getFilieres(): Collection
+    public function getUTTFilieres(): Collection
     {
         return $this->filieres;
     }
 
-    public function addFiliere(Filiere $filiere): self
+    public function addUTTFiliere(UTTFiliere $filiere): self
     {
         if (!$this->filieres->contains($filiere)) {
             $this->filieres[] = $filiere;
-            $filiere->setBranche($this);
+            $filiere->setUTTBranche($this);
         }
 
         return $this;
     }
 
-    public function removeFiliere(Filiere $filiere): self
+    public function removeUTTFiliere(UTTFiliere $filiere): self
     {
         if ($this->filieres->removeElement($filiere)) {
             // set the owning side to null (unless already changed)
-            if ($filiere->getBranche() === $this) {
-                $filiere->setBranche(null);
+            if ($filiere->getUTTBranche() === $this) {
+                $filiere->setUTTBranche(null);
             }
         }
 

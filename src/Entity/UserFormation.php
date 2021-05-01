@@ -31,13 +31,13 @@ class UserFormation
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Formation::class)
+     * @ORM\ManyToOne(targetEntity=UTTFormation::class)
      * @ORM\JoinColumn(name="formation_name", referencedColumnName="name")
      */
     private $formation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=FormationFollowingMethod::class)
+     * @ORM\ManyToOne(targetEntity=UTTFormationFollowingMethod::class)
      * @ORM\JoinColumn(name="following_method_name", referencedColumnName="name")
      */
     private $followingMethod;
@@ -64,24 +64,24 @@ class UserFormation
         return $this;
     }
 
-    public function getFormation(): ?Formation
+    public function getUTTFormation(): ?UTTFormation
     {
         return $this->formation;
     }
 
-    public function setFormation(?Formation $formation): self
+    public function setUTTFormation(?UTTFormation $formation): self
     {
         $this->formation = $formation;
 
         return $this;
     }
 
-    public function getFollowingMethod(): ?FormationFollowingMethod
+    public function getFollowingMethod(): ?UTTFormationFollowingMethod
     {
         return $this->followingMethod;
     }
 
-    public function setFollowingMethod(?FormationFollowingMethod $followingMethod): self
+    public function setFollowingMethod(?UTTFormationFollowingMethod $followingMethod): self
     {
         $this->followingMethod = $followingMethod;
 

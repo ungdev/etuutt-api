@@ -51,7 +51,7 @@ class UserMailsPhones
      * @ORM\JoinTable(
      *     name="user_visibility_mail_perso",
      *     joinColumns={@ORM\JoinColumn(name="user_mails_phones_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
     private $mailPersonnalVisibility;
@@ -67,7 +67,7 @@ class UserMailsPhones
      * @ORM\JoinTable(
      *     name="user_visibility_phone_number",
      *     joinColumns={@ORM\JoinColumn(name="user_mails_phones_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
     private $phoneNumberVisibility;

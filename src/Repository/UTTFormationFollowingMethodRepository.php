@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Filiere;
+use App\Entity\UTTFormationFollowingMethod;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|Filiere find($id, $lockMode = null, $lockVersion = null)
- * @method null|Filiere findOneBy(array $criteria, array $orderBy = null)
- * @method Filiere[]    findAll()
- * @method Filiere[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|UTTFormationFollowingMethod find($id, $lockMode = null, $lockVersion = null)
+ * @method null|UTTFormationFollowingMethod findOneBy(array $criteria, array $orderBy = null)
+ * @method UTTFormationFollowingMethod[]    findAll()
+ * @method UTTFormationFollowingMethod[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FiliereRepository extends ServiceEntityRepository
+class UTTFormationFollowingMethodRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Filiere::class);
+        parent::__construct($registry, UTTFormationFollowingMethod::class);
     }
 
     // /**
-    //  * @return Filiere[] Returns an array of Filiere objects
+    //  * @return UTTFormationFollowingMethod[] Returns an array of UTTFormationFollowingMethod objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class FiliereRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Filiere
+    public function findOneBySomeField($value): ?UTTFormationFollowingMethod
     {
         return $this->createQueryBuilder('f')
             ->andWhere('f.exampleField = :val')

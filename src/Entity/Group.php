@@ -7,6 +7,9 @@ use App\Repository\GroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource
@@ -17,7 +20,16 @@ class Group
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
+     *
+     * @Assert\Uuid(versions=4)
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
@@ -28,14 +40,31 @@ class Group
     private $descriptionTraduction;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="groups")
+     */
+    private $asso;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     *
+     * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVisible;
+
+    /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="groups")
      * @ORM\JoinTable(
      *     name="users_groups",
-     *     joinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *     joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")}
      * )
      */
-    private $users;
+    private $members;
 
     /**
      * @ORM\Column(type="datetime")
@@ -52,15 +81,26 @@ class Group
      */
     private $deletedAt;
 
-    public function __construct(string $name = null)
+    public function __construct()
     {
-        $this->name = $name;
-        $this->users = new ArrayCollection();
+        $this->members = new ArrayCollection();
+    }
+
+    public function getId(): ?Uuid
+    {
+        return $this->id;
     }
 
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getDescriptionTraduction(): ?Traduction
@@ -75,26 +115,62 @@ class Group
         return $this;
     }
 
+    public function getAsso(): ?Asso
+    {
+        return $this->asso;
+    }
+
+    public function setAsso(?Asso $asso): self
+    {
+        $this->asso = $asso;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getIsVisible(): ?bool
+    {
+        return $this->isVisible;
+    }
+
+    public function setIsVisible(bool $isVisible): self
+    {
+        $this->isVisible = $isVisible;
+
+        return $this;
+    }
+
     /**
      * @return Collection|User[]
      */
-    public function getUsers(): Collection
+    public function getMembers(): Collection
     {
-        return $this->users;
+        return $this->members;
     }
 
-    public function addUser(User $user): self
+    public function addMember(User $user): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
+        if (!$this->members->contains($user)) {
+            $this->members[] = $user;
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeMember(User $user): self
     {
-        $this->users->removeElement($user);
+        $this->members->removeElement($user);
 
         return $this;
     }
