@@ -42,9 +42,8 @@ class UECourseSeeder extends Fixture implements DependentFixtureInterface
             $course->setType($faker->randomElement(['CM', 'TD', 'TP']));
             $course->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
             if ($faker->boolean()) {
-                $course->setRoom("Internet");
-            }
-            else {
+                $course->setRoom('Internet');
+            } else {
                 $course->setRoom(strtoupper($faker->randomLetter.$faker->numberBetween(0, 2).$faker->numberBetween(0, 1).$faker->numberBetween(0, 9)));
             }
             $course->setSemester($semesterRepo->getSemesterOfDate($course->getCreatedAt()));
@@ -55,7 +54,7 @@ class UECourseSeeder extends Fixture implements DependentFixtureInterface
         //  Inscription des étudiants aux cours
         $courses = $manager->getRepository(UECourse::class)->findAll();
         foreach ($courses as $course) {
-            for ($i=0; $i < $faker->numberBetween(10, 50); $i++) {
+            for ($i = 0; $i < $faker->numberBetween(10, 50); ++$i) {
                 $course->addStudent($faker->randomElement($users));
             }
             $manager->persist($course);

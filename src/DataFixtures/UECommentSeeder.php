@@ -16,7 +16,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use PDOException;
 
 class UECommentSeeder extends Fixture implements DependentFixtureInterface
 {
@@ -54,7 +53,7 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $comment->setSemester($semesterRepo->getSemesterOfDate($comment->getCreatedAt()));
             $days = (new DateTime())->diff($comment->getCreatedAt())->days;
             $comment->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
-            //  Soft delete aléatoire d'un User (Avec une chance de 1%)
+            //  Soft delete aléatoire d'un commentaire (Avec une chance de 2%)
             if ($faker->boolean(2)) {
                 $days = (new DateTime())->diff($comment->getUpdatedAt())->days;
                 $comment->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
@@ -100,7 +99,7 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             //  Check si ce upvote existe déjà
             $alreadyIn = false;
             foreach ($upvotes as $savedUpvote) {
-                if ($savedUpvote->getComment()->getId() == $upvote->getComment()->getId() && $savedUpvote->getUser()->getId() == $upvote->getUser()->getId()) {
+                if ($savedUpvote->getComment()->getId() === $upvote->getComment()->getId() && $savedUpvote->getUser()->getId() === $upvote->getUser()->getId()) {
                     $alreadyIn = true;
                 }
             }

@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\UECourse;
+use App\Entity\UECourseExchange;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|UECourse find($id, $lockMode = null, $lockVersion = null)
- * @method null|UECourse findOneBy(array $criteria, array $orderBy = null)
- * @method UECourse[]    findAll()
- * @method UECourse[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|UECourseExchange find($id, $lockMode = null, $lockVersion = null)
+ * @method null|UECourseExchange findOneBy(array $criteria, array $orderBy = null)
+ * @method UECourseExchange[]    findAll()
+ * @method UECourseExchange[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UECourseRepository extends ServiceEntityRepository
+class UECourseExchangeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UECourse::class);
+        parent::__construct($registry, UECourseExchange::class);
     }
 
     // /**
-    //  * @return UECourse[] Returns an array of UECourse objects
+    //  * @return UECourseExchange[] Returns an array of UECourseExchange objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class UECourseRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?UECourse
+    public function findOneBySomeField($value): ?UECourseExchange
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.exampleField = :val')
