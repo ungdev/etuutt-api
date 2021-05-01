@@ -7,6 +7,7 @@ use App\Entity\AssoKeyword;
 use App\Entity\AssoMemberPermission;
 use App\Entity\AssoMessage;
 use App\Entity\Traduction;
+use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -39,7 +40,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $asso->setDescriptionShortTraduction($descriptionShortTraduction);
             $manager->persist($descriptionShortTraduction);
 
-            $description = $this->createRandomText(1, 9);
+            $description = Text::createRandomText(1, 9);
             $descriptionShortTraduction->setFrench($description);
             $descriptionShortTraduction->setEnglish($description);
             $descriptionShortTraduction->setSpanish($description);
@@ -51,7 +52,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $asso->setDescriptionTraduction($descriptionTraduction);
             $manager->persist($descriptionTraduction);
 
-            $description = $this->createRandomText(5, 9);
+            $description = Text::createRandomText(5, 9);
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
             $descriptionTraduction->setSpanish($description);
@@ -96,7 +97,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $assoMessage->setBodyTraduction($descriptionTraduction);
             $manager->persist($descriptionTraduction);
 
-            $description = $this->createRandomText(5, 9);
+            $description = Text::createRandomText(5, 9);
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
             $descriptionTraduction->setSpanish($description);
@@ -116,12 +117,10 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         //Création de 100 permissions
-        $permissions = [];
         for ($i = 0; $i < 100; ++$i) {
             //Créations d'une permission
             $permission = new AssoMemberPermission(str_shuffle($faker->word.$faker->word));
 
-            $permissions[] = $permission;
             //On persiste la permission dans la base de données
             $manager->persist($permission);
         }
@@ -151,19 +150,5 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             }
         }
         $manager->flush();
-    }
-
-    protected function createRandomText($nbOfParagraphs, $nbOfWordsPerParagraphs): string
-    {
-        $faker = Factory::create('fr_FR');
-
-        $text = '';
-        for ($j = 0; $j < $nbOfParagraphs; ++$j) {
-            $text .= '<p>';
-            $text .= str_repeat($faker->word, $nbOfWordsPerParagraphs);
-            $text .= '</p>';
-        }
-
-        return $text;
     }
 }

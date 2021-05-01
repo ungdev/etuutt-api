@@ -10,6 +10,7 @@ use App\Entity\EventPrivacy;
 use App\Entity\Group;
 use App\Entity\Traduction;
 use App\Entity\User;
+use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -62,7 +63,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             $event->setDescriptionTraduction($descriptionTraduction);
             $manager->persist($descriptionTraduction);
 
-            $description = $this->createRandomText(3, 9);
+            $description = Text::createRandomText(5, 9);
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
             $descriptionTraduction->setSpanish($description);
@@ -128,7 +129,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             $eventAnswer->setAnswer($faker->randomElement($possibleAnswers));
 
             //Création du commentaire
-            $comment = $this->createRandomText(3, 9);
+            $comment = Text::createRandomText(5, 9);
             $eventAnswer->setComment($comment);
 
             //Création des timestamps
@@ -174,19 +175,5 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             }
         }
         $manager->flush();
-    }
-
-    protected function createRandomText($nbOfParagraphs, $nbOfWordsPerParagraphs): string
-    {
-        $faker = Factory::create('fr_FR');
-
-        $text = '';
-        for ($j = 0; $j < $nbOfParagraphs; ++$j) {
-            $text .= '<p>';
-            $text .= str_repeat($faker->word, $nbOfWordsPerParagraphs);
-            $text .= '</p>';
-        }
-
-        return $text;
     }
 }

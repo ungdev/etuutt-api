@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserTimestampsRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
@@ -82,60 +83,60 @@ class UserTimestamps
         return $this;
     }
 
-    public function getFirstLoginDate(): ?\DateTimeInterface
+    public function getFirstLoginDate(): ?DateTimeInterface
     {
         return $this->firstLoginDate;
     }
 
-    public function setFirstLoginDate(?\DateTimeInterface $firstLoginDate): self
+    public function setFirstLoginDate(?DateTimeInterface $firstLoginDate): self
     {
         $this->firstLoginDate = $firstLoginDate;
 
         return $this;
     }
 
-    public function getLastLoginDate(): ?\DateTimeInterface
+    public function getLastLoginDate(): ?DateTimeInterface
     {
         return $this->lastLoginDate;
     }
 
-    public function setLastLoginDate(?\DateTimeInterface $lastLoginDate): self
+    public function setLastLoginDate(?DateTimeInterface $lastLoginDate): self
     {
         $this->lastLoginDate = $lastLoginDate;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTimeInterface
+    public function getDeletedAt(): ?DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 

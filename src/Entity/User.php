@@ -138,7 +138,7 @@ class User
         $this->badges = new ArrayCollection();
         $this->assoMembers = new ArrayCollection();
         $this->groups = new ArrayCollection();
-        $this->adresses = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
         $this->otherAttributs = new ArrayCollection();
     }
 
@@ -409,7 +409,7 @@ class User
     {
         if (!$this->groups->contains($group)) {
             $this->groups[] = $group;
-            $group->addUser($this);
+            $group->addMember($this);
         }
 
         return $this;
@@ -418,7 +418,7 @@ class User
     public function removeGroup(Group $group): self
     {
         if ($this->groups->removeElement($group)) {
-            $group->removeUser($this);
+            $group->removeMember($this);
         }
 
         return $this;
@@ -466,7 +466,7 @@ class User
         return $this->addresses;
     }
 
-    public function addAdress(UserAddress $address): self
+    public function addAddress(UserAddress $address): self
     {
         if (!$this->addresses->contains($address)) {
             $this->addresses[] = $address;

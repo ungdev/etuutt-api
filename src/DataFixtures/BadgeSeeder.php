@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Badge;
 use App\Entity\Traduction;
 use App\Entity\User;
+use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -55,14 +56,7 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
             $badge->setDescriptionTraduction($descriptionTraduction);
             $manager->persist($descriptionTraduction);
 
-            $description = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $description .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $description .= $faker->word();
-                }
-                $description .= '</p>';
-            }
+            $description = Text::createRandomText(5, 9);
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
             $descriptionTraduction->setSpanish($description);

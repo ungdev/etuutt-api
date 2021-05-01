@@ -37,10 +37,10 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             $preference = new UserPreference();
             $preference->setUser($user);
             $preference->setBirthdayDisplayOnlyAge($faker->boolean());
-            $preference->setLanguage($faker->languageCode());
+            $preference->setLanguage($faker->languageCode);
             $preference->setWantDaymail($faker->boolean());
             $preference->setBirthdayDisplayOnlyAge($faker->boolean());
-            //  Ajout de visibilité pour l'emplois du temps
+            //  Ajout de visibilité pour l'emploi du temps
             $this->setFieldVisibility($preference, 'addScheduleVisibility', $faker, $groupRepo);
             $manager->persist($preference);
 
@@ -49,14 +49,14 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             $infos->setUser($user);
             $infos->setSex($faker->randomElement(['Masculin', 'Féminin', 'Autre']));
             $this->setFieldVisibility($infos, 'addSexVisibility', $faker, $groupRepo);
-            $infos->setNationality($faker->countryCode());
+            $infos->setNationality($faker->countryCode);
             $this->setFieldVisibility($infos, 'addNationalityVisibility', $faker, $groupRepo);
             $infos->setBirthday($faker->dateTimeBetween('-25 years', '-20 years'));
             $this->setFieldVisibility($infos, 'addBirthdayVisibility', $faker, $groupRepo);
             $infos->setAvatar($faker->imageUrl());
             if ($faker->boolean(80)) {
-                $infos->setNickname($faker->word());
-                $infos->setPassions($faker->word().' '.$faker->word().' '.$faker->word());
+                $infos->setNickname($faker->word);
+                $infos->setPassions($faker->word.' '.$faker->word.' '.$faker->word);
                 $infos->setWebsite($faker->imageUrl());
             }
             $manager->persist($infos);
@@ -65,9 +65,9 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             for ($i = 0; $i < $faker->numberBetween(0, 2); ++$i) {
                 $address = new UserAddress();
                 $address->setUser($user);
-                $address->setPostalCode($faker->postcode());
-                $address->setCity($faker->city());
-                $address->setCountry($faker->country());
+                $address->setPostalCode($faker->postcode);
+                $address->setCity($faker->city);
+                $address->setCountry($faker->country);
                 $this->setFieldVisibility($address, 'addAddressVisibility', $faker, $groupRepo);
                 $manager->persist($address);
             }
@@ -75,9 +75,9 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             //  On ajoute une entité UserMailsPhones
             $mailPhone = new UserMailsPhones();
             $mailPhone->setUser($user);
-            $mailPhone->setMailPersonnal($faker->email());
-            $mailPhone->setMailUTT($faker->email());
-            $mailPhone->setPhoneNumber($faker->phoneNumber());
+            $mailPhone->setMailPersonnal($faker->email);
+            $mailPhone->setMailUTT($faker->email);
+            $mailPhone->setPhoneNumber($faker->phoneNumber);
             $this->setFieldVisibility($mailPhone, 'addMailPersonnalVisibility', $faker, $groupRepo);
             $this->setFieldVisibility($mailPhone, 'addPhoneNumberVisibility', $faker, $groupRepo);
             $manager->persist($mailPhone);

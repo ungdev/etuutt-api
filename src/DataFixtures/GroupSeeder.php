@@ -10,6 +10,7 @@ use App\Entity\Group;
 use App\Entity\Traduction;
 use App\Entity\User;
 use App\Util\Slug;
+use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -37,22 +38,11 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
             //  Créations d'un group
             $group = new Group();
 
-            switch ($i) {
-                case 0:
-                    $name = 'Privé';
-
-                    break;
-
-                case 1:
-                    $name = 'Public';
-
-                    break;
-
-                default:
-                    $name = implode(' ', $faker->words);
-
-                    break;
-            }
+            $name = match ($i) {
+                0 => 'Privé',
+                1 => 'Public',
+                default => implode(' ', $faker->words),
+            };
             $group->setName($name);
             $group->setSlug(Slug::slugify($name));
             $group->setIsVisible($faker->boolean(75));
@@ -61,14 +51,7 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
             $descriptionTraduction = new Traduction('Group:'.$group->getName());
             $group->setDescriptionTraduction($descriptionTraduction);
 
-            $description = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $description .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $description .= $faker->word();
-                }
-                $description .= '</p>';
-            }
+            $description = Text::createRandomText(5, 9);
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
             $descriptionTraduction->setSpanish($description);
@@ -130,14 +113,7 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
                 $descriptionTraduction = new Traduction('Group:'.$group->getName());
                 $group->setDescriptionTraduction($descriptionTraduction);
 
-                $description = '';
-                for ($j = 0; $j < 5; ++$j) {
-                    $description .= '<p>';
-                    for ($k = 0; $k < 9; ++$k) {
-                        $description .= $faker->word();
-                    }
-                    $description .= '</p>';
-                }
+                $description = Text::createRandomText(5, 9);
                 $descriptionTraduction->setFrench($description);
                 $descriptionTraduction->setEnglish($description);
                 $descriptionTraduction->setSpanish($description);
@@ -146,14 +122,14 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
 
                 $manager->persist($descriptionTraduction);
 
-                //  Création des timesstamps
+                //  Création des timestamps
                 $group->setCreatedAt($faker->dateTimeBetween('-5 years'));
                 $days = (new DateTime())->diff($group->getCreatedAt())->days;
-                $group->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+                $group->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
                 //  Soft delete aléatoire d'un User (Avec une chance de 1%)
                 if ($faker->boolean(10)) {
                     $days = (new DateTime())->diff($group->getUpdatedAt())->days;
-                    $group->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+                    $group->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
                 }
 
                 //On persiste le groupe dans la base de données

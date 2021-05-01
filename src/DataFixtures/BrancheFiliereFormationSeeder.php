@@ -11,6 +11,7 @@ use App\Entity\UTTBranche;
 use App\Entity\UTTFiliere;
 use App\Entity\UTTFormation;
 use App\Entity\UTTFormationFollowingMethod;
+use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -47,14 +48,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $descriptionTraduction = new Traduction('UTTBranche:'.$branche->getCode());
             $branche->setDescriptionTraduction($descriptionTraduction);
 
-            $description = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $description .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $description .= $faker->word();
-                }
-                $description .= '</p>';
-            }
+            $description = Text::createRandomText(5, 9);
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
             $descriptionTraduction->setSpanish($description);
@@ -91,14 +85,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
                     $descriptionTraduction = new Traduction('UTTFiliere:'.$filiere->getCode());
                     $filiere->setDescriptionTraduction($descriptionTraduction);
 
-                    $description = '';
-                    for ($j = 0; $j < 5; ++$j) {
-                        $description .= '<p>';
-                        for ($k = 0; $k < 9; ++$k) {
-                            $description .= $faker->word();
-                        }
-                        $description .= '</p>';
-                    }
+                    $description = Text::createRandomText(5, 9);
                     $descriptionTraduction->setFrench($description);
                     $descriptionTraduction->setEnglish($description);
                     $descriptionTraduction->setSpanish($description);
@@ -146,35 +133,17 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
         //  Création de formations
         for ($i = 0; $i < 3; ++$i) {
-            switch ($i) {
-                case 0:
-                    $formation = new UTTFormation('Ingénieur');
-
-                    break;
-
-                case 1:
-                    $formation = new UTTFormation('Doctorat');
-
-                    break;
-
-                case 2:
-                    $formation = new UTTFormation('Master');
-
-                    break;
-            }
+            $formation = match ($i) {
+                0 => new UTTFormation('Ingénieur'),
+                1 => new UTTFormation('Doctorat'),
+                2 => new UTTFormation('Master'),
+            };
 
             //  Création d'une traduction
             $descriptionTraduction = new Traduction('UTTFormation:'.$formation->getName());
             $formation->setDescriptionTraduction($descriptionTraduction);
 
-            $description = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $description .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $description .= $faker->word();
-                }
-                $description .= '</p>';
-            }
+            $description = Text::createRandomText(5, 9);
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
             $descriptionTraduction->setSpanish($description);
@@ -189,35 +158,17 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
         //  Création de following methodes
         for ($i = 0; $i < 3; ++$i) {
-            switch ($i) {
-                case 0:
-                    $followingMethod = new UTTFormationFollowingMethod('Présentiel');
-
-                    break;
-
-                case 1:
-                    $followingMethod = new UTTFormationFollowingMethod('Distanciel');
-
-                    break;
-
-                case 2:
-                    $followingMethod = new UTTFormationFollowingMethod('Alternance');
-
-                    break;
-            }
+            $followingMethod = match ($i) {
+                0 => new UTTFormationFollowingMethod('Présentiel'),
+                1 => new UTTFormationFollowingMethod('Distanciel'),
+                2 => new UTTFormationFollowingMethod('Alternance'),
+            };
 
             //  Création d'une traduction
             $descriptionTraduction = new Traduction('FollowingMethod:'.$followingMethod->getName());
             $followingMethod->setDescriptionTraduction($descriptionTraduction);
 
-            $description = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $description .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $description .= $faker->word();
-                }
-                $description .= '</p>';
-            }
+            $description = Text::createRandomText(5, 9);
             $descriptionTraduction->setFrench($description);
             $descriptionTraduction->setEnglish($description);
             $descriptionTraduction->setSpanish($description);
@@ -243,7 +194,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $userUTTFormation->setUTTFormation($faker->randomElement($formations));
             $userUTTFormation->setFollowingMethod($faker->randomElement($followingMethod));
             $days = (new DateTime())->diff($user->getTimestamps()->getCreatedAt())->days;
-            $userUTTFormation->setCreatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+            $userUTTFormation->setCreatedAt($faker->dateTimeBetween('-'.$days.' days'));
 
             $manager->persist($userUTTFormation);
         }
