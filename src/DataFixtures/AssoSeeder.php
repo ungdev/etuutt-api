@@ -6,6 +6,7 @@ use App\Entity\Asso;
 use App\Entity\AssoGroup;
 use App\Entity\AssoKeyword;
 use App\Entity\AssoMember;
+use App\Entity\AssoMemberPermission;
 use App\Entity\AssoMessage;
 use App\Entity\Traduction;
 use App\Entity\User;
@@ -132,9 +133,6 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
                 //Création du slug (assoName_groupName)
                 $assoGroup->setSlug($asso->getName().'_'.$name);
 
-                //Attribution d'un ordre pour l'affichage (plus petit affiché en 1er)
-                $assoGroup->setPosition($faker->numberBetween(0, 100));
-
                 $assoGroup->setIsVisible($faker->boolean(90));
 
                 $assoGroup->setCreatedAt($faker->dateTimeBetween('-3 years'));
@@ -170,6 +168,31 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
 
                 //On persiste le membre dans la base de données
                 $manager->persist($assoMember);
+            }
+        }
+        $manager->flush();
+
+        //Création de 100 permissions
+        $permissions = [];
+        for ($i = 0; $i < 100; ++$i) {
+            //Créations d'une permission
+            $permission = new AssoMemberPermission(str_shuffle($faker->word.$faker->word));
+
+            $permissions[] = $permission;
+            //On persiste la permission dans la base de données
+            $manager->persist($permission);
+        }
+        $manager->flush();
+
+        //Attribution de permissions à des membres
+
+        //Récupération des membres
+        $assoMemberRepository = $manager->getRepository(AssoMember::class);
+        $assoMembers = $assoMemberRepository->findAll();
+
+        foreach ($assoMembers as $assoMember) {
+            for ($i = 0; $i < $faker->numberBetween(0, 5); ++$i) {
+                $assoMember->addPermission($faker->randomElement($permissions));
             }
         }
         $manager->flush();

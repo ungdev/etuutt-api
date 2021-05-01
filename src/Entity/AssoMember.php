@@ -57,7 +57,7 @@ class AssoMember
     private $roles;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Permission::class)
+     * @ORM\ManyToMany(targetEntity=AssoMemberPermission::class)
      * @ORM\JoinTable(
      *     name="asso_members_permissions",
      *     joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
@@ -138,14 +138,14 @@ class AssoMember
     }
 
     /**
-     * @return Collection|Permission[]
+     * @return Collection|AssoMemberPermission[]
      */
     public function getPermissions(): Collection
     {
         return $this->permissions;
     }
 
-    public function addPermission(Permission $permission): self
+    public function addPermission(AssoMemberPermission $permission): self
     {
         if (!$this->permissions->contains($permission)) {
             $this->permissions[] = $permission;
@@ -154,7 +154,7 @@ class AssoMember
         return $this;
     }
 
-    public function removePermission(Permission $permission): self
+    public function removePermission(AssoMemberPermission $permission): self
     {
         $this->permissions->removeElement($permission);
 

@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Permission;
+use App\Entity\AssoMemberPermission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|Permission find($id, $lockMode = null, $lockVersion = null)
- * @method null|Permission findOneBy(array $criteria, array $orderBy = null)
- * @method Permission[]    findAll()
- * @method Permission[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|AssoMemberPermission find($id, $lockMode = null, $lockVersion = null)
+ * @method null|AssoMemberPermission findOneBy(array $criteria, array $orderBy = null)
+ * @method AssoMemberPermission[]    findAll()
+ * @method AssoMemberPermission[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PermissionRepository extends ServiceEntityRepository
+class AssoMemberPermissionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Permission::class);
+        parent::__construct($registry, AssoMemberPermission::class);
     }
 
     // /**
-    //  * @return Permission[] Returns an array of Permission objects
+    //  * @return AssoMemberPermission[] Returns an array of AssoMemberPermission objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PermissionRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Permission
+    public function findOneBySomeField($value): ?AssoMemberPermission
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')
