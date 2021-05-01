@@ -83,11 +83,6 @@ class User
 
     /**
      * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="users")
-     * @ORM\JoinTable(
-     *     name="users_badges",
-     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     joinColumns={@ORM\JoinColumn(name="badge_id", referencedColumnName="id")}
-     * )
      */
     private $badges;
 
@@ -95,6 +90,46 @@ class User
      * @ORM\OneToMany(targetEntity=AssoMember::class, mappedBy="user", orphanRemoval=true)
      */
     private $assoMembers;
+  
+    /**
+     * @ORM\OneToOne(targetEntity=UserBranche::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $branche;
+
+    /**
+     * @ORM\OneToOne(targetEntity=UserFormation::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $formation;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Group::class, mappedBy="users")
+     */
+    private $groups;
+
+    /**
+     * @ORM\OneToOne(targetEntity=UserPreference::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $preference;
+
+    /**
+     * @ORM\OneToOne(targetEntity=UserInfos::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $infos;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $addresses;
+
+    /**
+     * @ORM\OneToOne(targetEntity=UserMailsPhones::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $mailsPhones;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserOtherAttributValue::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $otherAttributs;
 
     public function __construct()
     {
@@ -102,6 +137,9 @@ class User
         $this->BDEContributions = new ArrayCollection();
         $this->badges = new ArrayCollection();
         $this->assoMembers = new ArrayCollection();
+        $this->groups = new ArrayCollection();
+        $this->adresses = new ArrayCollection();
+        $this->otherAttributs = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -308,17 +346,184 @@ class User
         if (!$this->assoMembers->contains($assoMember)) {
             $this->assoMembers[] = $assoMember;
             $assoMember->setUser($this);
-        }
-
-        return $this;
+    public function getBranche(): ?UserBranche
+    {
+        return $this->branche;
     }
-
+          
     public function removeAssoMember(AssoMember $assoMember): self
     {
         if ($this->assoMembers->removeElement($assoMember)) {
             // set the owning side to null (unless already changed)
             if ($assoMember->getUser() === $this) {
                 $assoMember->setUser(null);
+              }
+        }
+
+        return $this;
+    }
+
+    public function setBranche(UserBranche $branche): self
+    {
+        // set the owning side of the relation if necessary
+        if ($branche->getUser() !== $this) {
+            $branche->setUser($this);
+        }
+
+        $this->branche = $branche;
+
+        return $this;
+    }
+
+    public function getFormation(): ?UserFormation
+    {
+        return $this->formation;
+    }
+
+    public function setFormation(UserFormation $formation): self
+    {
+        // set the owning side of the relation if necessary
+        if ($formation->getUser() !== $this) {
+            $formation->setUser($this);
+        }
+
+        $this->formation = $formation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getGroups(): Collection
+    {
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group): self
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+            $group->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(Group $group): self
+    {
+        if ($this->groups->removeElement($group)) {
+            $group->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getPreference(): ?UserPreference
+    {
+        return $this->preference;
+    }
+
+    public function setPreference(UserPreference $preference): self
+    {
+        // set the owning side of the relation if necessary
+        if ($preference->getUser() !== $this) {
+            $preference->setUser($this);
+        }
+
+        $this->preference = $preference;
+
+        return $this;
+    }
+
+    public function getInfos(): ?UserInfos
+    {
+        return $this->infos;
+    }
+
+    public function setInfos(UserInfos $infos): self
+    {
+        // set the owning side of the relation if necessary
+        if ($infos->getUser() !== $this) {
+            $infos->setUser($this);
+        }
+
+        $this->infos = $infos;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserAddress[]
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    public function addAdress(UserAddress $address): self
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses[] = $address;
+            $address->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(UserAddress $address): self
+    {
+        if ($this->addresses->removeElement($address)) {
+            // set the owning side to null (unless already changed)
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMailsPhones(): ?UserMailsPhones
+    {
+        return $this->mailsPhones;
+    }
+
+    public function setMailsPhones(UserMailsPhones $mailsPhones): self
+    {
+        // set the owning side of the relation if necessary
+        if ($mailsPhones->getUser() !== $this) {
+            $mailsPhones->setUser($this);
+        }
+
+        $this->mailsPhones = $mailsPhones;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserOtherAttributValue[]
+     */
+    public function getOtherAttributs(): Collection
+    {
+        return $this->otherAttributs;
+    }
+
+    public function addOtherAttribut(UserOtherAttributValue $otherAttribut): self
+    {
+        if (!$this->otherAttributs->contains($otherAttribut)) {
+            $this->otherAttributs[] = $otherAttribut;
+            $otherAttribut->setUser($this);
+        }
+
+        return $this;
+    }
+              
+    public function removeOtherAttribut(UserOtherAttributValue $otherAttribut): self
+    {
+        if ($this->otherAttributs->removeElement($otherAttribut)) {
+            // set the owning side to null (unless already changed)
+            if ($otherAttribut->getUser() === $this) {
+                $otherAttribut->setUser(null);
             }
         }
 
