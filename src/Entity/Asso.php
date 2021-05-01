@@ -100,7 +100,7 @@ class Asso
     private $deletedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Keyword::class, inversedBy="assos")
+     * @ORM\ManyToMany(targetEntity=AssoKeyword::class, inversedBy="assos")
      * @ORM\JoinTable(
      *     name="assos_keywords",
      *     joinColumns={@ORM\JoinColumn(name="asso_id", referencedColumnName="id")},
@@ -270,14 +270,14 @@ class Asso
     }
 
     /**
-     * @return Collection|Keyword[]
+     * @return Collection|AssoKeyword[]
      */
     public function getKeywords(): Collection
     {
         return $this->keywords;
     }
 
-    public function addKeyword(Keyword $keyword): self
+    public function addKeyword(AssoKeyword $keyword): self
     {
         if (!$this->keywords->contains($keyword)) {
             $this->keywords[] = $keyword;
@@ -286,7 +286,7 @@ class Asso
         return $this;
     }
 
-    public function removeKeyword(Keyword $keyword): self
+    public function removeKeyword(AssoKeyword $keyword): self
     {
         $this->keywords->removeElement($keyword);
 

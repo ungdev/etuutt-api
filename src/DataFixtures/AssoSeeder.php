@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Asso;
 use App\Entity\AssoGroup;
+use App\Entity\AssoKeyword;
 use App\Entity\AssoMember;
 use App\Entity\AssoMessage;
 use App\Entity\Traduction;
@@ -169,6 +170,31 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
 
                 //On persiste le membre dans la base de données
                 $manager->persist($assoMember);
+            }
+        }
+        $manager->flush();
+
+        //Création de 100 mots-clés
+        $keywords = [];
+        for ($i = 0; $i < 100; ++$i) {
+            //Créations d'un mot-clé
+            $keyword = new AssoKeyword(str_shuffle($faker->word.$faker->word));
+
+            $keywords[] = $keyword;
+            //On persiste le mot-clé dans la base de données
+            $manager->persist($keyword);
+        }
+        $manager->flush();
+
+        //Attribution de mots-clé à des assos
+
+        //Récupération des assos
+        $assoRepository = $manager->getRepository(Asso::class);
+        $assos = $assoRepository->findAll();
+
+        foreach ($assos as $asso) {
+            for ($i = 0; $i < $faker->numberBetween(0, 10); ++$i) {
+                $asso->addKeyword($faker->randomElement($keywords));
             }
         }
         $manager->flush();

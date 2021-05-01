@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\KeywordRepository;
+use App\Repository\AssoKeywordRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=KeywordRepository::class)
+ * @ORM\Entity(repositoryClass=AssoKeywordRepository::class)
  * @ORM\Table(name="keywords")
  */
-class Keyword
+class AssoKeyword
 {
     /**
      * @ORM\Id
@@ -27,21 +27,15 @@ class Keyword
      */
     private $assos;
 
-    public function __construct()
+    public function __construct($name)
     {
+        $this->name = $name;
         $this->assos = new ArrayCollection();
     }
 
     public function getName(): ?string
     {
         return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**
