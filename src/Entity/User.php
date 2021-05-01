@@ -362,12 +362,12 @@ class User
         return $this;
     }
 
-    public function getBranche(): ?UserBranche
+    public function getUTTBranche(): ?UserBranche
     {
         return $this->branche;
     }
 
-    public function setBranche(UserBranche $branche): self
+    public function setUTTBranche(UserBranche $branche): self
     {
         // set the owning side of the relation if necessary
         if ($branche->getUser() !== $this) {
@@ -379,12 +379,12 @@ class User
         return $this;
     }
 
-    public function getFormation(): ?UserFormation
+    public function getUTTFormation(): ?UserFormation
     {
         return $this->formation;
     }
 
-    public function setFormation(UserFormation $formation): self
+    public function setUTTFormation(UserFormation $formation): self
     {
         // set the owning side of the relation if necessary
         if ($formation->getUser() !== $this) {

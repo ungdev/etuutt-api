@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\FormationFollowingMethodRepository;
+use App\Repository\UTTFormationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=FormationFollowingMethodRepository::class)
- * @ORM\Table(name="formations_following_methods")
+ * @ORM\Entity(repositoryClass=UTTFormationRepository::class)
+ * @ORM\Table(name="utt_formations")
  */
-class FormationFollowingMethod
+class UTTFormation
 {
     /**
      * @ORM\Id

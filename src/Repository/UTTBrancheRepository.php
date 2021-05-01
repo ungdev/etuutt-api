@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Branche;
+use App\Entity\UTTBranche;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|Branche find($id, $lockMode = null, $lockVersion = null)
- * @method null|Branche findOneBy(array $criteria, array $orderBy = null)
- * @method Branche[]    findAll()
- * @method Branche[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|UTTBranche find($id, $lockMode = null, $lockVersion = null)
+ * @method null|UTTBranche findOneBy(array $criteria, array $orderBy = null)
+ * @method UTTBranche[]    findAll()
+ * @method UTTBranche[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BrancheRepository extends ServiceEntityRepository
+class UTTBrancheRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Branche::class);
+        parent::__construct($registry, UTTBranche::class);
     }
 
     // /**
-    //  * @return Branche[] Returns an array of Branche objects
+    //  * @return UTTBranche[] Returns an array of UTTBranche objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class BrancheRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Branche
+    public function findOneBySomeField($value): ?UTTBranche
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

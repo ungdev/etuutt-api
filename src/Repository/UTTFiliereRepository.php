@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Formation;
+use App\Entity\UTTFiliere;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|Formation find($id, $lockMode = null, $lockVersion = null)
- * @method null|Formation findOneBy(array $criteria, array $orderBy = null)
- * @method Formation[]    findAll()
- * @method Formation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|UTTFiliere find($id, $lockMode = null, $lockVersion = null)
+ * @method null|UTTFiliere findOneBy(array $criteria, array $orderBy = null)
+ * @method UTTFiliere[]    findAll()
+ * @method UTTFiliere[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FormationRepository extends ServiceEntityRepository
+class UTTFiliereRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Formation::class);
+        parent::__construct($registry, UTTFiliere::class);
     }
 
     // /**
-    //  * @return Formation[] Returns an array of Formation objects
+    //  * @return UTTFiliere[] Returns an array of UTTFiliere objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class FormationRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Formation
+    public function findOneBySomeField($value): ?UTTFiliere
     {
         return $this->createQueryBuilder('f')
             ->andWhere('f.exampleField = :val')
