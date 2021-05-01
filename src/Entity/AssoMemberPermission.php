@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=AssoMemberPermissionRepository::class)
- * @ORM\Table(name="permissions")
+ * @ORM\Table(name="asso_member_permissions")
  */
 class AssoMemberPermission
 {

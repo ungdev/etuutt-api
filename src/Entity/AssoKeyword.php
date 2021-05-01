@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AssoKeywordRepository::class)
- * @ORM\Table(name="keywords")
+ * @ORM\Table(name="asso_keywords")
  */
 class AssoKeyword
 {
