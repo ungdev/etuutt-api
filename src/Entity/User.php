@@ -90,7 +90,7 @@ class User
      * @ORM\OneToMany(targetEntity=AssoMember::class, mappedBy="user", orphanRemoval=true)
      */
     private $assoMembers;
-  
+
     /**
      * @ORM\OneToOne(targetEntity=UserBranche::class, mappedBy="user", cascade={"persist", "remove"})
      */
@@ -347,16 +347,17 @@ class User
             $this->assoMembers[] = $assoMember;
             $assoMember->setUser($this);
         }
+
         return $this;
     }
-          
+
     public function removeAssoMember(AssoMember $assoMember): self
     {
         if ($this->assoMembers->removeElement($assoMember)) {
             // set the owning side to null (unless already changed)
             if ($assoMember->getUser() === $this) {
                 $assoMember->setUser(null);
-              }
+            }
         }
 
         return $this;
@@ -521,7 +522,7 @@ class User
 
         return $this;
     }
-              
+
     public function removeOtherAttribut(UserOtherAttributValue $otherAttribut): self
     {
         if ($this->otherAttributs->removeElement($otherAttribut)) {

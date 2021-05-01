@@ -2,15 +2,15 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\UTTBranche;
-use App\Entity\UTTFiliere;
-use App\Entity\UTTFormation;
-use App\Entity\UTTFormationFollowingMethod;
 use App\Entity\Semester;
 use App\Entity\Traduction;
 use App\Entity\User;
 use App\Entity\UserBranche;
 use App\Entity\UserFormation;
+use App\Entity\UTTBranche;
+use App\Entity\UTTFiliere;
+use App\Entity\UTTFormation;
+use App\Entity\UTTFormationFollowingMethod;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
