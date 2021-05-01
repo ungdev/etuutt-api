@@ -105,6 +105,11 @@ class Event
      */
     private $eventAnswers;
 
+    /**
+     * @ORM\OneToOne(targetEntity=EventPrivacy::class, mappedBy="event", cascade={"persist", "remove"})
+     */
+    private $eventPrivacy;
+
     public function __construct()
     {
         $this->assos = new ArrayCollection();
@@ -299,6 +304,23 @@ class Event
                 $eventAnswer->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEventPrivacy(): ?EventPrivacy
+    {
+        return $this->eventPrivacy;
+    }
+
+    public function setEventPrivacy(EventPrivacy $eventPrivacy): self
+    {
+        // set the owning side of the relation if necessary
+        if ($eventPrivacy->getEvent() !== $this) {
+            $eventPrivacy->setEvent($this);
+        }
+
+        $this->eventPrivacy = $eventPrivacy;
 
         return $this;
     }

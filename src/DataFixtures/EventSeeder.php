@@ -3,9 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Asso;
+use App\Entity\AssoGroup;
 use App\Entity\Event;
 use App\Entity\EventAnswer;
 use App\Entity\EventCategory;
+use App\Entity\EventPrivacy;
 use App\Entity\Traduction;
 use App\Entity\User;
 use DateTime;
@@ -86,6 +88,30 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
         $events = $eventRepository->findAll();
         $userRepository = $manager->getRepository(User::class);
         $users = $userRepository->findAll();
+        $assoGroupRepository = $manager->getRepository(AssoGroup::class);
+        $assoGroups = $assoGroupRepository->findAll();
+
+        //Création des event_privacy
+        foreach ($events as $event) {
+            $currentAllowedGroups = [];
+            //Création d'un event_privacy
+            $eventPrivacy = new EventPrivacy();
+
+            $eventPrivacy->setEvent($event);
+
+            //On attribue entre 1 et 10 groupes à la liste
+            for ($i = 0; $i < $faker->numberBetween(1, 10); ++$i) {
+                do {
+                    $group = $faker->randomElement($assoGroups);
+                } while (\in_array($group, $currentAllowedGroups, true));
+                $currentAllowedGroups[] = $group;
+                $eventPrivacy->addAllowedGroup($group);
+            }
+
+            //On persiste event_answer dans la base de données
+            $manager->persist($eventPrivacy);
+        }
+        $manager->flush();
 
         //Création de 100 event_answers
         for ($i = 0; $i < 100; ++$i) {
