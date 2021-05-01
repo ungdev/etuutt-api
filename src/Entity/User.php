@@ -100,7 +100,7 @@ class User
      * @ORM\OneToMany(targetEntity=CovoitAlert::class, mappedBy="user", orphanRemoval=true)
      */
     private $covoitAlerts;
-  
+
     /**
      * @ORM\OneToMany(targetEntity=AssoMember::class, mappedBy="user", orphanRemoval=true)
      */
@@ -384,11 +384,23 @@ class User
         if (!$this->createdCovoits->contains($createdCovoit)) {
             $this->createdCovoits[] = $createdCovoit;
             $createdCovoit->setAuthor($this);
-          }
+        }
 
         return $this;
     }
-  
+
+    public function removeCreatedCovoit(Covoit $createdCovoit): self
+    {
+        if ($this->createdCovoits->removeElement($createdCovoit)) {
+            // set the owning side to null (unless already changed)
+            if ($createdCovoit->getAuthor() === $this) {
+                $createdCovoit->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return AssoMember[]|Collection
      */
@@ -407,18 +419,6 @@ class User
         return $this;
     }
 
-    public function removeCreatedCovoit(Covoit $createdCovoit): self
-    {
-        if ($this->createdCovoits->removeElement($createdCovoit)) {
-            // set the owning side to null (unless already changed)
-            if ($createdCovoit->getAuthor() === $this) {
-                $createdCovoit->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-  
     public function removeAssoMember(AssoMember $assoMember): self
     {
         if ($this->assoMembers->removeElement($assoMember)) {
@@ -622,7 +622,16 @@ class User
 
         return $this;
     }
-  
+
+    public function removePassengerCovoit(Covoit $passengerCovoit): self
+    {
+        if ($this->passengerCovoits->removeElement($passengerCovoit)) {
+            $passengerCovoit->removePassenger($this);
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection|UserUESubscription[]
      */
@@ -641,15 +650,6 @@ class User
         return $this;
     }
 
-    public function removePassengerCovoit(Covoit $passengerCovoit): self
-    {
-        if ($this->passengerCovoits->removeElement($passengerCovoit)) {
-            $passengerCovoit->removeUser($this);
-        }
-
-        return $this;
-    }
-  
     public function removeUEsSubscription(UserUESubscription $userUESubscription): self
     {
         if ($this->UEsSubscriptions->removeElement($userUESubscription)) {
@@ -679,7 +679,19 @@ class User
 
         return $this;
     }
-  
+
+    public function removeCovoitAlert(CovoitAlert $covoitAlert): self
+    {
+        if ($this->covoitAlerts->removeElement($covoitAlert)) {
+            // set the owning side to null (unless already changed)
+            if ($covoitAlert->getUser() === $this) {
+                $covoitAlert->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection|UEStarVote[]
      */
@@ -698,18 +710,6 @@ class User
         return $this;
     }
 
-    public function removeCovoitAlert(CovoitAlert $covoitAlert): self
-    {
-        if ($this->covoitAlerts->removeElement($covoitAlert)) {
-            // set the owning side to null (unless already changed)
-            if ($covoitAlert->getUser() === $this) {
-                $covoitAlert->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-  
     public function removeUEStarVote(UEStarVote $uEStarVote): self
     {
         if ($this->UEStarVotes->removeElement($uEStarVote)) {
