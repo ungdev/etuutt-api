@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AssoGroupRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,14 +44,6 @@ class AssoGroup
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
     private $slug;
-
-    /**
-     * @ORM\Column(type="integer")
-     *
-     * @Assert\Type("int")
-     * @Assert\Positive
-     */
-    private $position;
 
     /**
      * @ORM\Column(type="boolean")
@@ -115,18 +108,6 @@ class AssoGroup
         return $this;
     }
 
-    public function getPosition(): ?int
-    {
-        return $this->position;
-    }
-
-    public function setPosition(int $position): self
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
     public function getIsVisible(): ?bool
     {
         return $this->isVisible;
@@ -139,12 +120,12 @@ class AssoGroup
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Asso;
 use App\Entity\Event;
 use App\Entity\EventAnswer;
+use App\Entity\EventCategory;
 use App\Entity\Traduction;
 use App\Entity\User;
 use DateTime;
@@ -115,6 +116,35 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
 
             //On persiste event_answer dans la base de données
             $manager->persist($eventAnswer);
+        }
+        $manager->flush();
+
+        //Création de 50 catégories
+        $categories = [];
+        for ($i = 0; $i < 50; ++$i) {
+            //Créations d'une catégorie
+            $name = '';
+            for ($j = 0; $j < $faker->numberBetween(5, 20); ++$j) {
+                $name .= $faker->randomLetter;
+            }
+            $category = new EventCategory($name);
+
+            $categories[] = $category;
+            //On persiste la catégorie dans la base de données
+            $manager->persist($category);
+        }
+        $manager->flush();
+
+        //Attribution de catégories à des events
+
+        //Récupération des events
+        $eventRepository = $manager->getRepository(Event::class);
+        $events = $eventRepository->findAll();
+
+        foreach ($events as $event) {
+            for ($i = 0; $i < $faker->numberBetween(1, 3); ++$i) {
+                $event->addCategory($faker->randomElement($categories));
+            }
         }
         $manager->flush();
     }

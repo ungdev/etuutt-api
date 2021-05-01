@@ -270,7 +270,7 @@ class Asso
     }
 
     /**
-     * @return Collection|AssoKeyword[]
+     * @return AssoKeyword[]|Collection
      */
     public function getKeywords(): Collection
     {

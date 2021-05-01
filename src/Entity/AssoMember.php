@@ -114,7 +114,7 @@ class AssoMember
     }
 
     /**
-     * @return Collection|AssoMemberRole[]
+     * @return AssoMemberRole[]|Collection
      */
     public function getRoles(): Collection
     {
@@ -138,7 +138,7 @@ class AssoMember
     }
 
     /**
-     * @return Collection|AssoMemberPermission[]
+     * @return AssoMemberPermission[]|Collection
      */
     public function getPermissions(): Collection
     {
