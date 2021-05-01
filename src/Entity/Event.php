@@ -91,7 +91,7 @@ class Event
     private $deletedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="events")
+     * @ORM\ManyToMany(targetEntity=EventCategory::class, inversedBy="events")
      * @ORM\JoinTable(
      *     name="events_categories",
      *     joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
@@ -250,14 +250,14 @@ class Event
     }
 
     /**
-     * @return Category[]|Collection
+     * @return Collection|EventCategory[]
      */
     public function getCategories(): Collection
     {
         return $this->categories;
     }
 
-    public function addCategory(Category $category): self
+    public function addCategory(EventCategory $category): self
     {
         if (!$this->categories->contains($category)) {
             $this->categories[] = $category;
@@ -266,7 +266,7 @@ class Event
         return $this;
     }
 
-    public function removeCategory(Category $category): self
+    public function removeCategory(EventCategory $category): self
     {
         $this->categories->removeElement($category);
 
