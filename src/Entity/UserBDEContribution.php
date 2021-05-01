@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserBDEContributionRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
@@ -97,24 +98,24 @@ class UserBDEContribution
         return $this;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getStart(): ?DateTimeInterface
     {
         return $this->start;
     }
 
-    public function setStart(\DateTimeInterface $start): self
+    public function setStart(DateTimeInterface $start): self
     {
         $this->start = $start;
 
         return $this;
     }
 
-    public function getEnd(): ?\DateTimeInterface
+    public function getEnd(): ?DateTimeInterface
     {
         return $this->end;
     }
 
-    public function setEnd(\DateTimeInterface $end): self
+    public function setEnd(DateTimeInterface $end): self
     {
         $this->end = $end;
 

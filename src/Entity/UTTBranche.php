@@ -1,0 +1,173 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\UTTBrancheRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity(repositoryClass=UTTBrancheRepository::class)
+ * @ORM\Table(name="utt_branches")
+ */
+class UTTBranche
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="string", length=10)
+     *
+     * @Assert\Regex("/^[A-Z\d]{1,10}$/")
+     */
+    private $code;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Traduction::class)
+     * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
+     */
+    private $descriptionTraduction;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $exitSalary;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $employmentRate;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $CDIRate;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $abroadEmploymentRate;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UTTFiliere::class, mappedBy="branche", orphanRemoval=true)
+     */
+    private $filieres;
+
+    public function __construct(string $code = null)
+    {
+        $this->code = $code;
+        $this->filieres = new ArrayCollection();
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescriptionTraduction(): ?Traduction
+    {
+        return $this->descriptionTraduction;
+    }
+
+    public function setDescriptionTraduction(?Traduction $descriptionTraduction): self
+    {
+        $this->descriptionTraduction = $descriptionTraduction;
+
+        return $this;
+    }
+
+    public function getExitSalary(): ?int
+    {
+        return $this->exitSalary;
+    }
+
+    public function setExitSalary(?int $exitSalary): self
+    {
+        $this->exitSalary = $exitSalary;
+
+        return $this;
+    }
+
+    public function getEmploymentRate(): ?int
+    {
+        return $this->employmentRate;
+    }
+
+    public function setEmploymentRate(?int $employmentRate): self
+    {
+        $this->employmentRate = $employmentRate;
+
+        return $this;
+    }
+
+    public function getCDIRate(): ?int
+    {
+        return $this->CDIRate;
+    }
+
+    public function setCDIRate(?int $CDIRate): self
+    {
+        $this->CDIRate = $CDIRate;
+
+        return $this;
+    }
+
+    public function getAbroadEmploymentRate(): ?int
+    {
+        return $this->abroadEmploymentRate;
+    }
+
+    public function setAbroadEmploymentRate(?int $abroadEmploymentRate): self
+    {
+        $this->abroadEmploymentRate = $abroadEmploymentRate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UTTFiliere[]
+     */
+    public function getUTTFilieres(): Collection
+    {
+        return $this->filieres;
+    }
+
+    public function addUTTFiliere(UTTFiliere $filiere): self
+    {
+        if (!$this->filieres->contains($filiere)) {
+            $this->filieres[] = $filiere;
+            $filiere->setUTTBranche($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUTTFiliere(UTTFiliere $filiere): self
+    {
+        if ($this->filieres->removeElement($filiere)) {
+            // set the owning side to null (unless already changed)
+            if ($filiere->getUTTBranche() === $this) {
+                $filiere->setUTTBranche(null);
+            }
+        }
+
+        return $this;
+    }
+}

@@ -11,6 +11,7 @@ use App\Entity\UserRGPD;
 use App\Entity\UserSocialNetwork;
 use App\Entity\UserTimestamps;
 use App\Repository\UserRepository;
+use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -44,18 +45,18 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             //  Création d'un timestamps pour chaque User
             $timestamps = new UserTimestamps();
             $timestamps->setUser($user);
-            $createdAt = $faker->dateTimeBetween('-3 years', 'now');
+            $createdAt = $faker->dateTimeBetween('-3 years');
             $timestamps->setCreatedAt($createdAt);
             $days = (new DateTime())->diff($timestamps->getCreatedAt())->days;
-            $timestamps->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+            $timestamps->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             //  First and last login
-            $timestamps->setFirstLoginDate($faker->dateTimeBetween('-30 days', 'now'));
+            $timestamps->setFirstLoginDate($faker->dateTimeBetween('-30 days'));
             $days = (new DateTime())->diff($timestamps->getFirstLoginDate())->days;
-            $timestamps->setLastLoginDate($faker->dateTimeBetween('-'.$days.' days', 'now'));
+            $timestamps->setLastLoginDate($faker->dateTimeBetween('-'.$days.' days'));
             //  Soft delete aléatoire d'un User (Avec une chance de 1%)
             if ($faker->boolean(1)) {
                 $days = (new DateTime())->diff($timestamps->getLastLoginDate())->days;
-                $timestamps->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+                $timestamps->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
             $manager->persist($timestamps);
 
@@ -84,10 +85,10 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             $RGPD = new UserRGPD();
             $RGPD->setUser($user);
             if ($faker->boolean(75)) {
-                $RGPD->setIsDeletingEverything($faker->boolean(50));
+                $RGPD->setIsDeletingEverything($faker->boolean());
             }
             if ($faker->boolean(75)) {
-                $RGPD->setIsKeepingAccount($faker->boolean(50));
+                $RGPD->setIsKeepingAccount($faker->boolean());
             }
             $manager->persist($RGPD);
 
@@ -101,7 +102,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
                 $days = (new DateTime())->diff($timestamps->getLastLoginDate())->days;
 
                 //  50% de chance de ReadOnly, 50% de Banned
-                if ($faker->boolean(50)) {
+                if ($faker->boolean()) {
                     $userBan->setReadOnlyExpiration($faker->dateTimeBetween('-'.$days.' days', '+30 days'));
                 } else {
                     $userBan->setBannedExpiration($faker->dateTimeBetween('-'.$days.' days', '+30 days'));
@@ -132,14 +133,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
                 $EtuUTTTeam = new UserEtuUTTTeam();
                 $EtuUTTTeam->setUser($user);
 
-                $role = '';
-                for ($j = 0; $j < 5; ++$j) {
-                    $role .= '<p>';
-                    for ($k = 0; $k < 9; ++$k) {
-                        $role .= $faker->word();
-                    }
-                    $role .= '</p>';
-                }
+                $role = Text::createRandomText(5, 9);
                 $EtuUTTTeam->setRole($role);
 
                 $EtuUTTMemberSemester = $semesterRepository->getSemesterOfDate($createdAt);

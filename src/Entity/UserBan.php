@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserBanRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
@@ -61,24 +62,24 @@ class UserBan
         return $this;
     }
 
-    public function getReadOnlyExpiration(): ?\DateTimeInterface
+    public function getReadOnlyExpiration(): ?DateTimeInterface
     {
         return $this->readOnlyExpiration;
     }
 
-    public function setReadOnlyExpiration(?\DateTimeInterface $readOnlyExpiration): self
+    public function setReadOnlyExpiration(?DateTimeInterface $readOnlyExpiration): self
     {
         $this->readOnlyExpiration = $readOnlyExpiration;
 
         return $this;
     }
 
-    public function getBannedExpiration(): ?\DateTimeInterface
+    public function getBannedExpiration(): ?DateTimeInterface
     {
         return $this->bannedExpiration;
     }
 
-    public function setBannedExpiration(?\DateTimeInterface $bannedExpiration): self
+    public function setBannedExpiration(?DateTimeInterface $bannedExpiration): self
     {
         $this->bannedExpiration = $bannedExpiration;
 
