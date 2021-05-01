@@ -42,7 +42,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
 
             $covoit->setCapacity($faker->numberBetween(1, 4));
 
-            $covoit->setPrice($faker->numberBetween(10, 30));
+            $covoit->setPrice($faker->numberBetween(1000, 3000));
 
             //On a 75% de chance d'avoir un URL
             if ($faker->boolean(75)) {
@@ -57,7 +57,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
                     $newUser = $faker->randomElement($users);
                 } while (\in_array($newUser, $subscribedUsers, true));
                 $subscribedUsers[] = $newUser;
-                $covoit->addUser($newUser);
+                $covoit->addPassenger($newUser);
             }
 
             //Création des timestamps et des addresses
@@ -128,7 +128,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoitMessage->setAuthor($faker->randomElement($users));
 
             //Création du texte
-            $covoitMessage->setText($this->createRandomText(5, 9));
+            $covoitMessage->setBody($this->createRandomText(5, 9));
 
             //Création des timestamps
             $covoitMessage->setCreatedAt($faker->dateTimeBetween('-3 years'));

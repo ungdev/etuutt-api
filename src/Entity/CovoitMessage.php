@@ -40,7 +40,7 @@ class CovoitMessage
     /**
      * @ORM\Column(type="text")
      */
-    private $text;
+    private $body;
 
     /**
      * @ORM\Column(type="datetime")
@@ -92,14 +92,14 @@ class CovoitMessage
         return $this;
     }
 
-    public function getText(): ?string
+    public function getBody(): ?string
     {
-        return $this->text;
+        return $this->body;
     }
 
-    public function setText(string $text): self
+    public function setBody(string $body): self
     {
-        $this->text = $text;
+        $this->body = $body;
 
         return $this;
     }

@@ -46,6 +46,8 @@ class Covoit
      *
      * @Assert\Type("int")
      * @Assert\Positive
+     *
+     * Prix en centime (x100)
      */
     private $price;
 
@@ -113,12 +115,12 @@ class Covoit
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      * )
      */
-    private $users;
+    private $passengers;
 
     public function __construct()
     {
         $this->covoitMessages = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->passengers = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -291,23 +293,23 @@ class Covoit
     /**
      * @return Collection|User[]
      */
-    public function getUsers(): Collection
+    public function getPassengers(): Collection
     {
-        return $this->users;
+        return $this->passengers;
     }
 
-    public function addUser(User $user): self
+    public function addPassenger(User $user): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
+        if (!$this->passengers->contains($user)) {
+            $this->passengers[] = $user;
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removePassenger(User $user): self
     {
-        $this->users->removeElement($user);
+        $this->passengers->removeElement($user);
 
         return $this;
     }
@@ -317,6 +319,6 @@ class Covoit
      */
     public function isFull(): bool
     {
-        return $this->getUsers()->count() >= $this->getCapacity();
+        return $this->getPassengers()->count() >= $this->getCapacity();
     }
 }
