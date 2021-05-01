@@ -3,14 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Asso;
-use App\Entity\AssoGroup;
 use App\Entity\AssoKeyword;
-use App\Entity\AssoMember;
 use App\Entity\AssoMemberPermission;
-use App\Entity\AssoMemberRole;
 use App\Entity\AssoMessage;
 use App\Entity\Traduction;
-use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -119,60 +115,6 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         }
         $manager->flush();
 
-        //Liste de groupes à créer par associations
-        $toCreate = ['members', 'presidents', 'vice-presidents'];
-
-        foreach ($assos as $asso) {
-            foreach ($toCreate as $name) {
-                $assoGroup = new AssoGroup();
-
-                //Attribution du groupe a une asso
-                $assoGroup->setAsso($asso);
-
-                $assoGroup->setName($name);
-
-                //Création du slug (assoName_groupName)
-                $assoGroup->setSlug($asso->getName().'_'.$name);
-
-                $assoGroup->setIsVisible($faker->boolean(90));
-
-                $assoGroup->setCreatedAt($faker->dateTimeBetween('-3 years'));
-
-                //On persiste le groupe dans la base de données
-                $manager->persist($assoGroup);
-            }
-        }
-        $manager->flush();
-
-        //Récupération des utilisateurs et des groupes
-        $userRepository = $manager->getRepository(User::class);
-        $users = $userRepository->findAll();
-        $assoGroupRepository = $manager->getRepository(AssoGroup::class);
-        $assoGroups = $assoGroupRepository->findAll();
-
-        //On attribue un utilisateur à entre 0 et 3 groupes
-        foreach ($users as $user) {
-            $currentGroupAssos = [];
-            for ($i = 0; $i < $faker->numberBetween(0, 3); ++$i) {
-                $assoMember = new AssoMember();
-
-                $assoMember->setUser($user);
-
-                //Assignation du membre à un groupe (un membre ne peut pas faire partie de plusieurs groupes d'une même asso)
-                do {
-                    $group = $faker->randomElement($assoGroups);
-                } while (\in_array($group->getAsso(), $currentGroupAssos, true));
-                $currentGroupAssos[] = $group->getAsso();
-                $assoMember->setGroupName($group);
-
-                $assoMember->setCreatedAt($faker->dateTimeBetween('-3 years'));
-
-                //On persiste le membre dans la base de données
-                $manager->persist($assoMember);
-            }
-        }
-        $manager->flush();
-
         //Création de 100 permissions
         $permissions = [];
         for ($i = 0; $i < 100; ++$i) {
@@ -182,44 +124,6 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $permissions[] = $permission;
             //On persiste la permission dans la base de données
             $manager->persist($permission);
-        }
-        $manager->flush();
-
-        //Attribution de permissions à des membres
-
-        //Récupération des membres
-        $assoMemberRepository = $manager->getRepository(AssoMember::class);
-        $assoMembers = $assoMemberRepository->findAll();
-
-        foreach ($assoMembers as $assoMember) {
-            for ($i = 0; $i < $faker->numberBetween(0, 5); ++$i) {
-                $assoMember->addPermission($faker->randomElement($permissions));
-            }
-        }
-        $manager->flush();
-
-        //Création de 100 rôles
-        $roles = [];
-        for ($i = 0; $i < 100; ++$i) {
-            //Créations d'un rôle
-            $role = new AssoMemberRole(str_shuffle($faker->word.$faker->word));
-
-            $roles[] = $role;
-            //On persiste le rôle dans la base de données
-            $manager->persist($role);
-        }
-        $manager->flush();
-
-        //Attribution de rôles à des membres
-
-        //Récupération des membres
-        $assoMemberRepository = $manager->getRepository(AssoMember::class);
-        $assoMembers = $assoMemberRepository->findAll();
-
-        foreach ($assoMembers as $assoMember) {
-            for ($i = 0; $i < $faker->numberBetween(0, 5); ++$i) {
-                $assoMember->addRole($faker->randomElement($roles));
-            }
         }
         $manager->flush();
 

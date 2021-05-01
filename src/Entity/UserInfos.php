@@ -42,7 +42,7 @@ class UserInfos
      * @ORM\JoinTable(
      *     name="user_visibility_sex",
      *     joinColumns={@ORM\JoinColumn(name="user_infos_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
     private $sexVisibility;
@@ -57,7 +57,7 @@ class UserInfos
      * @ORM\JoinTable(
      *     name="user_visibility_nationality",
      *     joinColumns={@ORM\JoinColumn(name="user_infos_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
     private $nationalityVisibility;
@@ -72,7 +72,7 @@ class UserInfos
      * @ORM\JoinTable(
      *     name="user_visibility_birthday",
      *     joinColumns={@ORM\JoinColumn(name="user_infos_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
     private $birthdayVisibility;

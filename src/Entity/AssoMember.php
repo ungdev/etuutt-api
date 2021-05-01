@@ -34,7 +34,7 @@ class AssoMember
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AssoGroup::class, inversedBy="assoMembers")
+     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="assoMembers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $groupName;
@@ -89,12 +89,12 @@ class AssoMember
         return $this;
     }
 
-    public function getGroupName(): ?AssoGroup
+    public function getGroupName(): ?Group
     {
         return $this->groupName;
     }
 
-    public function setGroupName(?AssoGroup $groupName): self
+    public function setGroupName(?Group $groupName): self
     {
         $this->groupName = $groupName;
 

@@ -52,7 +52,7 @@ class UserPreference
      * @ORM\JoinTable(
      *     name="user_visibility_schedule",
      *     joinColumns={@ORM\JoinColumn(name="user_preferences_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
     private $scheduleVisibility;

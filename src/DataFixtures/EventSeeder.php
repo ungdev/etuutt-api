@@ -3,11 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Asso;
-use App\Entity\AssoGroup;
 use App\Entity\Event;
 use App\Entity\EventAnswer;
 use App\Entity\EventCategory;
 use App\Entity\EventPrivacy;
+use App\Entity\Group;
 use App\Entity\Traduction;
 use App\Entity\User;
 use DateTime;
@@ -23,6 +23,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
         return [
             AssoSeeder::class,
             UserSeeder::class,
+            GroupSeeder::class,
         ];
     }
 
@@ -88,7 +89,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
         $events = $eventRepository->findAll();
         $userRepository = $manager->getRepository(User::class);
         $users = $userRepository->findAll();
-        $assoGroupRepository = $manager->getRepository(AssoGroup::class);
+        $assoGroupRepository = $manager->getRepository(Group::class);
         $assoGroups = $assoGroupRepository->findAll();
 
         //Création des event_privacy

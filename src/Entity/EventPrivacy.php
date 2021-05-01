@@ -33,7 +33,7 @@ class EventPrivacy
     private $event;
 
     /**
-     * @ORM\ManyToMany(targetEntity=AssoGroup::class)
+     * @ORM\ManyToMany(targetEntity=Group::class)
      * @ORM\JoinTable(name="events_allowed_groups")
      */
     private $allowedGroups;
@@ -61,14 +61,14 @@ class EventPrivacy
     }
 
     /**
-     * @return AssoGroup[]|Collection
+     * @return Collection|Group[]
      */
     public function getAllowedGroups(): Collection
     {
         return $this->allowedGroups;
     }
 
-    public function addAllowedGroup(AssoGroup $allowedGroup): self
+    public function addAllowedGroup(Group $allowedGroup): self
     {
         if (!$this->allowedGroups->contains($allowedGroup)) {
             $this->allowedGroups[] = $allowedGroup;
@@ -77,7 +77,7 @@ class EventPrivacy
         return $this;
     }
 
-    public function removeAllowedGroup(AssoGroup $allowedGroup): self
+    public function removeAllowedGroup(Group $allowedGroup): self
     {
         $this->allowedGroups->removeElement($allowedGroup);
 
