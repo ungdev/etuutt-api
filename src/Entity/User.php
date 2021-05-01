@@ -131,6 +131,21 @@ class User
      */
     private $otherAttributs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $UEsSubscriptions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $UEStarVotes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=UECourse::class, mappedBy="students")
+     */
+    private $courses;
+
     public function __construct()
     {
         $this->bans = new ArrayCollection();
@@ -140,6 +155,9 @@ class User
         $this->groups = new ArrayCollection();
         $this->addresses = new ArrayCollection();
         $this->otherAttributs = new ArrayCollection();
+        $this->UEsSubscriptions = new ArrayCollection();
+        $this->UEStarVotes = new ArrayCollection();
+        $this->courses = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -530,6 +548,93 @@ class User
             if ($otherAttribut->getUser() === $this) {
                 $otherAttribut->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserUESubscription[]
+     */
+    public function getUEsSubscriptions(): Collection
+    {
+        return $this->UEsSubscriptions;
+    }
+
+    public function addUEsSubscription(UserUESubscription $userUESubscription): self
+    {
+        if (!$this->UEsSubscriptions->contains($userUESubscription)) {
+            $this->UEsSubscriptions[] = $userUESubscription;
+            $userUESubscription->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUEsSubscription(UserUESubscription $userUESubscription): self
+    {
+        if ($this->UEsSubscriptions->removeElement($userUESubscription)) {
+            // set the owning side to null (unless already changed)
+            if ($userUESubscription->getUser() === $this) {
+                $userUESubscription->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UEStarVote[]
+     */
+    public function getUEStarVotes(): Collection
+    {
+        return $this->UEStarVotes;
+    }
+
+    public function addUEStarVote(UEStarVote $uEStarVote): self
+    {
+        if (!$this->UEStarVotes->contains($uEStarVote)) {
+            $this->UEStarVotes[] = $uEStarVote;
+            $uEStarVote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUEStarVote(UEStarVote $uEStarVote): self
+    {
+        if ($this->UEStarVotes->removeElement($uEStarVote)) {
+            // set the owning side to null (unless already changed)
+            if ($uEStarVote->getUser() === $this) {
+                $uEStarVote->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UECourse[]
+     */
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function addCourse(UECourse $course): self
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses[] = $course;
+            $course->addStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourse(UECourse $course): self
+    {
+        if ($this->courses->removeElement($course)) {
+            $course->removeStudent($this);
         }
 
         return $this;
