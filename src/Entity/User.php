@@ -346,9 +346,8 @@ class User
         if (!$this->assoMembers->contains($assoMember)) {
             $this->assoMembers[] = $assoMember;
             $assoMember->setUser($this);
-    public function getBranche(): ?UserBranche
-    {
-        return $this->branche;
+        }
+        return $this;
     }
           
     public function removeAssoMember(AssoMember $assoMember): self
@@ -361,6 +360,11 @@ class User
         }
 
         return $this;
+    }
+
+    public function getBranche(): ?UserBranche
+    {
+        return $this->branche;
     }
 
     public function setBranche(UserBranche $branche): self
