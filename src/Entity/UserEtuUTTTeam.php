@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource
+ * 
  * @ORM\Entity(repositoryClass=UserEtuUTTTeamRepository::class)
  * @ORM\Table(name="user_etuutt_team")
  */

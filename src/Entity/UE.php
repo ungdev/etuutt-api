@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource
+ * 
  * @ORM\Entity(repositoryClass=UERepository::class)
  * @ORM\Table(name="ues")
  */
@@ -29,17 +30,34 @@ class UE
     private $id;
 
     /**
+     * The code of the UE (e.g. "MATH01").
+     * 
      * @ORM\Column(type="string", length=10)
+     * 
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max = 10)
+     * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
      */
     private $code;
 
     /**
+     * The title of the UE (e.g. "Analyse : suites et fonctions d’une variable réelle pour les TC01 ou les TC05 aguerris.").
+     * 
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max = 255)
      */
     private $name;
 
     /**
+     * The validation rate computed with data in our database.
+     * 
      * @ORM\Column(type="float", nullable=true)
+     * 
+     * @Assert\Type("float")
+     * @Assert\LessThanOrEqual(100)
+     * @Assert\GreaterThanOrEqual(0)
      */
     private $validationRate;
 
@@ -58,27 +76,37 @@ class UE
     private $updatedAt;
 
     /**
+     * The list of subscriptions to this UE by Users.
+     * 
      * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="UE", orphanRemoval=true)
      */
     private $usersSubscriptions;
 
     /**
+     * The potential UTTFiliere of which this UE belongs to. It is optional.
+     * 
      * @ORM\ManyToOne(targetEntity=UTTFiliere::class, inversedBy="UEs")
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
     private $filiere;
 
     /**
+     * The amount of UECredits of this UE. A UECredit object is a number of credit in a UECreditCategory.
+     * 
      * @ORM\OneToMany(targetEntity=UECredit::class, mappedBy="UE", orphanRemoval=true)
      */
     private $credits;
 
     /**
+     * All UEStarVote related to this UE.
+     * 
      * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="UE", orphanRemoval=true)
      */
     private $starVotes;
 
     /**
+     * The relation that allow to know that many UEs can be open during many Semesters.
+     * 
      * @ORM\ManyToMany(targetEntity=Semester::class)
      * @ORM\JoinTable(
      *     name="ue_open_semesters",
@@ -89,26 +117,36 @@ class UE
     private $openSemester;
 
     /**
+     * The relation to the entity that store the work time of this UE.
+     * 
      * @ORM\OneToOne(targetEntity=UEWorkTime::class, mappedBy="UE", cascade={"persist", "remove"})
      */
     private $workTime;
 
     /**
+     * The relation to the entity that store the info of this UE given by UTT.
+     * 
      * @ORM\OneToOne(targetEntity=UEInfo::class, mappedBy="UE", cascade={"persist", "remove"})
      */
     private $info;
 
     /**
+     * The relation to all UEAnnals related to this UE.
+     * 
      * @ORM\OneToMany(targetEntity=UEAnnal::class, mappedBy="UE", orphanRemoval=true)
      */
     private $annals;
 
     /**
+     * The relation to all UEComments related to this UE.
+     * 
      * @ORM\OneToMany(targetEntity=UEComment::class, mappedBy="UE", orphanRemoval=true)
      */
     private $comments;
 
     /**
+     * The relation to all UECourses of this UE.
+     * 
      * @ORM\OneToMany(targetEntity=UECourse::class, mappedBy="UE")
      */
     private $courses;
