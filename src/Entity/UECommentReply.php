@@ -28,7 +28,7 @@ class UECommentReply
 
     /**
      * The relation to the Comment this Reply is for.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=UEComment::class, inversedBy="answers")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -36,7 +36,7 @@ class UECommentReply
 
     /**
      * The relation to the User who has created this Reply.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -44,9 +44,9 @@ class UECommentReply
 
     /**
      * The content of this Reply.
-     * 
+     *
      * @ORM\Column(type="text")
-     * 
+     *
      * @Assert\Type("string")
      */
     private $body;

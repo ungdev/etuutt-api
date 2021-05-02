@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource
- * 
+ *
  * @ORM\Entity(repositoryClass=AssoMessageRepository::class)
  * @ORM\Table(name="asso_messages")
  */

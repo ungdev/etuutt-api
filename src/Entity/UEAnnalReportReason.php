@@ -14,10 +14,10 @@ class UEAnnalReportReason
 {
     /**
      * The name of the report reason (e.g. "Mauvaise UE").
-     * 
+     *
      * @ORM\Id
      * @ORM\Column(type="string", length=100)
-     * 
+     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      */
@@ -25,7 +25,7 @@ class UEAnnalReportReason
 
     /**
      * The Translation object that contains the translation of the description.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */

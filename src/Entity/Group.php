@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A Group of User for Asso, friends, Course...
  *
  * @ApiResource
- * 
+ *
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="groups")
  */

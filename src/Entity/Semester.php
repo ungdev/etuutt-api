@@ -10,9 +10,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The Semester entity. It uniforms the way we deal with semesters.
- * 
+ *
  * @ApiResource
- * 
+ *
  * @ORM\Entity(repositoryClass=SemesterRepository::class)
  * @ORM\Table(name="semesters")
  */
@@ -23,14 +23,14 @@ class Semester
      * @ORM\Column(type="string", length=10)
      *
      * @Assert\Type("string")
-     * @Assert\Length(max = 10)
+     * @Assert\Length(max=10)
      * @Assert\Regex("/^(A|P)\d{2}$/")
      */
     private $code;
 
     /**
      * The starting date of the Semester.
-     * 
+     *
      * @ORM\Column(type="date")
      *
      * @Assert\Date
@@ -39,7 +39,7 @@ class Semester
 
     /**
      * The ending date of the Semester.
-     * 
+     *
      * @ORM\Column(type="date")
      *
      * @Assert\Date

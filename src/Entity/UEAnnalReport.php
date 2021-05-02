@@ -28,7 +28,7 @@ class UEAnnalReport
 
     /**
      * The relation to the reported UEAnnal.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=UEAnnal::class, inversedBy="reports")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -36,7 +36,7 @@ class UEAnnalReport
 
     /**
      * The relation to the User reporting the UEAnnal.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -44,7 +44,7 @@ class UEAnnalReport
 
     /**
      * The relation to the reason of reporting.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=UEAnnalReportReason::class)
      * @ORM\JoinColumn(name="reason_name", referencedColumnName="name")
      */
@@ -52,9 +52,9 @@ class UEAnnalReport
 
     /**
      * The text typed by the reporter to describe the reason.
-     * 
+     *
      * @ORM\Column(type="text", nullable=true)
-     * 
+     *
      * @Assert\Type("string")
      */
     private $body;

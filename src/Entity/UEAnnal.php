@@ -52,7 +52,7 @@ class UEAnnal
 
     /**
      * A relation to the type of exam that this UEAnnal is.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=UEAnnalType::class)
      * @ORM\JoinColumn(name="type_name", referencedColumnName="name")
      */
@@ -60,7 +60,7 @@ class UEAnnal
 
     /**
      * The path to the file.
-     * 
+     *
      * @ORM\Column(type="string", length=255)
      *
      * @Assert\Type("string")
@@ -70,14 +70,14 @@ class UEAnnal
 
     /**
      * The relation to the User who has validated this UEAnnal.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $validatedBy;
 
     /**
      * The relation to the potentials Reports of this UEAnnal by Users.
-     * 
+     *
      * @ORM\OneToMany(targetEntity=UEAnnalReport::class, mappedBy="annal", orphanRemoval=true)
      */
     private $reports;
