@@ -2,17 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\UECommentAnswerRepository;
+use App\Repository\UECommentReplyRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=UECommentAnswerRepository::class)
- * @ORM\Table(name="ue_comment_answers")
+ * The entity of a reply to a Comment on a UE.
+ *
+ * @ORM\Entity(repositoryClass=UECommentReplyRepository::class)
+ * @ORM\Table(name="ue_comment_replies")
  */
-class UECommentAnswer
+class UECommentReply
 {
     /**
      * @ORM\Id
@@ -25,19 +27,27 @@ class UECommentAnswer
     private $id;
 
     /**
+     * The relation to the Comment this Reply is for.
+     * 
      * @ORM\ManyToOne(targetEntity=UEComment::class, inversedBy="answers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $comment;
 
     /**
+     * The relation to the User who has created this Reply.
+     * 
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
+     * The content of this Reply.
+     * 
      * @ORM\Column(type="text")
+     * 
+     * @Assert\Type("string")
      */
     private $body;
 

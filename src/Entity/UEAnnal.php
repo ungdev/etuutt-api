@@ -27,38 +27,60 @@ class UEAnnal
     private $id;
 
     /**
+     * The relation to the UE of this UEAnnal.
+     *
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="annals")
      * @ORM\JoinColumn(nullable=false)
      */
     private $UE;
 
     /**
+     * The relation to the User that sent this UEAnnal.
+     *
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $sender;
 
     /**
+     * The relation to the Semester during which the UEAnnal was an exam.
+     *
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
     private $semester;
 
     /**
+     * A relation to the type of exam that this UEAnnal is.
+     * 
      * @ORM\ManyToOne(targetEntity=UEAnnalType::class)
      * @ORM\JoinColumn(name="type_name", referencedColumnName="name")
      */
     private $type;
 
     /**
+     * The path to the file.
+     * 
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=255)
      */
     private $filename;
 
     /**
+     * The relation to the User who has validated this UEAnnal.
+     * 
      * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $validatedBy;
+
+    /**
+     * The relation to the potentials Reports of this UEAnnal by Users.
+     * 
+     * @ORM\OneToMany(targetEntity=UEAnnalReport::class, mappedBy="annal", orphanRemoval=true)
+     */
+    private $reports;
 
     /**
      * @ORM\Column(type="datetime")
@@ -73,11 +95,6 @@ class UEAnnal
      * @Assert\DateTime
      */
     private $deletedAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity=UEAnnalReport::class, mappedBy="annal", orphanRemoval=true)
-     */
-    private $reports;
 
     public function __construct()
     {
@@ -161,30 +178,6 @@ class UEAnnal
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?\DateTimeInterface
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
     /**
      * @return Collection|UEAnnalReport[]
      */
@@ -211,6 +204,30 @@ class UEAnnal
                 $report->setAnnal(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }

@@ -6,7 +6,7 @@ use App\Entity\Semester;
 use App\Entity\Translation;
 use App\Entity\UE;
 use App\Entity\UEComment;
-use App\Entity\UECommentAnswer;
+use App\Entity\UECommentReply;
 use App\Entity\UECommentReport;
 use App\Entity\UECommentReportReason;
 use App\Entity\UECommentUpvote;
@@ -65,7 +65,7 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
         //  Créations de 200 réponses aux commentaires
         $comments = $manager->getRepository(UEComment::class)->findAll();
         for ($i = 0; $i < 200; ++$i) {
-            $answer = new UECommentAnswer();
+            $answer = new UECommentReply();
             $answer->setComment($faker->randomElement($comments));
             $answer->setAuthor($faker->randomElement($users));
             $body = '';

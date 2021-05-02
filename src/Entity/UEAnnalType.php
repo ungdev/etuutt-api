@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UEAnnalTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UEAnnalTypeRepository::class)
@@ -12,8 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 class UEAnnalType
 {
     /**
+     * The type name (e.g. "Médian").
+     * 
      * @ORM\Id
      * @ORM\Column(type="string", length=50)
+     * 
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=50)
      */
     private $name;
 

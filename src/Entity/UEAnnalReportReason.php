@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UEAnnalReportReasonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UEAnnalReportReasonRepository::class)
@@ -12,12 +13,19 @@ use Doctrine\ORM\Mapping as ORM;
 class UEAnnalReportReason
 {
     /**
+     * The name of the report reason (e.g. "Mauvaise UE").
+     * 
      * @ORM\Id
      * @ORM\Column(type="string", length=100)
+     * 
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=100)
      */
     private $name;
 
     /**
+     * The Translation object that contains the translation of the description.
+     * 
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */

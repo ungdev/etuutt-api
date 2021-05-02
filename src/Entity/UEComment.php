@@ -11,6 +11,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity of a Comment on a UE. It allow Users to give feedback on a UE.
+ * 
  * @ORM\Entity(repositoryClass=UECommentRepository::class)
  * @ORM\Table(name="ue_comments")
  */
@@ -27,32 +29,60 @@ class UEComment
     private $id;
 
     /**
+     * The relation to the UE this Commment is for.
+     * 
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $UE;
 
     /**
+     * The relation to the User who has created this Comment.
+     * 
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
+     * The content of this Comment.
+     * 
      * @ORM\Column(type="text")
+     * 
+     * @Assert\Type("string")
      */
     private $body;
 
     /**
+     * A boolean that says if the author will be display next to his Comment.
+     * 
      * @ORM\Column(type="boolean")
+     * 
+     * @Assert\Type("bool")
      */
     private $isAnonymous;
 
     /**
+     * The relation to the semester in which this comment have been created.
+     * 
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
     private $semester;
+
+    /**
+     * The relation to all UECommentReply that are answering to this Comment.
+     * 
+     * @ORM\OneToMany(targetEntity=UECommentReply::class, mappedBy="comment")
+     */
+    private $answers;
+
+    /**
+     * The relation to all Reports of this Comment.
+     * 
+     * @ORM\OneToMany(targetEntity=UECommentReport::class, mappedBy="comment", orphanRemoval=true)
+     */
+    private $reports;
 
     /**
      * @ORM\Column(type="datetime")
@@ -74,16 +104,6 @@ class UEComment
      * @Assert\DateTime
      */
     private $deletedAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity=UECommentAnswer::class, mappedBy="comment")
-     */
-    private $answers;
-
-    /**
-     * @ORM\OneToMany(targetEntity=UECommentReport::class, mappedBy="comment", orphanRemoval=true)
-     */
-    private $reports;
 
     public function __construct()
     {
@@ -156,51 +176,15 @@ class UEComment
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?\DateTimeInterface
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|UECommentAnswer[]
+     * @return Collection|UECommentReply[]
      */
     public function getAnswers(): Collection
     {
         return $this->answers;
     }
 
-    public function addAnswer(UECommentAnswer $answer): self
+    public function addAnswer(UECommentReply $answer): self
     {
         if (!$this->answers->contains($answer)) {
             $this->answers[] = $answer;
@@ -210,7 +194,7 @@ class UEComment
         return $this;
     }
 
-    public function removeAnswer(UECommentAnswer $answer): self
+    public function removeAnswer(UECommentReply $answer): self
     {
         if ($this->answers->removeElement($answer)) {
             // set the owning side to null (unless already changed)
@@ -248,6 +232,42 @@ class UEComment
                 $report->setComment(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }

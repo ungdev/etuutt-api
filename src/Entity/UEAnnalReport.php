@@ -9,6 +9,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity that is created whan a User report a UEAnnal.
+ *
  * @ORM\Entity(repositoryClass=UEAnnalReportRepository::class)
  * @ORM\Table(name="ue_annal_report")
  */
@@ -25,25 +27,35 @@ class UEAnnalReport
     private $id;
 
     /**
+     * The relation to the reported UEAnnal.
+     * 
      * @ORM\ManyToOne(targetEntity=UEAnnal::class, inversedBy="reports")
      * @ORM\JoinColumn(nullable=false)
      */
     private $annal;
 
     /**
+     * The relation to the User reporting the UEAnnal.
+     * 
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * The relation to the reason of reporting.
+     * 
      * @ORM\ManyToOne(targetEntity=UEAnnalReportReason::class)
      * @ORM\JoinColumn(name="reason_name", referencedColumnName="name")
      */
     private $reason;
 
     /**
+     * The text typed by the reporter to describe the reason.
+     * 
      * @ORM\Column(type="text", nullable=true)
+     * 
+     * @Assert\Type("string")
      */
     private $body;
 
