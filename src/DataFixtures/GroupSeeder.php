@@ -7,7 +7,7 @@ use App\Entity\AssoMember;
 use App\Entity\AssoMemberPermission;
 use App\Entity\AssoMemberRole;
 use App\Entity\Group;
-use App\Entity\Traduction;
+use App\Entity\Translation;
 use App\Entity\User;
 use App\Util\Slug;
 use App\Util\Text;
@@ -48,17 +48,17 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
             $group->setIsVisible($faker->boolean(75));
 
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction('Group:'.$group->getName());
-            $group->setDescriptionTraduction($descriptionTraduction);
+            $descriptionTranslation = new Translation('Group:'.$group->getName());
+            $group->setDescriptionTranslation($descriptionTranslation);
 
             $description = Text::createRandomText(5, 9);
-            $descriptionTraduction->setFrench($description);
-            $descriptionTraduction->setEnglish($description);
-            $descriptionTraduction->setSpanish($description);
-            $descriptionTraduction->setGerman($description);
-            $descriptionTraduction->setChinese($description);
+            $descriptionTranslation->setFrench($description);
+            $descriptionTranslation->setEnglish($description);
+            $descriptionTranslation->setSpanish($description);
+            $descriptionTranslation->setGerman($description);
+            $descriptionTranslation->setChinese($description);
 
-            $manager->persist($descriptionTraduction);
+            $manager->persist($descriptionTranslation);
 
             //  Création des timesstamps
             $group->setCreatedAt($faker->dateTimeBetween('-5 years'));
@@ -110,17 +110,17 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
                 $group->setIsVisible($faker->boolean(90));
 
                 //  Création d'une traduction
-                $descriptionTraduction = new Traduction('Group:'.$group->getName());
-                $group->setDescriptionTraduction($descriptionTraduction);
+                $descriptionTranslation = new Translation('Group:'.$group->getName());
+                $group->setDescriptionTranslation($descriptionTranslation);
 
                 $description = Text::createRandomText(5, 9);
-                $descriptionTraduction->setFrench($description);
-                $descriptionTraduction->setEnglish($description);
-                $descriptionTraduction->setSpanish($description);
-                $descriptionTraduction->setGerman($description);
-                $descriptionTraduction->setChinese($description);
+                $descriptionTranslation->setFrench($description);
+                $descriptionTranslation->setEnglish($description);
+                $descriptionTranslation->setSpanish($description);
+                $descriptionTranslation->setGerman($description);
+                $descriptionTranslation->setChinese($description);
 
-                $manager->persist($descriptionTraduction);
+                $manager->persist($descriptionTranslation);
 
                 //  Création des timestamps
                 $group->setCreatedAt($faker->dateTimeBetween('-5 years'));

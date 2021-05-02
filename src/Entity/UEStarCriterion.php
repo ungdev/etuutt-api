@@ -30,10 +30,10 @@ class UEStarCriterion
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Traduction::class)
+     * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */
-    private $descriptionTraduction;
+    private $descriptionTranslation;
 
     public function getId(): ?Uuid
     {
@@ -52,14 +52,14 @@ class UEStarCriterion
         return $this;
     }
 
-    public function getDescriptionTraduction(): ?Traduction
+    public function getDescriptionTranslation(): ?Translation
     {
-        return $this->descriptionTraduction;
+        return $this->descriptionTranslation;
     }
 
-    public function setDescriptionTraduction(?Traduction $descriptionTraduction): self
+    public function setDescriptionTranslation(?Translation $descriptionTranslation): self
     {
-        $this->descriptionTraduction = $descriptionTraduction;
+        $this->descriptionTranslation = $descriptionTranslation;
 
         return $this;
     }

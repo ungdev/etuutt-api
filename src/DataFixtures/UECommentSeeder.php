@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Semester;
-use App\Entity\Traduction;
+use App\Entity\Translation;
 use App\Entity\UE;
 use App\Entity\UEComment;
 use App\Entity\UECommentAnswer;
@@ -115,8 +115,8 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $reportReason = new UECommentReportReason($faker->word.$faker->word);
 
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction('UECommentReportReason:'.$reportReason->getName());
-            $reportReason->setDescriptionTraduction($descriptionTraduction);
+            $descriptionTranslation = new Translation('UECommentReportReason:'.$reportReason->getName());
+            $reportReason->setDescriptionTranslation($descriptionTranslation);
 
             $description = '';
             for ($j = 0; $j < 5; ++$j) {
@@ -126,13 +126,13 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
                 }
                 $description .= '</p>';
             }
-            $descriptionTraduction->setFrench($description);
-            $descriptionTraduction->setEnglish($description);
-            $descriptionTraduction->setSpanish($description);
-            $descriptionTraduction->setGerman($description);
-            $descriptionTraduction->setChinese($description);
+            $descriptionTranslation->setFrench($description);
+            $descriptionTranslation->setEnglish($description);
+            $descriptionTranslation->setSpanish($description);
+            $descriptionTranslation->setGerman($description);
+            $descriptionTranslation->setChinese($description);
 
-            $manager->persist($descriptionTraduction);
+            $manager->persist($descriptionTranslation);
             $manager->persist($reportReason);
         }
         $manager->flush();

@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\TraductionRepository;
+use App\Repository\TranslationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=TraductionRepository::class)
- * @ORM\Table(name="traductions")
+ * @ORM\Entity(repositoryClass=TranslationRepository::class)
+ * @ORM\Table(name="translations")
  */
-class Traduction
+class Translation
 {
     /**
      * @ORM\Id

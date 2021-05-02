@@ -8,7 +8,7 @@ use App\Entity\EventAnswer;
 use App\Entity\EventCategory;
 use App\Entity\EventPrivacy;
 use App\Entity\Group;
-use App\Entity\Traduction;
+use App\Entity\Translation;
 use App\Entity\User;
 use App\Util\Text;
 use DateTime;
@@ -59,16 +59,16 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             }
 
             //Création d'une traduction
-            $descriptionTraduction = new Traduction('Event:'.$event->getTitle());
-            $event->setDescriptionTraduction($descriptionTraduction);
-            $manager->persist($descriptionTraduction);
+            $descriptionTranslation = new Translation('Event:'.$event->getTitle());
+            $event->setDescriptionTranslation($descriptionTranslation);
+            $manager->persist($descriptionTranslation);
 
             $description = Text::createRandomText(5, 9);
-            $descriptionTraduction->setFrench($description);
-            $descriptionTraduction->setEnglish($description);
-            $descriptionTraduction->setSpanish($description);
-            $descriptionTraduction->setGerman($description);
-            $descriptionTraduction->setChinese($description);
+            $descriptionTranslation->setFrench($description);
+            $descriptionTranslation->setEnglish($description);
+            $descriptionTranslation->setSpanish($description);
+            $descriptionTranslation->setGerman($description);
+            $descriptionTranslation->setChinese($description);
 
             //Création des timestamps
             $event->setCreatedAt($faker->dateTimeBetween('-3 years'));

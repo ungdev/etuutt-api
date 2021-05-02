@@ -6,7 +6,7 @@ use App\Entity\Asso;
 use App\Entity\AssoKeyword;
 use App\Entity\AssoMemberPermission;
 use App\Entity\AssoMessage;
-use App\Entity\Traduction;
+use App\Entity\Translation;
 use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -33,31 +33,31 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $asso = new Asso();
 
             $asso->setLogin(strtolower($faker->word.'_'.$faker->word.$faker->word));
-            $asso->setName($faker->word.' '.$faker->word);
+            $asso->setName($faker->word.' '.$faker->word.' '.$faker->word);
 
             //Création d'une traduction pour la petite description
-            $descriptionShortTraduction = new Traduction('Asso:'.$asso->getName().':ShortDesc');
-            $asso->setDescriptionShortTraduction($descriptionShortTraduction);
-            $manager->persist($descriptionShortTraduction);
+            $descriptionShortTranslation = new Translation('Asso:'.$asso->getName().':ShortDesc');
+            $asso->setDescriptionShortTranslation($descriptionShortTranslation);
+            $manager->persist($descriptionShortTranslation);
 
             $description = Text::createRandomText(1, 9);
-            $descriptionShortTraduction->setFrench($description);
-            $descriptionShortTraduction->setEnglish($description);
-            $descriptionShortTraduction->setSpanish($description);
-            $descriptionShortTraduction->setGerman($description);
-            $descriptionShortTraduction->setChinese($description);
+            $descriptionShortTranslation->setFrench($description);
+            $descriptionShortTranslation->setEnglish($description);
+            $descriptionShortTranslation->setSpanish($description);
+            $descriptionShortTranslation->setGerman($description);
+            $descriptionShortTranslation->setChinese($description);
 
             //Création d'une traduction pour la description
-            $descriptionTraduction = new Traduction('Asso:'.$asso->getName().':Desc');
-            $asso->setDescriptionTraduction($descriptionTraduction);
-            $manager->persist($descriptionTraduction);
+            $descriptionTranslation = new Translation('Asso:'.$asso->getName().':Desc');
+            $asso->setDescriptionTranslation($descriptionTranslation);
+            $manager->persist($descriptionTranslation);
 
             $description = Text::createRandomText(5, 9);
-            $descriptionTraduction->setFrench($description);
-            $descriptionTraduction->setEnglish($description);
-            $descriptionTraduction->setSpanish($description);
-            $descriptionTraduction->setGerman($description);
-            $descriptionTraduction->setChinese($description);
+            $descriptionTranslation->setFrench($description);
+            $descriptionTranslation->setEnglish($description);
+            $descriptionTranslation->setSpanish($description);
+            $descriptionTranslation->setGerman($description);
+            $descriptionTranslation->setChinese($description);
 
             //Création des autres champs
             $asso->setMail($faker->email);
@@ -93,16 +93,16 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $assoMessage->setTitle(str_shuffle($faker->word.$faker->word));
 
             //Création d'une traduction
-            $descriptionTraduction = new Traduction('AssoMessage:'.$assoMessage->getTitle());
-            $assoMessage->setBodyTraduction($descriptionTraduction);
-            $manager->persist($descriptionTraduction);
+            $descriptionTranslation = new Translation('AssoMessage:'.$assoMessage->getTitle());
+            $assoMessage->setBodyTranslation($descriptionTranslation);
+            $manager->persist($descriptionTranslation);
 
             $description = Text::createRandomText(5, 9);
-            $descriptionTraduction->setFrench($description);
-            $descriptionTraduction->setEnglish($description);
-            $descriptionTraduction->setSpanish($description);
-            $descriptionTraduction->setGerman($description);
-            $descriptionTraduction->setChinese($description);
+            $descriptionTranslation->setFrench($description);
+            $descriptionTranslation->setEnglish($description);
+            $descriptionTranslation->setSpanish($description);
+            $descriptionTranslation->setGerman($description);
+            $descriptionTranslation->setChinese($description);
 
             $assoMessage->setDate($faker->dateTimeThisYear);
 

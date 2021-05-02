@@ -42,16 +42,16 @@ class Asso
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Traduction::class)
+     * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_short_traduction_code", referencedColumnName="code")
      */
-    private $descriptionShortTraduction;
+    private $descriptionShortTranslation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Traduction::class)
+     * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */
-    private $descriptionTraduction;
+    private $descriptionTranslation;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -162,26 +162,26 @@ class Asso
         return $this;
     }
 
-    public function getDescriptionShortTraduction(): ?Traduction
+    public function getDescriptionShortTranslation(): ?Translation
     {
-        return $this->descriptionShortTraduction;
+        return $this->descriptionShortTranslation;
     }
 
-    public function setDescriptionShortTraduction(?Traduction $descriptionShortTraduction): self
+    public function setDescriptionShortTranslation(?Translation $descriptionShortTranslation): self
     {
-        $this->descriptionShortTraduction = $descriptionShortTraduction;
+        $this->descriptionShortTranslation = $descriptionShortTranslation;
 
         return $this;
     }
 
-    public function getDescriptionTraduction(): ?Traduction
+    public function getDescriptionTranslation(): ?Translation
     {
-        return $this->descriptionTraduction;
+        return $this->descriptionTranslation;
     }
 
-    public function setDescriptionTraduction(?Traduction $descriptionTraduction): self
+    public function setDescriptionTranslation(?Translation $descriptionTranslation): self
     {
-        $this->descriptionTraduction = $descriptionTraduction;
+        $this->descriptionTranslation = $descriptionTranslation;
 
         return $this;
     }

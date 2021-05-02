@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Semester;
-use App\Entity\Traduction;
+use App\Entity\Translation;
 use App\Entity\UE;
 use App\Entity\User;
 use App\Entity\UserBranche;
@@ -47,17 +47,17 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $branche->setName(implode(' ', $faker->words));
 
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction('UTTBranche:'.$branche->getCode());
-            $branche->setDescriptionTraduction($descriptionTraduction);
+            $descriptionTranslation = new Translation('UTTBranche:'.$branche->getCode());
+            $branche->setDescriptionTranslation($descriptionTranslation);
 
             $description = Text::createRandomText(5, 9);
-            $descriptionTraduction->setFrench($description);
-            $descriptionTraduction->setEnglish($description);
-            $descriptionTraduction->setSpanish($description);
-            $descriptionTraduction->setGerman($description);
-            $descriptionTraduction->setChinese($description);
+            $descriptionTranslation->setFrench($description);
+            $descriptionTranslation->setEnglish($description);
+            $descriptionTranslation->setSpanish($description);
+            $descriptionTranslation->setGerman($description);
+            $descriptionTranslation->setChinese($description);
 
-            $manager->persist($descriptionTraduction);
+            $manager->persist($descriptionTranslation);
 
             //  Création des autres informations pour les branches
             if (0 !== $i) {
@@ -90,17 +90,17 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
                     }
 
                     //  Création d'une traduction
-                    $descriptionTraduction = new Traduction('UTTFiliere:'.$filiere->getCode());
-                    $filiere->setDescriptionTraduction($descriptionTraduction);
+                    $descriptionTranslation = new Translation('UTTFiliere:'.$filiere->getCode());
+                    $filiere->setDescriptionTranslation($descriptionTranslation);
 
                     $description = Text::createRandomText(5, 9);
-                    $descriptionTraduction->setFrench($description);
-                    $descriptionTraduction->setEnglish($description);
-                    $descriptionTraduction->setSpanish($description);
-                    $descriptionTraduction->setGerman($description);
-                    $descriptionTraduction->setChinese($description);
+                    $descriptionTranslation->setFrench($description);
+                    $descriptionTranslation->setEnglish($description);
+                    $descriptionTranslation->setSpanish($description);
+                    $descriptionTranslation->setGerman($description);
+                    $descriptionTranslation->setChinese($description);
 
-                    $manager->persist($descriptionTraduction);
+                    $manager->persist($descriptionTranslation);
 
                     $manager->persist($filiere);
                 }
@@ -148,17 +148,17 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             };
 
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction('UTTFormation:'.$formation->getName());
-            $formation->setDescriptionTraduction($descriptionTraduction);
+            $descriptionTranslation = new Translation('UTTFormation:'.$formation->getName());
+            $formation->setDescriptionTranslation($descriptionTranslation);
 
             $description = Text::createRandomText(5, 9);
-            $descriptionTraduction->setFrench($description);
-            $descriptionTraduction->setEnglish($description);
-            $descriptionTraduction->setSpanish($description);
-            $descriptionTraduction->setGerman($description);
-            $descriptionTraduction->setChinese($description);
+            $descriptionTranslation->setFrench($description);
+            $descriptionTranslation->setEnglish($description);
+            $descriptionTranslation->setSpanish($description);
+            $descriptionTranslation->setGerman($description);
+            $descriptionTranslation->setChinese($description);
 
-            $manager->persist($descriptionTraduction);
+            $manager->persist($descriptionTranslation);
 
             $manager->persist($formation);
         }
@@ -173,17 +173,17 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             };
 
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction('FollowingMethod:'.$followingMethod->getName());
-            $followingMethod->setDescriptionTraduction($descriptionTraduction);
+            $descriptionTranslation = new Translation('FollowingMethod:'.$followingMethod->getName());
+            $followingMethod->setDescriptionTranslation($descriptionTranslation);
 
             $description = Text::createRandomText(5, 9);
-            $descriptionTraduction->setFrench($description);
-            $descriptionTraduction->setEnglish($description);
-            $descriptionTraduction->setSpanish($description);
-            $descriptionTraduction->setGerman($description);
-            $descriptionTraduction->setChinese($description);
+            $descriptionTranslation->setFrench($description);
+            $descriptionTranslation->setEnglish($description);
+            $descriptionTranslation->setSpanish($description);
+            $descriptionTranslation->setGerman($description);
+            $descriptionTranslation->setChinese($description);
 
-            $manager->persist($descriptionTraduction);
+            $manager->persist($descriptionTranslation);
 
             $manager->persist($followingMethod);
         }

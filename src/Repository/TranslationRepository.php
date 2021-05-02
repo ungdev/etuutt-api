@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Traduction;
+use App\Entity\Translation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|Traduction find($id, $lockMode = null, $lockVersion = null)
- * @method null|Traduction findOneBy(array $criteria, array $orderBy = null)
- * @method Traduction[]    findAll()
- * @method Traduction[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|Translation find($id, $lockMode = null, $lockVersion = null)
+ * @method null|Translation findOneBy(array $criteria, array $orderBy = null)
+ * @method Translation[]    findAll()
+ * @method Translation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TraductionRepository extends ServiceEntityRepository
+class TranslationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Traduction::class);
+        parent::__construct($registry, Translation::class);
     }
 
     // /**
-    //  * @return Traduction[] Returns an array of Traduction objects
+    //  * @return Translation[] Returns an array of Translation objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class TraductionRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Traduction
+    public function findOneBySomeField($value): ?Translation
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

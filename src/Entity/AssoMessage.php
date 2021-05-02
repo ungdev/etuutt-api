@@ -39,10 +39,10 @@ class AssoMessage
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Traduction::class)
+     * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="body_traduction_code", referencedColumnName="code", nullable=false)
      */
-    private $bodyTraduction;
+    private $bodyTranslation;
 
     /**
      * @ORM\Column(type="datetime")
@@ -97,14 +97,14 @@ class AssoMessage
         return $this;
     }
 
-    public function getBodyTraduction(): ?Traduction
+    public function getBodyTranslation(): ?Translation
     {
-        return $this->bodyTraduction;
+        return $this->bodyTranslation;
     }
 
-    public function setBodyTraduction(?Traduction $bodyTraduction): self
+    public function setBodyTranslation(?Translation $bodyTranslation): self
     {
-        $this->bodyTraduction = $bodyTraduction;
+        $this->bodyTranslation = $bodyTranslation;
 
         return $this;
     }

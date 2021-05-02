@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Semester;
-use App\Entity\Traduction;
+use App\Entity\Translation;
 use App\Entity\UE;
 use App\Entity\UECredit;
 use App\Entity\UECreditCategory;
@@ -138,8 +138,8 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             }
             $criterion->setName($name);
             //  Création d'une traduction
-            $descriptionTraduction = new Traduction('UE_Star_Criterion:'.$criterion->getName());
-            $criterion->setDescriptionTraduction($descriptionTraduction);
+            $descriptionTranslation = new Translation('UE_Star_Criterion:'.$criterion->getName());
+            $criterion->setDescriptionTranslation($descriptionTranslation);
 
             $description = '';
             for ($j = 0; $j < 5; ++$j) {
@@ -149,13 +149,13 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 }
                 $description .= '</p>';
             }
-            $descriptionTraduction->setFrench($description);
-            $descriptionTraduction->setEnglish($description);
-            $descriptionTraduction->setSpanish($description);
-            $descriptionTraduction->setGerman($description);
-            $descriptionTraduction->setChinese($description);
+            $descriptionTranslation->setFrench($description);
+            $descriptionTranslation->setEnglish($description);
+            $descriptionTranslation->setSpanish($description);
+            $descriptionTranslation->setGerman($description);
+            $descriptionTranslation->setChinese($description);
 
-            $manager->persist($descriptionTraduction);
+            $manager->persist($descriptionTranslation);
             $manager->persist($criterion);
         }
         $manager->flush();
