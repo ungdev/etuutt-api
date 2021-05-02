@@ -45,6 +45,8 @@ class UserFormation
 
     /**
      * @ORM\Column(type="datetime")
+     * 
+     * @Assert\DateTime
      */
     private $createdAt;
 

@@ -55,16 +55,22 @@ class UECourseExchange
 
     /**
      * @ORM\Column(type="datetime")
+     * 
+     * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * 
+     * @Assert\DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * 
+     * @Assert\DateTime
      */
     private $deletedAt;
 

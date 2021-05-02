@@ -62,11 +62,15 @@ class UEAnnal
 
     /**
      * @ORM\Column(type="datetime")
+     * 
+     * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * 
+     * @Assert\DateTime
      */
     private $deletedAt;
 
