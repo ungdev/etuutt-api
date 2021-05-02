@@ -31,6 +31,9 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Assert\Type("string")
+     * @Assert\Length(max = 255)
      */
     private $name;
 
@@ -48,12 +51,16 @@ class Group
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      *
-     * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
+     * @Assert\Type("string")
+     * @Assert\Length(max = 255)
+     * @Assert\Regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/")
      */
     private $slug;
 
     /**
      * @ORM\Column(type="boolean")
+     * 
+     * @Assert\Type("bool")
      */
     private $isVisible;
 
@@ -69,16 +76,22 @@ class Group
 
     /**
      * @ORM\Column(type="datetime")
+     * 
+     * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * 
+     * @Assert\DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * 
+     * @Assert\DateTime
      */
     private $deletedAt;
 

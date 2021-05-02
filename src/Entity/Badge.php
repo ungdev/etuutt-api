@@ -32,7 +32,8 @@ class Badge
      *
      * @ORM\Column(type="string", length=50, nullable=true)
      *
-     * @Assert\Regex("/^[A-Za-z:]{1,50}$/")
+     * @Assert\Type("string")
+     * @Assert\Length(max = 50)
      */
     private $serie;
 
@@ -49,7 +50,8 @@ class Badge
     /**
      * @ORM\Column(type="string", length=100)
      *
-     * @Assert\Regex("/^[a-zA-Z\d _-]{1,100}$/")
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max = 100)
      */
     private $name;
 
@@ -57,6 +59,9 @@ class Badge
      * The path to the picture of the badge.
      *
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max = 255)
      */
     private $picture;
 

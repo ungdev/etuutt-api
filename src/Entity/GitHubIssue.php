@@ -33,11 +33,16 @@ class GitHubIssue
 
     /**
      * @ORM\Column(type="integer")
+     * 
+     * @Assert\Type(type="integer")
+     * @Assert\Positive
      */
     private $gitHubIssueId;
 
     /**
      * @ORM\Column(type="datetime")
+     * 
+     * @Assert\DateTime
      */
     private $createdAt;
 
