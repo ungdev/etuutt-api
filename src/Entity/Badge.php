@@ -28,6 +28,8 @@ class Badge
     private $id;
 
     /**
+     * The Serie is a group of Badge with the same idea (e.g. Badges that deal with being an asso member).
+     *
      * @ORM\Column(type="string", length=50, nullable=true)
      *
      * @Assert\Regex("/^[A-Za-z:]{1,50}$/")
@@ -35,6 +37,8 @@ class Badge
     private $serie;
 
     /**
+     * The Level is serves to determine which badge of a serie is more advanced.
+     *
      * @ORM\Column(type="smallint", nullable=true)
      *
      * @Assert\Type("int")
@@ -50,11 +54,15 @@ class Badge
     private $name;
 
     /**
+     * The path to the picture of the badge.
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $picture;
 
     /**
+     * The Translation object that contains the translation of the description.
+     *
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */
@@ -75,6 +83,8 @@ class Badge
     private $deletedAt;
 
     /**
+     * The relation that allow to to add many badges to many users.
+     *
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="badges")
      * @ORM\JoinTable(
      *     name="users_badges",
