@@ -62,7 +62,7 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
 
         //  Création de 5 types d'annals
         for ($i = 0; $i < 5; ++$i) {
-            $type = new UEAnnalType($faker->word.$faker->word);
+            $type = new UEAnnalType($faker->word.$faker->word.$faker->word);
             $manager->persist($type);
         }
         $manager->flush();

@@ -9,6 +9,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * This entity is a vote of a User to a Comment to bring it to the fore.
+ *
  * @ORM\Entity(repositoryClass=UECommentUpvoteRepository::class)
  * @ORM\Table(
  *     name="ue_comment_upvotes",
@@ -16,8 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         @ORM\UniqueConstraint(name="assignment_unique", columns={"comment_id", "user_id"})
  *     }
  * )
- * Explication uniqueConstraints :
- * Le vote d'un user pour un commentaire est unique.
+ * Explanation uniqueConstraints :
+ * A User's vote for a Comment is unique.
  */
 class UECommentUpvote
 {
@@ -32,12 +34,16 @@ class UECommentUpvote
     private $id;
 
     /**
+     * The relation to the Comment that this Upvote is for.
+     *
      * @ORM\ManyToOne(targetEntity=UEComment::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $comment;
 
     /**
+     * The relation to the User that this Upvote is from.
+     *
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */

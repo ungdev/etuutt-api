@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity of a reason for reporting a UEAnnal.
+ *
  * @ORM\Entity(repositoryClass=UEAnnalReportReasonRepository::class)
  * @ORM\Table(name="ue_annal_report_reasons")
  */
