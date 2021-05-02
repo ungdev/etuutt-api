@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A Group of User for Asso, friends, Course...
- * 
+ *
  * @ApiResource
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="groups")
@@ -33,15 +33,15 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=255)
-     * 
+     *
      * @Assert\Type("string")
-     * @Assert\Length(max = 255)
+     * @Assert\Length(max=255)
      */
     private $name;
 
     /**
      * The Translation object that contains the translation of the description.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */
@@ -49,7 +49,7 @@ class Group
 
     /**
      * If the group is related to an Asso, this field own the relation.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="groups")
      */
     private $asso;
@@ -58,21 +58,21 @@ class Group
      * @ORM\Column(type="string", length=255, unique=true)
      *
      * @Assert\Type("string")
-     * @Assert\Length(max = 255)
+     * @Assert\Length(max=255)
      * @Assert\Regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/")
      */
     private $slug;
 
     /**
      * @ORM\Column(type="boolean")
-     * 
+     *
      * @Assert\Type("bool")
      */
     private $isVisible;
 
     /**
      * The relation that allow to add many Users into many Groups.
-     * 
+     *
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="groups")
      * @ORM\JoinTable(
      *     name="users_groups",
@@ -84,21 +84,21 @@ class Group
 
     /**
      * @ORM\Column(type="datetime")
-     * 
+     *
      * @Assert\DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
-     * 
+     *
      * @Assert\DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * 
+     *
      * @Assert\DateTime
      */
     private $deletedAt;

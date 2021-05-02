@@ -31,12 +31,12 @@ class CovoitAlert
     private $user;
 
     /**
+     * Price in cents (x100).
+     *
      * @ORM\Column(type="integer")
      *
      * @Assert\Type("int")
      * @Assert\Positive
-     *
-     * Prix en centime (x100)
      */
     private $priceMax;
 
