@@ -34,7 +34,7 @@ class GitHubIssue
     /**
      * @ORM\Column(type="integer")
      */
-    private $githubId;
+    private $gitHubIssueId;
 
     /**
      * @ORM\Column(type="datetime")
@@ -58,14 +58,14 @@ class GitHubIssue
         return $this;
     }
 
-    public function getGithubId(): ?int
+    public function getGitHubIssueId(): ?int
     {
-        return $this->githubId;
+        return $this->gitHubIssueId;
     }
 
-    public function setGithubId(int $githubId): self
+    public function setGitHubIssueId(int $gitHubIssueId): self
     {
-        $this->githubId = $githubId;
+        $this->gitHubIssueId = $gitHubIssueId;
 
         return $this;
     }
