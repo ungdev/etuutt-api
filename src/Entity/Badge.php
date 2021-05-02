@@ -88,7 +88,7 @@ class Badge
     private $deletedAt;
 
     /**
-     * The relation that allow to to add many badges to many users.
+     * The relation that allow to add many Badges to many Users.
      *
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="badges")
      * @ORM\JoinTable(

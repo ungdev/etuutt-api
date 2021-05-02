@@ -13,6 +13,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * A Group of User for Asso, friends, Course...
+ * 
  * @ApiResource
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="groups")
@@ -38,12 +40,16 @@ class Group
     private $name;
 
     /**
+     * The Translation object that contains the translation of the description.
+     * 
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */
     private $descriptionTranslation;
 
     /**
+     * If the group is related to an Asso, this field own the relation.
+     * 
      * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="groups")
      */
     private $asso;
@@ -65,6 +71,8 @@ class Group
     private $isVisible;
 
     /**
+     * The relation that allow to add many Users into many Groups.
+     * 
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="groups")
      * @ORM\JoinTable(
      *     name="users_groups",
