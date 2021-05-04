@@ -35,18 +35,17 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
         foreach ($users as $user) {
             //  On ajoute une entité UserPreference
             $preference = new UserPreference();
-            $preference->setUser($user);
+            $user->setPreference($preference);
             $preference->setBirthdayDisplayOnlyAge($faker->boolean());
             $preference->setLanguage($faker->languageCode);
             $preference->setWantDaymail($faker->boolean());
             $preference->setBirthdayDisplayOnlyAge($faker->boolean());
             //  Ajout de visibilité pour l'emploi du temps
             $this->setFieldVisibility($preference, 'addScheduleVisibility', $faker, $groupRepo);
-            $manager->persist($preference);
 
             //  On ajoute une entité UserInfos
             $infos = new UserInfos();
-            $infos->setUser($user);
+            $user->setInfos($infos);
             $infos->setSex($faker->randomElement(['Masculin', 'Féminin', 'Autre']));
             $this->setFieldVisibility($infos, 'addSexVisibility', $faker, $groupRepo);
             $infos->setNationality($faker->countryCode);
@@ -59,28 +58,25 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
                 $infos->setPassions($faker->word.' '.$faker->word.' '.$faker->word);
                 $infos->setWebsite($faker->imageUrl());
             }
-            $manager->persist($infos);
 
             //  On ajoute de 0 à 2 addresses pour l'utilisateur
             for ($i = 0; $i < $faker->numberBetween(0, 2); ++$i) {
                 $address = new UserAddress();
-                $address->setUser($user);
+                $user->addAddress($address);
                 $address->setPostalCode($faker->postcode);
                 $address->setCity($faker->city);
                 $address->setCountry($faker->country);
                 $this->setFieldVisibility($address, 'addAddressVisibility', $faker, $groupRepo);
-                $manager->persist($address);
             }
 
             //  On ajoute une entité UserMailsPhones
             $mailPhone = new UserMailsPhones();
-            $mailPhone->setUser($user);
+            $user->setMailsPhones($mailPhone);
             $mailPhone->setMailPersonnal($faker->email);
             $mailPhone->setMailUTT($faker->email);
             $mailPhone->setPhoneNumber($faker->phoneNumber);
             $this->setFieldVisibility($mailPhone, 'addMailPersonnalVisibility', $faker, $groupRepo);
             $this->setFieldVisibility($mailPhone, 'addPhoneNumberVisibility', $faker, $groupRepo);
-            $manager->persist($mailPhone);
         }
 
         $manager->flush();

@@ -20,10 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User
 {
     /**
-     * @ORM\OneToMany(targetEntity=UserBan::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    protected $bans;
-    /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
@@ -73,12 +69,17 @@ class User
     private $socialNetwork;
 
     /**
+     * @ORM\OneToMany(targetEntity=UserBan::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $bans;
+
+    /**
      * @ORM\OneToOne(targetEntity=UserRGPD::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $RGPD;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserBDEContribution::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=UserBDEContribution::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $BDEContributions;
 
@@ -133,7 +134,7 @@ class User
     private $infos;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $addresses;
 
@@ -266,6 +267,14 @@ class User
         return $this;
     }
 
+    /**
+     * @return Collection|UserBan[]
+     */
+    public function getBans(): Collection
+    {
+        return $this->bans;
+    }
+
     public function addBan(UserBan $ban): self
     {
         if (!$this->bans->contains($ban)) {
@@ -286,14 +295,6 @@ class User
         }
 
         return $this;
-    }
-
-    /**
-     * @return Collection|UserBan[]
-     */
-    public function getBans(): Collection
-    {
-        return $this->bans;
     }
 
     public function getRGPD(): ?UserRGPD

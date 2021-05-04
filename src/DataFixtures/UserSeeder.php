@@ -44,7 +44,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
 
             //  Création d'un timestamps pour chaque User
             $timestamps = new UserTimestamps();
-            $timestamps->setUser($user);
+            $user->setTimestamps($timestamps);
             $createdAt = $faker->dateTimeBetween('-3 years');
             $timestamps->setCreatedAt($createdAt);
             $days = (new DateTime())->diff($timestamps->getCreatedAt())->days;
@@ -58,11 +58,10 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
                 $days = (new DateTime())->diff($timestamps->getLastLoginDate())->days;
                 $timestamps->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
-            $manager->persist($timestamps);
 
             //  Création d'un socialNetwork pour chaque User
             $socialNetwork = new UserSocialNetwork();
-            $socialNetwork->setUser($user);
+            $user->setSocialNetwork($socialNetwork);
             if ($faker->boolean(75)) {
                 $socialNetwork->setFacebook($faker->imageUrl());
             }
@@ -79,24 +78,22 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
                 $socialNetwork->setPseudoDiscord($faker->word);
             }
             $socialNetwork->setWantDiscordUTT($faker->boolean(75));
-            $manager->persist($socialNetwork);
 
             //  Création d'un RGPD pour chaque User
             $RGPD = new UserRGPD();
-            $RGPD->setUser($user);
+            $user->setRGPD($RGPD);
             if ($faker->boolean(75)) {
                 $RGPD->setIsDeletingEverything($faker->boolean());
             }
             if ($faker->boolean(75)) {
                 $RGPD->setIsKeepingAccount($faker->boolean());
             }
-            $manager->persist($RGPD);
 
             //  Ban aléatoire d'un User (Avec une chance de 1%)
             if ($faker->boolean(1)) {
                 //  Création d'un objet UserBan
                 $userBan = new UserBan();
-                $userBan->setUser($user);
+                $user->addBan($userBan);
 
                 //  Random durée ban
                 $days = (new DateTime())->diff($timestamps->getLastLoginDate())->days;
@@ -107,14 +104,12 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
                 } else {
                     $userBan->setBannedExpiration($faker->dateTimeBetween('-'.$days.' days', '+30 days'));
                 }
-                //  On persiste le ban
-                $manager->persist($userBan);
             }
 
             //  Création d'une cotisation BDE pour quelques User
             if ($faker->boolean(75)) {
                 $BDEContribution = new UserBDEContribution();
-                $BDEContribution->setUser($user);
+                $user->addBDEContribution($BDEContribution);
 
                 $BDEContribution->setStart($faker->dateTimeBetween($createdAt));
 
@@ -124,8 +119,6 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
 
                 $BDEContribution->setStartSemester($contributionSemester);
                 $BDEContribution->setEndSemester($contributionSemester);
-
-                $manager->persist($BDEContribution);
             }
 
             //  On ajoute un User à la team EtuUTT
