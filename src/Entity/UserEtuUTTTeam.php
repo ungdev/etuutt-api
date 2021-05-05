@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserEtuUTTTeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +11,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource
+ * The entity that stores which User has been member of this project, what he or she has done, and when.
  *
  * @ORM\Entity(repositoryClass=UserEtuUTTTeamRepository::class)
  * @ORM\Table(name="user_etuutt_team")
@@ -30,12 +29,16 @@ class UserEtuUTTTeam
     private $id;
 
     /**
+     * The relation to the User.
+     *
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * The relation to the Semesters during which the User has worked on this project.
+     *
      * @ORM\ManyToMany(targetEntity=Semester::class)
      * @ORM\JoinTable(
      *     name="user_etuutt_team_semesters",
@@ -46,7 +49,11 @@ class UserEtuUTTTeam
     private $semester;
 
     /**
+     * The description of what the User has done.
+     *
      * @ORM\Column(type="text", nullable=true)
+     *
+     * @Assert\Type("string")
      */
     private $role;
 

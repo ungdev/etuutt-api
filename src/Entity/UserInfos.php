@@ -12,6 +12,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity related to User that stores its Infos.
+ *
  * @ORM\Entity(repositoryClass=UserInfosRepository::class)
  * @ORM\Table(name="user_infos")
  */
@@ -28,6 +30,8 @@ class UserInfos
     private $id;
 
     /**
+     * The relation to the User which have those Infos.
+     *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="infos", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -35,10 +39,16 @@ class UserInfos
 
     /**
      * @ORM\Column(type="string", length=50)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(max=50)
+     * @Assert\Choice({"Masculin", "Féminin", "Autre"})
      */
     private $sex;
 
     /**
+     * Relations to all groups that can access to this data.
+     *
      * @ORM\ManyToMany(targetEntity=Group::class)
      * @ORM\JoinTable(
      *     name="user_visibility_sex",
@@ -50,10 +60,15 @@ class UserInfos
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(max=50)
      */
     private $nationality;
 
     /**
+     * Relations to all groups that can access to this data.
+     *
      * @ORM\ManyToMany(targetEntity=Group::class)
      * @ORM\JoinTable(
      *     name="user_visibility_nationality",
@@ -65,10 +80,14 @@ class UserInfos
 
     /**
      * @ORM\Column(type="date")
+     *
+     * @Assert\Date
      */
     private $birthday;
 
     /**
+     * Relations to all groups that can access to this data.
+     *
      * @ORM\ManyToMany(targetEntity=Group::class)
      * @ORM\JoinTable(
      *     name="user_visibility_birthday",
@@ -79,22 +98,40 @@ class UserInfos
     private $birthdayVisibility;
 
     /**
+     * The path to the avatar of the User.
+     *
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=255)
      */
     private $avatar;
 
     /**
+     * The User's nickname.
+     *
      * @ORM\Column(type="string", length=50, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(max=50)
      */
     private $nickname;
 
     /**
+     * A text given by the User to explicite his or her passions.
+     *
      * @ORM\Column(type="text", nullable=true)
+     *
+     * @Assert\Type("string")
      */
     private $passions;
 
     /**
+     * The website of the User.
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Assert\Url
      */
     private $website;
 

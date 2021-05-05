@@ -47,6 +47,8 @@ class UserMailsPhones
     private $mailPersonnal;
 
     /**
+     * Relations to all groups that can access to this data.
+     *
      * @ORM\ManyToMany(targetEntity=Group::class)
      * @ORM\JoinTable(
      *     name="user_visibility_mail_perso",

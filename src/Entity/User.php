@@ -12,6 +12,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The main entity that represents all Users. It is related to UEs, Covoits, Assos and others.
+ *
  * @ApiResource
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -30,13 +32,19 @@ class User
     private $id;
 
     /**
+     * The CAS login of the User.
+     *
      * @ORM\Column(type="string", length=50, unique=true)
      *
+     * @Assert\Type("string")
+     * @Assert\Length(max=50)
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
     private $login;
 
     /**
+     * For the User that are students, this is the UTT student number.
+     *
      * @ORM\Column(type="integer", nullable=true, unique=true)
      *
      * @Assert\Type("int")
@@ -47,6 +55,8 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      *
+     * @Assert\Type("string")
+     * @Assert\Length(max=255)
      * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
      */
     private $firstName;
@@ -54,51 +64,71 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      *
+     * @Assert\Type("string")
+     * @Assert\Length(max=255)
      * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
      */
     private $lastName;
 
     /**
+     * The relation to the entity that contains the User's Timestamps.
+     *
      * @ORM\OneToOne(targetEntity=UserTimestamps::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $timestamps;
 
     /**
+     * The relation to the entity that contains the User's SocialNetwork.
+     *
      * @ORM\OneToOne(targetEntity=UserSocialNetwork::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $socialNetwork;
 
     /**
+     * The possibles relations to the entities that contains the User's Bans.
+     *
      * @ORM\OneToMany(targetEntity=UserBan::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $bans;
 
     /**
+     * The relation to the entity that contains the User's RGPD.
+     *
      * @ORM\OneToOne(targetEntity=UserRGPD::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $RGPD;
 
     /**
+     * The possibles relations to the entities that contains the User's BDEContributions.
+     *
      * @ORM\OneToMany(targetEntity=UserBDEContribution::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $BDEContributions;
 
     /**
+     * The relation to the badges that this User owns.
+     *
      * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="users")
      */
     private $badges;
 
     /**
+     * The relation to all Covoits created by this User.
+     *
      * @ORM\OneToMany(targetEntity=Covoit::class, mappedBy="author", orphanRemoval=true)
      */
     private $createdCovoits;
 
     /**
+     * The relation to all Covoits in which the User is subscribed.
+     *
      * @ORM\ManyToMany(targetEntity=Covoit::class, mappedBy="passengers")
      */
     private $passengerCovoits;
 
     /**
+     * The relation to all alerts made by the User.
+     *
      * @ORM\OneToMany(targetEntity=CovoitAlert::class, mappedBy="user", orphanRemoval=true)
      */
     private $covoitAlerts;
@@ -109,56 +139,78 @@ class User
     private $assoMembers;
 
     /**
+     * The relation to the Branche of the User.
+     *
      * @ORM\OneToOne(targetEntity=UserBranche::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $branche;
 
     /**
+     * The relation to the Formation of the User.
+     *
      * @ORM\OneToOne(targetEntity=UserFormation::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $formation;
 
     /**
+     * The relation to all group in which there is this User.
+     *
      * @ORM\ManyToMany(targetEntity=Group::class, mappedBy="members")
      */
     private $groups;
 
     /**
+     * The relation to the Preference of the User.
+     *
      * @ORM\OneToOne(targetEntity=UserPreference::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $preference;
 
     /**
+     * The relation to the Infos of the User.
+     *
      * @ORM\OneToOne(targetEntity=UserInfos::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $infos;
 
     /**
+     * The relation to the Addresses of the User.
+     *
      * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $addresses;
 
     /**
+     * The relation to the Mail and phone nulber of the User.
+     *
      * @ORM\OneToOne(targetEntity=UserMailsPhones::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $mailsPhones;
 
     /**
+     * The relation to OtherAttributs made by the User.
+     *
      * @ORM\OneToMany(targetEntity=UserOtherAttributValue::class, mappedBy="user", orphanRemoval=true)
      */
     private $otherAttributs;
 
     /**
+     * The relation to all UEsSubscriptions of the User.
+     *
      * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="user", orphanRemoval=true)
      */
     private $UEsSubscriptions;
 
     /**
+     * The relation to all UEVotes made by this User.
+     *
      * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="user", orphanRemoval=true)
      */
     private $UEStarVotes;
 
     /**
+     * The relation to all courses of this User.
+     *
      * @ORM\ManyToMany(targetEntity=UECourse::class, mappedBy="students")
      */
     private $courses;
@@ -619,7 +671,7 @@ class User
     {
         if (!$this->passengerCovoits->contains($passengerCovoit)) {
             $this->passengerCovoits[] = $passengerCovoit;
-            $passengerCovoit->addUser($this);
+            $passengerCovoit->addPassenger($this);
         }
 
         return $this;
