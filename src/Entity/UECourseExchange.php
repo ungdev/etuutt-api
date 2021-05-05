@@ -11,6 +11,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * This entity represents a proposition of the author to exchange one of his courses.
+ *
  * @ORM\Entity(repositoryClass=UECourseExchangeRepository::class)
  * @ORM\Table(name="ue_course_exchanges")
  */
@@ -27,31 +29,50 @@ class UECourseExchange
     private $id;
 
     /**
+     * The relation to the author of this Exchange.
+     *
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
+     * The relation to the course the author wants to change.
+     *
      * @ORM\ManyToOne(targetEntity=UECourse::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $courseFrom;
 
     /**
+     * The relation to the course the author may want in exchange.
+     *
      * @ORM\ManyToOne(targetEntity=UECourse::class)
      */
     private $courseTo;
 
     /**
+     * A boolean to know if this Exchange is still wanted by the author.
+     *
      * @ORM\Column(type="boolean")
+     *
+     * @Assert\Type("bool")
      */
     private $stillAvailable;
 
     /**
+     * The content of the message that goes with the Exchange proposition.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     private $body;
+
+    /**
+     * The relation to the comments that reply to this exchange proposition.
+     *
+     * @ORM\OneToMany(targetEntity=UECourseExchangeReply::class, mappedBy="exchange", orphanRemoval=true)
+     */
+    private $responses;
 
     /**
      * @ORM\Column(type="datetime")
@@ -73,11 +94,6 @@ class UECourseExchange
      * @Assert\DateTime
      */
     private $deletedAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity=UECourseExchangeResponse::class, mappedBy="exchange", orphanRemoval=true)
-     */
-    private $responses;
 
     public function __construct()
     {
@@ -149,6 +165,36 @@ class UECourseExchange
         return $this;
     }
 
+    /**
+     * @return Collection|UECourseExchangeReply[]
+     */
+    public function getResponses(): Collection
+    {
+        return $this->responses;
+    }
+
+    public function addResponse(UECourseExchangeReply $response): self
+    {
+        if (!$this->responses->contains($response)) {
+            $this->responses[] = $response;
+            $response->setExchange($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponse(UECourseExchangeReply $response): self
+    {
+        if ($this->responses->removeElement($response)) {
+            // set the owning side to null (unless already changed)
+            if ($response->getExchange() === $this) {
+                $response->setExchange(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -181,36 +227,6 @@ class UECourseExchange
     public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|UECourseExchangeResponse[]
-     */
-    public function getResponses(): Collection
-    {
-        return $this->responses;
-    }
-
-    public function addResponse(UECourseExchangeResponse $response): self
-    {
-        if (!$this->responses->contains($response)) {
-            $this->responses[] = $response;
-            $response->setExchange($this);
-        }
-
-        return $this;
-    }
-
-    public function removeResponse(UECourseExchangeResponse $response): self
-    {
-        if ($this->responses->removeElement($response)) {
-            // set the owning side to null (unless already changed)
-            if ($response->getExchange() === $this) {
-                $response->setExchange(null);
-            }
-        }
 
         return $this;
     }

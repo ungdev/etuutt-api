@@ -2,17 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\UECourseExchangeResponseRepository;
+use App\Repository\UECourseExchangeReplyRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=UECourseExchangeResponseRepository::class)
- * @ORM\Table(name="ue_course_exchange_responses")
+ * This entity represents a comment replying to a UECourseExchange.
+ *
+ * @ORM\Entity(repositoryClass=UECourseExchangeReplyRepository::class)
+ * @ORM\Table(name="ue_course_exchange_replies")
  */
-class UECourseExchangeResponse
+class UECourseExchangeReply
 {
     /**
      * @ORM\Id
@@ -25,18 +27,24 @@ class UECourseExchangeResponse
     private $id;
 
     /**
+     * The relation to the author of this reply.
+     *
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
+     * The relation to the exchange this message is replying to.
+     *
      * @ORM\ManyToOne(targetEntity=UECourseExchange::class, inversedBy="responses")
      * @ORM\JoinColumn(nullable=false)
      */
     private $exchange;
 
     /**
+     * The content of the reply message.
+     *
      * @ORM\Column(type="text")
      */
     private $body;

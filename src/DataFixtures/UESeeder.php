@@ -75,7 +75,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $workTime->setTp($faker->numberBetween(0, 90));
                 $workTime->setProjet($faker->numberBetween(0, 90));
             } else {
-                $workTime->setStage($faker->numberBetween(0, 28));
+                $workTime->setInternship($faker->numberBetween(0, 28));
             }
             $manager->persist($workTime);
 

@@ -54,11 +54,15 @@ class AssoMessage
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Assert\Type("bool")
      */
     private $sendToMobile;
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Assert\Type("bool")
      */
     private $sendAsDaymail;
 

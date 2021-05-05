@@ -34,6 +34,8 @@ class UserPreference
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Assert\Type("bool")
      */
     private $birthdayDisplayOnlyAge;
 
@@ -44,6 +46,8 @@ class UserPreference
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Assert\Type("bool")
      */
     private $wantDaymail;
 

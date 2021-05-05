@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\UECourse;
 use App\Entity\UECourseExchange;
-use App\Entity\UECourseExchangeResponse;
+use App\Entity\UECourseExchangeReply;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -59,7 +59,7 @@ class UECourseExchangeSeeder extends Fixture implements DependentFixtureInterfac
         //  Création de 200 demandes réponses
         $exchanges = $manager->getRepository(UECourseExchange::class)->findAll();
         for ($i = 0; $i < 200; ++$i) {
-            $response = new UECourseExchangeResponse();
+            $response = new UECourseExchangeReply();
             $response->setAuthor($faker->randomElement($users));
             $response->setExchange($faker->randomElement($exchanges));
             $body = '';

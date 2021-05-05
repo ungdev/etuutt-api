@@ -9,6 +9,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The criterions to rate a UE.
+ *
  * @ORM\Entity(repositoryClass=UEStarCriterionRepository::class)
  * @ORM\Table(name="ue_stars_criterions")
  */
@@ -25,11 +27,18 @@ class UEStarCriterion
     private $id;
 
     /**
+     * The name of the criterion.
+     *
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=255)
      */
     private $name;
 
     /**
+     * The Translation object that contains the translation of the description.
+     *
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */

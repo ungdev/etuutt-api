@@ -9,8 +9,10 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity that stores the worktime of a UE.
+ *
  * @ORM\Entity(repositoryClass=UEWorkTimeRepository::class)
- * @ORM\Table(name="ue_work_time")
+ * @ORM\Table(name="ue_work_times")
  */
 class UEWorkTime
 {
@@ -25,40 +27,72 @@ class UEWorkTime
     private $id;
 
     /**
+     * The UE related to this Worktime.
+     *
      * @ORM\OneToOne(targetEntity=UE::class, inversedBy="workTime", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $UE;
 
     /**
+     * The number of hours during the semester of CM (Cours Magistral).
+     *
      * @ORM\Column(type="integer", nullable=true)
+     *
+     * @Assert\Type("int")
+     * @Assert\PositiveOrZero
      */
     private $cm;
 
     /**
+     * The number of hours during the semester of TD (Travaux Dirigés).
+     *
      * @ORM\Column(type="integer", nullable=true)
+     *
+     * @Assert\Type("int")
+     * @Assert\PositiveOrZero
      */
     private $td;
 
     /**
+     * The number of hours during the semester of TP (Travaux Pratiques).
+     *
      * @ORM\Column(type="integer", nullable=true)
+     *
+     * @Assert\Type("int")
+     * @Assert\PositiveOrZero
      */
     private $tp;
 
     /**
+     * The estimated number of hours during the semester of THE (Travail Hors Encadrement).
+     *
      * @ORM\Column(type="integer", nullable=true)
+     *
+     * @Assert\Type("int")
+     * @Assert\PositiveOrZero
      */
     private $the;
 
     /**
+     * The estimated number of hours during the semester of project.
+     *
      * @ORM\Column(type="integer", nullable=true)
+     *
+     * @Assert\Type("int")
+     * @Assert\PositiveOrZero
      */
     private $projet;
 
     /**
+     * The number of week that this internship has to lasts.
+     *
      * @ORM\Column(type="integer", nullable=true)
+     *
+     * @Assert\Type("int")
+     * @Assert\PositiveOrZero
      */
-    private $stage;
+    private $internship;
 
     public function getId(): ?Uuid
     {
@@ -137,14 +171,14 @@ class UEWorkTime
         return $this;
     }
 
-    public function getStage(): ?int
+    public function getInternship(): ?int
     {
-        return $this->stage;
+        return $this->internship;
     }
 
-    public function setStage(?int $stage): self
+    public function setInternship(?int $internship): self
     {
-        $this->stage = $stage;
+        $this->internship = $internship;
 
         return $this;
     }

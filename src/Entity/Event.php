@@ -57,6 +57,8 @@ class Event
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Assert\Type("bool")
      */
     private $isAllDay;
 
