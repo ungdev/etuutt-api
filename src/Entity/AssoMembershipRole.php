@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AssoMemberRoleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AssoMemberRoleRepository::class)
@@ -12,8 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
 class AssoMembershipRole
 {
     /**
+     * The name of the role in the association (e.g. "president"), not necessary for members.
+     *
      * @ORM\Id
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=255)
+     * @Assert\Regex("/^[a-z_]{1,255}/")
      */
     private $name;
 

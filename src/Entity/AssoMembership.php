@@ -47,6 +47,8 @@ class AssoMembership
     private $createdAt;
 
     /**
+     * The roles accorded to the User in an Asso.
+     *
      * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
      * @ORM\JoinTable(
      *     name="asso_memberships_roles",
@@ -57,6 +59,8 @@ class AssoMembership
     private $roles;
 
     /**
+     * The permission accorded to the User in an Asso.
+     *
      * @ORM\ManyToMany(targetEntity=AssoMembershipPermission::class)
      * @ORM\JoinTable(
      *     name="asso_memberships_permissions",
