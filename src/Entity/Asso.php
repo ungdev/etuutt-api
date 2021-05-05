@@ -126,12 +126,18 @@ class Asso
      */
     private $groups;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AssoMember::class, mappedBy="asso", orphanRemoval=true)
+     */
+    private $assoMembers;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
         $this->assoMessages = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->groups = new ArrayCollection();
+        $this->assoMembers = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -376,6 +382,36 @@ class Asso
             // set the owning side to null (unless already changed)
             if ($group->getAsso() === $this) {
                 $group->setAsso(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AssoMember[]
+     */
+    public function getAssoMembers(): Collection
+    {
+        return $this->assoMembers;
+    }
+
+    public function addAssoMember(AssoMember $assoMember): self
+    {
+        if (!$this->assoMembers->contains($assoMember)) {
+            $this->assoMembers[] = $assoMember;
+            $assoMember->setAsso($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssoMember(AssoMember $assoMember): self
+    {
+        if ($this->assoMembers->removeElement($assoMember)) {
+            // set the owning side to null (unless already changed)
+            if ($assoMember->getAsso() === $this) {
+                $assoMember->setAsso(null);
             }
         }
 

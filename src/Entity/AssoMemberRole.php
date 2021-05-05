@@ -13,9 +13,17 @@ class AssoMemberRole
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+    /**
+     * The Translation object that contains the translation of the description.
+     *
+     * @ORM\ManyToOne(targetEntity=Translation::class)
+     * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
+     */
+    private $descriptionTranslation;
 
     public function __construct($name)
     {
@@ -25,5 +33,17 @@ class AssoMemberRole
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getDescriptionTranslation(): ?Translation
+    {
+        return $this->descriptionTranslation;
+    }
+
+    public function setDescriptionTranslation(?Translation $descriptionTranslation): self
+    {
+        $this->descriptionTranslation = $descriptionTranslation;
+
+        return $this;
     }
 }
