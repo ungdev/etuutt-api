@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\AssoMemberRepository;
+use App\Repository\AssoMembershipRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,10 +12,10 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=AssoMemberRepository::class)
- * @ORM\Table(name="asso_members")
+ * @ORM\Entity(repositoryClass=AssoMembershipRepository::class)
+ * @ORM\Table(name="asso_memberships")
  */
-class AssoMember
+class AssoMembership
 {
     /**
      * @ORM\Id
@@ -47,9 +47,9 @@ class AssoMember
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=AssoMemberRole::class)
+     * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
      * @ORM\JoinTable(
-     *     name="asso_members_roles",
+     *     name="asso_memberships_roles",
      *     joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="name")}
      * )
@@ -57,9 +57,9 @@ class AssoMember
     private $roles;
 
     /**
-     * @ORM\ManyToMany(targetEntity=AssoMemberPermission::class)
+     * @ORM\ManyToMany(targetEntity=AssoMembershipPermission::class)
      * @ORM\JoinTable(
-     *     name="asso_members_permissions",
+     *     name="asso_memberships_permissions",
      *     joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="permission", referencedColumnName="name")}
      * )
@@ -114,14 +114,14 @@ class AssoMember
     }
 
     /**
-     * @return AssoMemberRole[]|Collection
+     * @return AssoMembershipRole[]|Collection
      */
     public function getRoles(): Collection
     {
         return $this->roles;
     }
 
-    public function addRole(AssoMemberRole $role): self
+    public function addRole(AssoMembershipRole $role): self
     {
         if (!$this->roles->contains($role)) {
             $this->roles[] = $role;
@@ -130,7 +130,7 @@ class AssoMember
         return $this;
     }
 
-    public function removeRole(AssoMemberRole $role): self
+    public function removeRole(AssoMembershipRole $role): self
     {
         $this->roles->removeElement($role);
 
@@ -138,14 +138,14 @@ class AssoMember
     }
 
     /**
-     * @return AssoMemberPermission[]|Collection
+     * @return AssoMembershipPermission[]|Collection
      */
     public function getPermissions(): Collection
     {
         return $this->permissions;
     }
 
-    public function addPermission(AssoMemberPermission $permission): self
+    public function addPermission(AssoMembershipPermission $permission): self
     {
         if (!$this->permissions->contains($permission)) {
             $this->permissions[] = $permission;
@@ -154,7 +154,7 @@ class AssoMember
         return $this;
     }
 
-    public function removePermission(AssoMemberPermission $permission): self
+    public function removePermission(AssoMembershipPermission $permission): self
     {
         $this->permissions->removeElement($permission);
 

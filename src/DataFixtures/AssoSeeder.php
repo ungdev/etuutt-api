@@ -4,9 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Asso;
 use App\Entity\AssoKeyword;
-use App\Entity\AssoMember;
-use App\Entity\AssoMemberPermission;
-use App\Entity\AssoMemberRole;
+use App\Entity\AssoMembership;
+use App\Entity\AssoMembershipPermission;
+use App\Entity\AssoMembershipRole;
 use App\Entity\AssoMessage;
 use App\Entity\Translation;
 use App\Entity\User;
@@ -122,7 +122,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         //Création de 100 permissions
         for ($i = 0; $i < 100; ++$i) {
             //Créations d'une permission
-            $permission = new AssoMemberPermission(str_shuffle($faker->word.$faker->word));
+            $permission = new AssoMembershipPermission(str_shuffle($faker->word.$faker->word));
 
             //On persiste la permission dans la base de données
             $manager->persist($permission);
@@ -160,7 +160,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         //On attribue un utilisateur à entre 0 et 3 assos
         foreach ($users as $user) {
             for ($i = 0; $i < $faker->numberBetween(0, 3); ++$i) {
-                $assoMember = new AssoMember();
+                $assoMember = new AssoMembership();
 
                 $assoMember->setUser($user);
 
@@ -178,8 +178,8 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         //Attribution de permissions à des membres
 
         //Récupération des membres et des permissions
-        $assoMembers = $manager->getRepository(AssoMember::class)->findAll();
-        $permissions = $manager->getRepository(AssoMemberPermission::class)->findAll();
+        $assoMembers = $manager->getRepository(AssoMembership::class)->findAll();
+        $permissions = $manager->getRepository(AssoMembershipPermission::class)->findAll();
 
         foreach ($assoMembers as $assoMember) {
             for ($i = 0; $i < $faker->numberBetween(0, 5); ++$i) {
@@ -192,7 +192,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         $roles = [];
         for ($i = 0; $i < 100; ++$i) {
             //Créations d'un rôle
-            $role = new AssoMemberRole(str_shuffle($faker->word.$faker->word));
+            $role = new AssoMembershipRole(str_shuffle($faker->word.$faker->word));
 
             $roles[] = $role;
             //On persiste le rôle dans la base de données
@@ -203,7 +203,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         //Attribution de rôles à des membres
 
         //Récupération des membres
-        $assoMemberRepository = $manager->getRepository(AssoMember::class);
+        $assoMemberRepository = $manager->getRepository(AssoMembership::class);
         $assoMembers = $assoMemberRepository->findAll();
 
         foreach ($assoMembers as $assoMember) {

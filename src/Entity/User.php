@@ -104,9 +104,9 @@ class User
     private $covoitAlerts;
 
     /**
-     * @ORM\OneToMany(targetEntity=AssoMember::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="user", orphanRemoval=true)
      */
-    private $assoMembers;
+    private $assoMembership;
 
     /**
      * @ORM\OneToOne(targetEntity=UserBranche::class, mappedBy="user", cascade={"persist", "remove"})
@@ -171,7 +171,7 @@ class User
         $this->createdCovoits = new ArrayCollection();
         $this->passengerCovoits = new ArrayCollection();
         $this->covoitAlerts = new ArrayCollection();
-        $this->assoMembers = new ArrayCollection();
+        $this->assoMembership = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->addresses = new ArrayCollection();
         $this->otherAttributs = new ArrayCollection();
@@ -404,29 +404,29 @@ class User
     }
 
     /**
-     * @return AssoMember[]|Collection
+     * @return AssoMembership[]|Collection
      */
-    public function getAssoMembers(): Collection
+    public function getAssoMembership(): Collection
     {
-        return $this->assoMembers;
+        return $this->assoMembership;
     }
 
-    public function addAssoMember(AssoMember $assoMember): self
+    public function addAssoMembership(AssoMembership $assoMembership): self
     {
-        if (!$this->assoMembers->contains($assoMember)) {
-            $this->assoMembers[] = $assoMember;
-            $assoMember->setUser($this);
+        if (!$this->assoMembership->contains($assoMembership)) {
+            $this->assoMembership[] = $assoMembership;
+            $assoMembership->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeAssoMember(AssoMember $assoMember): self
+    public function removeAssoMembership(AssoMembership $assoMembership): self
     {
-        if ($this->assoMembers->removeElement($assoMember)) {
+        if ($this->assoMembership->removeElement($assoMembership)) {
             // set the owning side to null (unless already changed)
-            if ($assoMember->getUser() === $this) {
-                $assoMember->setUser(null);
+            if ($assoMembership->getUser() === $this) {
+                $assoMembership->setUser(null);
             }
         }
 
@@ -619,7 +619,7 @@ class User
     {
         if (!$this->passengerCovoits->contains($passengerCovoit)) {
             $this->passengerCovoits[] = $passengerCovoit;
-            $passengerCovoit->addUser($this);
+            $passengerCovoit->addPassenger($this);
         }
 
         return $this;

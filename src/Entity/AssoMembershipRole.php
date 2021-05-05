@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=AssoMemberRoleRepository::class)
- * @ORM\Table(name="asso_member_roles")
+ * @ORM\Table(name="asso_membership_roles")
  */
-class AssoMemberRole
+class AssoMembershipRole
 {
     /**
      * @ORM\Id

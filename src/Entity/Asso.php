@@ -127,9 +127,9 @@ class Asso
     private $groups;
 
     /**
-     * @ORM\OneToMany(targetEntity=AssoMember::class, mappedBy="asso", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="asso", orphanRemoval=true)
      */
-    private $assoMembers;
+    private $assoMemberships;
 
     public function __construct()
     {
@@ -137,7 +137,7 @@ class Asso
         $this->assoMessages = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->groups = new ArrayCollection();
-        $this->assoMembers = new ArrayCollection();
+        $this->assoMemberships = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -389,26 +389,26 @@ class Asso
     }
 
     /**
-     * @return Collection|AssoMember[]
+     * @return AssoMembership[]|Collection
      */
-    public function getAssoMembers(): Collection
+    public function getAssoMemberships(): Collection
     {
-        return $this->assoMembers;
+        return $this->assoMemberships;
     }
 
-    public function addAssoMember(AssoMember $assoMember): self
+    public function addAssoMembership(AssoMembership $assoMember): self
     {
-        if (!$this->assoMembers->contains($assoMember)) {
-            $this->assoMembers[] = $assoMember;
+        if (!$this->assoMemberships->contains($assoMember)) {
+            $this->assoMemberships[] = $assoMember;
             $assoMember->setAsso($this);
         }
 
         return $this;
     }
 
-    public function removeAssoMember(AssoMember $assoMember): self
+    public function removeAssoMembership(AssoMembership $assoMember): self
     {
-        if ($this->assoMembers->removeElement($assoMember)) {
+        if ($this->assoMemberships->removeElement($assoMember)) {
             // set the owning side to null (unless already changed)
             if ($assoMember->getAsso() === $this) {
                 $assoMember->setAsso(null);
