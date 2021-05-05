@@ -103,7 +103,7 @@ class Covoit
     private $covoitMessages;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="myCovoits")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="createdCovoits")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;

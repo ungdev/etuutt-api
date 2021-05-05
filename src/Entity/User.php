@@ -94,7 +94,7 @@ class User
     private $createdCovoits;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Covoit::class, mappedBy="users")
+     * @ORM\ManyToMany(targetEntity=Covoit::class, mappedBy="passengers")
      */
     private $passengerCovoits;
 
@@ -119,7 +119,7 @@ class User
     private $formation;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Group::class, mappedBy="users")
+     * @ORM\ManyToMany(targetEntity=Group::class, mappedBy="members")
      */
     private $groups;
 
