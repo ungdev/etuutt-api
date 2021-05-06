@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\UserOtherAttributs;
+use App\Entity\UserOtherAttribut;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|UserOtherAttributs find($id, $lockMode = null, $lockVersion = null)
- * @method null|UserOtherAttributs findOneBy(array $criteria, array $orderBy = null)
- * @method UserOtherAttributs[]    findAll()
- * @method UserOtherAttributs[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|UserOtherAttribut find($id, $lockMode = null, $lockVersion = null)
+ * @method null|UserOtherAttribut findOneBy(array $criteria, array $orderBy = null)
+ * @method UserOtherAttribut[]    findAll()
+ * @method UserOtherAttribut[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserOtherAttributsRepository extends ServiceEntityRepository
+class UserOtherAttributRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserOtherAttributs::class);
+        parent::__construct($registry, UserOtherAttribut::class);
     }
 
     // /**
-    //  * @return UserOtherAttributs[] Returns an array of UserOtherAttributs objects
+    //  * @return UserOtherAttribut[] Returns an array of UserOtherAttribut objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class UserOtherAttributsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?UserOtherAttributs
+    public function findOneBySomeField($value): ?UserOtherAttribut
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.exampleField = :val')

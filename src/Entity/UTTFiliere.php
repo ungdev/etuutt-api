@@ -8,35 +8,54 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * The entity that represents a Filiere at the UTT.
+ * 
  * @ORM\Entity(repositoryClass=UTTFiliereRepository::class)
  * @ORM\Table(name="utt_filieres")
  */
 class UTTFiliere
 {
     /**
+     * The code of the Filiere.
+     * 
      * @ORM\Id
      * @ORM\Column(type="string", length=10)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(max=10)
+     * @Assert\Regex("/^[A-Z\d]{1,10}$/")
      */
     private $code;
 
     /**
+     * The complete name of the Filiere.
+     * 
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=255)
      */
     private $name;
 
     /**
+     * The relation to the Branche that contains this Filiere.
+     * 
      * @ORM\ManyToOne(targetEntity=UTTBranche::class, inversedBy="filieres")
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
      */
     private $branche;
 
     /**
+     * The Translation object that contains the translation of the description.
+     *
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */
     private $descriptionTranslation;
 
     /**
+     * The relation to all UEs contained in this Filiere.
+     * 
      * @ORM\OneToMany(targetEntity=UE::class, mappedBy="filiere")
      */
     private $UEs;
