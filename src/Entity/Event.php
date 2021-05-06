@@ -28,17 +28,26 @@ class Event
     private $id;
 
     /**
+     * The relation between the Event and the Assos that organize it.
+     *
      * @ORM\ManyToMany(targetEntity=Asso::class, inversedBy="events")
      * @ORM\JoinTable(name="events_assos")
      */
     private $assos;
 
     /**
+     * The title of the Event.
+     *
      * @ORM\Column(type="string", length=50, unique=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=50)
      */
     private $title;
 
     /**
+     * The starting date of the event.
+     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\DateTime
@@ -46,6 +55,8 @@ class Event
     private $begin;
 
     /**
+     * The ending date of the event.
+     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\DateTime
@@ -53,6 +64,7 @@ class Event
     private $end;
 
     /**
+     * A boolean telling whether the event is from morning to evening or not.
      * @ORM\Column(type="boolean")
      *
      * @Assert\Type("bool")
@@ -60,7 +72,12 @@ class Event
     private $isAllDay;
 
     /**
+     * The location of the event. It is optional.
+     *
      * @ORM\Column(type="string", length=100, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=0, max=100)
      */
     private $location;
 
@@ -94,6 +111,8 @@ class Event
     private $deletedAt;
 
     /**
+     * The relation to the EventCategory the Event is classified as.
+     *
      * @ORM\ManyToMany(targetEntity=EventCategory::class, inversedBy="events")
      * @ORM\JoinTable(
      *     name="events_categories",
@@ -104,11 +123,15 @@ class Event
     private $categories;
 
     /**
+     * The relation to the EventAnswers of the Event.
+     *
      * @ORM\OneToMany(targetEntity=EventAnswer::class, mappedBy="event", orphanRemoval=true)
      */
     private $eventAnswers;
 
     /**
+     * The privacy of the Event.
+     *
      * @ORM\OneToOne(targetEntity=EventPrivacy::class, mappedBy="event", cascade={"persist", "remove"})
      */
     private $eventPrivacy;

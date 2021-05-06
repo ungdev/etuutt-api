@@ -23,6 +23,8 @@ class EventCategory
     private $name;
 
     /**
+     * The relation between the EventCategories and the Events it qualifies.
+     *
      * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="categories")
      */
     private $events;

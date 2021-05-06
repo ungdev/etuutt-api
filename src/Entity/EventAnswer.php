@@ -26,24 +26,35 @@ class EventAnswer
     private $id;
 
     /**
+     * The relation between the EventAnswer and its Event.
+     *
      * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="eventAnswers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $event;
 
     /**
+     * The relation to the User that wrote the EventAnswer.
+     *
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * The answer of the User to the Event (e.g. "je viens").
+     *
      * @ORM\Column(type="string", length=20)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=20)
      */
     private $answer;
 
     /**
-     * @ORM\Column(type="text")
+     * The comment of the User concerning the Event. It is optional.
+     *
+     * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
 

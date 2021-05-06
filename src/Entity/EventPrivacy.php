@@ -27,7 +27,7 @@ class EventPrivacy
     private $id;
 
     /**
-     * The Event concerned by this EventPrivacy.
+     * The relation to the Event concerned by this EventPrivacy.
      *
      * @ORM\OneToOne(targetEntity=Event::class, inversedBy="eventPrivacy", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
@@ -35,7 +35,7 @@ class EventPrivacy
     private $event;
 
     /**
-     * The Assos allowed in the Event. If no Assos are added, the Event is public.
+     * The relation to the Assos allowed in the Event. If no Assos are added, the Event is public.
      *
      * @ORM\ManyToMany(targetEntity=Asso::class)
      * @ORM\JoinTable(name="event_privacies_allowed_assos")
@@ -43,7 +43,7 @@ class EventPrivacy
     private $allowedAssos;
 
     /**
-     * The Roles allowed in the Event. If no Roles are added, every member of the Assos are allowed.
+     * The relation to the Roles allowed in the Event. If no Roles are added, every member of the Assos are allowed.
      *
      * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
      * @ORM\JoinTable(
