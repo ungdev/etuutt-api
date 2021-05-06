@@ -36,7 +36,7 @@ class GitHubIssueSeeder extends Fixture implements DependentFixtureInterface
                 $githubIssue->setUser($user);
                 $githubIssue->setGitHubIssueId($issueNumber);
                 $days = (new DateTime())->diff($user->getTimestamps()->getCreatedAt())->days;
-                $githubIssue->setCreatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+                $githubIssue->setCreatedAt($faker->dateTimeBetween('-'.$days.' days'));
 
                 $manager->persist($githubIssue);
             }

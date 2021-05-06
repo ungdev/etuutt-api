@@ -69,12 +69,11 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
             //  On persiste l'entité dans la base de données
             $manager->persist($branche);
-            $manager->flush();
         }
+        $manager->flush();
 
         //  Création de filières pour les branches, hors TC
-        $brancheRepository = $manager->getRepository(UTTBranche::class);
-        $branches = $brancheRepository->findAll();
+        $branches = $manager->getRepository(UTTBranche::class)->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
         foreach ($branches as $branche) {
             if ('TC' !== $branche->getCode()) {
@@ -111,12 +110,8 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         //  Attribution de branche et de filiere aux utilisateurs (UserBranche)
 
         //  Récupération des users et des branches
-        $userRepository = $manager->getRepository(User::class);
-        $users = $userRepository->findAll();
-        $filiereRepository = $manager->getRepository(UTTFiliere::class);
-        $filieres = $filiereRepository->findAll();
+        $users = $manager->getRepository(User::class)->findAll();
         $semesterRepository = $manager->getRepository(Semester::class);
-        $branches = $brancheRepository->findAll();
 
         foreach ($users as $user) {
             //  Création de la variable pivot
@@ -192,7 +187,6 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         //  Création de UserFormation
 
         //  Récupération des users, formations, et méthode de suivi
-        $users = $userRepository->findAll();
         $formations = $manager->getRepository(UTTFormation::class)->findAll();
         $followingMethod = $manager->getRepository(UTTFormationFollowingMethod::class)->findAll();
 

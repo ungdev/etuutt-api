@@ -10,6 +10,7 @@ use App\Entity\UEAnnalReport;
 use App\Entity\UEAnnalReportReason;
 use App\Entity\UEAnnalType;
 use App\Entity\User;
+use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -41,14 +42,7 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
             $descriptionTranslation = new Translation('UEAnnalReportReason:'.$reportReason->getName());
             $reportReason->setDescriptionTranslation($descriptionTranslation);
 
-            $description = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $description .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $description .= $faker->word();
-                }
-                $description .= '</p>';
-            }
+            $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);
             $descriptionTranslation->setEnglish($description);
             $descriptionTranslation->setSpanish($description);
@@ -94,14 +88,7 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
             $report->setAnnal($faker->randomElement($annals));
             $report->setUser($faker->randomElement($users));
             $report->setReason($faker->randomElement($reportReasons));
-            $body = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $body .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $body .= $faker->word();
-                }
-                $body .= '</p>';
-            }
+            $body = Text::createRandomText(5, 9);
             $report->setBody($body);
             $report->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
             $manager->persist($report);

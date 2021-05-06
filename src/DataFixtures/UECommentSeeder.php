@@ -11,6 +11,7 @@ use App\Entity\UECommentReport;
 use App\Entity\UECommentReportReason;
 use App\Entity\UECommentUpvote;
 use App\Entity\User;
+use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -39,24 +40,17 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $comment = new UEComment();
             $comment->setUE($faker->randomElement($ues));
             $comment->setAuthor($faker->randomElement($users));
-            $body = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $body .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $body .= $faker->word();
-                }
-                $body .= '</p>';
-            }
+            $body = Text::createRandomText(5, 9);
             $comment->setBody($body);
             $comment->setIsAnonymous($faker->boolean(10));
-            $comment->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+            $comment->setCreatedAt($faker->dateTimeBetween('-3 years'));
             $comment->setSemester($semesterRepo->getSemesterOfDate($comment->getCreatedAt()));
             $days = (new DateTime())->diff($comment->getCreatedAt())->days;
-            $comment->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+            $comment->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             //  Soft delete aléatoire d'un commentaire (Avec une chance de 2%)
             if ($faker->boolean(2)) {
                 $days = (new DateTime())->diff($comment->getUpdatedAt())->days;
-                $comment->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+                $comment->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
             $manager->persist($comment);
         }
@@ -68,22 +62,15 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $answer = new UECommentReply();
             $answer->setComment($faker->randomElement($comments));
             $answer->setAuthor($faker->randomElement($users));
-            $body = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $body .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $body .= $faker->word();
-                }
-                $body .= '</p>';
-            }
+            $body = Text::createRandomText(5, 9);
             $answer->setBody($body);
-            $answer->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+            $answer->setCreatedAt($faker->dateTimeBetween('-3 years'));
             $days = (new DateTime())->diff($answer->getCreatedAt())->days;
-            $answer->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+            $answer->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             //  Soft delete aléatoire d'un User (Avec une chance de 1%)
             if ($faker->boolean(2)) {
                 $days = (new DateTime())->diff($answer->getUpdatedAt())->days;
-                $answer->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+                $answer->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
             $manager->persist($answer);
         }
@@ -95,11 +82,13 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $upvote = new UECommentUpvote();
             $upvote->setComment($faker->randomElement($comments));
             $upvote->setUser($faker->randomElement($users));
-            $upvote->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+            $upvote->setCreatedAt($faker->dateTimeBetween('-3 years'));
             //  Check si ce upvote existe déjà
             $alreadyIn = false;
             foreach ($upvotes as $savedUpvote) {
-                if ($savedUpvote->getComment()->getId() === $upvote->getComment()->getId() && $savedUpvote->getUser()->getId() === $upvote->getUser()->getId()) {
+                if ($savedUpvote->getComment()->getId() === $upvote->getComment()->getId()
+                    && $savedUpvote->getUser()->getId() === $upvote->getUser()->getId()
+                ) {
                     $alreadyIn = true;
                 }
             }
@@ -118,14 +107,7 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $descriptionTranslation = new Translation('UECommentReportReason:'.$reportReason->getName());
             $reportReason->setDescriptionTranslation($descriptionTranslation);
 
-            $description = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $description .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $description .= $faker->word();
-                }
-                $description .= '</p>';
-            }
+            $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);
             $descriptionTranslation->setEnglish($description);
             $descriptionTranslation->setSpanish($description);
@@ -144,16 +126,9 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $report->setComment($faker->randomElement($comments));
             $report->setUser($faker->randomElement($users));
             $report->setReason($faker->randomElement($reportReasons));
-            $body = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $body .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $body .= $faker->word();
-                }
-                $body .= '</p>';
-            }
+            $body = Text::createRandomText(5, 9);
             $report->setBody($body);
-            $report->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+            $report->setCreatedAt($faker->dateTimeBetween('-3 years'));
             $manager->persist($report);
         }
         $manager->flush();

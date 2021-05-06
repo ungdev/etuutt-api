@@ -54,7 +54,7 @@ class UserMailsPhones
      * @Assert\Email
      * @Assert\Regex("/^.+[^@utt\.fr]$/")
      */
-    private $mailPersonnal;
+    private $mailPersonal;
 
     /**
      * Relations to all groups that can access to this data.
@@ -66,7 +66,7 @@ class UserMailsPhones
      *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
-    private $mailPersonnalVisibility;
+    private $mailPersonalVisibility;
 
     /**
      * The phone number of the User.
@@ -92,7 +92,7 @@ class UserMailsPhones
 
     public function __construct()
     {
-        $this->mailPersonnalVisibility = new ArrayCollection();
+        $this->mailPersonalVisibility = new ArrayCollection();
         $this->phoneNumberVisibility = new ArrayCollection();
     }
 
@@ -132,14 +132,14 @@ class UserMailsPhones
         return $this;
     }
 
-    public function getMailPersonnal(): ?string
+    public function getMailPersonal(): ?string
     {
-        return $this->mailPersonnal;
+        return $this->mailPersonal;
     }
 
-    public function setMailPersonnal(?string $mailPersonnal): self
+    public function setMailPersonal(?string $mailPersonal): self
     {
-        $this->mailPersonnal = $mailPersonnal;
+        $this->mailPersonal = $mailPersonal;
 
         return $this;
     }
@@ -147,23 +147,23 @@ class UserMailsPhones
     /**
      * @return Collection|Group[]
      */
-    public function getMailPersonnalVisibility(): Collection
+    public function getMailPersonalVisibility(): Collection
     {
-        return $this->mailPersonnalVisibility;
+        return $this->mailPersonalVisibility;
     }
 
-    public function addMailPersonnalVisibility(Group $mailPersonnalVisibility): self
+    public function addMailPersonalVisibility(Group $mailPersonalVisibility): self
     {
-        if (!$this->mailPersonnalVisibility->contains($mailPersonnalVisibility)) {
-            $this->mailPersonnalVisibility[] = $mailPersonnalVisibility;
+        if (!$this->mailPersonalVisibility->contains($mailPersonalVisibility)) {
+            $this->mailPersonalVisibility[] = $mailPersonalVisibility;
         }
 
         return $this;
     }
 
-    public function removeMailPersonnalVisibility(Group $mailPersonnalVisibility): self
+    public function removeMailPersonalVisibility(Group $mailPersonalVisibility): self
     {
-        $this->mailPersonnalVisibility->removeElement($mailPersonnalVisibility);
+        $this->mailPersonalVisibility->removeElement($mailPersonalVisibility);
 
         return $this;
     }

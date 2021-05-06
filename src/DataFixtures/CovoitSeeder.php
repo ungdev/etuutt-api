@@ -6,6 +6,7 @@ use App\Entity\Covoit;
 use App\Entity\CovoitAlert;
 use App\Entity\CovoitMessage;
 use App\Entity\User;
+use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -26,8 +27,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         //Récupération des users
-        $userRepository = $manager->getRepository(User::class);
-        $users = $userRepository->findAll();
+        $users = $manager->getRepository(User::class)->findAll();
 
         //Création de 30 covoits
         for ($i = 0; $i < 30; ++$i) {
@@ -38,7 +38,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoit->setAuthor($faker->randomElement($users));
 
             //Création d'une description
-            $covoit->setDescription($this->createRandomText(5, 9));
+            $covoit->setDescription(Text::createRandomText(5, 9));
 
             $covoit->setCapacity($faker->numberBetween(1, 4));
 
@@ -50,7 +50,6 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             }
 
             //On remplit la liste d'utilisateurs si IsFull est vrai, sinon on en met un nombre aléatoire inférieur
-            $subscribedUsers = [];
             $subscribedUsers[] = $covoit->getAuthor();
             for ($j = 0; $j < $faker->numberBetween(0, $covoit->getCapacity()); ++$j) {
                 do {
@@ -113,8 +112,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         //Récupération des covoits
-        $covoitRepository = $manager->getRepository(Covoit::class);
-        $covoits = $covoitRepository->findAll();
+        $covoits = $manager->getRepository(Covoit::class)->findAll();
 
         //Création de 100 covoitMessages
         for ($i = 0; $i < 100; ++$i) {
@@ -128,7 +126,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoitMessage->setAuthor($faker->randomElement($users));
 
             //Création du texte
-            $covoitMessage->setBody($this->createRandomText(5, 9));
+            $covoitMessage->setBody(Text::createRandomText(5, 9));
 
             //Création des timestamps
             $covoitMessage->setCreatedAt($faker->dateTimeBetween('-3 years'));
@@ -144,19 +142,5 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $manager->persist($covoitMessage);
         }
         $manager->flush();
-    }
-
-    protected function createRandomText($nbOfParagraphs, $nbOfWordsPerParagraphs): string
-    {
-        $faker = Factory::create('fr_FR');
-
-        $text = '';
-        for ($j = 0; $j < $nbOfParagraphs; ++$j) {
-            $text .= '<p>';
-            $text .= str_repeat($faker->word, $nbOfWordsPerParagraphs);
-            $text .= '</p>';
-        }
-
-        return $text;
     }
 }

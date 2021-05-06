@@ -13,6 +13,7 @@ use App\Entity\UEStarVote;
 use App\Entity\UEWorkTime;
 use App\Entity\User;
 use App\Entity\UserUESubscription;
+use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -38,10 +39,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
         //  Création de 6 catégories d'UEs
         for ($i = 0; $i < 6; ++$i) {
             $category = new UECreditCategory($faker->randomLetter.$faker->randomLetter.$faker->randomLetter);
-            $name = '';
-            for ($k = 0; $k < 9; ++$k) {
-                $name .= ($faker->word().' ');
-            }
+            $name = Text::createRandomLine(9);
             $category->setName($name);
             $manager->persist($category);
         }
@@ -52,16 +50,13 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             //  Créations d'une UE
             $ue = new UE();
             $ue->setCode(strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomDigit.$faker->randomDigit));
-            $name = '';
-            for ($k = 0; $k < 9; ++$k) {
-                $name .= ($faker->word().' ');
-            }
+            $name = Text::createRandomLine(9);
             $ue->setName($name);
             $ue->setValidationRate($faker->randomFloat(2, 50, 100));
-            $createdAt = $faker->dateTimeBetween('-3 years', 'now');
+            $createdAt = $faker->dateTimeBetween('-3 years');
             $ue->setCreatedAt($createdAt);
             $days = (new DateTime())->diff($ue->getCreatedAt())->days;
-            $ue->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+            $ue->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             $ue->addOpenSemester($semesterRepo->getSemesterOfDate($ue->getCreatedAt()));
             $ue->addOpenSemester($semesterRepo->getSemesterOfDate($ue->getUpdatedAt()));
             $manager->persist($ue);
@@ -81,14 +76,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
 
             $info = new UEInfo();
             $info->setUE($ue);
-            $text = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $text .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $text .= $faker->word();
-                }
-                $text .= '</p>';
-            }
+            $text = Text::createRandomText(5, 9);
             $info->setAntecedent($text);
             $info->setComment($text);
             $info->setDegree($text);
@@ -132,23 +120,13 @@ class UESeeder extends Fixture implements DependentFixtureInterface
         //  Création de critères de notations pour les UEs
         for ($i = 0; $i < 6; ++$i) {
             $criterion = new UEStarCriterion();
-            $name = '';
-            for ($k = 0; $k < 9; ++$k) {
-                $name .= ($faker->word().' ');
-            }
+            $name = Text::createRandomLine(7);
             $criterion->setName($name);
             //  Création d'une traduction
             $descriptionTranslation = new Translation('UE_Star_Criterion:'.$criterion->getName());
             $criterion->setDescriptionTranslation($descriptionTranslation);
 
-            $description = '';
-            for ($j = 0; $j < 5; ++$j) {
-                $description .= '<p>';
-                for ($k = 0; $k < 9; ++$k) {
-                    $description .= $faker->word();
-                }
-                $description .= '</p>';
-            }
+            $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);
             $descriptionTranslation->setEnglish($description);
             $descriptionTranslation->setSpanish($description);
@@ -169,7 +147,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $vote->setCriterion($faker->randomElement($criterions));
                 $vote->setUser($faker->randomElement($users));
                 $vote->setValue($faker->numberBetween(1, 5));
-                $vote->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+                $vote->setCreatedAt($faker->dateTimeBetween('-3 years'));
                 $manager->persist($vote);
             }
         }

@@ -73,21 +73,18 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
 
             //  On persiste le Badge dans la base de données
             $manager->persist($badge);
-            $manager->flush();
         }
+        $manager->flush();
 
         //  Attribution de badges à des utilisateurs
 
         //  Récupération des users et des badges
-        $userRepository = $manager->getRepository(User::class);
-        $users = $userRepository->findAll();
-        $badgeRepository = $manager->getRepository(Badge::class);
-        $badges = $badgeRepository->findAll();
+        $users = $manager->getRepository(User::class)->findAll();
+        $badges = $manager->getRepository(Badge::class)->findAll();
 
         foreach ($users as $user) {
             for ($i = 0; $i < $faker->numberBetween(0, 10); ++$i) {
-                $badge = $faker->randomElement($badges);
-                $user->addBadge($badge);
+                $user->addBadge($faker->randomElement($badges));
             }
         }
         $manager->flush();

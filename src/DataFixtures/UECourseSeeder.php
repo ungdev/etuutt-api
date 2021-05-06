@@ -40,7 +40,7 @@ class UECourseSeeder extends Fixture implements DependentFixtureInterface
                 $course->setWeek($faker->randomElement(['A', 'B']));
             }
             $course->setType($faker->randomElement(['CM', 'TD', 'TP']));
-            $course->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
+            $course->setCreatedAt($faker->dateTimeBetween('-3 years'));
             if ($faker->boolean()) {
                 $course->setRoom('Internet');
             } else {

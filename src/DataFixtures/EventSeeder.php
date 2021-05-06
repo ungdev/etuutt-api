@@ -83,7 +83,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
         }
         $manager->flush();
 
-        //Récupération des événements et des utilisateurs
+        //Récupération des événements, des utilisateurs et des rôles
         $events = $manager->getRepository(Event::class)->findAll();
         $users = $manager->getRepository(User::class)->findAll();
         $assoMembershipRoles = $manager->getRepository(AssoMembershipRole::class)->findAll();
