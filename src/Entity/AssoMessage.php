@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AssoMessageRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,8 +10,6 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource
- *
  * @ORM\Entity(repositoryClass=AssoMessageRepository::class)
  * @ORM\Table(name="asso_messages")
  */

@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,8 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The main entity that represents all Users. It is related to UEs, Covoits, Assos and others.
- *
- * @ApiResource
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="users")

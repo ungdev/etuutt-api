@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\SemesterRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,8 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The Semester entity. It uniforms the way we deal with semesters.
- *
- * @ApiResource
  *
  * @ORM\Entity(repositoryClass=SemesterRepository::class)
  * @ORM\Table(name="semesters")

@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\GroupRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,8 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A Group of User for friends, Course...
- *
- * @ApiResource
  *
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="groups")
