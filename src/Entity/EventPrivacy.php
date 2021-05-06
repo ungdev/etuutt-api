@@ -27,20 +27,37 @@ class EventPrivacy
     private $id;
 
     /**
+     * The Event concerned by this EventPrivacy.
+     *
      * @ORM\OneToOne(targetEntity=Event::class, inversedBy="eventPrivacy", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $event;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Group::class)
-     * @ORM\JoinTable(name="events_allowed_groups")
+     * The Assos allowed in the Event. If no Assos are added, the Event is public.
+     *
+     * @ORM\ManyToMany(targetEntity=Asso::class)
+     * @ORM\JoinTable(name="event_privacies_allowed_assos")
      */
-    private $allowedGroups;
+    private $allowedAssos;
+
+    /**
+     * The Roles allowed in the Event. If no Roles are added, every member of the Assos are allowed.
+     *
+     * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
+     * @ORM\JoinTable(
+     *     name="event_privacies_allowed_roles",
+     *     joinColumns={@ORM\JoinColumn(name="event_privacy_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="name")}
+     * )
+     */
+    private $allowedRoles;
 
     public function __construct()
     {
-        $this->allowedGroups = new ArrayCollection();
+        $this->allowedAssos = new ArrayCollection();
+        $this->allowedRoles = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -61,26 +78,66 @@ class EventPrivacy
     }
 
     /**
-     * @return Collection|Group[]
+     * @return Asso[]|Collection
      */
-    public function getAllowedGroups(): Collection
+    public function getAllowedAssos(): Collection
     {
-        return $this->allowedGroups;
+        return $this->allowedAssos;
     }
 
-    public function addAllowedGroup(Group $allowedGroup): self
+    public function addAllowedAsso(Asso $allowedAsso): self
     {
-        if (!$this->allowedGroups->contains($allowedGroup)) {
-            $this->allowedGroups[] = $allowedGroup;
+        if (!$this->allowedAssos->contains($allowedAsso)) {
+            $this->allowedAssos[] = $allowedAsso;
         }
 
         return $this;
     }
 
-    public function removeAllowedGroup(Group $allowedGroup): self
+    public function removeAllowedAsso(Asso $allowedAsso): self
     {
-        $this->allowedGroups->removeElement($allowedGroup);
+        $this->allowedAssos->removeElement($allowedAsso);
 
         return $this;
+    }
+
+    /**
+     * @return AssoMembershipRole[]|Collection
+     */
+    public function getAllowedRoles(): Collection
+    {
+        return $this->allowedRoles;
+    }
+
+    public function addAllowedRole(AssoMembershipRole $allowedRole): self
+    {
+        if (!$this->allowedRoles->contains($allowedRole)) {
+            $this->allowedRoles[] = $allowedRole;
+        }
+
+        return $this;
+    }
+
+    public function removeAllowedRole(AssoMembershipRole $allowedRole): self
+    {
+        $this->allowedRoles->removeElement($allowedRole);
+
+        return $this;
+    }
+
+    /**
+     * @return bool - Return a boolean to indicate whether the Event is public or not
+     */
+    public function isPublic(): bool
+    {
+        return $this->allowedAssos->isEmpty();
+    }
+
+    /**
+     * @return bool - Return a boolean to indicate whether all members are allowed at the Event
+     */
+    public function areAllMembersAllowed(): bool
+    {
+        return $this->allowedRoles->isEmpty();
     }
 }

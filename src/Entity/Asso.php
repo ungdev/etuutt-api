@@ -31,25 +31,34 @@ class Asso
     private $id;
 
     /**
+     * The login used for the CAS.
+     *
      * @ORM\Column(type="string", length=50, unique=true)
      *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=50)
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
     private $login;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=100)
      */
     private $name;
 
     /**
+     * The Translation object that contains the translation of the short description.
+     *
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_short_traduction_code", referencedColumnName="code")
      */
     private $descriptionShortTranslation;
 
     /**
-     * The Translation object that contains the translation of the description.
+     * The Translation object that contains the translation of the complete description.
      *
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
@@ -57,28 +66,45 @@ class Asso
     private $descriptionTranslation;
 
     /**
+     * The email address of the association.
+     *
      * @ORM\Column(type="string", length=100)
      *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=100)
      * @Assert\Email
      */
     private $mail;
 
     /**
+     * The phone number of the association.
+     *
      * @ORM\Column(type="string", length=30, nullable=true)
      *
+     * @Assert\Type("string")
+     * @Assert\Length(min=0, max=30)
      * @Assert\Regex("/^0[0-9]{9}$/")
      */
     private $phoneNumber;
 
     /**
+     * The website of the association. It is optional.
+     *
      * @ORM\Column(type="string", length=100, nullable=true)
      *
+     * @Assert\Type("string")
+     * @Assert\Length(min=0, max=100)
      * @Assert\Url
      */
     private $website;
 
     /**
+     * Link to the logo of the association. It is optional.
+     *
      * @ORM\Column(type="string", length=100, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=0, max=100)
      */
     private $logo;
 
@@ -104,6 +130,8 @@ class Asso
     private $deletedAt;
 
     /**
+     * The relation to all Keywords of this Asso.
+     *
      * @ORM\ManyToMany(targetEntity=AssoKeyword::class, inversedBy="assos")
      * @ORM\JoinTable(
      *     name="assos_keywords",
@@ -114,19 +142,32 @@ class Asso
     private $keywords;
 
     /**
+     * The relation to all assoMessages sent by this Asso.
+     *
      * @ORM\OneToMany(targetEntity=AssoMessage::class, mappedBy="asso", orphanRemoval=true)
      */
     private $assoMessages;
 
     /**
+     * The relation to all events in which this Asso participate.
+     *
      * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="assos")
      */
     private $events;
 
     /**
+     * The relation to all Groups of this Asso.
+     *
      * @ORM\OneToMany(targetEntity=Group::class, mappedBy="asso")
      */
     private $groups;
+
+    /**
+     * The relation to all AssoMemberships of this Asso.
+     *
+     * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="asso", orphanRemoval=true)
+     */
+    private $assoMemberships;
 
     public function __construct()
     {
@@ -134,6 +175,7 @@ class Asso
         $this->assoMessages = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->groups = new ArrayCollection();
+        $this->assoMemberships = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -378,6 +420,36 @@ class Asso
             // set the owning side to null (unless already changed)
             if ($group->getAsso() === $this) {
                 $group->setAsso(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return AssoMembership[]|Collection
+     */
+    public function getAssoMemberships(): Collection
+    {
+        return $this->assoMemberships;
+    }
+
+    public function addAssoMembership(AssoMembership $assoMember): self
+    {
+        if (!$this->assoMemberships->contains($assoMember)) {
+            $this->assoMemberships[] = $assoMember;
+            $assoMember->setAsso($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssoMembership(AssoMembership $assoMember): self
+    {
+        if ($this->assoMemberships->removeElement($assoMember)) {
+            // set the owning side to null (unless already changed)
+            if ($assoMember->getAsso() === $this) {
+                $assoMember->setAsso(null);
             }
         }
 

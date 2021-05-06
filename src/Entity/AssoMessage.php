@@ -29,6 +29,8 @@ class AssoMessage
     private $id;
 
     /**
+     * The relation to the Asso that sent this AssoMessage.
+     *
      * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="assoMessages")
      * @ORM\JoinColumn(name="asso_id", nullable=false)
      */
@@ -36,16 +38,23 @@ class AssoMessage
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=60)
      */
     private $title;
 
     /**
+     * The Translation object that contains the translation of the description.
+     *
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="body_traduction_code", referencedColumnName="code", nullable=false)
      */
     private $bodyTranslation;
 
     /**
+     * The date of the event presented in the message.
+     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\DateTime
@@ -53,6 +62,8 @@ class AssoMessage
     private $date;
 
     /**
+     * Whether the message should be displayed on mobile or not.
+     *
      * @ORM\Column(type="boolean")
      *
      * @Assert\Type("bool")
@@ -60,6 +71,8 @@ class AssoMessage
     private $sendToMobile;
 
     /**
+     * Whether the message should be send in the daymails or not.
+     *
      * @ORM\Column(type="boolean")
      *
      * @Assert\Type("bool")

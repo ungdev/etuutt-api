@@ -13,7 +13,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A Group of User for Asso, friends, Course...
+ * A Group of User for friends, Course...
  *
  * @ApiResource
  *

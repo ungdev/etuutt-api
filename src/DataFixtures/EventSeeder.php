@@ -3,11 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Asso;
+use App\Entity\AssoMembershipRole;
 use App\Entity\Event;
 use App\Entity\EventAnswer;
 use App\Entity\EventCategory;
 use App\Entity\EventPrivacy;
-use App\Entity\Group;
 use App\Entity\Translation;
 use App\Entity\User;
 use App\Util\Text;
@@ -24,7 +24,6 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
         return [
             AssoSeeder::class,
             UserSeeder::class,
-            GroupSeeder::class,
         ];
     }
 
@@ -33,8 +32,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         //Récupération des assos
-        $assoRepository = $manager->getRepository(Asso::class);
-        $assos = $assoRepository->findAll();
+        $assos = $manager->getRepository(Asso::class)->findAll();
 
         //Création de 30 events
         for ($i = 0; $i < 30; ++$i) {
@@ -86,28 +84,34 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         //Récupération des événements et des utilisateurs
-        $eventRepository = $manager->getRepository(Event::class);
-        $events = $eventRepository->findAll();
-        $userRepository = $manager->getRepository(User::class);
-        $users = $userRepository->findAll();
-        $assoGroupRepository = $manager->getRepository(Group::class);
-        $assoGroups = $assoGroupRepository->findAll();
+        $events = $manager->getRepository(Event::class)->findAll();
+        $users = $manager->getRepository(User::class)->findAll();
+        $assoMembershipRoles = $manager->getRepository(AssoMembershipRole::class)->findAll();
 
         //Création des event_privacy
         foreach ($events as $event) {
-            $currentAllowedGroups = [];
             //Création d'un event_privacy
             $eventPrivacy = new EventPrivacy();
 
             $eventPrivacy->setEvent($event);
 
-            //On attribue entre 1 et 10 groupes à la liste
-            for ($i = 0; $i < $faker->numberBetween(1, 10); ++$i) {
-                do {
-                    $group = $faker->randomElement($assoGroups);
-                } while (\in_array($group, $currentAllowedGroups, true));
-                $currentAllowedGroups[] = $group;
-                $eventPrivacy->addAllowedGroup($group);
+            //On a 70% de chance que l'évènement soit public
+            if ($faker->boolean(30)) {
+                //On a 50% de chance d'ajouter une asso à la liste de permissions
+                foreach ($assos as $asso) {
+                    if ($faker->boolean()) {
+                        $eventPrivacy->addAllowedAsso($asso);
+                    }
+                }
+                //On a 25% de chance que tous les membres des associations soit autorisés
+                if ($faker->boolean(75)) {
+                    //On a 75% de chance d'ajouter un rôle à la liste de permissions
+                    foreach ($assoMembershipRoles as $role) {
+                        if ($faker->boolean(75)) {
+                            $eventPrivacy->addAllowedRole($role);
+                        }
+                    }
+                }
             }
 
             //On persiste event_answer dans la base de données
@@ -166,8 +170,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
         //Attribution de catégories à des events
 
         //Récupération des events
-        $eventRepository = $manager->getRepository(Event::class);
-        $events = $eventRepository->findAll();
+        $events = $manager->getRepository(Event::class)->findAll();
 
         foreach ($events as $event) {
             for ($i = 0; $i < $faker->numberBetween(1, 3); ++$i) {

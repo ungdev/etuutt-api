@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\AssoMember;
+use App\Entity\AssoMembership;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|AssoMember find($id, $lockMode = null, $lockVersion = null)
- * @method null|AssoMember findOneBy(array $criteria, array $orderBy = null)
- * @method AssoMember[]    findAll()
- * @method AssoMember[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|AssoMembership find($id, $lockMode = null, $lockVersion = null)
+ * @method null|AssoMembership findOneBy(array $criteria, array $orderBy = null)
+ * @method AssoMembership[]    findAll()
+ * @method AssoMembership[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AssoMemberRepository extends ServiceEntityRepository
+class AssoMembershipRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AssoMember::class);
+        parent::__construct($registry, AssoMembership::class);
     }
 
     // /**
-    //  * @return AssoMember[] Returns an array of AssoMember objects
+    //  * @return AssoMembership[] Returns an array of AssoMembership objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class AssoMemberRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?AssoMember
+    public function findOneBySomeField($value): ?AssoMembership
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')
