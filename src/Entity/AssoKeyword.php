@@ -23,6 +23,8 @@ class AssoKeyword
     private $name;
 
     /**
+     * The relation between Keywords and Assos.
+     *
      * @ORM\ManyToMany(targetEntity=Asso::class, mappedBy="keywords")
      */
     private $assos;
