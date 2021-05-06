@@ -10,6 +10,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity related to a User to track the formation and the following method.
+ *
  * @ORM\Entity(repositoryClass=UserFormationRepository::class)
  * @ORM\Table(name="user_formations")
  */
@@ -26,18 +28,24 @@ class UserFormation
     private $id;
 
     /**
+     * The relation to the User.
+     *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="formation", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * The relation to the Formation.
+     *
      * @ORM\ManyToOne(targetEntity=UTTFormation::class)
      * @ORM\JoinColumn(name="formation_name", referencedColumnName="name")
      */
     private $formation;
 
     /**
+     * The relation to the FollowingMethod.
+     *
      * @ORM\ManyToOne(targetEntity=UTTFormationFollowingMethod::class)
      * @ORM\JoinColumn(name="following_method_name", referencedColumnName="name")
      */

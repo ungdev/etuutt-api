@@ -10,6 +10,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity that represent a BDEContribution of a User during one or two Semesters.
+ *
  * @ORM\Entity(repositoryClass=UserBDEContributionRepository::class)
  * @ORM\Table(name="user_bde_contributions")
  */
@@ -26,24 +28,32 @@ class UserBDEContribution
     private $id;
 
     /**
+     * The relation to the User that contribute.
+     *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="BDEContributions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * The relation to the starting Semester of the BDEContribution.
+     *
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="start_semester_code", referencedColumnName="code")
      */
     private $startSemester;
 
     /**
+     * The relation to the ending Semester of the BDEContribution.
+     *
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="end_semester_code", referencedColumnName="code")
      */
     private $endSemester;
 
     /**
+     * The starting date of the BDEContribution.
+     *
      * @ORM\Column(type="date")
      *
      * @Assert\Date
@@ -51,6 +61,8 @@ class UserBDEContribution
     private $start;
 
     /**
+     * The ending date of the BDEContribution.
+     *
      * @ORM\Column(type="date")
      *
      * @Assert\Date

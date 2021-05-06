@@ -9,6 +9,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity that represents a subscription of a User to a UE during a Semester.
+ *
  * @ORM\Entity(repositoryClass=UserUERepository::class)
  * @ORM\Table(name="user_ue_subscriptions")
  */
@@ -25,18 +27,24 @@ class UserUESubscription
     private $id;
 
     /**
+     * The relation to the User which is subscribing to a UE.
+     *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="UEsSubscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * The relation to the UE that the User is subscribing to.
+     *
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="usersSubscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $UE;
 
     /**
+     * The relation to the semester during which the subscription is made.
+     *
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */

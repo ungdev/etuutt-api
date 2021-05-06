@@ -11,6 +11,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity related to User that stores its address.
+ *
  * @ORM\Entity(repositoryClass=UserAdressRepository::class)
  * @ORM\Table(name="user_address")
  */
@@ -27,27 +29,43 @@ class UserAddress
     private $id;
 
     /**
+     * The relation to the User which live at this address.
+     *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="addresses")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * The french postal code.
+     *
      * @ORM\Column(type="string", length=20, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(max=20)
+     * @Assert\Regex("/^\d{5}$/")
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(max=255)
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(max=50)
      */
     private $country;
 
     /**
+     * Relations to all groups that can access to this data.
+     *
      * @ORM\ManyToMany(targetEntity=Group::class)
      * @ORM\JoinTable(
      *     name="user_visibility_addresses",

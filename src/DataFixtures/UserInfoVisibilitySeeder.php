@@ -39,6 +39,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             $preference->setBirthdayDisplayOnlyAge($faker->boolean());
             $preference->setLanguage($faker->languageCode);
             $preference->setWantDaymail($faker->boolean());
+            $preference->setWantDayNotif($faker->boolean());
             $preference->setBirthdayDisplayOnlyAge($faker->boolean());
             //  Ajout de visibilité pour l'emploi du temps
             $this->setFieldVisibility($preference, 'addScheduleVisibility', $faker, $groupRepo);

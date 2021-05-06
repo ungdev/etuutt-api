@@ -68,6 +68,8 @@ class Event
     private $location;
 
     /**
+     * The Translation object that contains the translation of the description.
+     *
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */

@@ -11,6 +11,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity related to User that stores its Preferences.
+ *
  * @ORM\Entity(repositoryClass=UserPreferenceRepository::class)
  * @ORM\Table(name="user_preferences")
  */
@@ -27,12 +29,16 @@ class UserPreference
     private $id;
 
     /**
+     * The relation to the User which have those Preferences.
+     *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="preference", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * The boolean that informs us if we show or not the birthday of this User.
+     *
      * @ORM\Column(type="boolean")
      *
      * @Assert\Type("bool")
@@ -40,11 +46,18 @@ class UserPreference
     private $birthdayDisplayOnlyAge;
 
     /**
+     * The language prefered by the User. It follows the ISO 639-1 convention.
+     *
      * @ORM\Column(type="string", length=5)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=5)
      */
     private $language;
 
     /**
+     * The boolean that informs us if we send day mail to this User or not.
+     *
      * @ORM\Column(type="boolean")
      *
      * @Assert\Type("bool")
@@ -52,6 +65,17 @@ class UserPreference
     private $wantDaymail;
 
     /**
+     * The boolean that informs us if we send day notif to this User or not.
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\Type("bool")
+     */
+    private $wantDayNotif;
+
+    /**
+     * Relations to all groups that can access to this data.
+     *
      * @ORM\ManyToMany(targetEntity=Group::class)
      * @ORM\JoinTable(
      *     name="user_visibility_schedule",
@@ -122,6 +146,18 @@ class UserPreference
     public function setWantDaymail(bool $wantDaymail): self
     {
         $this->wantDaymail = $wantDaymail;
+
+        return $this;
+    }
+
+    public function getWantDayNotif(): ?bool
+    {
+        return $this->wantDayNotif;
+    }
+
+    public function setWantDayNotif(bool $wantDayNotif): self
+    {
+        $this->wantDayNotif = $wantDayNotif;
 
         return $this;
     }

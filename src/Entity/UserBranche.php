@@ -10,6 +10,8 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity that represents a Branch followed by a User. TC is also included.
+ *
  * @ORM\Entity(repositoryClass=UserBrancheRepository::class)
  * @ORM\Table(name="user_branches")
  */
@@ -26,29 +28,39 @@ class UserBranche
     private $id;
 
     /**
+     * The relation to the User.
+     *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="branche", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * The relation to the UTTBranche.
+     *
      * @ORM\ManyToOne(targetEntity=UTTBranche::class)
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
      */
     private $branche;
 
     /**
+     * The relation to the Filiere, if the User has one.
+     *
      * @ORM\ManyToOne(targetEntity=UTTFiliere::class)
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
     private $filiere;
 
     /**
+     * The number of semesters done in this UTTBranche. (e.g. 2 in "TC02").
+     *
      * @ORM\Column(type="smallint")
      */
     private $semesterNumber;
 
     /**
+     * The relation to the semester during which the User follows this UserBranche.
+     *
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */

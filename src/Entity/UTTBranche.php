@@ -9,25 +9,38 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity that represents a Branche at the UTT.
+ *
  * @ORM\Entity(repositoryClass=UTTBrancheRepository::class)
  * @ORM\Table(name="utt_branches")
  */
 class UTTBranche
 {
     /**
+     * The code of the Branche.
+     *
      * @ORM\Id
      * @ORM\Column(type="string", length=10)
      *
+     * @Assert\Type("string")
+     * @Assert\Length(max=10)
      * @Assert\Regex("/^[A-Z\d]{1,10}$/")
      */
     private $code;
 
     /**
+     * The complete name of the Branche.
+     *
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=255)
      */
     private $name;
 
     /**
+     * The Translation object that contains the translation of the description.
+     *
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */
