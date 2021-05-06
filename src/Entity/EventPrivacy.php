@@ -33,14 +33,23 @@ class EventPrivacy
     private $event;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Group::class)
-     * @ORM\JoinTable(name="events_allowed_groups")
+     * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
+     * @ORM\JoinTable(
+     *     name="event_privacies_allowed_roles",
+     *     joinColumns={@ORM\JoinColumn(name="event_privacy_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="name")}
+     * )
      */
-    private $allowedGroups;
+    private $allowedRoles;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $areMembersAllowed;
 
     public function __construct()
     {
-        $this->allowedGroups = new ArrayCollection();
+        $this->allowedRoles = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -61,25 +70,37 @@ class EventPrivacy
     }
 
     /**
-     * @return Collection|Group[]
+     * @return AssoMembershipRole[]|Collection
      */
-    public function getAllowedGroups(): Collection
+    public function getAllowedRoles(): Collection
     {
-        return $this->allowedGroups;
+        return $this->allowedRoles;
     }
 
-    public function addAllowedGroup(Group $allowedGroup): self
+    public function addAllowedRole(AssoMembershipRole $allowedRole): self
     {
-        if (!$this->allowedGroups->contains($allowedGroup)) {
-            $this->allowedGroups[] = $allowedGroup;
+        if (!$this->allowedRoles->contains($allowedRole)) {
+            $this->allowedRoles[] = $allowedRole;
         }
 
         return $this;
     }
 
-    public function removeAllowedGroup(Group $allowedGroup): self
+    public function removeAllowedRole(AssoMembershipRole $allowedRole): self
     {
-        $this->allowedGroups->removeElement($allowedGroup);
+        $this->allowedRoles->removeElement($allowedRole);
+
+        return $this;
+    }
+
+    public function getAreMembersAllowed(): ?bool
+    {
+        return $this->areMembersAllowed;
+    }
+
+    public function setAreMembersAllowed(bool $areMembersAllowed): self
+    {
+        $this->areMembersAllowed = $areMembersAllowed;
 
         return $this;
     }
