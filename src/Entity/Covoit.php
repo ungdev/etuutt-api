@@ -56,6 +56,7 @@ class Covoit
 
     /**
      * The URL of this Covoit on the blablacar website. It is optional.
+     *
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      *
      * @Assert\Url

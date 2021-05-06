@@ -65,6 +65,7 @@ class Event
 
     /**
      * A boolean telling whether the event is from morning to evening or not.
+     *
      * @ORM\Column(type="boolean")
      *
      * @Assert\Type("bool")

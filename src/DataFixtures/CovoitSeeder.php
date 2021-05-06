@@ -65,12 +65,12 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $days = (new DateTime())->diff($covoit->getCreatedAt())->days;
             $covoit->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
 
-            $covoit->setStartAdress($faker->streetAddress);
+            $covoit->setStartAddress($faker->streetAddress);
 
             $days = (new DateTime())->diff($covoit->getUpdatedAt())->days;
             $covoit->setStartDate($faker->dateTimeBetween('-'.$days.' days'));
 
-            $covoit->setEndAdress($faker->streetAddress);
+            $covoit->setEndAddress($faker->streetAddress);
 
             $days = (new DateTime())->diff($covoit->getStartDate())->days;
             $covoit->setEndDate($faker->dateTimeBetween('-'.$days.' days'));
