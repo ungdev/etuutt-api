@@ -18,6 +18,8 @@ class AssoKeyword
      * @ORM\Id
      * @ORM\Column(type="string", length=30, unique=true)
      *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=30)
      * @Assert\Regex("/^[a-z]{1,30}$/")
      */
     private $name;

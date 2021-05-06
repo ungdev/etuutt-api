@@ -28,7 +28,7 @@ class AssoMembership
     private $id;
 
     /**
-     * The User that is subscribed to an Asso.
+     * The relation to the User that is subscribed to an Asso.
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="assoMembers")
      * @ORM\JoinColumn(nullable=false)
@@ -51,7 +51,7 @@ class AssoMembership
     private $createdAt;
 
     /**
-     * The roles accorded to the User in an Asso.
+     * The relation to the roles accorded to the User in an Asso.
      *
      * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
      * @ORM\JoinTable(
@@ -63,7 +63,7 @@ class AssoMembership
     private $roles;
 
     /**
-     * The permission accorded to the User in an Asso.
+     * The relation to the permissions accorded to the User in an Asso.
      *
      * @ORM\ManyToMany(targetEntity=AssoMembershipPermission::class)
      * @ORM\JoinTable(
