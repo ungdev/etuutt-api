@@ -84,8 +84,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         //Récupération des assos
-        $assoRepository = $manager->getRepository(Asso::class);
-        $assos = $assoRepository->findAll();
+        $assos = $manager->getRepository(Asso::class)->findAll();
 
         for ($i = 0; $i < 100; ++$i) {
             $assoMessage = new AssoMessage();
@@ -119,16 +118,6 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         }
         $manager->flush();
 
-        //Création de 100 permissions
-        for ($i = 0; $i < 100; ++$i) {
-            //Créations d'une permission
-            $permission = new AssoMembershipPermission(str_shuffle($faker->word.$faker->word));
-
-            //On persiste la permission dans la base de données
-            $manager->persist($permission);
-        }
-        $manager->flush();
-
         //Création de 100 mots-clés
         $keywords = [];
         for ($i = 0; $i < 100; ++$i) {
@@ -142,10 +131,6 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         //Attribution de mots-clé à des assos
-
-        //Récupération des assos
-        $assoRepository = $manager->getRepository(Asso::class);
-        $assos = $assoRepository->findAll();
 
         foreach ($assos as $asso) {
             for ($i = 0; $i < $faker->numberBetween(0, 10); ++$i) {
@@ -175,11 +160,22 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
         }
         $manager->flush();
 
+        //Création de 100 permissions
+        $permissions = [];
+        for ($i = 0; $i < 100; ++$i) {
+            //Créations d'une permission
+            $permission = new AssoMembershipPermission(str_shuffle($faker->word.$faker->word));
+
+            $permissions[] = $permission;
+            //On persiste la permission dans la base de données
+            $manager->persist($permission);
+        }
+        $manager->flush();
+
         //Attribution de permissions à des membres
 
         //Récupération des membres et des permissions
         $assoMembers = $manager->getRepository(AssoMembership::class)->findAll();
-        $permissions = $manager->getRepository(AssoMembershipPermission::class)->findAll();
 
         foreach ($assoMembers as $assoMember) {
             for ($i = 0; $i < $faker->numberBetween(0, 5); ++$i) {
@@ -190,9 +186,25 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
 
         //Création de 100 rôles
         $roles = [];
-        for ($i = 0; $i < 100; ++$i) {
+
+        //Liste des rôles possibles
+        $possibleRoles = ['president', 'vice_president', 'treasurer', 'vice_treasurer', 'secretary', 'vice_secretary', 'manager'];
+
+        foreach ($possibleRoles as $currentRole) {
             //Créations d'un rôle
-            $role = new AssoMembershipRole(str_shuffle($faker->word.$faker->word));
+            $role = new AssoMembershipRole($currentRole);
+
+            //Création d'une traduction
+            $descriptionTranslation = new Translation('AssoMembershipRole:'.$role->getName());
+            $role->setDescriptionTranslation($descriptionTranslation);
+            $manager->persist($descriptionTranslation);
+
+            $description = Text::createRandomText(1, 9);
+            $descriptionTranslation->setFrench($description);
+            $descriptionTranslation->setEnglish($description);
+            $descriptionTranslation->setSpanish($description);
+            $descriptionTranslation->setGerman($description);
+            $descriptionTranslation->setChinese($description);
 
             $roles[] = $role;
             //On persiste le rôle dans la base de données
@@ -202,12 +214,8 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
 
         //Attribution de rôles à des membres
 
-        //Récupération des membres
-        $assoMemberRepository = $manager->getRepository(AssoMembership::class);
-        $assoMembers = $assoMemberRepository->findAll();
-
         foreach ($assoMembers as $assoMember) {
-            for ($i = 0; $i < $faker->numberBetween(0, 5); ++$i) {
+            if ($faker->boolean(10)) {
                 $assoMember->addRole($faker->randomElement($roles));
             }
         }
