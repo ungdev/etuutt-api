@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CovoitRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,11 +28,15 @@ class Covoit
     private $id;
 
     /**
+     * The description of this Covoit. It is optional.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
     /**
+     * The maximum number of passengers of this Covoit.
+     *
      * @ORM\Column(type="smallint")
      *
      * @Assert\Type("int")
@@ -40,16 +45,17 @@ class Covoit
     private $capacity;
 
     /**
+     * The price in cents (x100).
+     *
      * @ORM\Column(type="integer")
      *
      * @Assert\Type("int")
      * @Assert\Positive
-     *
-     * Prix en centime (x100)
      */
     private $price;
 
     /**
+     * The URL of this Covoit on the blablacar website. It is optional.
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      *
      * @Assert\Url
@@ -57,11 +63,15 @@ class Covoit
     private $blablacarUrl;
 
     /**
+     * The starting address of the Covoit.
+     *
      * @ORM\Column(type="string", length=255)
      */
-    private $startAdress;
+    private $startAddress;
 
     /**
+     * The starting date of the Covoit.
+     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\DateTime
@@ -69,11 +79,15 @@ class Covoit
     private $startDate;
 
     /**
+     * The end address (destination) of the Covoit.
+     *
      * @ORM\Column(type="string", length=255)
      */
-    private $endAdress;
+    private $endAddress;
 
     /**
+     * The end date of the Covoit.
+     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\DateTime
@@ -95,17 +109,23 @@ class Covoit
     private $updatedAt;
 
     /**
+     * The relation between the Covoit and its CovoitMessages.
+     *
      * @ORM\OneToMany(targetEntity=CovoitMessage::class, mappedBy="covoit", orphanRemoval=true)
      */
     private $covoitMessages;
 
     /**
+     * The relation between the Covoit and the User that created it.
+     *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="createdCovoits")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
+     * The relation between the Covoit and the User that are subscribed to it.
+     *
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="passengerCovoits")
      * @ORM\JoinTable(
      *     name="covoits_users",
@@ -186,72 +206,72 @@ class Covoit
         return $this;
     }
 
-    public function getStartAdress(): ?string
+    public function getStartAddress(): ?string
     {
-        return $this->startAdress;
+        return $this->startAddress;
     }
 
-    public function setStartAdress(string $startAdress): self
+    public function setStartAddress(string $startAddress): self
     {
-        $this->startAdress = $startAdress;
+        $this->startAddress = $startAddress;
 
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStartDate(DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndAdress(): ?string
+    public function getEndAddress(): ?string
     {
-        return $this->endAdress;
+        return $this->endAddress;
     }
 
-    public function setEndAdress(string $endAdress): self
+    public function setEndAddress(string $endAddress): self
     {
-        $this->endAdress = $endAdress;
+        $this->endAddress = $endAddress;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?DateTimeInterface
     {
         return $this->endDate;
     }
 
-    public function setEndDate(\DateTimeInterface $endDate): self
+    public function setEndDate(DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

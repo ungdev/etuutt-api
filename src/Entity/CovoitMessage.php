@@ -26,18 +26,24 @@ class CovoitMessage
     private $id;
 
     /**
+     * The relation between the CovoitMessage and its Covoit.
+     *
      * @ORM\ManyToOne(targetEntity=Covoit::class, inversedBy="covoitMessages")
      * @ORM\JoinColumn(nullable=false)
      */
     private $covoit;
 
     /**
+     * The author of the CovoitMessage.
+     *
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
+     * The text of the CovoitMessage.
+     *
      * @ORM\Column(type="text")
      */
     private $body;

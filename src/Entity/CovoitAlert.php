@@ -25,15 +25,17 @@ class CovoitAlert
     private $id;
 
     /**
+     * The relation between the CovoitAlert and the User that created it.
+     *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="covoitAlerts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * Price in cents (x100).
+     * The maximum price in cents (x100). It is optional.
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      *
      * @Assert\Type("int")
      * @Assert\Positive
@@ -41,6 +43,8 @@ class CovoitAlert
     private $priceMax;
 
     /**
+     * The first boundary of the Covoit starting date.
+     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\DateTime
@@ -48,6 +52,8 @@ class CovoitAlert
     private $startDate;
 
     /**
+     * The second boundary of the Covoit starting date.
+     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\DateTime
@@ -55,11 +61,15 @@ class CovoitAlert
     private $endDate;
 
     /**
+     * The desired starting city of the Covoit.
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $startCity;
 
     /**
+     * The desired ending city (destination) of the Covoit.
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $endCity;
