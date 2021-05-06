@@ -27,12 +27,24 @@ class EventPrivacy
     private $id;
 
     /**
+     * The Event concerned by this EventPrivacy.
+     *
      * @ORM\OneToOne(targetEntity=Event::class, inversedBy="eventPrivacy", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $event;
 
     /**
+     * The Assos allowed in the Event. If no Assos are added, the Event is public.
+     *
+     * @ORM\ManyToMany(targetEntity=Asso::class)
+     * @ORM\JoinTable(name="event_privacies_allowed_assos")
+     */
+    private $allowedAssos;
+
+    /**
+     * The Roles allowed in the Event. If no Roles are added, every member of the Assos are allowed.
+     *
      * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
      * @ORM\JoinTable(
      *     name="event_privacies_allowed_roles",
@@ -42,13 +54,9 @@ class EventPrivacy
      */
     private $allowedRoles;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $areMembersAllowed;
-
     public function __construct()
     {
+        $this->allowedAssos = new ArrayCollection();
         $this->allowedRoles = new ArrayCollection();
     }
 
@@ -65,6 +73,30 @@ class EventPrivacy
     public function setEvent(Event $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * @return Asso[]|Collection
+     */
+    public function getAllowedAssos(): Collection
+    {
+        return $this->allowedAssos;
+    }
+
+    public function addAllowedAsso(Asso $allowedAsso): self
+    {
+        if (!$this->allowedAssos->contains($allowedAsso)) {
+            $this->allowedAssos[] = $allowedAsso;
+        }
+
+        return $this;
+    }
+
+    public function removeAllowedAsso(Asso $allowedAsso): self
+    {
+        $this->allowedAssos->removeElement($allowedAsso);
 
         return $this;
     }
@@ -93,15 +125,19 @@ class EventPrivacy
         return $this;
     }
 
-    public function getAreMembersAllowed(): ?bool
+    /**
+     * @return bool - Return a boolean to indicate whether the Event is public or not
+     */
+    public function isPublic(): bool
     {
-        return $this->areMembersAllowed;
+        return $this->allowedAssos->isEmpty();
     }
 
-    public function setAreMembersAllowed(bool $areMembersAllowed): self
+    /**
+     * @return bool - Return a boolean to indicate whether all members are allowed at the Event
+     */
+    public function areAllMembersAllowed(): bool
     {
-        $this->areMembersAllowed = $areMembersAllowed;
-
-        return $this;
+        return $this->allowedRoles->isEmpty();
     }
 }

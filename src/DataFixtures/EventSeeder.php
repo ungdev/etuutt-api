@@ -95,14 +95,24 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
 
             $eventPrivacy->setEvent($event);
 
-            //On a 75% de chance d'ajouter un rôle à la liste de permissions
-            foreach ($assoMembershipRoles as $role) {
+            //On a 70% de chance que l'évènement soit public
+            if ($faker->boolean(30)) {
+                //On a 50% de chance d'ajouter une asso à la liste de permissions
+                foreach ($assos as $asso) {
+                    if ($faker->boolean()) {
+                        $eventPrivacy->addAllowedAsso($asso);
+                    }
+                }
+                //On a 25% de chance que tous les membres des associations soit autorisés
                 if ($faker->boolean(75)) {
-                    $eventPrivacy->addAllowedRole($role);
+                    //On a 75% de chance d'ajouter un rôle à la liste de permissions
+                    foreach ($assoMembershipRoles as $role) {
+                        if ($faker->boolean(75)) {
+                            $eventPrivacy->addAllowedRole($role);
+                        }
+                    }
                 }
             }
-
-            $eventPrivacy->setAreMembersAllowed($faker->boolean(75));
 
             //On persiste event_answer dans la base de données
             $manager->persist($eventPrivacy);
