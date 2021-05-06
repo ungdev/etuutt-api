@@ -44,7 +44,7 @@ class UserRGPD
     private $isKeepingAccount;
 
     /**
-     * A boolean to stor if we delete all info about this User in our database.
+     * A boolean to store if we delete all info about this User in our database.
      *
      * @ORM\Column(type="boolean", nullable=true)
      *
