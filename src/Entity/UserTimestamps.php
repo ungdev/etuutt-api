@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity related to User that stores its Timestamps.
- * 
+ *
  * @ORM\Entity(repositoryClass=UserTimestampsRepository::class)
  * @ORM\Table(name="user_timestamps")
  */
@@ -29,7 +29,7 @@ class UserTimestamps
 
     /**
      * The relation to the User which have those RGPD.
-     * 
+     *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="timestamps", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */

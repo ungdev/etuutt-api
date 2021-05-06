@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This entity gives a value to a profil attribut of a User.
- * 
+ *
  * @ORM\Entity(repositoryClass=UserOtherAttributValueRepository::class)
  * @ORM\Table(name="user_other_attributs_values")
  */
@@ -28,7 +28,7 @@ class UserOtherAttributValue
 
     /**
      * The relation to the User.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="otherAttributs")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -36,7 +36,7 @@ class UserOtherAttributValue
 
     /**
      * The relation to the attribut.
-     * 
+     *
      * @ORM\ManyToOne(targetEntity=UserOtherAttribut::class)
      * @ORM\JoinColumn(name="attribut_name", referencedColumnName="name")
      */
@@ -44,9 +44,9 @@ class UserOtherAttributValue
 
     /**
      * The value given to the attribut.
-     * 
+     *
      * @ORM\Column(type="text")
-     * 
+     *
      * @Assert\Type("string")
      */
     private $value;

@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity related to a User that stores mails and phone of a User.
- * 
+ *
  * @ORM\Entity(repositoryClass=UserMailsPhonesRepository::class)
  * @ORM\Table(name="user_mails_phones")
  */
@@ -30,7 +30,7 @@ class UserMailsPhones
 
     /**
      * The relation to the User related to this info.
-     * 
+     *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="mailsPhones", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -38,7 +38,7 @@ class UserMailsPhones
 
     /**
      * The UTT email address of the User. It ends by "@utt.fr".
-     * 
+     *
      * @ORM\Column(type="string", length=255)
      *
      * @Assert\Email
@@ -48,7 +48,7 @@ class UserMailsPhones
 
     /**
      * The personal mail fo the User. Elle ne peut pas finir par "@utt.fr".
-     * 
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @Assert\Email
@@ -70,9 +70,9 @@ class UserMailsPhones
 
     /**
      * The phone number of the User.
-     * 
+     *
      * @ORM\Column(type="string", length=100, nullable=true)
-     * 
+     *
      * @Assert\Email
      * @Assert\Regex("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/")
      */
@@ -80,7 +80,7 @@ class UserMailsPhones
 
     /**
      * Relations to all groups that can access to this data.
-     * 
+     *
      * @ORM\ManyToMany(targetEntity=Group::class)
      * @ORM\JoinTable(
      *     name="user_visibility_phone_number",

@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity related to User that stores its Preferences.
- * 
+ *
  * @ORM\Entity(repositoryClass=UserPreferenceRepository::class)
  * @ORM\Table(name="user_preferences")
  */
@@ -30,7 +30,7 @@ class UserPreference
 
     /**
      * The relation to the User which have those Preferences.
-     * 
+     *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="preference", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -38,7 +38,7 @@ class UserPreference
 
     /**
      * The boolean that informs us if we show or not the birthday of this User.
-     * 
+     *
      * @ORM\Column(type="boolean")
      *
      * @Assert\Type("bool")
@@ -47,9 +47,9 @@ class UserPreference
 
     /**
      * The language prefered by the User. It follows the ISO 639-1 convention.
-     * 
+     *
      * @ORM\Column(type="string", length=5)
-     * 
+     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=5)
      */
@@ -57,7 +57,7 @@ class UserPreference
 
     /**
      * The boolean that informs us if we send day mail to this User or not.
-     * 
+     *
      * @ORM\Column(type="boolean")
      *
      * @Assert\Type("bool")
@@ -66,7 +66,7 @@ class UserPreference
 
     /**
      * The boolean that informs us if we send day notif to this User or not.
-     * 
+     *
      * @ORM\Column(type="boolean")
      *
      * @Assert\Type("bool")

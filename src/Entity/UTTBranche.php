@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that represents a Branche at the UTT.
- * 
+ *
  * @ORM\Entity(repositoryClass=UTTBrancheRepository::class)
  * @ORM\Table(name="utt_branches")
  */
@@ -18,7 +18,7 @@ class UTTBranche
 {
     /**
      * The code of the Branche.
-     * 
+     *
      * @ORM\Id
      * @ORM\Column(type="string", length=10)
      *
@@ -30,9 +30,9 @@ class UTTBranche
 
     /**
      * The complete name of the Branche.
-     * 
+     *
      * @ORM\Column(type="string", length=255)
-     * 
+     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
