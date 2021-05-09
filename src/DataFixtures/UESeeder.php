@@ -91,13 +91,12 @@ class UESeeder extends Fixture implements DependentFixtureInterface
         //  Ajout de 6 UEs pour tous les utilisateurs
         $users = $manager->getRepository(User::class)->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
-        foreach ($users as $user) {
-            //  Pour chaque utilisateur, on ajoute 6 UEs
-            for ($i = 0; $i < 6; ++$i) {
+        foreach ($ues as $ue) {
+            for ($i=0; $i < $faker->numberBetween(50, 200); $i++) { 
                 $subscription = new UserUESubscription();
-                $subscription->setUser($user);
-                $subscription->setUE($faker->randomElement($ues));
-                $subscription->setCreatedAt(new DateTime());
+                $subscription->setUser($faker->randomElement($users));
+                $subscription->setUE($ue);
+                $subscription->setCreatedAt($faker->dateTimeBetween('-3 years'));
                 $subscription->setSemester($semesterRepo->getSemesterOfDate($subscription->getCreatedAt()));
                 $manager->persist($subscription);
             }

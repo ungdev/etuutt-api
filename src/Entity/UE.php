@@ -3,14 +3,31 @@
 namespace App\Entity;
 
 use App\Repository\UERepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\SemesterRepository;
+use App\Util\CurrentSemester;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *      shortName="ue",
+ *      collectionOperations= {
+ *          "get" = {"normalization_context"={ "groups" = {"ue:some:read"} }}
+ *      },
+ *      itemOperations= {
+ *          "get" = {"normalization_context"={ "groups" = {"ue:one:read"} }},
+ *          "put" = {"normalization_context"={ "groups" = {"ue:one:write"} }}
+ *      }
+ * )
+ * 
  * @ORM\Entity(repositoryClass=UERepository::class)
  * @ORM\Table(name="ues")
  */
@@ -23,6 +40,9 @@ class UE
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
      * @Assert\Uuid(versions=4)
+     * 
+     * @Groups("ue:some:read")
+     * @Groups("ue:one:read")
      */
     private $id;
 
@@ -34,6 +54,9 @@ class UE
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=10)
      * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
+     * 
+     * @Groups("ue:some:read")
+     * @Groups("ue:one:read")
      */
     private $code;
 
@@ -44,6 +67,9 @@ class UE
      *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
+     * 
+     * @Groups("ue:some:read")
+     * @Groups("ue:one:read")
      */
     private $name;
 
@@ -55,6 +81,8 @@ class UE
      * @Assert\Type("float")
      * @Assert\LessThanOrEqual(100)
      * @Assert\GreaterThanOrEqual(0)
+     * 
+     * @Groups("ue:one:read")
      */
     private $validationRate;
 
@@ -225,6 +253,23 @@ class UE
     }
 
     /**
+     * This method returns the number of student subscribed to this UE during the current semester.
+     * 
+     * @Groups("ue:one:read")
+     */
+    public function getNumberOfSubscribed(): ?int
+    {
+        $currentSemesterCode = CurrentSemester::getCurrentSemesterCode();
+        $subscriptionsAllTime = $this->getUserUESubscriptions();
+        $subscriptionsThisSemester = $subscriptionsAllTime->filter(
+            function($subscription) use ($currentSemesterCode) {
+                return $subscription->getSemester()->getCode() == $currentSemesterCode;
+             }
+        );
+        return $subscriptionsThisSemester->count();
+    }
+
+    /**
      * @return Collection|UserUESubscription[]
      */
     public function getUserUESubscriptions(): Collection
@@ -257,6 +302,19 @@ class UE
     public function getFiliere(): ?UTTFiliere
     {
         return $this->filiere;
+    }
+
+    /**
+     * @Groups("ue:one:read")
+     */
+    public function getFiliereCode()
+    {
+        $filiereCode = "";
+        $filiere = $this->getFiliere();
+        if (!is_null($filiere)) {
+            $filiereCode = $filiere->getCode() . " - " . $filiere->getUTTBranche()->getCode();
+        }
+        return $filiereCode;
     }
 
     public function setFiliere(?UTTFiliere $filiere): self

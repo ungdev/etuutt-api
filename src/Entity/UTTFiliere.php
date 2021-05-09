@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * The entity that represents a Filiere at the UTT.
@@ -25,6 +26,8 @@ class UTTFiliere
      * @Assert\Type("string")
      * @Assert\Length(max=10)
      * @Assert\Regex("/^[A-Z\d]{1,10}$/")
+     * 
+     * @Groups("ue:read")
      */
     private $code;
 
