@@ -110,7 +110,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $credits = new UECredit();
                 $credits->setUE($ue);
                 $credits->setCategory($faker->randomElement($categories));
-                $credits->setCredits($faker->numberBetween(2, 6));
+                $credits->setAmount($faker->numberBetween(2, 6));
                 $manager->persist($credits);
             }
         }

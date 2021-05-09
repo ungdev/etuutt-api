@@ -326,6 +326,8 @@ class UE
 
     /**
      * @return Collection|UECredit[]
+     * 
+     * @Groups("ue:one:read")
      */
     public function getCredits(): Collection
     {

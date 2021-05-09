@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * The entity that store the amount and the category of credits that a UE gives.
@@ -49,8 +50,10 @@ class UECredit
      *
      * @Assert\Type("int")
      * @Assert\Positive
+     * 
+     * @Groups("ue:one:read")
      */
-    private $credits;
+    private $amount;
 
     public function getId(): ?Uuid
     {
@@ -69,6 +72,14 @@ class UECredit
         return $this;
     }
 
+    /**
+     * @Groups("ue:one:read")
+     */
+    public function getCategoryCode(): ?string
+    {
+        return $this->category->getCode();
+    }
+
     public function getCategory(): ?UECreditCategory
     {
         return $this->category;
@@ -81,14 +92,14 @@ class UECredit
         return $this;
     }
 
-    public function getCredits(): ?int
+    public function getAmount(): ?int
     {
-        return $this->credits;
+        return $this->amount;
     }
 
-    public function setCredits(int $credits): self
+    public function setAmount(int $amount): self
     {
-        $this->credits = $credits;
+        $this->amount = $amount;
 
         return $this;
     }
