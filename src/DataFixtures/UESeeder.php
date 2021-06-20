@@ -48,7 +48,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
         //  Création de 100 UEs
         for ($i = 0; $i < 100; ++$i) {
             //  Créations d'une UE
-            $ue = new UE();
+            $ue = new UE($semesterRepo, $manager->getRepository(UEStarCriterion::class));
             $ue->setCode(strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomDigit.$faker->randomDigit));
             $name = Text::createRandomLine(9);
             $ue->setName($name);

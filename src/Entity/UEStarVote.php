@@ -43,7 +43,7 @@ class UEStarVote
     private $criterion;
 
     /**
-     * The User taht rates the UE.
+     * The User that rates the UE.
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="UEStarVotes")
      * @ORM\JoinColumn(nullable=false)

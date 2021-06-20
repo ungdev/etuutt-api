@@ -5,12 +5,13 @@ namespace App\Entity;
 use App\Repository\UERepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\SemesterRepository;
-use App\Util\CurrentSemester;
+use App\Repository\UEStarCriterionRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
+use stdClass;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -176,8 +177,24 @@ class UE
      */
     private $courses;
 
-    public function __construct()
+    /**
+     * The Semester repository to access the current semester.
+     * 
+     * @var SemesterRepository
+     */
+    private $semesterRepo;
+
+    /**
+     * The UEStarCriterion repository to access all the criterions.
+     * 
+     * @var UEStarCriterionRepository
+     */
+    private $UEStarCriterionRepo;
+
+    public function __construct(SemesterRepository $semesterRepo, UEStarCriterionRepository $UEStarCriterionRepo)
     {
+        $this->semesterRepo = $semesterRepo;
+        $this->UEStarCriterionRepo = $UEStarCriterionRepo;
         $this->usersSubscriptions = new ArrayCollection();
         $this->credits = new ArrayCollection();
         $this->starVotes = new ArrayCollection();
@@ -259,7 +276,7 @@ class UE
      */
     public function getNumberOfSubscribed(): ?int
     {
-        $currentSemesterCode = CurrentSemester::getCurrentSemesterCode();
+        $currentSemesterCode = $this->semesterRepo->getCurrentSemester()->getCode();
         $subscriptionsAllTime = $this->getUserUESubscriptions();
         $subscriptionsThisSemester = $subscriptionsAllTime->filter(
             function($subscription) use ($currentSemesterCode) {
@@ -532,5 +549,46 @@ class UE
         }
 
         return $this;
+    }
+
+    /**
+     * @Groups("ue:one:read")
+     */
+    public function getStars()
+    {
+        $stars = [];    //  The array that will be returned
+        $criterions = $this->UEStarCriterionRepo->findAll();
+
+        foreach ($criterions as $criterion) {
+
+            //  Initialization of the variables
+            $numberOfVotes = 0;
+            $averageValue = 0;
+            $sumOfValue = 0;
+
+            //  Getting all data
+            $votesForThisCriterion = $this->getStarVotes()->filter(
+                function($vote) use ($criterion) {
+                    return $vote->getCriterion()->getId() == $criterion->getId();
+                 }
+            );
+            foreach ($votesForThisCriterion as $vote) {
+                $sumOfValue += $vote->getValue();
+            }
+            $numberOfVotes = $votesForThisCriterion->count();
+            $averageValue = $numberOfVotes == 0 ? null : ($sumOfValue / $numberOfVotes);
+
+            //  Creating the object
+            $star = new stdClass();     //  Create an empty object : https://stackoverflow.com/questions/1434368/how-to-define-an-empty-object-in-php
+            $star->criterion = $criterion;
+            $star->votes = new stdClass();
+            $star->votes->number = $numberOfVotes;
+            $star->votes->averageValue = $averageValue;
+
+            $stars[] = $star;
+        }
+        $votes = $this->getStarVotes();
+
+        return $stars;
     }
 }
