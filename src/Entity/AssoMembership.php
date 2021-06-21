@@ -30,7 +30,7 @@ class AssoMembership
     /**
      * The relation to the User that is subscribed to an Asso.
      *
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="assoMembers")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="assoMembership")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -38,7 +38,7 @@ class AssoMembership
     /**
      * The Asso in which the User is subscribed.
      *
-     * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="assoMembers")
+     * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="assoMemberships")
      * @ORM\JoinColumn(nullable=false)
      */
     private $asso;
