@@ -27,7 +27,7 @@ class UTTFiliere
      * @Assert\Length(max=10)
      * @Assert\Regex("/^[A-Z\d]{1,10}$/")
      * 
-     * @Groups("ue:read")
+     * @Groups("ue:one:read")
      */
     private $code;
 

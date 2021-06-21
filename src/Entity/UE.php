@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\UERepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use App\Repository\SemesterRepository;
 use App\Repository\UEStarCriterionRepository;
 use DateTime;
@@ -24,10 +27,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "get" = {"normalization_context"={ "groups" = {"ue:some:read"} }}
  *      },
  *      itemOperations= {
- *          "get" = {"normalization_context"={ "groups" = {"ue:one:read"} }},
- *          "put" = {"normalization_context"={ "groups" = {"ue:one:write"} }}
+ *          "get" = {"normalization_context"={ "groups" = {"ue:one:read"} }}
  *      }
  * )
+ * @ApiFilter(SearchFilter::class, properties={
+ *      "name": "partial",
+ *      "code": "partial",
+ *      "filiere.code": "partial",
+ *      "credits.category.code": "partial",
+ * })
+ * @ApiFilter(RangeFilter::class, properties={"validationRate"})
  * 
  * @ORM\Entity(repositoryClass=UERepository::class)
  * @ORM\Table(name="ues")
