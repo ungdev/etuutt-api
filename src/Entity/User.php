@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * The main entity that represents all Users. It is related to UEs, Covoits, Assos and others.
@@ -55,6 +56,8 @@ class User
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
+     * 
+     * @Groups("ue_comment:some:read")
      */
     private $firstName;
 
@@ -64,6 +67,8 @@ class User
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
+     * 
+     * @Groups("ue_comment:some:read")
      */
     private $lastName;
 

@@ -19,6 +19,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Contracts\Service\Attribute\Required;
 
 /**
  * @ApiResource(
@@ -67,6 +68,7 @@ class UE
      * 
      * @Groups("ue:some:read")
      * @Groups("ue:one:read")
+     * @Groups("ue_comment:some:read")
      */
     private $code;
 
@@ -599,5 +601,12 @@ class UE
         $votes = $this->getStarVotes();
 
         return $stars;
+    }
+
+    #[Required]
+    public function setRepo(SemesterRepository $semesterRepo, UEStarCriterionRepository $UEStarCriterionRepo) {
+        $this->semesterRepo = $semesterRepo;
+        dump($semesterRepo);
+        $this->UEStarCriterionRepo = $UEStarCriterionRepo;
     }
 }
