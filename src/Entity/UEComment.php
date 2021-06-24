@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UECommentRepository;
+use App\Controller\SoftDeleteController;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
@@ -25,7 +26,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *          "get" = {"normalization_context"={ "groups" = {"ue_comment:some:read"} }}
  *      },
  *      itemOperations= {
- *          "get" = {"normalization_context"={ "groups" = {"ue_comment:one:read"} }}
+ *          "get" = {"normalization_context"={ "groups" = {"ue_comment:one:read"} }},
+ *          "delete" = {
+ *              "controller" = SoftDeleteController::class
+ *          }
  *      },
  *      attributes={
  *          "pagination_items_per_page"=6
