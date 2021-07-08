@@ -7,8 +7,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
-use App\Repository\SemesterRepository;
-use App\Repository\UEStarCriterionRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -188,24 +186,8 @@ class UE
      */
     private $courses;
 
-    /**
-     * The Semester repository to access the current semester.
-     * 
-     * @var SemesterRepository
-     */
-    private $semesterRepo;
-
-    /**
-     * The UEStarCriterion repository to access all the criterions.
-     * 
-     * @var UEStarCriterionRepository
-     */
-    private $UEStarCriterionRepo;
-
-    public function __construct(SemesterRepository $semesterRepo, UEStarCriterionRepository $UEStarCriterionRepo)
+    public function __construct()
     {
-        $this->semesterRepo = $semesterRepo;
-        $this->UEStarCriterionRepo = $UEStarCriterionRepo;
         $this->usersSubscriptions = new ArrayCollection();
         $this->credits = new ArrayCollection();
         $this->starVotes = new ArrayCollection();
@@ -287,7 +269,8 @@ class UE
      */
     public function getNumberOfSubscribed(): ?int
     {
-        $currentSemesterCode = $this->semesterRepo->getCurrentSemester()->getCode();
+        // $currentSemesterCode = $this->semesterRepo->getCurrentSemester()->getCode();
+        $currentSemesterCode = 'P21';
         $subscriptionsAllTime = $this->getUserUESubscriptions();
         $subscriptionsThisSemester = $subscriptionsAllTime->filter(
             function($subscription) use ($currentSemesterCode) {
@@ -601,12 +584,5 @@ class UE
         $votes = $this->getStarVotes();
 
         return $stars;
-    }
-
-    #[Required]
-    public function setRepo(SemesterRepository $semesterRepo, UEStarCriterionRepository $UEStarCriterionRepo) {
-        $this->semesterRepo = $semesterRepo;
-        dump($semesterRepo);
-        $this->UEStarCriterionRepo = $UEStarCriterionRepo;
     }
 }
