@@ -551,37 +551,26 @@ class UE
     public function getStars()
     {
         $stars = [];    //  The array that will be returned
-        $criterions = $this->UEStarCriterionRepo->findAll();
+        $numberOfVotes = [];
+        $sumOfValue = [];
 
-        foreach ($criterions as $criterion) {
-
-            //  Initialization of the variables
-            $numberOfVotes = 0;
-            $averageValue = 0;
-            $sumOfValue = 0;
-
-            //  Getting all data
-            $votesForThisCriterion = $this->getStarVotes()->filter(
-                function($vote) use ($criterion) {
-                    return $vote->getCriterion()->getId() == $criterion->getId();
-                 }
-            );
-            foreach ($votesForThisCriterion as $vote) {
-                $sumOfValue += $vote->getValue();
+        foreach ($this->getStarVotes()->getValues() as $vote) {
+            $criterionId = $vote->getCriterion()->getId()->toRfc4122();     //  Ton convert UUID to string
+            if (!array_key_exists($criterionId, $numberOfVotes)) {
+                $numberOfVotes[$criterionId] = 0;
+                $sumOfValue[$criterionId] = 0;
             }
-            $numberOfVotes = $votesForThisCriterion->count();
-            $averageValue = $numberOfVotes == 0 ? null : ($sumOfValue / $numberOfVotes);
 
-            //  Creating the object
-            $star = new stdClass();     //  Create an empty object : https://stackoverflow.com/questions/1434368/how-to-define-an-empty-object-in-php
-            $star->criterion = $criterion;
-            $star->votes = new stdClass();
-            $star->votes->number = $numberOfVotes;
-            $star->votes->averageValue = $averageValue;
-
+            $numberOfVotes[$criterionId]++;
+            $sumOfValue[$criterionId] += $vote->getValue();
+        }
+        
+        foreach ($numberOfVotes as $criterionId => $value) {
+            $star['criterion_id'] = $criterionId;
+            $star['votes']['number'] = $numberOfVotes[$criterionId];
+            $star['votes']['averageValue'] = $sumOfValue[$criterionId] / $numberOfVotes[$criterionId];
             $stars[] = $star;
         }
-        $votes = $this->getStarVotes();
 
         return $stars;
     }
