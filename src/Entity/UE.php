@@ -2,41 +2,38 @@
 
 namespace App\Entity;
 
-use App\Repository\UERepository;
-use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\UERepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
-use stdClass;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Contracts\Service\Attribute\Required;
 
 /**
  * @ApiResource(
- *      shortName="ue",
- *      collectionOperations= {
- *          "get" = {"normalization_context"={ "groups" = {"ue:some:read"} }}
- *      },
- *      itemOperations= {
- *          "get" = {"normalization_context"={ "groups" = {"ue:one:read"} }}
- *      }
+ *     shortName="ue",
+ *     collectionOperations={
+ *         "get": {"normalization_context": { "groups": {"ue:some:read"} }}
+ *     },
+ *     itemOperations={
+ *         "get": {"normalization_context": { "groups": {"ue:one:read"} }}
+ *     }
  * )
  * @ApiFilter(SearchFilter::class, properties={
- *      "name": "partial",
- *      "code": "partial",
- *      "filiere.code": "partial",
- *      "credits.category.code": "partial",
+ *     "name": "partial",
+ *     "code": "partial",
+ *     "filiere.code": "partial",
+ *     "credits.category.code": "partial",
  * })
  * @ApiFilter(RangeFilter::class, properties={"validationRate"})
- * 
+ *
  * @ORM\Entity(repositoryClass=UERepository::class)
  * @ORM\Table(name="ues")
  */
@@ -49,7 +46,7 @@ class UE
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
      * @Assert\Uuid(versions=4)
-     * 
+     *
      * @Groups("ue:some:read")
      * @Groups("ue:one:read")
      */
@@ -63,7 +60,7 @@ class UE
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=10)
      * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
-     * 
+     *
      * @Groups("ue:some:read")
      * @Groups("ue:one:read")
      * @Groups("ue_comment:some:read")
@@ -77,7 +74,7 @@ class UE
      *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
-     * 
+     *
      * @Groups("ue:some:read")
      * @Groups("ue:one:read")
      */
@@ -91,7 +88,7 @@ class UE
      * @Assert\Type("float")
      * @Assert\LessThanOrEqual(100)
      * @Assert\GreaterThanOrEqual(0)
-     * 
+     *
      * @Groups("ue:one:read")
      */
     private $validationRate;
@@ -264,7 +261,7 @@ class UE
 
     /**
      * This method returns the number of student subscribed to this UE during the current semester.
-     * 
+     *
      * @Groups("ue:one:read")
      */
     public function getNumberOfSubscribed(): ?int
@@ -273,10 +270,11 @@ class UE
         $currentSemesterCode = 'P21';
         $subscriptionsAllTime = $this->getUserUESubscriptions();
         $subscriptionsThisSemester = $subscriptionsAllTime->filter(
-            function($subscription) use ($currentSemesterCode) {
-                return $subscription->getSemester()->getCode() == $currentSemesterCode;
-             }
+            function ($subscription) use ($currentSemesterCode) {
+                return $subscription->getSemester()->getCode() === $currentSemesterCode;
+            }
         );
+
         return $subscriptionsThisSemester->count();
     }
 
@@ -320,11 +318,12 @@ class UE
      */
     public function getFiliereCode()
     {
-        $filiereCode = "";
+        $filiereCode = '';
         $filiere = $this->getFiliere();
-        if (!is_null($filiere)) {
-            $filiereCode = $filiere->getCode() . " - " . $filiere->getUTTBranche()->getCode();
+        if (null !== $filiere) {
+            $filiereCode = $filiere->getCode().' - '.$filiere->getUTTBranche()->getCode();
         }
+
         return $filiereCode;
     }
 
@@ -337,7 +336,7 @@ class UE
 
     /**
      * @return Collection|UECredit[]
-     * 
+     *
      * @Groups("ue:one:read")
      */
     public function getCredits(): Collection
@@ -556,15 +555,15 @@ class UE
 
         foreach ($this->getStarVotes()->getValues() as $vote) {
             $criterionId = $vote->getCriterion()->getId()->toRfc4122();     //  Ton convert UUID to string
-            if (!array_key_exists($criterionId, $numberOfVotes)) {
+            if (!\array_key_exists($criterionId, $numberOfVotes)) {
                 $numberOfVotes[$criterionId] = 0;
                 $sumOfValue[$criterionId] = 0;
             }
 
-            $numberOfVotes[$criterionId]++;
+            ++$numberOfVotes[$criterionId];
             $sumOfValue[$criterionId] += $vote->getValue();
         }
-        
+
         foreach ($numberOfVotes as $criterionId => $value) {
             $star['criterion_id'] = $criterionId;
             $star['votes']['number'] = $numberOfVotes[$criterionId];

@@ -5,9 +5,9 @@ namespace App\Entity;
 use App\Repository\UECreditRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * The entity that store the amount and the category of credits that a UE gives.
@@ -50,7 +50,7 @@ class UECredit
      *
      * @Assert\Type("int")
      * @Assert\Positive
-     * 
+     *
      * @Groups("ue:one:read")
      */
     private $amount;

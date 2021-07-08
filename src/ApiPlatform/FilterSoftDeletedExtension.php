@@ -13,7 +13,7 @@ class FilterSoftDeletedExtension implements QueryCollectionExtensionInterface
 {
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
     {
-        if (property_exists($resourceClass, "deletedAt")) {
+        if (property_exists($resourceClass, 'deletedAt')) {
             $rootAlias = $queryBuilder->getRootAliases()[0];
             $queryBuilder->andWhere(sprintf('%s.deletedAt IS NULL', $rootAlias));
         }

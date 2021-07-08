@@ -92,7 +92,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
         $users = $manager->getRepository(User::class)->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
         foreach ($ues as $ue) {
-            for ($i=0; $i < $faker->numberBetween(50, 200); $i++) { 
+            for ($i = 0; $i < $faker->numberBetween(50, 200); ++$i) {
                 $subscription = new UserUESubscription();
                 $subscription->setUser($faker->randomElement($users));
                 $subscription->setUE($ue);

@@ -2,44 +2,44 @@
 
 namespace App\Entity;
 
-use App\Repository\UECommentRepository;
-use App\Controller\SoftDeleteController;
-use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\SoftDeleteController;
+use App\Repository\UECommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity of a Comment on a UE. It allow Users to give feedback on a UE.
  *
  * @ApiResource(
- *      shortName="ue_comment",
- *      collectionOperations= {
- *          "get" = {"normalization_context"={ "groups" = {"ue_comment:some:read"} }}
- *      },
- *      itemOperations= {
- *          "get" = {"normalization_context"={ "groups" = {"ue_comment:one:read"} }},
- *          "delete" = {
- *              "controller" = SoftDeleteController::class
- *          }
- *      },
- *      attributes={
- *          "pagination_items_per_page"=6
+ *     shortName="ue_comment",
+ *     collectionOperations={
+ *         "get": {"normalization_context": { "groups": {"ue_comment:some:read"} }}
+ *     },
+ *     itemOperations={
+ *         "get": {"normalization_context": { "groups": {"ue_comment:one:read"} }},
+ *         "delete": {
+ *             "controller": SoftDeleteController::class
+ *         }
+ *     },
+ *     attributes={
+ *         "pagination_items_per_page": 6
  *     }
  * )
  * @ApiFilter(SearchFilter::class, properties={
- *      "UE.code": "exact"
+ *     "UE.code": "exact"
  * })
  * @ApiFilter(OrderFilter::class, properties={"createdAt"})
- * 
+ *
  * @ORM\Entity(repositoryClass=UECommentRepository::class)
  * @ORM\Table(name="ue_comments")
  */
@@ -52,7 +52,7 @@ class UEComment
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
      * @Assert\Uuid(versions=4)
-     * 
+     *
      * @Groups("ue_comment:some:read")
      */
     private $id;
@@ -62,7 +62,7 @@ class UEComment
      *
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
-     * 
+     *
      * @Groups("ue_comment:some:read")
      */
     private $UE;
@@ -81,7 +81,7 @@ class UEComment
      * @ORM\Column(type="text")
      *
      * @Assert\Type("string")
-     * 
+     *
      * @Groups("ue_comment:some:read")
      */
     private $body;
@@ -100,7 +100,7 @@ class UEComment
      *
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
-     * 
+     *
      * @Groups("ue_comment:some:read")
      */
     private $semester;
@@ -123,7 +123,7 @@ class UEComment
      * @ORM\Column(type="datetime")
      *
      * @Assert\DateTime
-     * 
+     *
      * @Groups("ue_comment:some:read")
      */
     private $createdAt;
@@ -132,7 +132,7 @@ class UEComment
      * @ORM\Column(type="datetime")
      *
      * @Assert\DateTime
-     * 
+     *
      * @Groups("ue_comment:some:read")
      */
     private $updatedAt;
@@ -169,7 +169,7 @@ class UEComment
 
     /**
      * The getter used by Api-platform to get the author of the comment if it is not anonymous. Null otherwise.
-     * 
+     *
      * @Groups("ue_comment:some:read")
      * @SerializedName("author")
      */
@@ -179,6 +179,7 @@ class UEComment
         if (!$this->getIsAnonymous()) {
             $author = $this->author;
         }
+
         return $author;
     }
 
@@ -262,7 +263,7 @@ class UEComment
 
     /**
      * The getter used by Api-platform to get the number of the answers replying to this comment.
-     * 
+     *
      * @Groups("ue_comment:some:read")
      */
     public function getNumberAnswer()

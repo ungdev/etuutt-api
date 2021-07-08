@@ -5,8 +5,8 @@ namespace App\Entity;
 use App\Repository\SemesterRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The Semester entity. It uniforms the way we deal with semesters.
@@ -23,7 +23,7 @@ class Semester
      * @Assert\Type("string")
      * @Assert\Length(max=10)
      * @Assert\Regex("/^(A|P)\d{2}$/")
-     * 
+     *
      * @Groups("ue_comment:some:read")
      */
     private $code;
