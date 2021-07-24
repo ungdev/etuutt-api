@@ -268,14 +268,14 @@ class UE
     {
         // $currentSemesterCode = $this->semesterRepo->getCurrentSemester()->getCode();
         $currentSemesterCode = 'P21';
-        $subscriptionsAllTime = $this->getUserUESubscriptions();
-        $subscriptionsThisSemester = $subscriptionsAllTime->filter(
-            function ($subscription) use ($currentSemesterCode) {
-                return $subscription->getSemester()->getCode() === $currentSemesterCode;
+        $numberOfSubscribed = 0;
+        foreach ($this->getUserUESubscriptions() as $subscription) {
+            if ($subscription->getSemester()->getCode() === $currentSemesterCode) {
+                ++$numberOfSubscribed;
             }
-        );
+        }
 
-        return $subscriptionsThisSemester->count();
+        return $numberOfSubscribed;
     }
 
     /**
