@@ -20,29 +20,46 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * The entity of a Comment on a UE. It allow Users to give feedback on a UE.
  *
- * @ApiResource(
- *     shortName="ue_comment",
- *     collectionOperations={
- *         "get": {"normalization_context": { "groups": {"ue_comment:some:read"} }}
- *     },
- *     itemOperations={
- *         "get": {"normalization_context": { "groups": {"ue_comment:one:read"} }},
- *         "delete": {
- *             "controller": SoftDeleteController::class
- *         }
- *     },
- *     attributes={
- *         "pagination_items_per_page": 6
- *     }
- * )
- * @ApiFilter(SearchFilter::class, properties={
- *     "UE.code": "exact"
- * })
- * @ApiFilter(OrderFilter::class, properties={"createdAt"})
- *
  * @ORM\Entity(repositoryClass=UECommentRepository::class)
  * @ORM\Table(name="ue_comments")
  */
+#[
+    ApiResource(
+        shortName: 'ue_comment',
+        collectionOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ["ue_comment:some:read"]
+                ]
+            ],
+        ],
+        itemOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ["ue_comment:one:read"]
+                ]
+            ],
+            'delete' => [
+                'controller' => SoftDeleteController::class
+            ]
+        ],
+        attributes: [
+            'pagination_items_per_page' => 6
+        ]
+    ),
+    ApiFilter(
+        SearchFilter::class,
+        properties: [
+            "UE.code" => "exact"
+        ]
+    ),
+    ApiFilter(
+        OrderFilter::class,
+        properties: [
+            "createdAt"
+        ]
+    )
+]
 class UEComment
 {
     /**

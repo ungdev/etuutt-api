@@ -17,26 +17,43 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource(
- *     shortName="ue",
- *     collectionOperations={
- *         "get": {"normalization_context": { "groups": {"ue:some:read"} }}
- *     },
- *     itemOperations={
- *         "get": {"normalization_context": { "groups": {"ue:one:read"} }}
- *     }
- * )
- * @ApiFilter(SearchFilter::class, properties={
- *     "name": "partial",
- *     "code": "partial",
- *     "filiere.code": "partial",
- *     "credits.category.code": "partial",
- * })
- * @ApiFilter(RangeFilter::class, properties={"validationRate"})
- *
  * @ORM\Entity(repositoryClass=UERepository::class)
  * @ORM\Table(name="ues")
  */
+#[
+    ApiResource(
+        shortName: 'ue',
+        collectionOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ["ue:some:read"]
+                ]
+            ],
+        ],
+        itemOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ["ue:one:read"]
+                ]
+            ],
+        ]
+    ),
+    ApiFilter(
+        SearchFilter::class,
+        properties: [
+            "name" => "partial",
+            "code" => "partial",
+            "filiere.code" => "partial",
+            "credits.category.code" => "partial",
+        ]
+    ),
+    ApiFilter(
+        RangeFilter::class,
+        properties: [
+            "validationRate"
+        ]
+    )
+]
 class UE
 {
     /**
