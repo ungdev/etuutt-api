@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Action\NotFoundAction;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UEStarCriterionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,6 +17,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=UEStarCriterionRepository::class)
  * @ORM\Table(name="ue_stars_criterions")
  */
+#[ApiResource(
+    shortName: "ue_stars_criterion",
+    itemOperations: [
+        "get" => [
+            'controller' => NotFoundAction::class,
+            'openapi_context' => [
+                'summary' => 'hidden'
+            ],
+            'read' => false,
+            'output' => false
+        ]
+    ]
+)]
 class UEStarCriterion
 {
     /**
