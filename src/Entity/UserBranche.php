@@ -6,6 +6,7 @@ use App\Repository\UserBrancheRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,6 +41,8 @@ class UserBranche
      *
      * @ORM\ManyToOne(targetEntity=UTTBranche::class)
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
+     *
+     * @Groups("user:some:read")
      */
     private $branche;
 
@@ -48,6 +51,8 @@ class UserBranche
      *
      * @ORM\ManyToOne(targetEntity=UTTFiliere::class)
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
+     *
+     * @Groups("user:some:read")
      */
     private $filiere;
 
@@ -55,6 +60,8 @@ class UserBranche
      * The number of semesters done in this UTTBranche. (e.g. 2 in "TC02").
      *
      * @ORM\Column(type="smallint")
+     *
+     * @Groups("user:some:read")
      */
     private $semesterNumber;
 

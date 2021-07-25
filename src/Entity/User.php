@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,7 +19,29 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="users")
  */
-class User
+#[
+    ApiResource(
+        shortName: 'user',
+        collectionOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ["user:some:read"]
+                ]
+            ],
+        ],
+        itemOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ["user:one:read"]
+                ]
+            ]
+        ],
+        attributes: [
+            'pagination_items_per_page' => 10
+        ]
+    )
+]
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -25,6 +50,9 @@ class User
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
      * @Assert\Uuid(versions=4)
+     *
+     * @Groups("user:one:read")
+     * @Groups("user:some:read")
      */
     private $id;
 
@@ -36,6 +64,9 @@ class User
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
+     *
+     * @Groups("user:one:read")
+     * @Groups("user:some:read")
      */
     private $login;
 
@@ -46,6 +77,8 @@ class User
      *
      * @Assert\Type("int")
      * @Assert\Positive
+     *
+     * @Groups("user:one:read")
      */
     private $studentId;
 
@@ -55,6 +88,9 @@ class User
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
+     *
+     * @Groups("user:one:read")
+     * @Groups("user:some:read")
      */
     private $firstName;
 
@@ -64,8 +100,18 @@ class User
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
+     *
+     * @Groups("user:one:read")
+     * @Groups("user:some:read")
      */
     private $lastName;
+
+    /**
+     * The roles of the user. Admin, UE editor, UE comment moderator...
+     *
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     /**
      * The relation to the entity that contains the User's Timestamps.
@@ -78,6 +124,8 @@ class User
      * The relation to the entity that contains the User's SocialNetwork.
      *
      * @ORM\OneToOne(targetEntity=UserSocialNetwork::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Groups("user:one:read")
      */
     private $socialNetwork;
 
@@ -92,6 +140,8 @@ class User
      * The relation to the entity that contains the User's RGPD.
      *
      * @ORM\OneToOne(targetEntity=UserRGPD::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Groups("user:one:read")
      */
     private $RGPD;
 
@@ -106,6 +156,8 @@ class User
      * The relation to the badges that this User owns.
      *
      * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="users")
+     *
+     * @Groups("user:one:read")
      */
     private $badges;
 
@@ -139,6 +191,9 @@ class User
      * The relation to the Branche of the User.
      *
      * @ORM\OneToOne(targetEntity=UserBranche::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Groups("user:one:read")
+     * @Groups("user:some:read")
      */
     private $branche;
 
@@ -146,6 +201,9 @@ class User
      * The relation to the Formation of the User.
      *
      * @ORM\OneToOne(targetEntity=UserFormation::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Groups("user:one:read")
+     * @Groups("user:some:read")
      */
     private $formation;
 
@@ -160,6 +218,8 @@ class User
      * The relation to the Preference of the User.
      *
      * @ORM\OneToOne(targetEntity=UserPreference::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Groups("user:one:read")
      */
     private $preference;
 
@@ -167,6 +227,9 @@ class User
      * The relation to the Infos of the User.
      *
      * @ORM\OneToOne(targetEntity=UserInfos::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Groups("user:one:read")
+     * @Groups("user:some:read")
      */
     private $infos;
 
@@ -174,13 +237,18 @@ class User
      * The relation to the Addresses of the User.
      *
      * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Groups("user:one:read")
      */
     private $addresses;
 
     /**
-     * The relation to the Mail and phone nulber of the User.
+     * The relation to mails and phone number of the User.
      *
      * @ORM\OneToOne(targetEntity=UserMailsPhones::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Groups("user:one:read")
+     * @Groups("user:some:read")
      */
     private $mailsPhones;
 
@@ -234,6 +302,16 @@ class User
         return $this->id;
     }
 
+    /**
+     * A unique identifier that represents this user. This method is used by the Symfony User system.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->login;
+    }
+
     public function getLogin(): ?string
     {
         return $this->login;
@@ -280,6 +358,74 @@ class User
         $this->lastName = $lastName;
 
         return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole(string $role): self
+    {
+        if (!\in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(string $role): self
+    {
+        if (\in_array($role, $this->roles, true)) {
+            $this->roles = array_diff($this->roles, [$role]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * This method is not needed for apps that do not check user passwords. Mandatory definition by the 'UserInterface' interface.
+     *
+     * @see UserInterface
+     */
+    public function getPassword(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * This method is not needed for apps that do not check user passwords. Mandatory definition by the 'UserInterface' interface.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     *  Not used but mandatory definition by the 'UserInterface' interface.
+     *
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getTimestamps(): ?UserTimestamps

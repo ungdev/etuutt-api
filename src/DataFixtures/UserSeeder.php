@@ -32,13 +32,25 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $semesterRepository = $manager->getRepository(Semester::class);
 
+        //  Création d'un User administrateur
+        $user = new User();
+        $user->setFirstName('admin');
+        $user->setLastName('admin');
+        $user->setLogin('admin');
+        $user->addRole('ROLE_ADMIN');
+        $timestamps = new UserTimestamps();
+        $timestamps->setCreatedAt(new DateTime());
+        $timestamps->setUpdatedAt(new DateTime());
+        $user->setTimestamps($timestamps);
+        $manager->persist($user);
+
+        $userRepository = $manager->getRepository(User::class);
         for ($i = 0; $i < 300; ++$i) {
             //  Créations d'un User
             $user = new User();
             $user->setStudentId(44000 + $i);
             $user->setFirstName($faker->firstName);
             $user->setLastName($faker->lastName);
-            $userRepository = $manager->getRepository(User::class);
             $user->setLogin(self::generateLogin($user->getFirstName(), $user->getLastName(), $userRepository));
             $manager->persist($user);
 
