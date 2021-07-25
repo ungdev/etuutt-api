@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -104,6 +105,8 @@ class UserInfos
      *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
+     *
+     * @Groups("user:some:read")
      */
     private $avatar;
 
