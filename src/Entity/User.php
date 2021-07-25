@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -104,6 +105,13 @@ class User implements UserInterface
      * @Groups("user:some:read")
      */
     private $lastName;
+
+    /**
+     * The roles of the user. Admin, UE editor, UE comment moderator...
+     *
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     /**
      * The relation to the entity that contains the User's Timestamps.
@@ -294,6 +302,16 @@ class User implements UserInterface
         return $this->id;
     }
 
+    /**
+     * A unique identifier that represents this user. This method is used by the Symfony User system.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->login;
+    }
+
     public function getLogin(): ?string
     {
         return $this->login;
@@ -340,6 +358,74 @@ class User implements UserInterface
         $this->lastName = $lastName;
 
         return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole(string $role): self
+    {
+        if (!\in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(string $role): self
+    {
+        if (\in_array($role, $this->roles, true)) {
+            $this->roles = array_diff($this->roles, [$role]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * This method is not needed for apps that do not check user passwords. Mandatory definition by the 'UserInterface' interface.
+     *
+     * @see UserInterface
+     */
+    public function getPassword(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * This method is not needed for apps that do not check user passwords. Mandatory definition by the 'UserInterface' interface.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     *  Not used but mandatory definition by the 'UserInterface' interface.
+     *
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getTimestamps(): ?UserTimestamps

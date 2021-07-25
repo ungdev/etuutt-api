@@ -5,7 +5,8 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: username
+                property: login
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
