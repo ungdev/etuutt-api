@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\SoftDeleteController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -34,6 +35,10 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'normalization_context' => [
                     'groups' => ['user:one:read'],
                 ],
+            ],
+            'delete' => [
+                'controller' => SoftDeleteController::class,
+                'security' => "is_granted('ROLE_ADMIN')",
             ],
         ],
         attributes: [
