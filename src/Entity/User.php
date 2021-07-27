@@ -60,7 +60,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions=4)
+     * @Assert\Uuid(versions={4})
      */
     #[Groups([
         'user:read:one',
