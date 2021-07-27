@@ -25,19 +25,20 @@ use Symfony\Component\Validator\Constraints as Assert;
         collectionOperations: [
             'get' => [
                 'normalization_context' => [
-                    'groups' => ["user:some:read"]
-                ]
+                    'groups' => ['user:some:read'],
+                ],
             ],
         ],
         itemOperations: [
             'get' => [
                 'normalization_context' => [
-                    'groups' => ["user:one:read"]
-                ]
-            ]
+                    'groups' => ['user:one:read'],
+                ],
+            ],
         ],
         attributes: [
-            'pagination_items_per_page' => 10
+            'security' => "is_granted('ROLE_USER')",
+            'pagination_items_per_page' => 10,
         ]
     )
 ]
