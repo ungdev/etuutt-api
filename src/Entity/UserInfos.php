@@ -107,7 +107,7 @@ class UserInfos
      * @Assert\Length(min=1, max=255)
      */
     #[Groups([
-        'user:some:read',
+        'user:read:some',
     ])]
     private $avatar;
 

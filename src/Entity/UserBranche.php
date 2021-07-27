@@ -43,7 +43,7 @@ class UserBranche
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
      */
     #[Groups([
-        'user:some:read',
+        'user:read:some',
     ])]
     private $branche;
 
@@ -54,7 +54,7 @@ class UserBranche
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
     #[Groups([
-        'user:some:read',
+        'user:read:some',
     ])]
     private $filiere;
 
@@ -64,7 +64,7 @@ class UserBranche
      * @ORM\Column(type="smallint")
      */
     #[Groups([
-        'user:some:read',
+        'user:read:some',
     ])]
     private $semesterNumber;
 
