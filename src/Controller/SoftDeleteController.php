@@ -20,7 +20,7 @@ class SoftDeleteController extends AbstractController
 
     public function __invoke($data)
     {
-        if($data instanceof User) {
+        if ($data instanceof User) {
             $data = $data->getTimestamps();
         }
         $deletedAt = $data->getDeletedAt();
@@ -29,12 +29,12 @@ class SoftDeleteController extends AbstractController
             $this->manager->persist($data);
             $this->manager->flush();
             $body = [
-                'message' => 'This element has been soft deleted successfully.'
+                'message' => 'This element has been soft deleted successfully.',
             ];
             $response = new JsonResponse($body, Response::HTTP_NO_CONTENT);
         } else {
             $body = [
-                'error' => 'This element has already been deleted.'
+                'error' => 'This element has already been deleted.',
             ];
             $response = new JsonResponse($body, Response::HTTP_NOT_FOUND);
         }

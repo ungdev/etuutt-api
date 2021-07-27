@@ -41,9 +41,10 @@ class UserBranche
      *
      * @ORM\ManyToOne(targetEntity=UTTBranche::class)
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
-     *
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:some:read',
+    ])]
     private $branche;
 
     /**
@@ -51,18 +52,20 @@ class UserBranche
      *
      * @ORM\ManyToOne(targetEntity=UTTFiliere::class)
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
-     *
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:some:read',
+    ])]
     private $filiere;
 
     /**
      * The number of semesters done in this UTTBranche. (e.g. 2 in "TC02").
      *
      * @ORM\Column(type="smallint")
-     *
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:some:read',
+    ])]
     private $semesterNumber;
 
     /**

@@ -23,6 +23,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ApiResource(
         shortName: 'user',
+        attributes: [
+            'security' => "is_granted('ROLE_USER')",
+            'pagination_items_per_page' => 10,
+        ],
         collectionOperations: [
             'get' => [
                 'normalization_context' => [
@@ -40,11 +44,12 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'controller' => SoftDeleteController::class,
                 'security' => "is_granted('ROLE_ADMIN')",
             ],
+            'patch' => [
+                'denormalization_context' => [
+                    'groups' => ['user:write:update'],
+                ],
+            ],
         ],
-        attributes: [
-            'security' => "is_granted('ROLE_USER')",
-            'pagination_items_per_page' => 10,
-        ]
     )
 ]
 class User implements UserInterface
@@ -56,10 +61,11 @@ class User implements UserInterface
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
      * @Assert\Uuid(versions=4)
-     *
-     * @Groups("user:one:read")
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:one:read',
+        'user:some:read',
+    ])]
     private $id;
 
     /**
@@ -70,10 +76,11 @@ class User implements UserInterface
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
-     *
-     * @Groups("user:one:read")
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:one:read',
+        'user:some:read',
+    ])]
     private $login;
 
     /**
@@ -83,9 +90,10 @@ class User implements UserInterface
      *
      * @Assert\Type("int")
      * @Assert\Positive
-     *
-     * @Groups("user:one:read")
      */
+    #[Groups([
+        'user:one:read',
+    ])]
     private $studentId;
 
     /**
@@ -94,10 +102,11 @@ class User implements UserInterface
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
-     *
-     * @Groups("user:one:read")
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:one:read',
+        'user:some:read',
+    ])]
     private $firstName;
 
     /**
@@ -106,10 +115,11 @@ class User implements UserInterface
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
-     *
-     * @Groups("user:one:read")
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:one:read',
+        'user:some:read',
+    ])]
     private $lastName;
 
     /**
@@ -130,9 +140,10 @@ class User implements UserInterface
      * The relation to the entity that contains the User's SocialNetwork.
      *
      * @ORM\OneToOne(targetEntity=UserSocialNetwork::class, mappedBy="user", cascade={"persist", "remove"})
-     *
-     * @Groups("user:one:read")
      */
+    #[Groups([
+        'user:one:read',
+    ])]
     private $socialNetwork;
 
     /**
@@ -146,9 +157,10 @@ class User implements UserInterface
      * The relation to the entity that contains the User's RGPD.
      *
      * @ORM\OneToOne(targetEntity=UserRGPD::class, mappedBy="user", cascade={"persist", "remove"})
-     *
-     * @Groups("user:one:read")
      */
+    #[Groups([
+        'user:one:read',
+    ])]
     private $RGPD;
 
     /**
@@ -162,9 +174,10 @@ class User implements UserInterface
      * The relation to the badges that this User owns.
      *
      * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="users")
-     *
-     * @Groups("user:one:read")
      */
+    #[Groups([
+        'user:one:read',
+    ])]
     private $badges;
 
     /**
@@ -197,20 +210,22 @@ class User implements UserInterface
      * The relation to the Branche of the User.
      *
      * @ORM\OneToOne(targetEntity=UserBranche::class, mappedBy="user", cascade={"persist", "remove"})
-     *
-     * @Groups("user:one:read")
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:one:read',
+        'user:some:read',
+    ])]
     private $branche;
 
     /**
      * The relation to the Formation of the User.
      *
      * @ORM\OneToOne(targetEntity=UserFormation::class, mappedBy="user", cascade={"persist", "remove"})
-     *
-     * @Groups("user:one:read")
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:one:read',
+        'user:some:read',
+    ])]
     private $formation;
 
     /**
@@ -224,38 +239,42 @@ class User implements UserInterface
      * The relation to the Preference of the User.
      *
      * @ORM\OneToOne(targetEntity=UserPreference::class, mappedBy="user", cascade={"persist", "remove"})
-     *
-     * @Groups("user:one:read")
      */
+    #[Groups([
+        'user:one:read',
+    ])]
     private $preference;
 
     /**
      * The relation to the Infos of the User.
      *
      * @ORM\OneToOne(targetEntity=UserInfos::class, mappedBy="user", cascade={"persist", "remove"})
-     *
-     * @Groups("user:one:read")
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:one:read',
+        'user:some:read',
+    ])]
     private $infos;
 
     /**
      * The relation to the Addresses of the User.
      *
      * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"})
-     *
-     * @Groups("user:one:read")
      */
+    #[Groups([
+        'user:one:read',
+    ])]
     private $addresses;
 
     /**
      * The relation to mails and phone number of the User.
      *
      * @ORM\OneToOne(targetEntity=UserMailsPhones::class, mappedBy="user", cascade={"persist", "remove"})
-     *
-     * @Groups("user:one:read")
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:one:read',
+        'user:some:read',
+    ])]
     private $mailsPhones;
 
     /**
