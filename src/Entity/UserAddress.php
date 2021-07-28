@@ -37,6 +37,17 @@ class UserAddress
     private $user;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(max=255)
+     */
+    #[Groups([
+        'user:write:update',
+    ])]
+    private $street;
+
+    /**
      * The french postal code.
      *
      * @ORM\Column(type="string", length=20, nullable=true)
@@ -100,6 +111,18 @@ class UserAddress
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function setStreet(?string $street): self
+    {
+        $this->street = $street;
 
         return $this;
     }
