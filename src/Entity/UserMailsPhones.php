@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -54,6 +55,9 @@ class UserMailsPhones
      * @Assert\Email
      * @Assert\Regex("/^.+[^@utt\.fr]$/")
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $mailPersonal;
 
     /**
@@ -69,13 +73,15 @@ class UserMailsPhones
     private $mailPersonalVisibility;
 
     /**
-     * The phone number of the User.
+     * The phone number of the User. It can take the following forms : +919367788755, 8989829304, +16308520397, 786-307-3615.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
      *
-     * @Assert\Email
      * @Assert\Regex("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/")
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $phoneNumber;
 
     /**

@@ -45,9 +45,10 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'security' => "is_granted('ROLE_ADMIN')",
             ],
             'patch' => [
-                'denormalization_context' => [
+                'normalization_context' => [
                     'groups' => ['user:write:update'],
                 ],
+                'security' => "object == user or is_granted('ROLE_ADMIN')",
             ],
         ],
     )
@@ -101,7 +102,6 @@ class User implements UserInterface
      *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
-     * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
      */
     #[Groups([
         'user:read:one',
@@ -114,7 +114,6 @@ class User implements UserInterface
      *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
-     * @Assert\Regex("/^[A-Za-z- ]{1,255}$/")
      */
     #[Groups([
         'user:read:one',
@@ -140,9 +139,12 @@ class User implements UserInterface
      * The relation to the entity that contains the User's SocialNetwork.
      *
      * @ORM\OneToOne(targetEntity=UserSocialNetwork::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
+        'user:write:update',
     ])]
     private $socialNetwork;
 
@@ -157,9 +159,12 @@ class User implements UserInterface
      * The relation to the entity that contains the User's RGPD.
      *
      * @ORM\OneToOne(targetEntity=UserRGPD::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
+        'user:write:update',
     ])]
     private $RGPD;
 
@@ -239,9 +244,12 @@ class User implements UserInterface
      * The relation to the Preference of the User.
      *
      * @ORM\OneToOne(targetEntity=UserPreference::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
+        'user:write:update',
     ])]
     private $preference;
 
@@ -249,10 +257,13 @@ class User implements UserInterface
      * The relation to the Infos of the User.
      *
      * @ORM\OneToOne(targetEntity=UserInfos::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
+        'user:write:update',
     ])]
     private $infos;
 
@@ -260,9 +271,12 @@ class User implements UserInterface
      * The relation to the Addresses of the User.
      *
      * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
+        'user:write:update',
     ])]
     private $addresses;
 
@@ -270,10 +284,13 @@ class User implements UserInterface
      * The relation to mails and phone number of the User.
      *
      * @ORM\OneToOne(targetEntity=UserMailsPhones::class, mappedBy="user", cascade={"persist", "remove"})
+     *
+     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
+        'user:write:update',
     ])]
     private $mailsPhones;
 

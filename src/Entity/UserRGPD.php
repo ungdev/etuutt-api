@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRGPDRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,6 +42,9 @@ class UserRGPD
      *
      * @Assert\Type("bool")
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $isKeepingAccount;
 
     /**
@@ -50,6 +54,9 @@ class UserRGPD
      *
      * @Assert\Type("bool")
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $isDeletingEverything;
 
     public function getId(): ?Uuid

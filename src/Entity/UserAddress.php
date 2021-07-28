@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -56,6 +57,9 @@ class UserAddress
      * @Assert\Length(max=20)
      * @Assert\Regex("/^\d{5}$/")
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $postalCode;
 
     /**
@@ -64,6 +68,9 @@ class UserAddress
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $city;
 
     /**
@@ -72,6 +79,9 @@ class UserAddress
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $country;
 
     /**

@@ -45,6 +45,9 @@ class UserInfos
      * @Assert\Length(max=50)
      * @Assert\Choice({"Masculin", "Féminin", "Autre"})
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $sex;
 
     /**
@@ -119,6 +122,9 @@ class UserInfos
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $nickname;
 
     /**
@@ -128,6 +134,9 @@ class UserInfos
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $passions;
 
     /**
@@ -137,6 +146,9 @@ class UserInfos
      *
      * @Assert\Url
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $website;
 
     public function __construct()
