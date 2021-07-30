@@ -36,3 +36,8 @@ services:
         decorates: 'api_platform.openapi.factory'
         arguments: ['@App\OpenApi\OpenApiFactory.inner']
         autoconfigure: false
+
+    #   A decoration of the data provider to hide some data from a user profil
+    App\DataProvider\UserDataVisibilityDataProvider:
+        bind:
+            $itemDataProvider: '@api_platform.doctrine.orm.default.item_data_provider'

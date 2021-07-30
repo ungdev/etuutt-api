@@ -44,6 +44,7 @@ class UserAddress
      * @Assert\Length(max=255)
      */
     #[Groups([
+        'user:read:one',
         'user:write:update',
     ])]
     private $street;
@@ -58,6 +59,7 @@ class UserAddress
      * @Assert\Regex("/^\d{5}$/")
      */
     #[Groups([
+        'user:read:one',
         'user:write:update',
     ])]
     private $postalCode;
@@ -69,6 +71,7 @@ class UserAddress
      * @Assert\Length(max=255)
      */
     #[Groups([
+        'user:read:one',
         'user:write:update',
     ])]
     private $city;
@@ -80,6 +83,7 @@ class UserAddress
      * @Assert\Length(max=50)
      */
     #[Groups([
+        'user:read:one',
         'user:write:update',
     ])]
     private $country;

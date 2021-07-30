@@ -56,6 +56,7 @@ class UserMailsPhones
      * @Assert\Regex("/^.+[^@utt\.fr]$/")
      */
     #[Groups([
+        'user:read:one',
         'user:write:update',
     ])]
     private $mailPersonal;
@@ -80,6 +81,7 @@ class UserMailsPhones
      * @Assert\Regex("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/")
      */
     #[Groups([
+        'user:read:one',
         'user:write:update',
     ])]
     private $phoneNumber;

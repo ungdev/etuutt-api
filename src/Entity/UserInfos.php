@@ -46,6 +46,7 @@ class UserInfos
      * @Assert\Choice({"Masculin", "Féminin", "Autre"})
      */
     #[Groups([
+        'user:read:one',
         'user:write:update',
     ])]
     private $sex;
@@ -68,6 +69,9 @@ class UserInfos
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
+    #[Groups([
+        'user:read:one',
+    ])]
     private $nationality;
 
     /**
@@ -87,6 +91,9 @@ class UserInfos
      *
      * @Assert\Date
      */
+    #[Groups([
+        'user:read:one',
+    ])]
     private $birthday;
 
     /**
@@ -110,6 +117,7 @@ class UserInfos
      * @Assert\Length(min=1, max=255)
      */
     #[Groups([
+        'user:read:one',
         'user:read:some',
     ])]
     private $avatar;
@@ -123,6 +131,7 @@ class UserInfos
      * @Assert\Length(max=50)
      */
     #[Groups([
+        'user:read:one',
         'user:write:update',
     ])]
     private $nickname;
@@ -135,6 +144,7 @@ class UserInfos
      * @Assert\Type("string")
      */
     #[Groups([
+        'user:read:one',
         'user:write:update',
     ])]
     private $passions;
@@ -147,6 +157,7 @@ class UserInfos
      * @Assert\Url
      */
     #[Groups([
+        'user:read:one',
         'user:write:update',
     ])]
     private $website;
@@ -187,7 +198,7 @@ class UserInfos
         return $this->sex;
     }
 
-    public function setSex(string $sex): self
+    public function setSex(?string $sex): self
     {
         $this->sex = $sex;
 
@@ -259,7 +270,7 @@ class UserInfos
         return $this->birthday;
     }
 
-    public function setBirthday(DateTimeInterface $birthday): self
+    public function setBirthday(?DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
 

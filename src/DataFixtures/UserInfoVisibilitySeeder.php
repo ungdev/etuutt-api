@@ -99,8 +99,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
 
         switch ($groupChoice) {
             case 0:
-                $group = $groupRepo->findOneBy(['name' => 'Privé']);
-                $entity->caller($methodName, $group);
+                //  Private, data shared with no groups.
 
                 break;
 

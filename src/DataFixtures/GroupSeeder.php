@@ -33,8 +33,7 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
             $group = new Group();
 
             $name = match ($i) {
-                0 => 'Privé',
-                1 => 'Public',
+                0 => 'Public',
                 default => implode(' ', $faker->words),
             };
             $group->setName($name);
