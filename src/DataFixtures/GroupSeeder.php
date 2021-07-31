@@ -53,6 +53,9 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
 
             $manager->persist($descriptionTranslation);
 
+            //  Ajout d'avatar
+            $group->setAvatar($faker->imageUrl());
+
             //  Création des timestamps
             $group->setCreatedAt($faker->dateTimeBetween('-5 years'));
             $days = (new DateTime())->diff($group->getCreatedAt())->days;

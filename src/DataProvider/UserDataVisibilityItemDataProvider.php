@@ -2,7 +2,6 @@
 
 namespace App\DataProvider;
 
-use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\DenormalizedIdentifiersAwareItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
@@ -16,10 +15,11 @@ use Symfony\Component\Security\Core\Security;
 /**
  * This class decorates the DataProvider for a GET request on a User item. It permits to remove info of the target user when the logged user do not have the permission to access it.
  */
-class UserDataVisibilityDataProvider implements ContextAwareCollectionDataProviderInterface, DenormalizedIdentifiersAwareItemDataProviderInterface, RestrictedDataProviderInterface
+class UserDataVisibilityItemDataProvider implements DenormalizedIdentifiersAwareItemDataProviderInterface, RestrictedDataProviderInterface
 {
     private $itemDataProvider;
     private $security;
+    private $groupPublic;
 
     public function __construct(ItemDataProviderInterface $itemDataProvider, Security $security, GroupRepository $groupRepo)
     {
@@ -33,18 +33,10 @@ class UserDataVisibilityDataProvider implements ContextAwareCollectionDataProvid
      */
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        $isUserClass = User::class === $resourceClass;
-        $isGetItemOperation = ('get' === $operationName) && ('item' === $context['operation_type']);
+        $checkClass = User::class === $resourceClass;
+        $checkOperation = ('get' === $operationName) && ('item' === $context['operation_type']);
 
-        return $isUserClass && $isGetItemOperation;
-    }
-
-    /**
-     * Mandatory method, not used in this case.
-     */
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
-    {
-        return null;
+        return $checkClass && $checkOperation;
     }
 
     /**
