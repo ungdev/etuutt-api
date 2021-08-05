@@ -1,0 +1,1 @@
+FROM larueli/symfony-base-image:8.0
