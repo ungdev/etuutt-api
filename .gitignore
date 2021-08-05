@@ -27,3 +27,4 @@
 ###< squizlabs/php_codesniffer ###
 
 .vscode/
+.idea/
