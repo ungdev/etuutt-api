@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Repository\GroupRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -60,14 +61,19 @@ class Group
      *
      * @Assert\Uuid(versions={4})
      */
-    #[Groups([
-        'group:read:one',
-        'group:read:some',
-    ])]
+    #[
+        ApiProperty(
+            identifier: false
+        ),
+        Groups([
+            'group:read:one',
+            'group:read:some',
+        ])
+    ]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
@@ -108,9 +114,15 @@ class Group
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/")
      */
-    #[Groups([
-        'group:read:one',
-    ])]
+    #[
+        ApiProperty(
+            identifier: true
+        ),
+        Groups([
+            'group:read:one',
+            'group:read:some',
+        ])
+    ]
     private $slug;
     
     /**
