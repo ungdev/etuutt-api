@@ -13,7 +13,7 @@ class DefaultController extends AbstractController
     public function index(): Response
     {
         return new JsonResponse([
-            "status"=>"ok"
+            'status' => 'ok',
         ], 200);
     }
 }
