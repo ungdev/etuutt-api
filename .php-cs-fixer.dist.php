@@ -6,7 +6,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('vendor')
 ;
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
