@@ -24,7 +24,7 @@ class UECourseExchange
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions=4)
+     * @Assert\Uuid(versions={4})
      */
     private $id;
 
@@ -219,15 +219,20 @@ class UECourseExchange
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTimeInterface
+    public function getDeletedAt(): ?DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 
         return $this;
+    }
+
+    public function isSoftDeleted(): bool
+    {
+        return !(null === $this->deletedAt);
     }
 }

@@ -24,7 +24,7 @@ class UserBranche
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions=4)
+     * @Assert\Uuid(versions={4})
      */
     private $id;
 
@@ -41,9 +41,10 @@ class UserBranche
      *
      * @ORM\ManyToOne(targetEntity=UTTBranche::class)
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
-     *
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:read:some',
+    ])]
     private $branche;
 
     /**
@@ -51,18 +52,20 @@ class UserBranche
      *
      * @ORM\ManyToOne(targetEntity=UTTFiliere::class)
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
-     *
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:read:some',
+    ])]
     private $filiere;
 
     /**
      * The number of semesters done in this UTTBranche. (e.g. 2 in "TC02").
      *
      * @ORM\Column(type="smallint")
-     *
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:read:some',
+    ])]
     private $semesterNumber;
 
     /**

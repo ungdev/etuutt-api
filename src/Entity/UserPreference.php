@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,7 +25,7 @@ class UserPreference
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions=4)
+     * @Assert\Uuid(versions={4})
      */
     private $id;
 
@@ -43,6 +44,9 @@ class UserPreference
      *
      * @Assert\Type("bool")
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $birthdayDisplayOnlyAge;
 
     /**
@@ -51,8 +55,11 @@ class UserPreference
      * @ORM\Column(type="string", length=5)
      *
      * @Assert\Type("string")
-     * @Assert\Length(min=1, max=5)
+     * @Assert\Choice({"fr", "en", "es", "de", "zh"})
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $language;
 
     /**
@@ -62,6 +69,9 @@ class UserPreference
      *
      * @Assert\Type("bool")
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $wantDaymail;
 
     /**
@@ -71,6 +81,9 @@ class UserPreference
      *
      * @Assert\Type("bool")
      */
+    #[Groups([
+        'user:write:update',
+    ])]
     private $wantDayNotif;
 
     /**
@@ -90,6 +103,12 @@ class UserPreference
         $this->scheduleVisibility = new ArrayCollection();
     }
 
+    /**
+     * This method permits to dynamically call visibility's getters and setters.
+     *
+     * @param mixed $to_call
+     * @param mixed $arg
+     */
     public function caller($to_call, $arg)
     {
         if (\is_callable([$this, $to_call])) {

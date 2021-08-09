@@ -33,8 +33,7 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
             $group = new Group();
 
             $name = match ($i) {
-                0 => 'Privé',
-                1 => 'Public',
+                0 => 'Public',
                 default => implode(' ', $faker->words),
             };
             $group->setName($name);
@@ -53,6 +52,9 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
             $descriptionTranslation->setChinese($description);
 
             $manager->persist($descriptionTranslation);
+
+            //  Ajout d'avatar
+            $group->setAvatar($faker->imageUrl());
 
             //  Création des timestamps
             $group->setCreatedAt($faker->dateTimeBetween('-5 years'));

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserSocialNetworkRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -22,7 +23,7 @@ class UserSocialNetwork
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions=4)
+     * @Assert\Uuid(versions={4})
      */
     private $id;
 
@@ -44,6 +45,10 @@ class UserSocialNetwork
      * @Assert\Url
      * @Assert\Regex("/^https:\/\/facebook\.com\/.+$/")
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $facebook;
 
     /**
@@ -56,6 +61,10 @@ class UserSocialNetwork
      * @Assert\Url
      * @Assert\Regex("/^https:\/\/twitter\.com\/.+$/")
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $twitter;
 
     /**
@@ -68,6 +77,10 @@ class UserSocialNetwork
      * @Assert\Url
      * @Assert\Regex("/^https:\/\/instagram\.com\/.+$/")
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $instagram;
 
     /**
@@ -80,6 +93,10 @@ class UserSocialNetwork
      * @Assert\Url
      * @Assert\Regex("/^https:\/\/linkedin\.com\/.+$/")
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $linkedin;
 
     /**
@@ -90,6 +107,10 @@ class UserSocialNetwork
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $pseudoDiscord;
 
     /**
@@ -99,6 +120,10 @@ class UserSocialNetwork
      *
      * @Assert\Type("bool")
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $wantDiscordUTT;
 
     public function getId(): ?Uuid

@@ -26,7 +26,7 @@ class UserInfos
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions=4)
+     * @Assert\Uuid(versions={4})
      */
     private $id;
 
@@ -45,6 +45,10 @@ class UserInfos
      * @Assert\Length(max=50)
      * @Assert\Choice({"Masculin", "Féminin", "Autre"})
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $sex;
 
     /**
@@ -65,6 +69,9 @@ class UserInfos
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
+    #[Groups([
+        'user:read:one',
+    ])]
     private $nationality;
 
     /**
@@ -84,6 +91,9 @@ class UserInfos
      *
      * @Assert\Date
      */
+    #[Groups([
+        'user:read:one',
+    ])]
     private $birthday;
 
     /**
@@ -105,9 +115,11 @@ class UserInfos
      *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
-     *
-     * @Groups("user:some:read")
      */
+    #[Groups([
+        'user:read:one',
+        'user:read:some',
+    ])]
     private $avatar;
 
     /**
@@ -118,6 +130,10 @@ class UserInfos
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $nickname;
 
     /**
@@ -127,6 +143,10 @@ class UserInfos
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $passions;
 
     /**
@@ -136,6 +156,10 @@ class UserInfos
      *
      * @Assert\Url
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $website;
 
     public function __construct()
@@ -174,7 +198,7 @@ class UserInfos
         return $this->sex;
     }
 
-    public function setSex(string $sex): self
+    public function setSex(?string $sex): self
     {
         $this->sex = $sex;
 
@@ -246,7 +270,7 @@ class UserInfos
         return $this->birthday;
     }
 
-    public function setBirthday(DateTimeInterface $birthday): self
+    public function setBirthday(?DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
 

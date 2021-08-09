@@ -64,6 +64,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             for ($i = 0; $i < $faker->numberBetween(0, 2); ++$i) {
                 $address = new UserAddress();
                 $user->addAddress($address);
+                $address->setStreet($faker->streetAddress);
                 $address->setPostalCode($faker->postcode);
                 $address->setCity($faker->city);
                 $address->setCountry($faker->country);
@@ -98,8 +99,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
 
         switch ($groupChoice) {
             case 0:
-                $group = $groupRepo->findOneBy(['name' => 'Privé']);
-                $entity->caller($methodName, $group);
+                //  Private, data shared with no groups.
 
                 break;
 

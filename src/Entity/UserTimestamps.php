@@ -23,7 +23,7 @@ class UserTimestamps
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions=4)
+     * @Assert\Uuid(versions={4})
      */
     private $id;
 
@@ -145,5 +145,10 @@ class UserTimestamps
         $this->deletedAt = $deletedAt;
 
         return $this;
+    }
+
+    public function isSoftDeleted(): bool
+    {
+        return !(null === $this->deletedAt);
     }
 }

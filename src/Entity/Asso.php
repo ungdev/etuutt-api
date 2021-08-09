@@ -23,7 +23,7 @@ class Asso
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions=4)
+     * @Assert\Uuid(versions={4})
      */
     private $id;
 
@@ -310,6 +310,11 @@ class Asso
         $this->deletedAt = $deletedAt;
 
         return $this;
+    }
+
+    public function isSoftDeleted(): bool
+    {
+        return !(null === $this->deletedAt);
     }
 
     /**

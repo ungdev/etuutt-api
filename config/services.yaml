@@ -29,3 +29,18 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    #   Tells OpenApi to decorate with our custom OpenApiFactory
+    #   The custom OpenApiFactory allows us to hide a mandatory operation (Get on an item)
+    App\OpenApi\OpenApiFactory:
+        decorates: 'api_platform.openapi.factory'
+        arguments: ['@App\OpenApi\OpenApiFactory.inner']
+        autoconfigure: false
+
+    #   A decoration of the data provider to hide some data from a user profil
+    App\DataProvider\UserDataVisibilityItemDataProvider:
+        bind:
+            $itemDataProvider: '@api_platform.doctrine.orm.default.item_data_provider'
+
+    #   An other decoration of the data provider to filter groups where the user is part of.
+    App\DataProvider\MyGroupsCollectionDataProvider:

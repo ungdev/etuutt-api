@@ -2,21 +2,54 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\GroupRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A Group of User for friends, Course...
+ * A Group of User for friends, Course... Only user can see it, only god can judge me.
  *
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="groups")
  */
+#[
+    ApiResource(
+        shortName: 'group',
+        attributes: [
+            'security' => "is_granted('ROLE_USER')",
+            'pagination_items_per_page' => 10,
+        ],
+        collectionOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ['group:read:some'],
+                ],
+            ],
+            'my_groups' => [
+                'method' => 'GET',
+                'path' => '/groups/me',
+                'normalization_context' => [
+                    'groups' => ['group:read:some'],
+                ],
+            ],
+        ],
+        itemOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ['group:read:one'],
+                ],
+            ],
+        ]
+    )
+]
 class Group
 {
     /**
@@ -25,16 +58,29 @@ class Group
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions=4)
+     * @Assert\Uuid(versions={4})
      */
+    #[
+        ApiProperty(
+            identifier: false
+        ),
+        Groups([
+            'group:read:one',
+            'group:read:some',
+        ])
+    ]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      */
+    #[Groups([
+        'group:read:one',
+        'group:read:some',
+    ])]
     private $name;
 
     /**
@@ -43,6 +89,10 @@ class Group
      * @ORM\ManyToOne(targetEntity=Translation::class)
      * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
      */
+    #[Groups([
+        'group:read:one',
+        'group:read:some',
+    ])]
     private $descriptionTranslation;
 
     /**
@@ -50,6 +100,10 @@ class Group
      *
      * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="groups")
      */
+    #[Groups([
+        'group:read:one',
+        'group:read:some',
+    ])]
     private $asso;
 
     /**
@@ -59,13 +113,39 @@ class Group
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/")
      */
+    #[
+        ApiProperty(
+            identifier: true
+        ),
+        Groups([
+            'group:read:one',
+            'group:read:some',
+        ])
+    ]
     private $slug;
+
+    /**
+     * The path to the avatar of the Group.
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(min=1, max=255)
+     */
+    #[Groups([
+        'group:read:one',
+        'group:read:some',
+    ])]
+    private $avatar;
 
     /**
      * @ORM\Column(type="boolean")
      *
      * @Assert\Type("bool")
      */
+    #[Groups([
+        'group:read:one',
+    ])]
     private $isVisible;
 
     /**
@@ -78,6 +158,9 @@ class Group
      *     inverseJoinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")}
      * )
      */
+    #[Groups([
+        'group:read:one',
+    ])]
     private $members;
 
     /**
@@ -85,6 +168,10 @@ class Group
      *
      * @Assert\DateTime
      */
+    #[Groups([
+        'group:read:one',
+        'group:read:some',
+    ])]
     private $createdAt;
 
     /**
@@ -92,6 +179,9 @@ class Group
      *
      * @Assert\DateTime
      */
+    #[Groups([
+        'group:read:one',
+    ])]
     private $updatedAt;
 
     /**
@@ -159,6 +249,18 @@ class Group
         return $this;
     }
 
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
     public function getIsVisible(): ?bool
     {
         return $this->isVisible;
@@ -193,6 +295,14 @@ class Group
         $this->members->removeElement($user);
 
         return $this;
+    }
+
+    #[Groups([
+        'group:read:some',
+    ])]
+    public function getNumberOfMembers(): int
+    {
+        return $this->getMembers()->count();
     }
 
     public function getCreatedAt(): ?DateTimeInterface

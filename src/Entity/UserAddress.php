@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,7 +25,7 @@ class UserAddress
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      *
-     * @Assert\Uuid(versions=4)
+     * @Assert\Uuid(versions={4})
      */
     private $id;
 
@@ -37,6 +38,18 @@ class UserAddress
     private $user;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\Length(max=255)
+     */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
+    private $street;
+
+    /**
      * The french postal code.
      *
      * @ORM\Column(type="string", length=20, nullable=true)
@@ -45,6 +58,10 @@ class UserAddress
      * @Assert\Length(max=20)
      * @Assert\Regex("/^\d{5}$/")
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $postalCode;
 
     /**
@@ -53,6 +70,10 @@ class UserAddress
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $city;
 
     /**
@@ -61,6 +82,10 @@ class UserAddress
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
+    #[Groups([
+        'user:read:one',
+        'user:write:update',
+    ])]
     private $country;
 
     /**
@@ -100,6 +125,18 @@ class UserAddress
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function setStreet(?string $street): self
+    {
+        $this->street = $street;
 
         return $this;
     }
