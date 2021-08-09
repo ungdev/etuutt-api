@@ -2,7 +2,6 @@
 
 namespace App\DataProvider;
 
-use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\Entity\Group;
@@ -14,12 +13,10 @@ use Symfony\Component\Security\Core\Security;
  */
 class MyGroupsCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
-    private $itemDataProvider;
     private $security;
 
-    public function __construct(CollectionDataProviderInterface $collectionDataProvider, Security $security)
+    public function __construct(Security $security)
     {
-        $this->collectionDataProvider = $collectionDataProvider;
         $this->security = $security;
     }
 
@@ -36,8 +33,6 @@ class MyGroupsCollectionDataProvider implements ContextAwareCollectionDataProvid
 
     /**
      * The method called to modify the group collection when the "support" method returns true.
-     * 
-     * @param mixed $id
      */
     public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
     {
