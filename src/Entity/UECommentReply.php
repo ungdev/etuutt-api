@@ -137,15 +137,20 @@ class UECommentReply
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTimeInterface
+    public function getDeletedAt(): ?DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 
         return $this;
+    }
+
+    public function isSoftDeleted(): bool
+    {
+        return !(null === $this->deletedAt);
     }
 }

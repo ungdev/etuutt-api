@@ -145,4 +145,9 @@ class CovoitMessage
 
         return $this;
     }
+
+    public function isSoftDeleted(): bool
+    {
+        return !(null === $this->deletedAt);
+    }
 }

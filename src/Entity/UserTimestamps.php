@@ -146,4 +146,9 @@ class UserTimestamps
 
         return $this;
     }
+
+    public function isSoftDeleted(): bool
+    {
+        return !(null === $this->deletedAt);
+    }
 }

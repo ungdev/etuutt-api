@@ -312,6 +312,11 @@ class Asso
         return $this;
     }
 
+    public function isSoftDeleted(): bool
+    {
+        return !(null === $this->deletedAt);
+    }
+
     /**
      * @return AssoKeyword[]|Collection
      */

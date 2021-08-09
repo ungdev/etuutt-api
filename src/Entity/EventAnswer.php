@@ -167,4 +167,9 @@ class EventAnswer
 
         return $this;
     }
+
+    public function isSoftDeleted(): bool
+    {
+        return !(null === $this->deletedAt);
+    }
 }
