@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UECourseExchangeReplyRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Uid\Uuid;
