@@ -1,7 +1,7 @@
 sentry:
     dsn: '%env(SENTRY_DSN)%'
     options:
-        environment: '%env(APP_ENV)%'
+        environment: '%env(SENTRY_ENV)%'
         release: '%env(APP_VERSION)%'
         integrations:
             - 'Sentry\Integration\IgnoreErrorsIntegration'
