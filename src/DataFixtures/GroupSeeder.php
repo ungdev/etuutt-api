@@ -72,20 +72,17 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         //  Attribution de groupes aux utilisateurs
-
-        //  Récupération des groups
+            //  Récupération des groups
         $groups = $manager->getRepository(Group::class)->findAll();
 
         foreach ($groups as $group) {
             if ('Privé' !== $group->getName()) {
-                if ('Public' === $group->getName()) {
-                    $inGroupRate = 100;
-                } else {
-                    $inGroupRate = $faker->numberBetween(0, 30);
-                }
                 foreach ($users as $user) {
-                    if ($faker->boolean($inGroupRate)) {
+                    if ($faker->boolean(15)) {
                         $group->addMember($user);
+                    }
+                    if ($faker->boolean(2)) {
+                        $group->addAdmin($user);
                     }
                 }
             }

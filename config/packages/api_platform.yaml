@@ -6,7 +6,7 @@ api_platform:
     swagger:
         versions: [3]
 
-    title: 'The API of the UTT student website'
+    title: 'EtuUTT - API'
     description: "The API that allows to interact with the database of the student site to consult, modify and delete some data according to the user's access."
 
     # Set this to false if you want Webby to disappear. Webby is the spider at the left of the swagger interface.

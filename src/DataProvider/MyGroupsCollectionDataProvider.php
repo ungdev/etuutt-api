@@ -27,8 +27,9 @@ class MyGroupsCollectionDataProvider implements ContextAwareCollectionDataProvid
     {
         $checkClass = Group::class === $resourceClass;
         $checkOperation = ('my_groups' === $operationName) && ('collection' === $context['operation_type']);
+        $userLogged = $this->security->getUser() != null;
 
-        return $checkClass && $checkOperation;
+        return $checkClass && $checkOperation && $userLogged;
     }
 
     /**

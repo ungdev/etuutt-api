@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\SoftDeleteController;
 
 /**
  * A Group of User for friends, Course... Only user can see it, only god can judge me.
@@ -46,6 +47,16 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'normalization_context' => [
                     'groups' => ['group:read:one'],
                 ],
+            ],
+            'delete' => [
+                'controller' => SoftDeleteController::class,
+                'security' => "is_granted('delete', object)",
+            ],
+            'patch' => [
+                'normalization_context' => [
+                    'groups' => ['group:write:update'],
+                ],
+                'security' => "is_granted('patch', object)",
             ],
         ]
     )
@@ -92,6 +103,7 @@ class Group
     #[Groups([
         'group:read:one',
         'group:read:some',
+        'group:write:update',
     ])]
     private $descriptionTranslation;
 
@@ -135,6 +147,7 @@ class Group
     #[Groups([
         'group:read:one',
         'group:read:some',
+        'group:write:update',
     ])]
     private $avatar;
 
@@ -145,6 +158,7 @@ class Group
      */
     #[Groups([
         'group:read:one',
+        'group:write:update',
     ])]
     private $isVisible;
 
@@ -162,6 +176,18 @@ class Group
         'group:read:one',
     ])]
     private $members;
+
+    /**
+     * The relation that allow to add many admins to this group. Admins of a group can update and delete it.
+     *
+     * @ORM\ManyToMany(targetEntity=User::class)
+     * @ORM\JoinTable(
+     *     name="users_groups_admins",
+     *     joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="admin_id", referencedColumnName="id")}
+     * )
+     */
+    private $admins;
 
     /**
      * @ORM\Column(type="datetime")
@@ -194,6 +220,7 @@ class Group
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->admins = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -303,6 +330,36 @@ class Group
     public function getNumberOfMembers(): int
     {
         return $this->getMembers()->count();
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getAdmins(): Collection
+    {
+        return $this->admins;
+    }
+
+    /**
+     * This method add the user passed as argument to the admins of the group. If the user is not in the group, the method add him.
+     */
+    public function addAdmin(User $user): self
+    {
+        if (!$this->members->contains($user)) {
+            $this->members[] = $user;
+        }
+        if (!$this->admins->contains($user)) {
+            $this->admins[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin(User $user): self
+    {
+        $this->admins->removeElement($user);
+
+        return $this;
     }
 
     public function getCreatedAt(): ?DateTimeInterface
