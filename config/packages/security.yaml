@@ -1,7 +1,6 @@
 security:
-
+    # https://symfony.com/doc/current/security/experimental_authenticators.html
     enable_authenticator_manager: true
-
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
@@ -9,18 +8,21 @@ security:
             entity:
                 class: App\Entity\User
                 property: login
-        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            stateless:  true
+            lazy: true
+            stateless: true
             custom_authenticators:
                 - App\Security\LoginAuthenticator
 
-            # see the 2021 way to authentificate user with Symfony
-            # https://symfony.com/doc/current/security/authenticator_manager.html
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
