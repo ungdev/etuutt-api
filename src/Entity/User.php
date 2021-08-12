@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\SoftDeleteController;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -324,6 +325,10 @@ class User implements UserInterface
 
     public function __construct()
     {
+        $this->setTimestamps(new UserTimestamps());
+        $this->setSocialNetwork(new UserSocialNetwork());
+        $this->setRGPD(new UserRGPD());
+
         $this->bans = new ArrayCollection();
         $this->BDEContributions = new ArrayCollection();
         $this->badges = new ArrayCollection();

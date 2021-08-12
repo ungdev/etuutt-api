@@ -126,6 +126,10 @@ class UserSocialNetwork
     ])]
     private $wantDiscordUTT;
 
+    public function __construct() {
+        $this->wantDiscordUTT = false;
+    }
+
     public function getId(): ?Uuid
     {
         return $this->id;

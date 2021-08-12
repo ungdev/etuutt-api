@@ -38,10 +38,6 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
         $user->setLastName('admin');
         $user->setLogin('admin');
         $user->addRole('ROLE_ADMIN');
-        $timestamps = new UserTimestamps();
-        $timestamps->setCreatedAt(new DateTime());
-        $timestamps->setUpdatedAt(new DateTime());
-        $user->setTimestamps($timestamps);
         $manager->persist($user);
 
         $userRepository = $manager->getRepository(User::class);
@@ -55,9 +51,8 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             $manager->persist($user);
 
             //  Création d'un timestamps pour chaque User
-            $timestamps = new UserTimestamps();
-            $user->setTimestamps($timestamps);
             $createdAt = $faker->dateTimeBetween('-3 years');
+            $timestamps = $user->getTimestamps();
             $timestamps->setCreatedAt($createdAt);
             $days = (new DateTime())->diff($timestamps->getCreatedAt())->days;
             $timestamps->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
@@ -72,8 +67,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             }
 
             //  Création d'un socialNetwork pour chaque User
-            $socialNetwork = new UserSocialNetwork();
-            $user->setSocialNetwork($socialNetwork);
+            $socialNetwork = $user->getSocialNetwork();
             if ($faker->boolean(75)) {
                 $socialNetwork->setFacebook($faker->imageUrl());
             }
@@ -92,8 +86,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             $socialNetwork->setWantDiscordUTT($faker->boolean(75));
 
             //  Création d'un RGPD pour chaque User
-            $RGPD = new UserRGPD();
-            $user->setRGPD($RGPD);
+            $RGPD = $user->getRGPD();
             if ($faker->boolean(75)) {
                 $RGPD->setIsDeletingEverything($faker->boolean());
             }
