@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TranslationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * The entity that contains the translations in french, english, spanish, german and chinese of the field that reference it.
@@ -34,6 +35,10 @@ class Translation
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'group:read:one',
+        'group:write:update',
+    ])]
     private $french;
 
     /**
@@ -43,6 +48,10 @@ class Translation
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'group:read:one',
+        'group:write:update',
+    ])]
     private $english;
 
     /**
@@ -52,6 +61,10 @@ class Translation
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'group:read:one',
+        'group:write:update',
+    ])]
     private $spanish;
 
     /**
@@ -61,6 +74,10 @@ class Translation
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'group:read:one',
+        'group:write:update',
+    ])]
     private $german;
 
     /**
@@ -70,6 +87,10 @@ class Translation
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'group:read:one',
+        'group:write:update',
+    ])]
     private $chinese;
 
     public function __construct(string $code = null)

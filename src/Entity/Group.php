@@ -53,7 +53,7 @@ use App\Controller\SoftDeleteController;
                 'security' => "is_granted('delete', object)",
             ],
             'patch' => [
-                'normalization_context' => [
+                'denormalization_context' => [
                     'groups' => ['group:write:update'],
                 ],
                 'security' => "is_granted('patch', object)",
@@ -147,7 +147,6 @@ class Group
     #[Groups([
         'group:read:one',
         'group:read:some',
-        'group:write:update',
     ])]
     private $avatar;
 
@@ -174,6 +173,7 @@ class Group
      */
     #[Groups([
         'group:read:one',
+        'group:write:update',
     ])]
     private $members;
 
@@ -187,12 +187,14 @@ class Group
      *     inverseJoinColumns={@ORM\JoinColumn(name="admin_id", referencedColumnName="id")}
      * )
      */
+    #[Groups([
+        'group:write:update',
+    ])]
     private $admins;
 
     /**
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
      */
     #[Groups([
         'group:read:one',
@@ -203,7 +205,6 @@ class Group
     /**
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
      */
     #[Groups([
         'group:read:one',
@@ -213,7 +214,6 @@ class Group
     /**
      * @ORM\Column(type="datetime", nullable=true)
      *
-     * @Assert\DateTime
      */
     private $deletedAt;
 

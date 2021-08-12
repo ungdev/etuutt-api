@@ -45,7 +45,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'security' => "is_granted('ROLE_ADMIN')",
             ],
             'patch' => [
-                'normalization_context' => [
+                'denormalization_context' => [
                     'groups' => ['user:write:update'],
                 ],
                 'security' => "object == user or is_granted('ROLE_ADMIN')",
