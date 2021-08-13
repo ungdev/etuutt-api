@@ -100,6 +100,11 @@ class UserPreference
 
     public function __construct()
     {
+        $this->setBirthdayDisplayOnlyAge(true);
+        $this->setLanguage('fr');
+        $this->setWantDaymail(true);
+        $this->setWantDayNotif(true);
+
         $this->scheduleVisibility = new ArrayCollection();
     }
 

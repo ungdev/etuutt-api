@@ -34,8 +34,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
 
         foreach ($users as $user) {
             //  On ajoute une entité UserPreference
-            $preference = new UserPreference();
-            $user->setPreference($preference);
+            $preference = $user->getPreference();
             $preference->setBirthdayDisplayOnlyAge($faker->boolean());
             $preference->setLanguage($faker->languageCode);
             $preference->setWantDaymail($faker->boolean());
@@ -45,8 +44,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             $this->setFieldVisibility($preference, 'addScheduleVisibility', $faker, $groupRepo);
 
             //  On ajoute une entité UserInfos
-            $infos = new UserInfos();
-            $user->setInfos($infos);
+            $infos = $user->getInfos();
             $infos->setSex($faker->randomElement(['Masculin', 'Féminin', 'Autre']));
             $this->setFieldVisibility($infos, 'addSexVisibility', $faker, $groupRepo);
             $infos->setNationality($faker->countryCode);
@@ -62,8 +60,13 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
 
             //  On ajoute de 0 à 2 addresses pour l'utilisateur
             for ($i = 0; $i < $faker->numberBetween(0, 2); ++$i) {
-                $address = new UserAddress();
-                $user->addAddress($address);
+                //  Les utilisateurs ont par défaut une addresse. Si il y en a plus, il faut la créer.
+                if ($i === 0) {
+                    $address = $user->getAddresses()[0];
+                } else {
+                    $address = new UserAddress();
+                    $user->addAddress($address);
+                }
                 $address->setStreet($faker->streetAddress);
                 $address->setPostalCode($faker->postcode);
                 $address->setCity($faker->city);

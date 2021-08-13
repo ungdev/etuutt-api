@@ -328,6 +328,10 @@ class User implements UserInterface
         $this->setTimestamps(new UserTimestamps());
         $this->setSocialNetwork(new UserSocialNetwork());
         $this->setRGPD(new UserRGPD());
+        $this->setPreference(new UserPreference());
+        $this->setInfos(new UserInfos());
+        $this->addAddress(new UserAddress());
+        $this->setMailsPhones(new UserMailsPhones());
 
         $this->bans = new ArrayCollection();
         $this->BDEContributions = new ArrayCollection();

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserInfosRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -164,6 +165,11 @@ class UserInfos
 
     public function __construct()
     {
+        //  Default values
+        $this->setSex('Autre');
+        $this->setBirthday(new DateTime());
+        $this->setAvatar('/default_user_avatar.png');
+
         $this->sexVisibility = new ArrayCollection();
         $this->nationalityVisibility = new ArrayCollection();
         $this->birthdayVisibility = new ArrayCollection();
