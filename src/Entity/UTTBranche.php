@@ -6,6 +6,7 @@ use App\Repository\UTTBrancheRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -41,9 +42,9 @@ class UTTBranche
     /**
      * The Translation object that contains the translation of the description.
      *
-     * @ORM\ManyToOne(targetEntity=Translation::class)
-     * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
+     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
+    #[SerializedName("description")]
     private $descriptionTranslation;
 
     /**
@@ -74,6 +75,7 @@ class UTTBranche
     public function __construct(string $code = null)
     {
         $this->code = $code;
+        $this->setDescriptionTranslation(new Translation());
         $this->filieres = new ArrayCollection();
     }
 

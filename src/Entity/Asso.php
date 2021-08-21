@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -49,17 +50,17 @@ class Asso
     /**
      * The Translation object that contains the translation of the short description.
      *
-     * @ORM\ManyToOne(targetEntity=Translation::class)
-     * @ORM\JoinColumn(name="description_short_traduction_code", referencedColumnName="code")
+     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
+    #[SerializedName("descriptionShort")]
     private $descriptionShortTranslation;
 
     /**
      * The Translation object that contains the translation of the complete description.
      *
-     * @ORM\ManyToOne(targetEntity=Translation::class)
-     * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
+     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
+    #[SerializedName("description")]
     private $descriptionTranslation;
 
     /**
@@ -168,6 +169,9 @@ class Asso
 
     public function __construct()
     {
+        $this->setDescriptionShortTranslation(new Translation());
+        $this->setDescriptionTranslation(new Translation());
+
         $this->keywords = new ArrayCollection();
         $this->assoMessages = new ArrayCollection();
         $this->events = new ArrayCollection();

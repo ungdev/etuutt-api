@@ -104,8 +104,7 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $reportReason = new UECommentReportReason($faker->word.$faker->word);
 
             //  Création d'une traduction
-            $descriptionTranslation = new Translation('UECommentReportReason:'.$reportReason->getName());
-            $reportReason->setDescriptionTranslation($descriptionTranslation);
+            $descriptionTranslation = $reportReason->getDescriptionTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);

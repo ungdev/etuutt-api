@@ -40,7 +40,7 @@ class UserMailsPhones
     /**
      * The UTT email address of the User. It ends by "@utt.fr".
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @Assert\Email
      * @Assert\Regex("/^.+@utt\.fr$/")

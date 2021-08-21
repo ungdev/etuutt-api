@@ -38,10 +38,8 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $asso->setLogin(strtolower($faker->word.'_'.$faker->word.$faker->word));
             $asso->setName($faker->word.' '.$faker->word.' '.$faker->word);
 
-            //Création d'une traduction pour la petite description
-            $descriptionShortTranslation = new Translation('Asso:'.$asso->getName().':ShortDesc');
-            $asso->setDescriptionShortTranslation($descriptionShortTranslation);
-            $manager->persist($descriptionShortTranslation);
+            //  Récupération de la description
+            $descriptionShortTranslation = $asso->getDescriptionShortTranslation();
 
             $description = Text::createRandomText(1, 9);
             $descriptionShortTranslation->setFrench($description);
@@ -51,9 +49,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $descriptionShortTranslation->setChinese($description);
 
             //Création d'une traduction pour la description
-            $descriptionTranslation = new Translation('Asso:'.$asso->getName().':Desc');
-            $asso->setDescriptionTranslation($descriptionTranslation);
-            $manager->persist($descriptionTranslation);
+            $descriptionTranslation = $asso->getDescriptionTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);
@@ -95,9 +91,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $assoMessage->setTitle(str_shuffle($faker->word.$faker->word));
 
             //Création d'une traduction
-            $descriptionTranslation = new Translation('AssoMessage:'.$assoMessage->getTitle());
-            $assoMessage->setBodyTranslation($descriptionTranslation);
-            $manager->persist($descriptionTranslation);
+            $descriptionTranslation = $assoMessage->getBodyTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);
@@ -195,9 +189,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             $role = new AssoMembershipRole($currentRole);
 
             //Création d'une traduction
-            $descriptionTranslation = new Translation('AssoMembershipRole:'.$role->getName());
-            $role->setDescriptionTranslation($descriptionTranslation);
-            $manager->persist($descriptionTranslation);
+            $descriptionTranslation = $role->getDescriptionTranslation();
 
             $description = Text::createRandomText(1, 9);
             $descriptionTranslation->setFrench($description);

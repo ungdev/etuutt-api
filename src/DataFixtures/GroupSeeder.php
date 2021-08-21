@@ -41,8 +41,7 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
             $group->setIsVisible($faker->boolean(75));
 
             //  Création d'une traduction
-            $descriptionTranslation = new Translation('Group:'.$group->getName());
-            $group->setDescriptionTranslation($descriptionTranslation);
+            $descriptionTranslation = $group->getDescriptionTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);

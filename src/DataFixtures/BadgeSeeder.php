@@ -52,9 +52,7 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
             $badge->setPicture($faker->imageUrl());
 
             //  Création d'une traduction
-            $descriptionTranslation = new Translation('Badge:'.$badge->getName().$badge->getLevel());
-            $badge->setDescriptionTranslation($descriptionTranslation);
-            $manager->persist($descriptionTranslation);
+            $descriptionTranslation = $badge->getDescriptionTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -68,9 +69,9 @@ class Badge
     /**
      * The Translation object that contains the translation of the description.
      *
-     * @ORM\ManyToOne(targetEntity=Translation::class)
-     * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
+     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
+    #[SerializedName("description")]
     private $descriptionTranslation;
 
     /**
@@ -101,6 +102,8 @@ class Badge
 
     public function __construct()
     {
+        $this->setDescriptionTranslation(new Translation());
+
         $this->users = new ArrayCollection();
     }
 

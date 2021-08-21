@@ -57,9 +57,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             }
 
             //Création d'une traduction
-            $descriptionTranslation = new Translation('Event:'.$event->getTitle());
-            $event->setDescriptionTranslation($descriptionTranslation);
-            $manager->persist($descriptionTranslation);
+            $descriptionTranslation = $event->getDescriptionTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);

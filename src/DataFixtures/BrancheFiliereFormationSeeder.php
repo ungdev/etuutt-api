@@ -47,8 +47,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $branche->setName(implode(' ', $faker->words));
 
             //  Création d'une traduction
-            $descriptionTranslation = new Translation('UTTBranche:'.$branche->getCode());
-            $branche->setDescriptionTranslation($descriptionTranslation);
+            $descriptionTranslation = $branche->getDescriptionTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);
@@ -89,8 +88,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
                     }
 
                     //  Création d'une traduction
-                    $descriptionTranslation = new Translation('UTTFiliere:'.$filiere->getCode());
-                    $filiere->setDescriptionTranslation($descriptionTranslation);
+                    $descriptionTranslation = $filiere->getDescriptionTranslation();
 
                     $description = Text::createRandomText(5, 9);
                     $descriptionTranslation->setFrench($description);
@@ -143,8 +141,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             };
 
             //  Création d'une traduction
-            $descriptionTranslation = new Translation('UTTFormation:'.$formation->getName());
-            $formation->setDescriptionTranslation($descriptionTranslation);
+            $descriptionTranslation = $formation->getDescriptionTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);
@@ -168,8 +165,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             };
 
             //  Création d'une traduction
-            $descriptionTranslation = new Translation('FollowingMethod:'.$followingMethod->getName());
-            $followingMethod->setDescriptionTranslation($descriptionTranslation);
+                $descriptionTranslation = $followingMethod->getDescriptionTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);

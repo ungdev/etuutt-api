@@ -325,14 +325,6 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->setTimestamps(new UserTimestamps());
-        $this->setSocialNetwork(new UserSocialNetwork());
-        $this->setRGPD(new UserRGPD());
-        $this->setPreference(new UserPreference());
-        $this->setInfos(new UserInfos());
-        $this->addAddress(new UserAddress());
-        $this->setMailsPhones(new UserMailsPhones());
-
         $this->bans = new ArrayCollection();
         $this->BDEContributions = new ArrayCollection();
         $this->badges = new ArrayCollection();
@@ -346,6 +338,14 @@ class User implements UserInterface
         $this->UEsSubscriptions = new ArrayCollection();
         $this->UEStarVotes = new ArrayCollection();
         $this->courses = new ArrayCollection();
+
+        $this->setTimestamps(new UserTimestamps());
+        $this->setSocialNetwork(new UserSocialNetwork());
+        $this->setRGPD(new UserRGPD());
+        $this->setPreference(new UserPreference());
+        $this->setInfos(new UserInfos());
+        $this->addAddress(new UserAddress());
+        $this->setMailsPhones(new UserMailsPhones());
     }
 
     public function getId(): ?Uuid

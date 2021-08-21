@@ -6,6 +6,7 @@ use App\Repository\AssoMessageRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -44,9 +45,9 @@ class AssoMessage
     /**
      * The Translation object that contains the translation of the description.
      *
-     * @ORM\ManyToOne(targetEntity=Translation::class)
-     * @ORM\JoinColumn(name="body_traduction_code", referencedColumnName="code", nullable=false)
+     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
+    #[SerializedName("body")]
     private $bodyTranslation;
 
     /**
@@ -82,6 +83,10 @@ class AssoMessage
      * @Assert\DateTime
      */
     private $createdAt;
+
+    public function __construct() {
+        $this->setBodyTranslation(new Translation());
+    }
 
     public function getId(): ?Uuid
     {

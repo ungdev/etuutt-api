@@ -75,8 +75,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             }
 
             //  On ajoute une entité UserMailsPhones
-            $mailPhone = new UserMailsPhones();
-            $user->setMailsPhones($mailPhone);
+            $mailPhone = $user->getMailsPhones();
             $mailPhone->setMailPersonal($faker->email);
             $mailPhone->setMailUTT($faker->email);
             $mailPhone->setPhoneNumber($faker->phoneNumber);

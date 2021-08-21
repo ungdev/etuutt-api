@@ -123,8 +123,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             $name = Text::createRandomLine(7);
             $criterion->setName($name);
             //  Création d'une traduction
-            $descriptionTranslation = new Translation('UE_Star_Criterion:'.$criterion->getName());
-            $criterion->setDescriptionTranslation($descriptionTranslation);
+            $descriptionTranslation = $criterion->getDescriptionTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UTTFormationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -28,14 +29,15 @@ class UTTFormation
     /**
      * The Translation object that contains the translation of the description.
      *
-     * @ORM\ManyToOne(targetEntity=Translation::class)
-     * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
+     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
+    #[SerializedName("description")]
     private $descriptionTranslation;
 
     public function __construct(string $name = null)
     {
         $this->name = $name;
+        $this->setDescriptionTranslation(new Translation());
     }
 
     public function getName(): ?string

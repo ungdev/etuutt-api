@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\SoftDeleteController;
 use App\Repository\GroupRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +14,6 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Controller\SoftDeleteController;
 
 /**
  * A Group of User for friends, Course... Only user can see it, only god can judge me.
@@ -97,8 +97,7 @@ class Group
     /**
      * The Translation object that contains the translation of the description.
      *
-     * @ORM\ManyToOne(targetEntity=Translation::class)
-     * @ORM\JoinColumn(name="description_traduction_code", referencedColumnName="code")
+     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[Groups([
         'group:read:one',
@@ -194,7 +193,6 @@ class Group
 
     /**
      * @ORM\Column(type="datetime")
-     *
      */
     #[Groups([
         'group:read:one',
@@ -204,7 +202,6 @@ class Group
 
     /**
      * @ORM\Column(type="datetime")
-     *
      */
     #[Groups([
         'group:read:one',
@@ -213,12 +210,13 @@ class Group
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      */
     private $deletedAt;
 
     public function __construct()
     {
+        $this->setDescriptionTranslation(new Translation());
+
         $this->members = new ArrayCollection();
         $this->admins = new ArrayCollection();
     }
