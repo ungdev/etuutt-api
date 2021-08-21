@@ -75,7 +75,7 @@ class Covoit
      *
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $startDate;
 
@@ -91,21 +91,21 @@ class Covoit
      *
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $endDate;
 
     /**
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 

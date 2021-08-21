@@ -43,7 +43,7 @@ class UserSocialNetwork
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Url
-     * @Assert\Regex("/^https:\/\/facebook\.com\/.+$/")
+     * @Assert\Regex("/^https:\/\/facebook\.com\/[a-z0-9]+(?:-[a-z0-9]+)*$/")
      */
     #[Groups([
         'user:read:one',
@@ -59,7 +59,7 @@ class UserSocialNetwork
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Url
-     * @Assert\Regex("/^https:\/\/twitter\.com\/.+$/")
+     * @Assert\Regex("/^https:\/\/twitter\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/")
      */
     #[Groups([
         'user:read:one',
@@ -75,7 +75,7 @@ class UserSocialNetwork
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Url
-     * @Assert\Regex("/^https:\/\/instagram\.com\/.+$/")
+     * @Assert\Regex("/^https:\/\/instagram\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/")
      */
     #[Groups([
         'user:read:one',
@@ -91,7 +91,7 @@ class UserSocialNetwork
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Url
-     * @Assert\Regex("/^https:\/\/linkedin\.com\/.+$/")
+     * @Assert\Regex("/^https:\/\/linkedin\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/")
      */
     #[Groups([
         'user:read:one',

@@ -90,7 +90,7 @@ class UserInfos
     /**
      * @ORM\Column(type="date")
      *
-     * @Assert\Date
+     * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
         'user:read:one',

@@ -56,7 +56,7 @@ class UserAddress
      *
      * @Assert\Type("string")
      * @Assert\Length(max=20)
-     * @Assert\Regex("/^\d{5}$/")
+     * @Assert\Regex("/^$|^\d{2}\s?\d{3}$/")
      */
     #[Groups([
         'user:read:one',

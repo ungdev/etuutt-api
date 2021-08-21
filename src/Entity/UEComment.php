@@ -88,21 +88,21 @@ class UEComment
     /**
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      *
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
 

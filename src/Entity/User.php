@@ -48,6 +48,9 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'denormalization_context' => [
                     'groups' => ['user:write:update'],
                 ],
+                'normalization_context' => [
+                    'groups' => ['user:read:one'],
+                ],
                 'security' => "object == user or is_granted('ROLE_ADMIN')",
             ],
         ],

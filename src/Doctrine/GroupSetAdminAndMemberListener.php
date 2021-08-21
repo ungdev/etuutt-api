@@ -19,11 +19,9 @@ class GroupSetAdminAndMemberListener
 
     public function prePersist(Group $group)
     {
-        dump($group);
         if ($this->security->getUser()) {
             $group->addAdmin($this->security->getUser());
             $group->addMember($this->security->getUser());
-            dump($group);
         }
     }
 }

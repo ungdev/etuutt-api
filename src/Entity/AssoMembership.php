@@ -46,7 +46,7 @@ class AssoMembership
     /**
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 

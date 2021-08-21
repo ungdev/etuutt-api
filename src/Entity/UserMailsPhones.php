@@ -42,7 +42,7 @@ class UserMailsPhones
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      *
-     * @Assert\Email
+     * @Assert\Email()
      * @Assert\Regex("/^.+@utt\.fr$/")
      */
     private $mailUTT;
@@ -52,8 +52,7 @@ class UserMailsPhones
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      *
-     * @Assert\Email
-     * @Assert\Regex("/^.+[^@utt\.fr]$/")
+     * @Assert\Email()
      */
     #[Groups([
         'user:read:one',
@@ -74,11 +73,11 @@ class UserMailsPhones
     private $mailPersonalVisibility;
 
     /**
-     * The phone number of the User. It can take the following forms : +919367788755, 8989829304, +16308520397, 786-307-3615.
+     * The phone number of the User. It must have this form : 0647935003, +33 6 47 93 50 03, or with . and - as separator.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
      *
-     * @Assert\Regex("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/")
+     * @Assert\Regex("/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/")
      */
     #[Groups([
         'user:read:one',

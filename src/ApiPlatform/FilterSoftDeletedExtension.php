@@ -34,7 +34,6 @@ class FilterSoftDeletedExtension implements QueryCollectionExtensionInterface, Q
                     $rootAlias = $queryBuilder->getRootAliases()[0];
                     $queryBuilder->innerJoin(UserTimestamps::class, 'u_t', Join::WITH, sprintf('%s.id = u_t.user', $rootAlias));
                     $queryBuilder->andWhere('u_t.deletedAt IS NULL');
-                    dump('passage');
 
                     break;
 

@@ -11,6 +11,7 @@ use App\Entity\UserRGPD;
 use App\Entity\UserSocialNetwork;
 use App\Entity\UserTimestamps;
 use App\Repository\UserRepository;
+use App\Util\Slug;
 use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -68,17 +69,18 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
 
             //  Création d'un socialNetwork pour chaque User
             $socialNetwork = $user->getSocialNetwork();
+            $sluggedName = Slug::slugify($user->getFirstName() . "-" . $user->getLastName());
             if ($faker->boolean(75)) {
-                $socialNetwork->setFacebook($faker->imageUrl());
+                $socialNetwork->setFacebook("https://facebook.com/".$sluggedName);
             }
             if ($faker->boolean(75)) {
-                $socialNetwork->setTwitter($faker->imageUrl());
+                $socialNetwork->setTwitter("https://twitter.com/".$sluggedName);
             }
             if ($faker->boolean(75)) {
-                $socialNetwork->setInstagram($faker->imageUrl());
+                $socialNetwork->setInstagram("https://instagram.com/".$sluggedName);
             }
             if ($faker->boolean(75)) {
-                $socialNetwork->setLinkedin($faker->imageUrl());
+                $socialNetwork->setLinkedin("https://linkedin.com/".$sluggedName);
             }
             if ($faker->boolean(75)) {
                 $socialNetwork->setPseudoDiscord($faker->word);

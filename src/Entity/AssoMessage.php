@@ -55,7 +55,7 @@ class AssoMessage
      *
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $date;
 
@@ -80,7 +80,7 @@ class AssoMessage
     /**
      * @ORM\Column(type="datetime")
      *
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
