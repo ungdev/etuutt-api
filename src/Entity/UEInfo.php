@@ -22,7 +22,7 @@ class UEInfo
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      *
-     * @Assert\Uuid(versions={4})
+     * @Assert\Uuid()
      */
     private $id;
 
