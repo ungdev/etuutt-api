@@ -33,14 +33,16 @@ class LoginDateSubscriber implements EventSubscriberInterface
 
     public function update(ViewEvent $event): void
     {
-        /** @var UserTimestamps $userTimestamps */
-        $userTimestamps = $this->security->getUser()->getTimestamps();
-        if (null === $userTimestamps->getFirstLoginDate()) {
-            $userTimestamps->setFirstLoginDate(new DateTime());
-        }
-        $userTimestamps->setLastLoginDate(new DateTime());
+        // @var UserTimestamps $userTimestamps
+        if (null !== $this->security->getUser()) {
+            $userTimestamps = $this->security->getUser()->getTimestamps();
+            if (null === $userTimestamps->getFirstLoginDate()) {
+                $userTimestamps->setFirstLoginDate(new DateTime());
+            }
+            $userTimestamps->setLastLoginDate(new DateTime());
 
-        $this->manager->persist($userTimestamps);
-        $this->manager->flush();
+            $this->manager->persist($userTimestamps);
+            $this->manager->flush();
+        }
     }
 }
