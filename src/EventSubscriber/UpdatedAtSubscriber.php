@@ -1,0 +1,40 @@
+<?php
+
+namespace App\EventSubscriber;
+
+use ApiPlatform\Core\EventListener\EventPriorities;
+use App\Entity\User;
+use DateTime;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
+
+/**
+ * The listener that sets the "updatedAt" property of an entity to now when it is beeing updated.
+ *
+ * @see https://api-platform.com/docs/core/events/
+ */
+final class UpdatedAtSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::VIEW => ['update', EventPriorities::PRE_WRITE],
+        ];
+    }
+
+    public function update(ViewEvent $event): void
+    {
+        $entity = $event->getControllerResult();
+        $method = $event->getRequest()->getMethod();
+
+        $isUpdatedAtAble = property_exists($entity::class, 'updatedAt') || User::class === $entity::class;
+        $methodSupported = \in_array($method, [Request::METHOD_POST, Request::METHOD_PUT, Request::METHOD_PATCH], true);
+
+        if ($isUpdatedAtAble && $methodSupported) {
+            $entity = User::class === $entity::class ? $entity->getTimestamps() : $entity;
+            $entity->setUpdatedAt(new DateTime());
+        }
+    }
+}
