@@ -6,12 +6,15 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\SoftDeleteController;
 use App\Repository\GroupRepository;
+use App\Util\Slug;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,6 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="groups")
+ * @ORM\EntityListeners({"App\Doctrine\GroupSetAdminAndMemberListener"})
  */
 #[
     ApiResource(
@@ -39,6 +43,11 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'path' => '/groups/me',
                 'normalization_context' => [
                     'groups' => ['group:read:some'],
+                ],
+            ],
+            'post' => [
+                'denormalization_context' => [
+                    'groups' => ['group:write:create'],
                 ],
             ],
         ],
@@ -91,6 +100,7 @@ class Group
     #[Groups([
         'group:read:one',
         'group:read:some',
+        'group:write:create',
     ])]
     private $name;
 
@@ -103,7 +113,9 @@ class Group
         'group:read:one',
         'group:read:some',
         'group:write:update',
-    ])]
+        'group:write:create',
+    ]),
+    SerializedName('description')]
     private $descriptionTranslation;
 
     /**
@@ -146,6 +158,8 @@ class Group
     #[Groups([
         'group:read:one',
         'group:read:some',
+        'group:write:update',
+        'group:write:create',
     ])]
     private $avatar;
 
@@ -157,6 +171,7 @@ class Group
     #[Groups([
         'group:read:one',
         'group:write:update',
+        'group:write:create',
     ])]
     private $isVisible;
 
@@ -188,6 +203,7 @@ class Group
      */
     #[Groups([
         'group:write:update',
+        'group:write:create',
     ])]
     private $admins;
 
@@ -216,6 +232,8 @@ class Group
     public function __construct()
     {
         $this->setDescriptionTranslation(new Translation());
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
 
         $this->members = new ArrayCollection();
         $this->admins = new ArrayCollection();
@@ -231,9 +249,15 @@ class Group
         return $this->name;
     }
 
+    /**
+     * This setter set the slug too with the name given.
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        //  We set the slug
+        $this->setSlug(Slug::slugify($name));
 
         return $this;
     }

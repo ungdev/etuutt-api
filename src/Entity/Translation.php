@@ -36,6 +36,7 @@ class Translation
     #[Groups([
         'group:read:one',
         'group:write:update',
+        'group:write:create',
     ])]
     private $french;
 
@@ -49,6 +50,7 @@ class Translation
     #[Groups([
         'group:read:one',
         'group:write:update',
+        'group:write:create',
     ])]
     private $english;
 
@@ -62,6 +64,7 @@ class Translation
     #[Groups([
         'group:read:one',
         'group:write:update',
+        'group:write:create',
     ])]
     private $spanish;
 
@@ -75,6 +78,7 @@ class Translation
     #[Groups([
         'group:read:one',
         'group:write:update',
+        'group:write:create',
     ])]
     private $german;
 
@@ -88,6 +92,7 @@ class Translation
     #[Groups([
         'group:read:one',
         'group:write:update',
+        'group:write:create',
     ])]
     private $chinese;
 

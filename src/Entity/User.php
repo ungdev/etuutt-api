@@ -5,7 +5,6 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\SoftDeleteController;
 use App\Repository\UserRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -355,6 +354,16 @@ class User implements UserInterface
 
     /**
      * A unique identifier that represents this user. This method is used by the Symfony User system.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->login;
+    }
+
+    /**
+     * A unique identifier that represents this user. This method is used by the Symfony User system. Deprecated but no alternative.
      *
      * @see UserInterface
      */
