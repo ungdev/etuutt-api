@@ -8,7 +8,6 @@ use App\Entity\Event;
 use App\Entity\EventAnswer;
 use App\Entity\EventCategory;
 use App\Entity\EventPrivacy;
-use App\Entity\Translation;
 use App\Entity\User;
 use App\Util\Text;
 use DateTime;

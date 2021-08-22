@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Semester;
-use App\Entity\Translation;
 use App\Entity\UE;
 use App\Entity\User;
 use App\Entity\UserBranche;
@@ -165,7 +164,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             };
 
             //  Création d'une traduction
-                $descriptionTranslation = $followingMethod->getDescriptionTranslation();
+            $descriptionTranslation = $followingMethod->getDescriptionTranslation();
 
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);

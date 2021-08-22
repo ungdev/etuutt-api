@@ -23,7 +23,7 @@ class UserSocialNetwork
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      *
-     * @Assert\Uuid()
+     * @Assert\Uuid
      */
     private $id;
 
@@ -126,7 +126,8 @@ class UserSocialNetwork
     ])]
     private $wantDiscordUTT;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->wantDiscordUTT = false;
     }
 

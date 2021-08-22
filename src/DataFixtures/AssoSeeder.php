@@ -8,7 +8,6 @@ use App\Entity\AssoMembership;
 use App\Entity\AssoMembershipPermission;
 use App\Entity\AssoMembershipRole;
 use App\Entity\AssoMessage;
-use App\Entity\Translation;
 use App\Entity\User;
 use App\Util\Text;
 use DateTime;

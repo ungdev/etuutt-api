@@ -22,7 +22,7 @@ class AssoMessage
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      *
-     * @Assert\Uuid()
+     * @Assert\Uuid
      */
     private $id;
 
@@ -47,7 +47,7 @@ class AssoMessage
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
-    #[SerializedName("body")]
+    #[SerializedName('body')]
     private $bodyTranslation;
 
     /**
@@ -84,7 +84,8 @@ class AssoMessage
      */
     private $createdAt;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->setBodyTranslation(new Translation());
     }
 

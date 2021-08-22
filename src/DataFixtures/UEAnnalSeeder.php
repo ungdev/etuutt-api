@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Semester;
-use App\Entity\Translation;
 use App\Entity\UE;
 use App\Entity\UEAnnal;
 use App\Entity\UEAnnalReport;

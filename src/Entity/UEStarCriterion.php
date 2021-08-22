@@ -23,7 +23,7 @@ class UEStarCriterion
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      *
-     * @Assert\Uuid()
+     * @Assert\Uuid
      */
     private $id;
 
@@ -42,10 +42,11 @@ class UEStarCriterion
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
-    #[SerializedName("description")]
+    #[SerializedName('description')]
     private $descriptionTranslation;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->setDescriptionTranslation(new Translation());
     }
 

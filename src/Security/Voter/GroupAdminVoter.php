@@ -7,14 +7,13 @@ use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * The voter that get the argument of 'is-granted' and return a boolean to give acces or not to the ressource.
  */
 class GroupAdminVoter extends Voter
 {
-    private $security = null;
+    private $security;
 
     public function __construct(Security $security)
     {
@@ -23,23 +22,24 @@ class GroupAdminVoter extends Voter
 
     /**
      * This method is used by Symfony to know if it has to call this Voter. This method returns a boolean based on the arguments given to 'is-granted'.
+     *
+     * @param mixed $attribute
+     * @param mixed $subject
      */
     protected function supports($attribute, $subject): bool
     {
-        $supportsAttribute = in_array($attribute, ['patch', 'delete']);
+        $supportsAttribute = \in_array($attribute, ['patch', 'delete'], true);
         $supportsSubject = $subject instanceof Group;
-        $userLogged = $this->security->getUser() != null;
+        $userLogged = null !== $this->security->getUser();
 
         return $supportsAttribute && $supportsSubject && $userLogged;
     }
 
     /**
      * If the 'supports' method returns true, this function is called to know if the access to the ressource is given or not.
-     * 
+     *
      * @param string $attribute
-     * @param Group $subject
-     * @param TokenInterface $token
-     * @return bool
+     * @param Group  $subject
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {

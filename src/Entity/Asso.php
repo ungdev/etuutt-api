@@ -24,7 +24,7 @@ class Asso
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      *
-     * @Assert\Uuid()
+     * @Assert\Uuid
      */
     private $id;
 
@@ -52,7 +52,7 @@ class Asso
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
-    #[SerializedName("descriptionShort")]
+    #[SerializedName('descriptionShort')]
     private $descriptionShortTranslation;
 
     /**
@@ -60,7 +60,7 @@ class Asso
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
-    #[SerializedName("description")]
+    #[SerializedName('description')]
     private $descriptionTranslation;
 
     /**
@@ -70,7 +70,7 @@ class Asso
      *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
-     * @Assert\Email()
+     * @Assert\Email
      */
     private $mail;
 

@@ -44,7 +44,7 @@ class UTTBranche
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
-    #[SerializedName("description")]
+    #[SerializedName('description')]
     private $descriptionTranslation;
 
     /**

@@ -36,7 +36,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             //  On ajoute une entité UserPreference
             $preference = $user->getPreference();
             $preference->setBirthdayDisplayOnlyAge($faker->boolean());
-            $preference->setLanguage($faker->randomElement(["fr", "en", "es", "de", "zh"]));
+            $preference->setLanguage($faker->randomElement(['fr', 'en', 'es', 'de', 'zh']));
             $preference->setWantDaymail($faker->boolean());
             $preference->setWantDayNotif($faker->boolean());
             $preference->setBirthdayDisplayOnlyAge($faker->boolean());
@@ -61,7 +61,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             //  On ajoute de 0 à 2 addresses pour l'utilisateur
             for ($i = 0; $i < $faker->numberBetween(0, 2); ++$i) {
                 //  Les utilisateurs ont par défaut une addresse. Si il y en a plus, il faut la créer.
-                if ($i === 0) {
+                if (0 === $i) {
                     $address = $user->getAddresses()[0];
                 } else {
                     $address = new UserAddress();
@@ -78,8 +78,8 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             $mailPhone = $user->getMailsPhones();
             $mailPhone->setMailPersonal($faker->email);
             $mailUTT = $faker->email;
-            $mailPhone->setMailUTT(substr($mailUTT, 0, strpos($mailUTT, '@')) . "@utt.fr");
-            $mailPhone->setPhoneNumber($faker->randomElement(["0647935003", "+33 6 47 93 50 03", "06 47 93 50 03", "06.47.93.50.03"]));
+            $mailPhone->setMailUTT(substr($mailUTT, 0, strpos($mailUTT, '@')).'@utt.fr');
+            $mailPhone->setPhoneNumber($faker->randomElement(['0647935003', '+33 6 47 93 50 03', '06 47 93 50 03', '06.47.93.50.03']));
             $this->setFieldVisibility($mailPhone, 'addMailPersonalVisibility', $faker, $groupRepo);
             $this->setFieldVisibility($mailPhone, 'addPhoneNumberVisibility', $faker, $groupRepo);
         }

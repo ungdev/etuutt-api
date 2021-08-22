@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Group;
-use App\Entity\Translation;
 use App\Entity\User;
 use App\Util\Slug;
 use App\Util\Text;
@@ -71,7 +70,7 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         //  Attribution de groupes aux utilisateurs
-            //  Récupération des groups
+        //  Récupération des groups
         $groups = $manager->getRepository(Group::class)->findAll();
 
         foreach ($groups as $group) {

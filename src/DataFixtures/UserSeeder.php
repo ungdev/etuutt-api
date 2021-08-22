@@ -7,9 +7,6 @@ use App\Entity\User;
 use App\Entity\UserBan;
 use App\Entity\UserBDEContribution;
 use App\Entity\UserEtuUTTTeam;
-use App\Entity\UserRGPD;
-use App\Entity\UserSocialNetwork;
-use App\Entity\UserTimestamps;
 use App\Repository\UserRepository;
 use App\Util\Slug;
 use App\Util\Text;
@@ -69,18 +66,18 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
 
             //  Création d'un socialNetwork pour chaque User
             $socialNetwork = $user->getSocialNetwork();
-            $sluggedName = Slug::slugify($user->getFirstName() . "-" . $user->getLastName());
+            $sluggedName = Slug::slugify($user->getFirstName().'-'.$user->getLastName());
             if ($faker->boolean(75)) {
-                $socialNetwork->setFacebook("https://facebook.com/".$sluggedName);
+                $socialNetwork->setFacebook('https://facebook.com/'.$sluggedName);
             }
             if ($faker->boolean(75)) {
-                $socialNetwork->setTwitter("https://twitter.com/".$sluggedName);
+                $socialNetwork->setTwitter('https://twitter.com/'.$sluggedName);
             }
             if ($faker->boolean(75)) {
-                $socialNetwork->setInstagram("https://instagram.com/".$sluggedName);
+                $socialNetwork->setInstagram('https://instagram.com/'.$sluggedName);
             }
             if ($faker->boolean(75)) {
-                $socialNetwork->setLinkedin("https://linkedin.com/".$sluggedName);
+                $socialNetwork->setLinkedin('https://linkedin.com/'.$sluggedName);
             }
             if ($faker->boolean(75)) {
                 $socialNetwork->setPseudoDiscord($faker->word);

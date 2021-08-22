@@ -24,7 +24,7 @@ class Event
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      *
-     * @Assert\Uuid()
+     * @Assert\Uuid
      */
     private $id;
 
@@ -88,7 +88,7 @@ class Event
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
-    #[SerializedName("description")]
+    #[SerializedName('description')]
     private $descriptionTranslation;
 
     /**
@@ -141,7 +141,7 @@ class Event
     public function __construct()
     {
         $this->setDescriptionTranslation(new Translation());
-        
+
         $this->assos = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->eventAnswers = new ArrayCollection();

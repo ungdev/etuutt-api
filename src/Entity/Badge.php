@@ -24,7 +24,7 @@ class Badge
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      *
-     * @Assert\Uuid()
+     * @Assert\Uuid
      */
     private $id;
 
@@ -71,7 +71,7 @@ class Badge
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
-    #[SerializedName("description")]
+    #[SerializedName('description')]
     private $descriptionTranslation;
 
     /**

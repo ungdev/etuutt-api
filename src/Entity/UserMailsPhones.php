@@ -25,7 +25,7 @@ class UserMailsPhones
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      *
-     * @Assert\Uuid()
+     * @Assert\Uuid
      */
     private $id;
 
@@ -42,7 +42,7 @@ class UserMailsPhones
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      *
-     * @Assert\Email()
+     * @Assert\Email
      * @Assert\Regex("/^.+@utt\.fr$/")
      */
     private $mailUTT;

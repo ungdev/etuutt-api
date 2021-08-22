@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Badge;
-use App\Entity\Translation;
 use App\Entity\User;
 use App\Util\Text;
 use DateTime;
