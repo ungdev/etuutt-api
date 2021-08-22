@@ -49,6 +49,9 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'denormalization_context' => [
                     'groups' => ['group:write:create'],
                 ],
+                'normalization_context' => [
+                    'groups' => ['group:read:one'],
+                ],
             ],
         ],
         itemOperations: [
@@ -64,6 +67,9 @@ use Symfony\Component\Validator\Constraints as Assert;
             'patch' => [
                 'denormalization_context' => [
                     'groups' => ['group:write:update'],
+                ],
+                'normalization_context' => [
+                    'groups' => ['group:read:one'],
                 ],
                 'security' => "is_granted('patch', object)",
             ],
