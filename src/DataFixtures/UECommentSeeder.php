@@ -10,6 +10,7 @@ use App\Entity\UECommentReport;
 use App\Entity\UECommentReportReason;
 use App\Entity\UECommentUpvote;
 use App\Entity\User;
+use App\Repository\SemesterRepository;
 use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -32,7 +33,8 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $users = $manager->getRepository(User::class)->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
-        $semesterRepo = $manager->getRepository(Semester::class);
+        /** @var SemesterRepository $semesterRepository */
+        $semesterRepository = $manager->getRepository(Semester::class);
 
         //  Création de 300 commentaires
         for ($i = 0; $i < 300; ++$i) {
@@ -43,7 +45,7 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $comment->setBody($body);
             $comment->setIsAnonymous($faker->boolean(10));
             $comment->setCreatedAt($faker->dateTimeBetween('-3 years'));
-            $comment->setSemester($semesterRepo->getSemesterOfDate($comment->getCreatedAt()));
+            $comment->setSemester($semesterRepository->getSemesterOfDate($comment->getCreatedAt()));
             $days = (new DateTime())->diff($comment->getCreatedAt())->days;
             $comment->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             //  Soft delete aléatoire d'un commentaire (Avec une chance de 2%)

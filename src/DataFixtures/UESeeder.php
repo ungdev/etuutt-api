@@ -12,6 +12,7 @@ use App\Entity\UEStarVote;
 use App\Entity\UEWorkTime;
 use App\Entity\User;
 use App\Entity\UserUESubscription;
+use App\Repository\SemesterRepository;
 use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -32,8 +33,9 @@ class UESeeder extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
-        //  Récupération de $semesterRepo
-        $semesterRepo = $manager->getRepository(Semester::class);
+        //  Récupération de $semesterRepository
+        /** @var SemesterRepository $semesterRepository */
+        $semesterRepository = $manager->getRepository(Semester::class);
 
         //  Création de 6 catégories d'UEs
         for ($i = 0; $i < 6; ++$i) {
@@ -56,8 +58,8 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             $ue->setCreatedAt($createdAt);
             $days = (new DateTime())->diff($ue->getCreatedAt())->days;
             $ue->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
-            $ue->addOpenSemester($semesterRepo->getSemesterOfDate($ue->getCreatedAt()));
-            $ue->addOpenSemester($semesterRepo->getSemesterOfDate($ue->getUpdatedAt()));
+            $ue->addOpenSemester($semesterRepository->getSemesterOfDate($ue->getCreatedAt()));
+            $ue->addOpenSemester($semesterRepository->getSemesterOfDate($ue->getUpdatedAt()));
             $manager->persist($ue);
 
             $workTime = new UEWorkTime();
@@ -97,7 +99,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $subscription->setUser($user);
                 $subscription->setUE($faker->randomElement($ues));
                 $subscription->setCreatedAt(new DateTime());
-                $subscription->setSemester($semesterRepo->getSemesterOfDate($subscription->getCreatedAt()));
+                $subscription->setSemester($semesterRepository->getSemesterOfDate($subscription->getCreatedAt()));
                 $manager->persist($subscription);
             }
         }

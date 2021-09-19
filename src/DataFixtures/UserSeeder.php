@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\UserBan;
 use App\Entity\UserBDEContribution;
 use App\Entity\UserEtuUTTTeam;
+use App\Repository\SemesterRepository;
 use App\Repository\UserRepository;
 use App\Util\Slug;
 use App\Util\Text;
@@ -28,6 +29,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
+        /** @var SemesterRepository $semesterRepository */
         $semesterRepository = $manager->getRepository(Semester::class);
 
         //  Création d'un User administrateur

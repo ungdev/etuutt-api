@@ -6,6 +6,7 @@ use App\Entity\Semester;
 use App\Entity\UE;
 use App\Entity\UECourse;
 use App\Entity\User;
+use App\Repository\SemesterRepository;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -27,7 +28,8 @@ class UECourseSeeder extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $users = $manager->getRepository(User::class)->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
-        $semesterRepo = $manager->getRepository(Semester::class);
+        /** @var SemesterRepository $semesterRepository */
+        $semesterRepository = $manager->getRepository(Semester::class);
 
         //  Création de 200 cours
         for ($i = 0; $i < 200; ++$i) {
@@ -46,7 +48,7 @@ class UECourseSeeder extends Fixture implements DependentFixtureInterface
             } else {
                 $course->setRoom(strtoupper($faker->randomLetter.$faker->numberBetween(0, 2).$faker->numberBetween(0, 1).$faker->numberBetween(0, 9)));
             }
-            $course->setSemester($semesterRepo->getSemesterOfDate($course->getCreatedAt()));
+            $course->setSemester($semesterRepository->getSemesterOfDate($course->getCreatedAt()));
             $manager->persist($course);
         }
         $manager->flush();

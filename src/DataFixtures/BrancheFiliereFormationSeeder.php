@@ -11,6 +11,7 @@ use App\Entity\UTTBranche;
 use App\Entity\UTTFiliere;
 use App\Entity\UTTFormation;
 use App\Entity\UTTFormationFollowingMethod;
+use App\Repository\SemesterRepository;
 use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -108,6 +109,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
         //  Récupération des users et des branches
         $users = $manager->getRepository(User::class)->findAll();
+        /** @var SemesterRepository $semesterRepository */
         $semesterRepository = $manager->getRepository(Semester::class);
 
         foreach ($users as $user) {

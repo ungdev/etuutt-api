@@ -87,7 +87,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             //Attribution de message à des assos
             $assoMessage->setAsso($faker->randomElement($assos));
 
-            $assoMessage->setTitle(str_shuffle($faker->word.$faker->word));
+            $assoMessage->setTitle(str_shuffle($faker->word.$faker->word.$faker->word));
 
             //Création d'une traduction
             $descriptionTranslation = $assoMessage->getBodyTranslation();

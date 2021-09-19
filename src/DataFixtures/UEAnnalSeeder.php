@@ -9,6 +9,7 @@ use App\Entity\UEAnnalReport;
 use App\Entity\UEAnnalReportReason;
 use App\Entity\UEAnnalType;
 use App\Entity\User;
+use App\Repository\SemesterRepository;
 use App\Util\Text;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -31,7 +32,8 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $users = $manager->getRepository(User::class)->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
-        $semesterRepo = $manager->getRepository(Semester::class);
+        /** @var SemesterRepository $semesterRepository */
+        $semesterRepository = $manager->getRepository(Semester::class);
 
         //  Création de 5 motifs de report
         for ($i = 0; $i < 5; ++$i) {
@@ -66,7 +68,7 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
             $annal->setUE($faker->randomElement($ues));
             $annal->setSender($faker->randomElement($users));
             $annal->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
-            $annal->setSemester($semesterRepo->getSemesterOfDate($annal->getCreatedAt()));
+            $annal->setSemester($semesterRepository->getSemesterOfDate($annal->getCreatedAt()));
             $annal->setType($faker->randomElement($types));
             $annal->setFilename($faker->imageUrl());
             $annal->setValidatedBy($faker->randomElement($users));
