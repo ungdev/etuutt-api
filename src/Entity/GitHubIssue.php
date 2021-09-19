@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\GitHubIssueRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -51,6 +52,11 @@ class GitHubIssue
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new DateTime());
+    }
 
     public function getId(): ?Uuid
     {

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UECourseRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -120,6 +121,8 @@ class UECourse
 
     public function __construct()
     {
+        $this->setCreatedAt(new DateTime());
+
         $this->students = new ArrayCollection();
     }
 

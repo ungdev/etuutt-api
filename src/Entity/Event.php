@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -140,6 +141,8 @@ class Event
 
     public function __construct()
     {
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
         $this->setDescriptionTranslation(new Translation());
 
         $this->assos = new ArrayCollection();

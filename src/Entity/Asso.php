@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AssoRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -171,6 +172,8 @@ class Asso
     {
         $this->setDescriptionShortTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
 
         $this->keywords = new ArrayCollection();
         $this->assoMessages = new ArrayCollection();

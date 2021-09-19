@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CovoitRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -138,6 +139,9 @@ class Covoit
 
     public function __construct()
     {
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
+
         $this->covoitMessages = new ArrayCollection();
         $this->passengers = new ArrayCollection();
     }

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserBrancheRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -82,6 +83,11 @@ class UserBranche
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new DateTime());
+    }
 
     public function getId(): ?Uuid
     {

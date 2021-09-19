@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CovoitAlertRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -87,6 +88,12 @@ class CovoitAlert
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
+    }
 
     public function getId(): ?Uuid
     {

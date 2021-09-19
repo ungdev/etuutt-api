@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UECourseExchangeRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -98,6 +99,9 @@ class UECourseExchange
 
     public function __construct()
     {
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
+
         $this->responses = new ArrayCollection();
     }
 

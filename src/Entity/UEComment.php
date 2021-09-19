@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UECommentRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -108,6 +109,9 @@ class UEComment
 
     public function __construct()
     {
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
+
         $this->answers = new ArrayCollection();
         $this->reports = new ArrayCollection();
     }

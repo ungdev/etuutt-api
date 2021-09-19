@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EventAnswerRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -78,6 +79,12 @@ class EventAnswer
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
+    }
 
     public function getId(): ?Uuid
     {

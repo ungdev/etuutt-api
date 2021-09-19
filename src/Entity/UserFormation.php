@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserFormationRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -57,6 +58,11 @@ class UserFormation
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new DateTime());
+    }
 
     public function getId(): ?Uuid
     {

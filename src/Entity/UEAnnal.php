@@ -99,6 +99,8 @@ class UEAnnal
 
     public function __construct()
     {
+        $this->setCreatedAt(new DateTime());
+
         $this->reports = new ArrayCollection();
     }
 

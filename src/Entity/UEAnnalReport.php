@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UEAnnalReportRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -65,6 +66,11 @@ class UEAnnalReport
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new DateTime());
+    }
 
     public function getId(): ?Uuid
     {

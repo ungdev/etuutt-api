@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AssoMessageRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -86,6 +87,8 @@ class AssoMessage
 
     public function __construct()
     {
+        $this->setCreatedAt(new DateTime());
+
         $this->setBodyTranslation(new Translation());
     }
 

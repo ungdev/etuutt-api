@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\BadgeRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -102,6 +103,7 @@ class Badge
 
     public function __construct()
     {
+        $this->setCreatedAt(new DateTime());
         $this->setDescriptionTranslation(new Translation());
 
         $this->users = new ArrayCollection();

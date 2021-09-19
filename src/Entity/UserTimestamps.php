@@ -73,7 +73,6 @@ class UserTimestamps
 
     public function __construct()
     {
-        //  Default values
         $this->setCreatedAt(new DateTime());
         $this->setUpdatedAt(new DateTime());
     }

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AssoMembershipRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -76,6 +77,8 @@ class AssoMembership
 
     public function __construct()
     {
+        $this->setCreatedAt(new DateTime());
+
         $this->roles = new ArrayCollection();
         $this->permissions = new ArrayCollection();
     }
