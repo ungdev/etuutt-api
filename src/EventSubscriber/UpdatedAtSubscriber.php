@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * The listener that sets the "updatedAt" property of an entity to now when it is beeing updated.
+ * The listener is called before writing an entity into the database. If the entity has an `updatedAt` property, it sets its value to now.
  *
  * @see https://api-platform.com/docs/core/events/
  */

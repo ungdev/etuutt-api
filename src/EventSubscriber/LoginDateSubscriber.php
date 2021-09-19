@@ -14,7 +14,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * The listener that sets the "firstLoginDate" and "lastLoginDate" properties of the user making the request, if any.
+ * The listener that sets the `firstLoginDate` and `lastLoginDate` properties of the user making the request, if any. It is called before sending the response.
+ *
+ * @see https://api-platform.com/docs/core/events/
  */
 class LoginDateSubscriber implements EventSubscriberInterface
 {
@@ -33,8 +35,8 @@ class LoginDateSubscriber implements EventSubscriberInterface
 
     public function update(ViewEvent $event): void
     {
-        // @var UserTimestamps $userTimestamps
         if (null !== $this->security->getUser()) {
+            /** @var UserTimestamps $userTimestamps */
             $userTimestamps = $this->security->getUser()->getTimestamps();
             if (null === $userTimestamps->getFirstLoginDate()) {
                 $userTimestamps->setFirstLoginDate(new DateTime());

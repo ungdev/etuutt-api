@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * The voter that get the argument of 'is-granted' and return a boolean to give acces or not to the ressource.
+ * The voter that get the argument of `is-granted()` and return a boolean to give access or not to the ressource. It allow admins of a group to update and delete it.
  */
 class GroupAdminVoter extends Voter
 {
@@ -21,7 +21,7 @@ class GroupAdminVoter extends Voter
     }
 
     /**
-     * This method is used by Symfony to know if it has to call this Voter. This method returns a boolean based on the arguments given to 'is-granted'.
+     * This method is used by Symfony to know if it has to call this Voter. This method returns a boolean based on the arguments given to `is-granted()`.
      *
      * @param mixed $attribute
      * @param mixed $subject
@@ -36,7 +36,7 @@ class GroupAdminVoter extends Voter
     }
 
     /**
-     * If the 'supports' method returns true, this function is called to know if the access to the ressource is given or not.
+     * If the `supports` method returns true, this function is called to know if the access to the ressource is given or not.
      *
      * @param string $attribute
      * @param Group  $subject

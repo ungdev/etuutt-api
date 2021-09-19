@@ -9,7 +9,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * This class is automatically called by ApiPlatform. If a query is asking for a collection of Groups, this class hide groups with "isVisible" set to false for those who shall not see them.
+ * This class is automatically called by ApiPlatform. If a query is asking for a collection of Groups, this class hide groups with `isVisible` set to false for those who shall not see them.
  */
 class FilterVisibleGroupExtension implements QueryCollectionExtensionInterface
 {

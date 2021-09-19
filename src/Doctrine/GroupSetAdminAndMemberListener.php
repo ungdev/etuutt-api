@@ -6,7 +6,7 @@ use App\Entity\Group;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * A listener that activates when a Group entity is created. It sets the logged user to the admins of the group he creates.
+ * A listener that activates when a Group entity is created. It sets the logged user to the admins of the group he creates, so that a group with no admin and no member could not be created.
  */
 class GroupSetAdminAndMemberListener
 {

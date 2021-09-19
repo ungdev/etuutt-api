@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * This class is a controller that soft delete the data passed to its "__invoke" method.
+ */
 class SoftDeleteController extends AbstractController
 {
     private $manager;
@@ -20,6 +23,7 @@ class SoftDeleteController extends AbstractController
 
     public function __invoke($data)
     {
+        //  Because the `deletedAt` property of a User is strore into its `timestamps` propety that refers to a UserTimestamps object.
         if ($data instanceof User) {
             $data = $data->getTimestamps();
         }

@@ -40,7 +40,7 @@ class UserDataVisibilityItemDataProvider implements DenormalizedIdentifiersAware
     }
 
     /**
-     * The method called to modify the user when the "support" method returns true.
+     * The method called to modify the user when the `support` method returns true.
      *
      * @param mixed $id
      */

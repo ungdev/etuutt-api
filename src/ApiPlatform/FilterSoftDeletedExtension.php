@@ -12,7 +12,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * This class is automatically called by ApiPlatform. If the class has a "deletedAt" property, it will keep the records where "deletedAt" is null.
+ * This class is automatically called by ApiPlatform when an entity is retrieved from the database. If the entity has a `deletedAt` property, it will keep the records where `deletedAt` is null.
  */
 class FilterSoftDeletedExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {

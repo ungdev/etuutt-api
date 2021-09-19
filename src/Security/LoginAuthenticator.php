@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 /**
- * This class is a custom logger to authentificate our users only with their CAS login.
+ * This class is a custom logger to authenticate our users only with their CAS login. The password check is done previously by the gateway.
  *
  * @see https://symfony.com/doc/current/security/authenticator_manager.html
  */

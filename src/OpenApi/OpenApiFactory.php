@@ -7,7 +7,7 @@ use ApiPlatform\Core\OpenApi\Model\PathItem;
 use ApiPlatform\Core\OpenApi\OpenApi;
 
 /**
- * This class decorates the api documentation sent to the wagger to remove all operation that contains 'hidden' in their summary. This custom OpenApiFactory allows us to hide a mandatory operation (Get on an item).
+ * This class decorates and add modifications to the api documentation sent to the swagger. We use it to remove all operation that contains `hidden` in their summary, to hide a mandatory operation (Get on an item), and to add a way to log by the swagger.
  */
 class OpenApiFactory implements OpenApiFactoryInterface
 {
@@ -37,11 +37,9 @@ class OpenApiFactory implements OpenApiFactoryInterface
             'in' => 'header',
             'name' => 'CAS-LOGIN',
         ]);
-        //  We add the authentification to the swagger security
+        //  We add the authentification to the swagger security, and we return this version of the documentation with our modifications.
         return $openApi->withSecurity([[
             'CAS-Login' => [],
         ]]);
-
-        //  We return the version of the documentation with our modifications
     }
 }

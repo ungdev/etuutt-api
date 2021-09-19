@@ -21,7 +21,7 @@ class MyGroupsCollectionDataProvider implements ContextAwareCollectionDataProvid
     }
 
     /**
-     * This method is used by Symfony to know if it has to call this DataProvider. This method returns true if the request is a GET on a Group collection with the 'my_groups' name.
+     * This method is used by Symfony to know if it has to call this DataProvider. This method returns true if the request is a GET on a Group collection with the `my_groups` name.
      */
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
