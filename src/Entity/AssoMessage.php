@@ -36,12 +36,12 @@ class AssoMessage
     private $asso;
 
     /**
-     * @ORM\Column(type="string", length=60, unique=true)
+     * The Translation object that contains the translation of the title.
      *
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=60)
+     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
-    private $title;
+    #[SerializedName('title')]
+    private $titleTranslation;
 
     /**
      * The Translation object that contains the translation of the description.
@@ -89,6 +89,7 @@ class AssoMessage
     {
         $this->setCreatedAt(new DateTime());
 
+        $this->setTitleTranslation(new Translation());
         $this->setBodyTranslation(new Translation());
     }
 
@@ -109,14 +110,14 @@ class AssoMessage
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getTitleTranslation(): ?Translation
     {
-        return $this->title;
+        return $this->titleTranslation;
     }
 
-    public function setTitle(string $title): self
+    public function setTitleTranslation(?Translation $titleTranslation): self
     {
-        $this->title = $title;
+        $this->titleTranslation = $titleTranslation;
 
         return $this;
     }

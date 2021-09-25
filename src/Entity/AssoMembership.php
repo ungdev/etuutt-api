@@ -45,13 +45,6 @@ class AssoMembership
     private $asso;
 
     /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
-
-    /**
      * The relation to the roles accorded to the User in an Asso.
      *
      * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
@@ -74,6 +67,23 @@ class AssoMembership
      * )
      */
     private $permissions;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $startAt;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $endAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type("\DateTimeInterface")
+     */
+    private $createdAt;
 
     public function __construct()
     {
@@ -108,18 +118,6 @@ class AssoMembership
     public function setAsso(?Asso $asso): self
     {
         $this->asso = $asso;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -168,6 +166,42 @@ class AssoMembership
     public function removePermission(AssoMembershipPermission $permission): self
     {
         $this->permissions->removeElement($permission);
+
+        return $this;
+    }
+
+    public function getStartAt(): ?DateTimeInterface
+    {
+        return $this->startAt;
+    }
+
+    public function setStartAt(DateTimeInterface $startAt): self
+    {
+        $this->startAt = $startAt;
+
+        return $this;
+    }
+
+    public function getEndAt(): ?DateTimeInterface
+    {
+        return $this->endAt;
+    }
+
+    public function setEndAt(DateTimeInterface $endAt): self
+    {
+        $this->endAt = $endAt;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -87,11 +87,16 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             //Attribution de message à des assos
             $assoMessage->setAsso($faker->randomElement($assos));
 
-            $assoMessage->setTitle(str_shuffle($faker->word.$faker->word.$faker->word));
+            //Création d'une traduction pour le title
+            $descriptionTranslation = $assoMessage->getTitleTranslation();
+            $descriptionTranslation->setFrench(str_shuffle($faker->word.$faker->word.$faker->word));
+            $descriptionTranslation->setEnglish(str_shuffle($faker->word.$faker->word.$faker->word));
+            $descriptionTranslation->setSpanish(str_shuffle($faker->word.$faker->word.$faker->word));
+            $descriptionTranslation->setGerman(str_shuffle($faker->word.$faker->word.$faker->word));
+            $descriptionTranslation->setChinese(str_shuffle($faker->word.$faker->word.$faker->word));
 
-            //Création d'une traduction
+            //Création d'une traduction pour le body
             $descriptionTranslation = $assoMessage->getBodyTranslation();
-
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);
             $descriptionTranslation->setEnglish($description);
@@ -144,6 +149,10 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
 
                 //Assignation du membre à une asso
                 $assoMember->setAsso($faker->randomElement($assos));
+
+                $assoMember->setStartAt($faker->dateTimeBetween('-3 years'));
+                $days = (new DateTime())->diff($asso->getCreatedAt())->days;
+                $assoMember->setEndAt($faker->dateTimeBetween('-'.$days.' days'));
 
                 $assoMember->setCreatedAt($faker->dateTimeBetween('-3 years'));
 
