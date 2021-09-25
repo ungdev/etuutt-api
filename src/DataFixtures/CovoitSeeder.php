@@ -66,14 +66,13 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoit->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
 
             $covoit->setStartAddress($faker->streetAddress);
-
-            $days = (new DateTime())->diff($covoit->getUpdatedAt())->days;
-            $covoit->setStartDate($faker->dateTimeBetween('-'.$days.' days'));
-
             $covoit->setEndAddress($faker->streetAddress);
 
-            $days = (new DateTime())->diff($covoit->getStartDate())->days;
-            $covoit->setEndDate($faker->dateTimeBetween('-'.$days.' days'));
+            $days = (new DateTime())->diff($covoit->getUpdatedAt())->days;
+            $covoit->setStartAt($faker->dateTimeBetween('-'.$days.' days'));
+
+            $days = (new DateTime())->diff($covoit->getStartAt())->days;
+            $covoit->setEndAt($faker->dateTimeBetween('-'.$days.' days'));
 
             //On persiste le covoit dans la base de données
             $manager->persist($covoit);
@@ -96,15 +95,14 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoitAlert->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
 
             $days = (new DateTime())->diff($covoitAlert->getUpdatedAt())->days;
-            $covoitAlert->setStartDate($faker->dateTimeBetween('-'.$days.' days'));
+            $covoitAlert->setStartAt($faker->dateTimeBetween('-'.$days.' days'));
 
-            $days = (new DateTime())->diff($covoitAlert->getStartDate())->days;
-            $covoitAlert->setEndDate($faker->dateTimeBetween('-'.$days.' days'));
+            $days = (new DateTime())->diff($covoitAlert->getStartAt())->days;
+            $covoitAlert->setEndAt($faker->dateTimeBetween('-'.$days.' days'));
 
             //Création des villes de départ et d'arrivée
-            $covoitAlert->setStartCity($faker->city);
-
-            $covoitAlert->setEndCity($faker->city);
+            $covoitAlert->setStartCity($faker->uuid);
+            $covoitAlert->setEndCity($faker->uuid);
 
             //On persiste l'alerte dans la base de données
             $manager->persist($covoitAlert);

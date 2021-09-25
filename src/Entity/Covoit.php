@@ -72,20 +72,38 @@ class Covoit
     private $startAddress;
 
     /**
+     * The end address (destination) of the Covoit.
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $endAddress;
+
+    /**
+     * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
+     *
+     * @ORM\Column(type="uuid", nullable=true)
+     *
+     * @Assert\Uuid
+     */
+    private $startCityId;
+
+    /**
+     * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
+     *
+     * @ORM\Column(type="uuid", nullable=true)
+     *
+     * @Assert\Uuid
+     */
+    private $endCityId;
+
+    /**
      * The starting date of the Covoit.
      *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type("\DateTimeInterface")
      */
-    private $startDate;
-
-    /**
-     * The end address (destination) of the Covoit.
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $endAddress;
+    private $startAt;
 
     /**
      * The end date of the Covoit.
@@ -94,7 +112,7 @@ class Covoit
      *
      * @Assert\Type("\DateTimeInterface")
      */
-    private $endDate;
+    private $endAt;
 
     /**
      * @ORM\Column(type="datetime")
@@ -130,7 +148,7 @@ class Covoit
      *
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="passengerCovoits")
      * @ORM\JoinTable(
-     *     name="covoits_users",
+     *     name="covoits_users_passengers",
      *     inverseJoinColumns={@ORM\JoinColumn(name="covoit_id", referencedColumnName="id")},
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      * )
@@ -223,18 +241,6 @@ class Covoit
         return $this;
     }
 
-    public function getStartDate(): ?DateTimeInterface
-    {
-        return $this->startDate;
-    }
-
-    public function setStartDate(DateTimeInterface $startDate): self
-    {
-        $this->startDate = $startDate;
-
-        return $this;
-    }
-
     public function getEndAddress(): ?string
     {
         return $this->endAddress;
@@ -243,18 +249,6 @@ class Covoit
     public function setEndAddress(string $endAddress): self
     {
         $this->endAddress = $endAddress;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?DateTimeInterface
-    {
-        return $this->endDate;
-    }
-
-    public function setEndDate(DateTimeInterface $endDate): self
-    {
-        $this->endDate = $endDate;
 
         return $this;
     }
@@ -343,5 +337,53 @@ class Covoit
     public function isFull(): bool
     {
         return $this->getPassengers()->count() >= $this->getCapacity();
+    }
+
+    public function getStartCityId(): Uuid
+    {
+        return $this->startCityId;
+    }
+
+    public function setStartCityId(Uuid $startCityId): self
+    {
+        $this->startCityId = $startCityId;
+
+        return $this;
+    }
+
+    public function getStartAt(): ?DateTimeInterface
+    {
+        return $this->startAt;
+    }
+
+    public function setStartAt(DateTimeInterface $startAt): self
+    {
+        $this->startAt = $startAt;
+
+        return $this;
+    }
+
+    public function getEndAt(): ?DateTimeInterface
+    {
+        return $this->endAt;
+    }
+
+    public function setEndAt(DateTimeInterface $endAt): self
+    {
+        $this->endAt = $endAt;
+
+        return $this;
+    }
+
+    public function getEndCityId()
+    {
+        return $this->endCityId;
+    }
+
+    public function setEndCityId($endCityId): self
+    {
+        $this->endCityId = $endCityId;
+
+        return $this;
     }
 }

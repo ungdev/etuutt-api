@@ -50,7 +50,7 @@ class CovoitAlert
      *
      * @Assert\Type("\DateTimeInterface")
      */
-    private $startDate;
+    private $startAt;
 
     /**
      * The second boundary of the Covoit starting date.
@@ -59,21 +59,25 @@ class CovoitAlert
      *
      * @Assert\Type("\DateTimeInterface")
      */
-    private $endDate;
+    private $endAt;
 
     /**
-     * The desired starting city of the Covoit.
+     * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="uuid", nullable=true)
+     *
+     * @Assert\Uuid
      */
-    private $startCity;
+    private $startCityId;
 
     /**
-     * The desired ending city (destination) of the Covoit.
+     * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="uuid", nullable=true)
+     *
+     * @Assert\Uuid
      */
-    private $endCity;
+    private $endCityId;
 
     /**
      * @ORM\Column(type="datetime")
@@ -192,6 +196,54 @@ class CovoitAlert
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getStartAt(): ?\DateTimeInterface
+    {
+        return $this->startAt;
+    }
+
+    public function setStartAt(\DateTimeInterface $startAt): self
+    {
+        $this->startAt = $startAt;
+
+        return $this;
+    }
+
+    public function getEndAt(): ?\DateTimeInterface
+    {
+        return $this->endAt;
+    }
+
+    public function setEndAt(\DateTimeInterface $endAt): self
+    {
+        $this->endAt = $endAt;
+
+        return $this;
+    }
+
+    public function getStartCityId()
+    {
+        return $this->startCityId;
+    }
+
+    public function setStartCityId($startCityId): self
+    {
+        $this->startCityId = $startCityId;
+
+        return $this;
+    }
+
+    public function getEndCityId()
+    {
+        return $this->endCityId;
+    }
+
+    public function setEndCityId($endCityId): self
+    {
+        $this->endCityId = $endCityId;
 
         return $this;
     }
