@@ -38,14 +38,12 @@ class Event
     private $assos;
 
     /**
-     * The title of the Event.
+     * The Translation object that contains the translation of the title of the event.
      *
-     * @ORM\Column(type="string", length=50, unique=true)
-     *
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=50)
+     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
-    private $title;
+    #[SerializedName('title')]
+    private $titleTranslation;
 
     /**
      * The starting date of the event.
@@ -54,7 +52,7 @@ class Event
      *
      * @Assert\Type("\DateTimeInterface")
      */
-    private $begin;
+    private $startAt;
 
     /**
      * The ending date of the event.
@@ -63,7 +61,7 @@ class Event
      *
      * @Assert\Type("\DateTimeInterface")
      */
-    private $end;
+    private $endAt;
 
     /**
      * A boolean telling whether the event is from morning to evening or not.
@@ -77,10 +75,10 @@ class Event
     /**
      * The location of the event. It is optional.
      *
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @Assert\Type("string")
-     * @Assert\Length(min=0, max=100)
+     * @Assert\Length(min=0, max=255)
      */
     private $location;
 
@@ -120,7 +118,7 @@ class Event
      * @ORM\JoinTable(
      *     name="events_categories",
      *     joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="category", referencedColumnName="name")}
+     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
      * )
      */
     private $categories;
@@ -143,6 +141,7 @@ class Event
     {
         $this->setCreatedAt(new DateTime());
         $this->setUpdatedAt(new DateTime());
+        $this->setTitleTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
 
         $this->assos = new ArrayCollection();
@@ -179,38 +178,38 @@ class Event
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getTitleTranslation(): ?Translation
     {
-        return $this->title;
+        return $this->titleTranslation;
     }
 
-    public function setTitle(string $title): self
+    public function setTitleTranslation(?Translation $titleTranslation): self
     {
-        $this->title = $title;
+        $this->titleTranslation = $titleTranslation;
 
         return $this;
     }
 
-    public function getBegin(): ?DateTimeInterface
+    public function getStartAt(): ?DateTimeInterface
     {
-        return $this->begin;
+        return $this->startAt;
     }
 
-    public function setBegin(DateTimeInterface $begin): self
+    public function setStartAt(DateTimeInterface $startAt): self
     {
-        $this->begin = $begin;
+        $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEnd(): ?DateTimeInterface
+    public function getEndAt(): ?DateTimeInterface
     {
-        return $this->end;
+        return $this->endAt;
     }
 
-    public function setEnd(DateTimeInterface $end): self
+    public function setEndAt(DateTimeInterface $endAt): self
     {
-        $this->end = $end;
+        $this->endAt = $endAt;
 
         return $this;
     }

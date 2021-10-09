@@ -3,9 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EventCategoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,23 +15,24 @@ class EventCategory
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string", length=20, unique=true)
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      *
-     * @Assert\Regex("/^[a-z ]{1,20}$/")
+     * @Assert\Uuid
+     */
+    private $id;
+
+    /**
+     * The name of the event category.
+     *
+     * @ORM\Column(type="string", length=100, unique=true)
      */
     private $name;
 
-    /**
-     * The relation between the EventCategories and the Events it qualifies.
-     *
-     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="categories")
-     */
-    private $events;
-
-    public function __construct($name)
+    public function getId()
     {
-        $this->name = $name;
-        $this->events = new ArrayCollection();
+        return $this->id;
     }
 
     public function getName(): ?string
@@ -40,29 +40,9 @@ class EventCategory
         return $this->name;
     }
 
-    /**
-     * @return Collection|Event[]
-     */
-    public function getEvents(): Collection
+    public function setName(string $name): self
     {
-        return $this->events;
-    }
-
-    public function addEvent(Event $event): self
-    {
-        if (!$this->events->contains($event)) {
-            $this->events[] = $event;
-            $event->addCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEvent(Event $event): self
-    {
-        if ($this->events->removeElement($event)) {
-            $event->removeCategory($this);
-        }
+        $this->name = $name;
 
         return $this;
     }

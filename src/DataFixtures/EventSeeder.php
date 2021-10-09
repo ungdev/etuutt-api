@@ -42,12 +42,10 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
                 $event->addAsso($faker->randomElement($assos));
             }
 
-            $event->setTitle(str_shuffle($faker->word.$faker->word.$faker->word));
-
             //Création des dates de début et de fin de event
-            $event->setBegin($faker->dateTimeThisYear);
-            $days = (new DateTime())->diff($event->getBegin())->days;
-            $event->setEnd($faker->dateTimeBetween('-'.$days.' days'));
+            $event->setStartAt($faker->dateTimeThisYear);
+            $days = (new DateTime())->diff($event->getStartAt())->days;
+            $event->setEndAt($faker->dateTimeBetween('-'.$days.' days'));
 
             $event->setIsAllDay($faker->boolean(75));
 
@@ -55,9 +53,16 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
                 $event->setLocation($faker->address);
             }
 
-            //Création d'une traduction
-            $descriptionTranslation = $event->getDescriptionTranslation();
+            //Création d'une traduction pour la description
+            $titleTranslation = $event->getTitleTranslation();
+            $titleTranslation->setFrench(str_shuffle($faker->word.$faker->word.$faker->word));
+            $titleTranslation->setEnglish(str_shuffle($faker->word.$faker->word.$faker->word));
+            $titleTranslation->setSpanish(str_shuffle($faker->word.$faker->word.$faker->word));
+            $titleTranslation->setGerman(str_shuffle($faker->word.$faker->word.$faker->word));
+            $titleTranslation->setChinese(str_shuffle($faker->word.$faker->word.$faker->word));
 
+            //Création d'une traduction pour la description
+            $descriptionTranslation = $event->getDescriptionTranslation();
             $description = Text::createRandomText(5, 9);
             $descriptionTranslation->setFrench($description);
             $descriptionTranslation->setEnglish($description);
@@ -156,7 +161,8 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             for ($j = 0; $j < $faker->numberBetween(5, 20); ++$j) {
                 $name .= $faker->randomLetter;
             }
-            $category = new EventCategory($name);
+            $category = new EventCategory();
+            $category->setName($name);
 
             $categories[] = $category;
             //On persiste la catégorie dans la base de données
