@@ -71,8 +71,8 @@
 
 [![Swagger screenshot](docs/images/interface.png)](https://api-dev.etuutt-2020.uttnetgroup.fr/)
 
-Here's a screenshot of the swagger. It is the user friendly way to deal with the API, so that front teams want to offer us beers ! 🍻\
-It is also userful to test and debug new features.\
+Here's a screenshot of the Swagger UI. It is the user friendly way to deal with the API, so that front teams want to offer us beers ! 🍻\
+It is also useful to test and debug new features.\
 You can go to that page by clicking on the image.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -93,7 +93,7 @@ You can go to that page by clicking on the image.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is the documentation of the API. Everything that is concerned by both the front and the back is in [the project documentation](https://ungdev.github.io/etuutt-core/).\
+This is the API documentation. Everything that is concerned the front and the back is in [the project documentation](https://ungdev.github.io/etuutt-core/).\
 First, you will have to read the project doc, then what follows.
 
 ### Prerequisites
@@ -111,11 +111,11 @@ At this point, thanks to [this part of the documentation](https://ungdev.github.
    composer install
    ```
 3. Duplicate the `.env` file and name it `.env.local`\
-   You will put your private info in this file, such as passwords or path to you local database. This `.env.local` will not be sent to GitHub, it is local to your computer.
+   You will put your private info in this file, such as passwords or path to your local database. This `.env.local` will not be sent to GitHub, it is local to your computer.
 
 ### Run the project
 
-Now that everything is installed and ready to go, let the magic be ✨
+Now that everything is installed and ready to go, let the magic begin ✨
 ```sh
 symfony serve
 ```
@@ -130,8 +130,8 @@ Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.
 
 ### Make a request
 
-The swagger interface allows us to see endpoint documentation as well as sending request to test them, awesome 😍\
-Here is how to make a `GET` request via swagger, but they all work the same.
+The Swagger UI allows us to see endpoint documentation as well as sending request to test them, awesome 😍\
+Here is how to make a `GET` request via Swagger, but they all work the same.
 
 ![Send a GET request](docs/images/send_request.gif)
 
@@ -215,8 +215,8 @@ Pssst... Don't forget to give the project a star 🤩
 For those who are member of the team, there are the steps to add your changes to the `dev` branch.
 1. You will be added to the team, with admin access to [the repo](https://github.com/ungdev/etuutt-api).
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
+3. Commit your Changes (`git commit -am 'Add some AmazingFeature'`)
+4. Push the Branch to the `origin` remote (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
 <p align="right">(<a href="#top">back to top</a>)</p>
