@@ -50,6 +50,7 @@
         <li><a href="#run-the-project">Run the project</a></li>
       </ul>
     </li>
+    <li><a href="#folder-structure">Folder structure</a></li>
     <li>
       <a href="#usage">Usage</a>
       <ul>
@@ -122,6 +123,54 @@ symfony serve
 Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- FOLDER STRUCTURE AND EXPLANATIONS -->
+## Folder structure
+
+```
+./
+├── bin/                    # Executable files, called by CLI
+|   ├── console             # The one we call to handle this Symfony project
+|   └── phpunit             # The CLI to handle PHPUnit testing
+├── config/                 # Configuration files for packages and services
+├── docs/                   # Documentation files and images
+├── migrations/             # DB migrations files, to version the DB without data loss
+├── public/                 # All public files, includes the entry point
+├── src/                    # The project's PHP source files
+|   ├── ApiPlatform/        # Filters on data applied by API Platform
+|   ├── Controller/         # Symfony controllers. It helps us to perform custom operations
+|   ├── DataFixtures/       # Files that fill the DB with fake data to test
+|   ├── DataProvider/       # Customized ways of retrieving data
+|   ├── Doctrine/           # Doctrine custom tools (e.g. Listener)
+|   ├── Entity/             # All Symfony entities
+|   ├── EventSubscriber/    # API Platform event listeners
+|   ├── OpenApi/            # Swagger decorator for custom behavior
+|   ├── Repository/         # Files to retrieve entities
+|   ├── Security/           # Login process and Voters
+|   └── Util/               # Static classes to centralize simple tasks
+├── tests/                  # Automated tests (e.g. Unit tests)
+├── var/                    # Generated files (cache, logs, etc)
+├── vendor/                 # The third-party dependencies
+├── .dockerignore           # A Docker file to build image of the project
+├── .env                    # Environment variables file. The content is accessible everywhere.
+├── .env.local              # Environment variables specific to your computer, do not share it
+├── .env.test               # Environment variables specific to the "test" environment
+├── .gitignore              # The list of folders and files that will not be sent to GitHub
+├── .php-cs-fixer.dist.php  # The set of rules and convention that PHP CS Fixer follows
+├── .php-version            # Tells Symfony to use a specific version of PHP
+├── .travis.yml             # Info and script for CI/CD
+├── composer.json           # The list of dependencies and their versions
+├── composer.lock           # The list of the dependencies of the dependencies
+├── docker-compose.yml      # A Docker file to build image of the project
+├── Dockerfile              # A Docker file to build image of the project
+├── LICENSE.txt             # MIT license text
+├── phpcs.xml.dist          # The configuration file for PHP_CodeSniffer
+├── phpunit.xml.dist        # The configuration file for the PHP testing framework PHPUnit
+├── README.md               # This amazing documentation
+└── symfony.lock            # A proper lock file for Symfony recipes
+```
 
 
 
