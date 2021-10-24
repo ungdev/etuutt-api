@@ -243,9 +243,14 @@ Here is a list of commands to manipulate the database, entities and `php-cs-fixe
    ```sh
    php bin/console make:entity --regenerate
    ```
-- To call `php-cs-fixer` to modify the PHP code on src folder so that it follows the conventions of `.php-cs-fixer.dist.php` file.
+- To call `php-cs-fixer` to modify the PHP code on src folder so that it follows the conventions described in the `.php-cs-fixer.dist.php` file.
+  
+  Linux OS
    ```sh
    php vendor/bin/php-cs-fixer fix src
+   ```
+  Windows OS
+   ```sh
    vendor/bin/php-cs-fixer.bat fix src
    ```
 
@@ -264,9 +269,11 @@ Pssst... Don't forget to give the project a star 🤩
 For those who are member of the team, there are the steps to add your changes to the `dev` branch.
 1. You will be added to the team, with admin access to [the repo](https://github.com/ungdev/etuutt-api).
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+3. Write your code
+4. Let PHP-cs_fixer do its job (`vendor/bin/php-cs-fixer.bat fix src` or `php vendor/bin/php-cs-fixer fix src`)
+5. Commit your Changes using Commitizen (`cz`)
+6. Push to the Branch (`git push origin feature/AmazingFeature`)
+7. Open a Pull Request
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
