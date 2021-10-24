@@ -131,6 +131,7 @@ Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.
 
 ```
 ./
+├── .github/                # Files used to customize GitHub behavior
 ├── bin/                    # Executable files, called by CLI
 |   ├── console             # The one we call to handle this Symfony project
 |   └── phpunit             # The CLI to handle PHPUnit testing
