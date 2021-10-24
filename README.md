@@ -50,6 +50,7 @@
         <li><a href="#run-the-project">Run the project</a></li>
       </ul>
     </li>
+    <li><a href="#folder-structure">Folder structure</a></li>
     <li>
       <a href="#usage">Usage</a>
       <ul>
@@ -125,6 +126,55 @@ Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.
 
 
 
+<!-- FOLDER STRUCTURE AND EXPLANATIONS -->
+## Folder structure
+
+```
+./
+├── .github/                # Files used to customize GitHub behavior
+├── bin/                    # Executable files, called by CLI
+|   ├── console             # The one we call to handle this Symfony project
+|   └── phpunit             # The CLI to handle PHPUnit testing
+├── config/                 # Configuration files for packages and services
+├── docs/                   # Documentation files and images
+├── migrations/             # DB migrations files, to version the DB without data loss
+├── public/                 # All public files, includes the entry point
+├── src/                    # The project's PHP source files
+|   ├── ApiPlatform/        # Filters on data applied by API Platform
+|   ├── Controller/         # Symfony controllers. It helps us to perform custom operations
+|   ├── DataFixtures/       # Files that fill the DB with fake data to test
+|   ├── DataProvider/       # Customized ways of retrieving data
+|   ├── Doctrine/           # Doctrine custom tools (e.g. Listener)
+|   ├── Entity/             # All Symfony entities
+|   ├── EventSubscriber/    # API Platform event listeners
+|   ├── OpenApi/            # Swagger decorator for custom behavior
+|   ├── Repository/         # Files to retrieve entities
+|   ├── Security/           # Login process and Voters
+|   └── Util/               # Static classes to centralize simple tasks
+├── tests/                  # Automated tests (e.g. Unit tests)
+├── var/                    # Generated files (cache, logs, etc)
+├── vendor/                 # The third-party dependencies
+├── .czrc                   # Git Commitizen configuration file
+├── .dockerignore           # A Docker file to build image of the project
+├── .env                    # Environment variables file. The content is accessible everywhere.
+├── .env.local              # Environment variables specific to your computer, do not share it
+├── .env.test               # Environment variables specific to the "test" environment
+├── .gitignore              # The list of folders and files that will not be sent to GitHub
+├── .php-cs-fixer.dist.php  # The set of rules and convention that PHP CS Fixer follows
+├── .php-version            # Tells Symfony to use a specific version of PHP
+├── .travis.yml             # Info and script for CI/CD
+├── composer.json           # The list of dependencies and their versions
+├── composer.lock           # The list of the dependencies's dependencies
+├── docker-compose.yml      # A Docker file to build image of the project
+├── Dockerfile              # A Docker file to build image of the project
+├── LICENSE.txt             # MIT license text
+├── phpunit.xml.dist        # The configuration file of the PHP testing framework, PHPUnit
+├── README.md               # This amazing documentation
+└── symfony.lock            # A proper lock file for Symfony recipes
+```
+
+
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 
@@ -194,9 +244,14 @@ Here is a list of commands to manipulate the database, entities and `php-cs-fixe
    ```sh
    php bin/console make:entity --regenerate
    ```
-- To call `php-cs-fixer` to modify the PHP code on src folder so that it follows the conventions of `.php-cs-fixer.dist.php` file.
+- To call `php-cs-fixer` to modify the PHP code on src folder so that it follows the conventions described in the `.php-cs-fixer.dist.php` file.
+  
+  Linux OS
    ```sh
    php vendor/bin/php-cs-fixer fix src
+   ```
+  Windows OS
+   ```sh
    vendor/bin/php-cs-fixer.bat fix src
    ```
 
@@ -215,9 +270,11 @@ Pssst... Don't forget to give the project a star 🤩
 For those who are member of the team, there are the steps to add your changes to the `dev` branch.
 1. You will be added to the team, with admin access to [the repo](https://github.com/ungdev/etuutt-api).
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -am 'Add some AmazingFeature'`)
-4. Push the Branch to the `origin` remote (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+3. Write your code
+4. Let PHP-cs_fixer do its job (`vendor/bin/php-cs-fixer.bat fix src` or `php vendor/bin/php-cs-fixer fix src`)
+5. Commit your Changes using Commitizen (`cz`)
+6. Push to the Branch (`git push origin feature/AmazingFeature`)
+7. Open a Pull Request
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
