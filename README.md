@@ -94,7 +94,7 @@ You can go to that page by clicking on the image.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is the API documentation. Everything that is concerned the front and the back is in [the project documentation](https://ungdev.github.io/etuutt-core/).\
+This is the API documentation. Everything that concernes the front and the back is in [the project documentation](https://ungdev.github.io/etuutt-core/).\
 First, you will have to read the project doc, then what follows.
 
 ### Prerequisites
