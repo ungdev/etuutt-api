@@ -154,6 +154,7 @@ Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.
 ├── tests/                  # Automated tests (e.g. Unit tests)
 ├── var/                    # Generated files (cache, logs, etc)
 ├── vendor/                 # The third-party dependencies
+├── .czrc                   # Git Commitizen configuration file
 ├── .dockerignore           # A Docker file to build image of the project
 ├── .env                    # Environment variables file. The content is accessible everywhere.
 ├── .env.local              # Environment variables specific to your computer, do not share it
@@ -163,12 +164,11 @@ Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.
 ├── .php-version            # Tells Symfony to use a specific version of PHP
 ├── .travis.yml             # Info and script for CI/CD
 ├── composer.json           # The list of dependencies and their versions
-├── composer.lock           # The list of the dependencies of the dependencies
+├── composer.lock           # The list of the dependencies's dependencies
 ├── docker-compose.yml      # A Docker file to build image of the project
 ├── Dockerfile              # A Docker file to build image of the project
 ├── LICENSE.txt             # MIT license text
-├── phpcs.xml.dist          # The configuration file for PHP_CodeSniffer
-├── phpunit.xml.dist        # The configuration file for the PHP testing framework PHPUnit
+├── phpunit.xml.dist        # The configuration file of the PHP testing framework, PHPUnit
 ├── README.md               # This amazing documentation
 └── symfony.lock            # A proper lock file for Symfony recipes
 ```
