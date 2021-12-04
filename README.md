@@ -22,7 +22,7 @@
     <a href="https://github.com/ungdev/etuutt-api"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://api-dev.etuutt-2020.uttnetgroup.fr/">View Demo</a>
+    <a href="https://api-etuutt-2020.dev.uttnetgroup.fr/">View Demo</a>
     ·
     <a href="https://github.com/ungdev/etuutt-api/issues">Report Bug</a>
     ·
@@ -70,7 +70,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Swagger screenshot](docs/images/interface.png)](https://api-dev.etuutt-2020.uttnetgroup.fr/)
+[![Swagger screenshot](docs/images/interface.png)](https://api-etuutt-2020.dev.uttnetgroup.fr/)
 
 Here's a screenshot of the Swagger UI. It is the user friendly way to deal with the API, so that front teams want to offer us beers ! 🍻\
 It is also useful to test and debug new features.\
