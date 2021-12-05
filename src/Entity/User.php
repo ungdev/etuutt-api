@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\GetEDTController;
 use App\Controller\SoftDeleteController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -40,6 +41,17 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'normalization_context' => [
                     'groups' => ['user:read:one'],
                     'skip_null_values' => false,
+                ],
+            ],
+            'edt' => [
+                'method' => 'GET',
+                'path' => '/user/{id}/edt',
+                'controller' => GetEDTController::class,
+                'normalization_context' => [
+                    'groups' => ['user:read:one:edt'],
+                ],
+                'openapi_context' => [
+                    'summary' => 'retrieves a user\'s schedule',
                 ],
             ],
             'delete' => [
@@ -326,6 +338,9 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity=UECourse::class, mappedBy="students")
      */
+    #[Groups([
+        'user:read:one:edt',
+    ])]
     private $courses;
 
     public function __construct()
@@ -990,6 +1005,17 @@ class User implements UserInterface
      */
     public function getCourses(): Collection
     {
+        /*$tmp = $this->courses;
+        $repository = $this->getDoctrine()->getRepository(Semester::class);
+        $currentSemesterCode = $repository->getSemesterOfDate($date instanceof DateTimeInterface)->getCode();
+        for($i = count($tmp) - 1; $i >= 0; $i--){
+            if($tmp[$i]->getSemester()->getCode() != "A21"){
+                unset($tmp[$i]);
+                //array_splice($tmp,$i,$i);
+            }
+        }
+
+        return $tmp;*/
         return $this->courses;
     }
 
