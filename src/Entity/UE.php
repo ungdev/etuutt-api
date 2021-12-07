@@ -86,6 +86,7 @@ class UE
         'ue:read:one',
         'ue:read:some',
         'user:read:one:edt',
+        'user:read:one:ues',
     ])]
     private $code;
 
@@ -100,6 +101,7 @@ class UE
     #[Groups([
         'ue:read:one',
         'ue:read:some',
+        'user:read:one:ues',
     ])]
     private $name;
 

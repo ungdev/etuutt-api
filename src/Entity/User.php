@@ -52,6 +52,16 @@ use Symfony\Component\Validator\Constraints as Assert;
                     'summary' => 'retrieves a user\'s schedule',
                 ],
             ],
+            'ues' => [
+                'method' => 'GET',
+                'path' => '/user/{id}/ues',
+                'normalization_context' =>[
+                    'groups' => ['user:read:one:ues'], 
+                ],
+                'openapi_context' => [
+                    'summary' => 'retrieves ues a user is following for the current semester',
+                ], 
+            ],
             'delete' => [
                 'controller' => SoftDeleteController::class,
                 'security' => "is_granted('ROLE_ADMIN')",
@@ -321,6 +331,9 @@ class User implements UserInterface
      *
      * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="user", orphanRemoval=true)
      */
+    #[Groups([
+        'user:read:one:ues',
+    ])]    
     private $UEsSubscriptions;
 
     /**
@@ -1002,17 +1015,6 @@ class User implements UserInterface
      */
     public function getCourses(): Collection
     {
-        /*$tmp = $this->courses;
-        $repository = $this->getDoctrine()->getRepository(Semester::class);
-        $currentSemesterCode = $repository->getSemesterOfDate($date instanceof DateTimeInterface)->getCode();
-        for($i = count($tmp) - 1; $i >= 0; $i--){
-            if($tmp[$i]->getSemester()->getCode() != "A21"){
-                unset($tmp[$i]);
-                //array_splice($tmp,$i,$i);
-            }
-        }
-
-        return $tmp;*/
         return $this->courses;
     }
 
