@@ -36,7 +36,7 @@ class UECourse
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="courses")
      */
     #[Groups([
-        'user:read:one:edt',
+        'user-edt:read:one',
     ])]
     private $UE;
 
@@ -49,7 +49,7 @@ class UECourse
      * @Assert\Choice({"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"})
      */
     #[Groups([
-        'user:read:one:edt',
+        'user-edt:read:one',
     ])]
     private $day;
 
@@ -61,7 +61,7 @@ class UECourse
      * @Assert\Time
      */
     #[Groups([
-        'user:read:one:edt',
+        'user-edt:read:one',
     ])]
     private $startHour;
 
@@ -73,7 +73,7 @@ class UECourse
      * @Assert\Time
      */
     #[Groups([
-        'user:read:one:edt',
+        'user-edt:read:one',
     ])]
     private $endHour;
 
@@ -86,7 +86,7 @@ class UECourse
      * @Assert\Choice({"A", "B"})
      */
     #[Groups([
-        'user:read:one:edt',
+        'user-edt:read:one',
     ])]
     private $week;
 
@@ -97,7 +97,7 @@ class UECourse
      * @Assert\Choice({"CM", "TD", "TP"})
      */
     #[Groups([
-        'user:read:one:edt',
+        'user-edt:read:one',
     ])]
     private $type;
 
@@ -110,7 +110,7 @@ class UECourse
      * @Assert\Length(min=1, max=50)
      */
     #[Groups([
-        'user:read:one:edt',
+        'user-edt:read:one',
     ])]
     private $room;
 

@@ -4,9 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Semester;
 use App\Entity\User;
-use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface; //needed to be able to return a class
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; //needed to be used from platform API configuration (see User.php)
 
 class GetEDTController extends AbstractController
 {
@@ -20,8 +19,7 @@ class GetEDTController extends AbstractController
     public function __invoke(User $data): User
     {
         $repository = $this->getDoctrine()->getRepository(Semester::class);
-        $now = new DateTime('now');
-        $currentSemesterCode = $repository->getSemesterOfDate($now)->getCode();
+        $currentSemesterCode = $repository->getSemesterOfDate()->getCode();
 
         $nbCourses = \count($data->getCourses());
 
