@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Semester;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Validator\Constraints\Date;
@@ -27,8 +26,14 @@ class SemesterRepository extends ServiceEntityRepository
      *
      * @return Semester Returns the semester in which there is the input date
      */
-    public function getSemesterOfDate(DateTimeInterface $date)
+    public function getSemesterOfDate()
     {
+        $date = new DateTime();
+        //php function overloading, best practice would be to check if the argument is really a date
+        if (1 === \func_num_args()) {
+            $date = func_get_arg(0);
+        }
+
         return $this->createQueryBuilder('s')
             ->andWhere('s.start <= :now')
             ->andWhere('s.end >= :now')
