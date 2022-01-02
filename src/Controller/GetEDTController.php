@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Semester;
 use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface; //needed to be able to return a class
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; //needed to be used from platform API configuration (see User.php)
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+// This class is a controller that removes expired courses from the user's EDT
 class GetEDTController extends AbstractController
 {
     private $manager;
@@ -19,12 +21,13 @@ class GetEDTController extends AbstractController
     public function __invoke(User $data): User
     {
         $repository = $this->getDoctrine()->getRepository(Semester::class);
-        $currentSemesterCode = $repository->getSemesterOfDate()->getCode();
+        $currentSemesterCode = $repository->getSemesterOfDate(new DateTime())->getCode();
 
         $nbCourses = \count($data->getCourses());
 
         for ($i = $nbCourses - 1; $i >= 0; --$i) {
             if ($data->getCourses()[$i]->getSemester()->getCode() !== $currentSemesterCode) {
+                //altering $data doesn't alter the database as it is only a representation
                 unset($data->getCourses()[$i]);
             }
         }
