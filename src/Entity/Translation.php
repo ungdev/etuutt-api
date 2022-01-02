@@ -37,7 +37,6 @@ class Translation
         'group:read:one',
         'group:write:update',
         'group:write:create',
-        'asso:read:one',
     ])]
     private $french;
 

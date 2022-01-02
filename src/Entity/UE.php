@@ -2,16 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\UERepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,44 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=UERepository::class)
  * @ORM\Table(name="ues")
  */
-#[
-    ApiResource(
-        shortName: 'ue',
-        attributes: [
-            'pagination_items_per_page' => 10,
-        ],
-        collectionOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['ue:read:some'],
-                ],
-            ],
-        ],
-        itemOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['ue:read:one'],
-                ],
-            ],
-            'delete' => [
-                'controller' => SoftDeleteController::class,
-                'security' => "is_granted('ROLE_ADMIN')",
-            ],
-            'patch' => [
-                'denormalization_context' => [
-                    'groups' => ['ue:write:update'],
-                ],
-                'normalization_context' => [
-                    'groups' => ['ue:read:one'],
-                ],
-                'security' => "object == user or is_granted('ROLE_ADMIN')",
-            ],
-        ],
-    )
-]
-#[
-    ApiFilter(SearchFilter::class, properties : ['code' => 'exact'])
-]
 class UE
 {
     /**
@@ -67,10 +25,6 @@ class UE
      *
      * @Assert\Uuid
      */
-    #[Groups([
-        'ue:read:one',
-        'ue:read:some',
-    ])]
     private $id;
 
     /**
@@ -82,11 +36,14 @@ class UE
      * @Assert\Length(min=1, max=10)
      * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
      */
+<<<<<<< HEAD
     #[Groups([
         'ue:read:one',
         'ue:read:some',
         'user-edt:read:one',
     ])]
+=======
+>>>>>>> parent of dc5f5f6... feat: First part of the exposition of the Asso Event and UE entities
     private $code;
 
     /**
@@ -97,10 +54,6 @@ class UE
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
-    #[Groups([
-        'ue:read:one',
-        'ue:read:some',
-    ])]
     private $name;
 
     /**
@@ -112,9 +65,6 @@ class UE
      * @Assert\LessThanOrEqual(100)
      * @Assert\GreaterThanOrEqual(0)
      */
-    #[Groups([
-        'ue:read:one',
-    ])]
     private $validationRate;
 
     /**
