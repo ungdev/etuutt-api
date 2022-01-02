@@ -18,10 +18,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *  The main entity that represents all Assos.
- * 
+ *
  * @ORM\Entity(repositoryClass=AssoRepository::class)
  * @ORM\Table(name="assos")
- * 
  */
 #[
     ApiResource(
@@ -59,7 +58,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     )
 ]
 #[
-    ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])  
+    ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])
 ]
 class Asso
 {
@@ -97,6 +96,7 @@ class Asso
     #[Groups([
         'asso:read:one',
         'asso:read:some',
+        'user-clubs:read:one',
     ])]
     private $name;
 

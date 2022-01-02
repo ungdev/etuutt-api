@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AssoMemberRoleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -23,6 +24,9 @@ class AssoMembershipRole
      * @Assert\Length(min=1, max=255)
      * @Assert\Regex("/^[a-z_]{1,255}/")
      */
+    #[Groups([
+        'user-clubs:read:one',
+    ])]
     private $name;
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\GetClubsController;
 use App\Controller\GetEDTController;
 use App\Controller\SoftDeleteController;
 use App\Repository\UserRepository;
@@ -50,6 +51,17 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
                 'openapi_context' => [
                     'summary' => 'retrieves a user\'s schedule',
+                ],
+            ],
+            'club' => [
+                'method' => 'GET',
+                'path' => '/user/{id}/clubs',
+                'controller' => GetClubsController::class,
+                'normalization_context' => [
+                    'groups' => ['user-clubs:read:one'],
+                ],
+                'openapi_context' => [
+                    'summary' => 'retrieves a user\'s clubs and role in said clubs',
                 ],
             ],
             'delete' => [
@@ -224,6 +236,9 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="user", orphanRemoval=true)
      */
+    #[Groups([
+        'user-clubs:read:one',
+    ])]
     private $assoMembership;
 
     /**
