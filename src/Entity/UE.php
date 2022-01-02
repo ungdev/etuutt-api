@@ -36,14 +36,11 @@ class UE
      * @Assert\Length(min=1, max=10)
      * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
      */
-<<<<<<< HEAD
     #[Groups([
         'ue:read:one',
         'ue:read:some',
         'user-edt:read:one',
     ])]
-=======
->>>>>>> parent of dc5f5f6... feat: First part of the exposition of the Asso Event and UE entities
     private $code;
 
     /**
