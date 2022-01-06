@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -44,6 +45,9 @@ class UEComment
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $author;
 
     /**
@@ -53,6 +57,9 @@ class UEComment
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $body;
 
     /**
@@ -77,6 +84,9 @@ class UEComment
      *
      * @ORM\OneToMany(targetEntity=UECommentReply::class, mappedBy="comment")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $answers;
 
     /**
@@ -91,6 +101,9 @@ class UEComment
      *
      * @Assert\Type("\DateTimeInterface")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $createdAt;
 
     /**
@@ -98,6 +111,9 @@ class UEComment
      *
      * @Assert\Type("\DateTimeInterface")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $updatedAt;
 
     /**

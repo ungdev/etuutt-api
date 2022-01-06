@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SemesterRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,6 +24,9 @@ class Semester
      * @Assert\Length(max=10)
      * @Assert\Regex("/^(A|P)\d{2}$/")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $code;
 
     /**

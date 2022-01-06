@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UEInfoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,6 +42,9 @@ class UEInfo
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $degree;
 
     /**
@@ -50,6 +54,9 @@ class UEInfo
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $minors;
 
     /**
@@ -59,6 +66,9 @@ class UEInfo
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $antecedent;
 
     /**
@@ -68,6 +78,9 @@ class UEInfo
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $languages;
 
     /**
@@ -77,6 +90,9 @@ class UEInfo
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $comment;
 
     /**
@@ -86,6 +102,9 @@ class UEInfo
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $objectives;
 
     /**
@@ -95,6 +114,9 @@ class UEInfo
      *
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $programme;
 
     public function getId(): ?Uuid

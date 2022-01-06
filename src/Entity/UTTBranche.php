@@ -6,6 +6,7 @@ use App\Repository\UTTBrancheRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,6 +28,9 @@ class UTTBranche
      * @Assert\Length(max=10)
      * @Assert\Regex("/^[A-Z\d]{1,10}$/")
      */
+    #[Groups([
+        'ueCourse:read:one',
+    ])]
     private $code;
 
     /**

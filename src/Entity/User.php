@@ -55,12 +55,12 @@ use Symfony\Component\Validator\Constraints as Assert;
             'ues' => [
                 'method' => 'GET',
                 'path' => '/user/{id}/ues',
-                'normalization_context' =>[
-                    'groups' => ['user:read:one:ues'], 
+                'normalization_context' => [
+                    'groups' => ['user:read:one:ues'],
                 ],
                 'openapi_context' => [
                     'summary' => 'retrieves ues a user is following for the current semester',
-                ], 
+                ],
             ],
             'delete' => [
                 'controller' => SoftDeleteController::class,
@@ -131,6 +131,8 @@ class User implements UserInterface
     #[Groups([
         'user:read:one',
         'user:read:some',
+        'ue:read:one',
+        'ueCourse:read:one',
     ])]
     private $firstName;
 
@@ -143,6 +145,8 @@ class User implements UserInterface
     #[Groups([
         'user:read:one',
         'user:read:some',
+        'ue:read:one',
+        'ueCourse:read:one',
     ])]
     private $lastName;
 
@@ -244,6 +248,7 @@ class User implements UserInterface
     #[Groups([
         'user:read:one',
         'user:read:some',
+        'ueCourse:read:one',
     ])]
     private $branche;
 
@@ -333,7 +338,7 @@ class User implements UserInterface
      */
     #[Groups([
         'user:read:one:ues',
-    ])]    
+    ])]
     private $UEsSubscriptions;
 
     /**

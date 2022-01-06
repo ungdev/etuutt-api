@@ -45,6 +45,7 @@ class UserBranche
      */
     #[Groups([
         'user:read:some',
+        'ueCourse:read:one',
     ])]
     private $branche;
 
@@ -66,6 +67,7 @@ class UserBranche
      */
     #[Groups([
         'user:read:some',
+        'ueCourse:read:one',
     ])]
     private $semesterNumber;
 

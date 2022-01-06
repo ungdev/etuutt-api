@@ -6,6 +6,7 @@ use App\Repository\UEStarVoteRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,6 +42,9 @@ class UEStarVote
      * @ORM\ManyToOne(targetEntity=UEStarCriterion::class)
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $criterion;
 
     /**
@@ -49,6 +53,9 @@ class UEStarVote
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="UEStarVotes")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $user;
 
     /**
@@ -60,6 +67,9 @@ class UEStarVote
      * @Assert\LessThanOrEqual(5)
      * @Assert\GreaterThanOrEqual(0)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $value;
 
     /**

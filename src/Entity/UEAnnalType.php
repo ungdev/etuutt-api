@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UEAnnalTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,6 +22,9 @@ class UEAnnalType
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=50)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $name;
 
     public function __construct(string $name = null)

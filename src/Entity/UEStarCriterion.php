@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UEStarCriterionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -35,6 +36,9 @@ class UEStarCriterion
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $name;
 
     /**
@@ -43,6 +47,9 @@ class UEStarCriterion
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $descriptionTranslation;
 
     public function __construct()

@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\GetUEController;
 use App\Repository\UERepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -34,6 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
         itemOperations: [
             'get' => [
+                'controller' => GetUEController::class,
                 'normalization_context' => [
                     'groups' => ['ue:read:one'],
                 ],
@@ -146,6 +148,9 @@ class UE
      * @ORM\ManyToOne(targetEntity=UTTFiliere::class, inversedBy="UEs")
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $filiere;
 
     /**
@@ -153,6 +158,9 @@ class UE
      *
      * @ORM\OneToMany(targetEntity=UECredit::class, mappedBy="UE", orphanRemoval=true)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $credits;
 
     /**
@@ -160,6 +168,9 @@ class UE
      *
      * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="UE", orphanRemoval=true)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $starVotes;
 
     /**
@@ -172,6 +183,9 @@ class UE
      *     inverseJoinColumns={@ORM\JoinColumn(name="semester_code", referencedColumnName="code")}
      * )
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $openSemester;
 
     /**
@@ -179,6 +193,9 @@ class UE
      *
      * @ORM\OneToOne(targetEntity=UEWorkTime::class, mappedBy="UE", cascade={"persist", "remove"})
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $workTime;
 
     /**
@@ -186,6 +203,9 @@ class UE
      *
      * @ORM\OneToOne(targetEntity=UEInfo::class, mappedBy="UE", cascade={"persist", "remove"})
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $info;
 
     /**
@@ -193,6 +213,9 @@ class UE
      *
      * @ORM\OneToMany(targetEntity=UEAnnal::class, mappedBy="UE", orphanRemoval=true)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $annals;
 
     /**
@@ -200,6 +223,9 @@ class UE
      *
      * @ORM\OneToMany(targetEntity=UEComment::class, mappedBy="UE", orphanRemoval=true)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $comments;
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UECourseRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,6 +19,41 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=UECourseRepository::class)
  * @ORM\Table(name="ue_courses")
  */
+#[
+    ApiResource(
+        shortName: 'ueCourse',
+        attributes: [
+            'pagination_items_per_page' => 10,
+        ],
+        collectionOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ['ueCourse:read:some'],
+                ],
+            ],
+        ],
+        itemOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ['ueCourse:read:one'],
+                ],
+            ],
+            'delete' => [
+                'controller' => SoftDeleteController::class,
+                'security' => "is_granted('ROLE_ADMIN')",
+            ],
+            'patch' => [
+                'denormalization_context' => [
+                    'groups' => ['ue:write:update'],
+                ],
+                'normalization_context' => [
+                    'groups' => ['ue:read:one'],
+                ],
+                'security' => "object == user or is_granted('ROLE_ADMIN')",
+            ],
+        ],
+    )
+]
 class UECourse
 {
     /**
@@ -37,6 +73,7 @@ class UECourse
      */
     #[Groups([
         'user:read:one:edt',
+        'ueCourse:read:one',
     ])]
     private $UE;
 
@@ -50,6 +87,7 @@ class UECourse
      */
     #[Groups([
         'user:read:one:edt',
+        'ueCourse:read:one',
     ])]
     private $day;
 
@@ -62,6 +100,7 @@ class UECourse
      */
     #[Groups([
         'user:read:one:edt',
+        'ueCourse:read:one',
     ])]
     private $startHour;
 
@@ -74,6 +113,7 @@ class UECourse
      */
     #[Groups([
         'user:read:one:edt',
+        'ueCourse:read:one',
     ])]
     private $endHour;
 
@@ -87,6 +127,7 @@ class UECourse
      */
     #[Groups([
         'user:read:one:edt',
+        'ueCourse:read:one',
     ])]
     private $week;
 
@@ -98,6 +139,7 @@ class UECourse
      */
     #[Groups([
         'user:read:one:edt',
+        'ueCourse:read:one',
     ])]
     private $type;
 
@@ -111,6 +153,7 @@ class UECourse
      */
     #[Groups([
         'user:read:one:edt',
+        'ueCourse:read:one',
     ])]
     private $room;
 
@@ -132,6 +175,9 @@ class UECourse
      *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      * )
      */
+    #[Groups([
+        'ueCourse:read:one',
+    ])]
     private $students;
 
     /**
