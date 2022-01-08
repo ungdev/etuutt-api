@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\SoftDeleteController;
+use App\Entity\Traits\SoftDeletableTrait;
 use App\Repository\GroupRepository;
 use App\Util\Slug;
 use DateTime;
@@ -78,6 +79,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Group
 {
+    use SoftDeletableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -229,11 +232,6 @@ class Group
         'group:read:one',
     ])]
     private $updatedAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $deletedAt;
 
     public function __construct()
     {
@@ -410,18 +408,6 @@ class Group
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?DateTimeInterface
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(DateTimeInterface $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
 
         return $this;
     }

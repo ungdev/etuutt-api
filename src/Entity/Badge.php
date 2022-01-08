@@ -83,13 +83,6 @@ class Badge
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $deletedAt;
-
-    /**
      * The relation that allow to add many Badges to many Users.
      *
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="badges")
@@ -184,23 +177,6 @@ class Badge
         $this->createdAt = $createdAt;
 
         return $this;
-    }
-
-    public function getDeletedAt(): ?DateTimeInterface
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(?DateTimeInterface $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    public function isSoftDeleted(): bool
-    {
-        return !(null === $this->deletedAt);
     }
 
     /**

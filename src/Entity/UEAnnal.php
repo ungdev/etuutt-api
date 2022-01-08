@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\SoftDeletableTrait;
 use App\Repository\UEAnnalRepository;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,11 +14,15 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The entity associated to an annal sent by a User. Annals are files that contain the subject of a UE's exam.
+ *
  * @ORM\Entity(repositoryClass=UEAnnalRepository::class)
  * @ORM\Table(name="ue_annals")
  */
 class UEAnnal
 {
+    use SoftDeletableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -89,13 +95,6 @@ class UEAnnal
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $deletedAt;
 
     public function __construct()
     {
@@ -221,22 +220,5 @@ class UEAnnal
         $this->createdAt = $createdAt;
 
         return $this;
-    }
-
-    public function getDeletedAt(): ?DateTime
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(?DateTime $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    public function isSoftDeleted(): bool
-    {
-        return !(null === $this->deletedAt);
     }
 }

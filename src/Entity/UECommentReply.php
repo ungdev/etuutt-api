@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\SoftDeletableTrait;
 use App\Repository\UECommentReplyRepository;
 use DateTime;
 use DateTimeInterface;
@@ -18,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UECommentReply
 {
+    use SoftDeletableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -66,13 +69,6 @@ class UECommentReply
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $deletedAt;
 
     public function __construct()
     {
@@ -143,22 +139,5 @@ class UECommentReply
         $this->updatedAt = $updatedAt;
 
         return $this;
-    }
-
-    public function getDeletedAt(): ?DateTimeInterface
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(?DateTimeInterface $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    public function isSoftDeleted(): bool
-    {
-        return !(null === $this->deletedAt);
     }
 }
