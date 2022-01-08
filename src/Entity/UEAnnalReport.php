@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UEAnnalReportRepository::class)
  * @ORM\Table(name="ue_annal_report")
+ * @ORM\HasLifecycleCallbacks
  */
 class UEAnnalReport
 {

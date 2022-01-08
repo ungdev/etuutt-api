@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=AssoMembershipRepository::class)
  * @ORM\Table(name="asso_memberships")
+ * @ORM\HasLifecycleCallbacks
  */
 class AssoMembership
 {

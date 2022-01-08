@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=CovoitMessageRepository::class)
  * @ORM\Table(name="covoit_messages")
+ * @ORM\HasLifecycleCallbacks
  */
 class CovoitMessage
 {

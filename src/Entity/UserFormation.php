@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UserFormationRepository::class)
  * @ORM\Table(name="user_formations")
+ * @ORM\HasLifecycleCallbacks
  */
 class UserFormation
 {

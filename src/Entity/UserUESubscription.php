@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UserUERepository::class)
  * @ORM\Table(name="user_ue_subscriptions")
+ * @ORM\HasLifecycleCallbacks
  */
 class UserUESubscription
 {

@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UEStarVoteRepository::class)
  * @ORM\Table(name="ue_stars_votes")
+ * @ORM\HasLifecycleCallbacks
  */
 class UEStarVote
 {

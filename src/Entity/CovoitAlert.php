@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=CovoitAlertRepository::class)
  * @ORM\Table(name="covoit_alerts")
+ * @ORM\HasLifecycleCallbacks
  */
 class CovoitAlert
 {

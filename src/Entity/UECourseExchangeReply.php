@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UECourseExchangeReplyRepository::class)
  * @ORM\Table(name="ue_course_exchange_replies")
+ * @ORM\HasLifecycleCallbacks
  */
 class UECourseExchangeReply
 {

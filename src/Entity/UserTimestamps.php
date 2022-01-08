@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UserTimestampsRepository::class)
  * @ORM\Table(name="user_timestamps")
+ * @ORM\HasLifecycleCallbacks
  */
 class UserTimestamps
 {

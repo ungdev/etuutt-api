@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=BadgeRepository::class)
  * @ORM\Table(name="badges")
+ * @ORM\HasLifecycleCallbacks
  */
 class Badge
 {

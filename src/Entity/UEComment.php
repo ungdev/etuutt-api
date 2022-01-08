@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UECommentRepository::class)
  * @ORM\Table(name="ue_comments")
+ * @ORM\HasLifecycleCallbacks
  */
 class UEComment
 {

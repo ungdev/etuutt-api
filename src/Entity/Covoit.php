@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=CovoitRepository::class)
  * @ORM\Table(name="covoits")
+ * @ORM\HasLifecycleCallbacks
  */
 class Covoit
 {

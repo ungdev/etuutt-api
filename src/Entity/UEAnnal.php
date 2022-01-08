@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UEAnnalRepository::class)
  * @ORM\Table(name="ue_annals")
+ * @ORM\HasLifecycleCallbacks
  */
 class UEAnnal
 {

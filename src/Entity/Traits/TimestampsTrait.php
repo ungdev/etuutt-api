@@ -32,6 +32,11 @@ trait TimestampsTrait
 
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
+        //  The first call to `setCreatedAt()` also sets the `updatedAt` property.
+        if (null === $this->createdAt) {
+            $this->updatedAt = $createdAt;
+        }
+
         $this->createdAt = $createdAt;
 
         return $this;
@@ -47,5 +52,15 @@ trait TimestampsTrait
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    /**
+     * Method called by ORM before inserting changes on the entity into the DB. It updates the `updatedAt` property.
+     *
+     * @ORM\PreUpdate
+     */
+    public function updateTimestamp()
+    {
+        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 }

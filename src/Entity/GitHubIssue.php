@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=GitHubIssueRepository::class)
  * @ORM\Table(name="github_issues")
+ * @ORM\HasLifecycleCallbacks
  */
 class GitHubIssue
 {

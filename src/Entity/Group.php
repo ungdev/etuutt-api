@@ -25,6 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="groups")
  * @ORM\EntityListeners({"App\Doctrine\GroupSetAdminAndMemberListener"})
+ * @ORM\HasLifecycleCallbacks
  */
 #[
     ApiResource(

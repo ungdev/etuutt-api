@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=EventAnswerRepository::class)
  * @ORM\Table(name="event_answers")
+ * @ORM\HasLifecycleCallbacks
  */
 class EventAnswer
 {

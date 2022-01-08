@@ -22,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * Explanation uniqueConstraints :
  * A User's vote for a Comment is unique.
+ * @ORM\HasLifecycleCallbacks
  */
 class UECommentUpvote
 {

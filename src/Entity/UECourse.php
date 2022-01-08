@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UECourseRepository::class)
  * @ORM\Table(name="ue_courses")
+ * @ORM\HasLifecycleCallbacks
  */
 class UECourse
 {
