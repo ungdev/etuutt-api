@@ -34,4 +34,11 @@ trait SoftDeletableTrait
     {
         return !(null === $this->deletedAt);
     }
+
+    public function recover(): self
+    {
+        $this->deletedAt = null;
+
+        return $this;
+    }
 }
