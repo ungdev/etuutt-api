@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserBDEContributionRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,15 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UserBDEContribution
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
+    use UUIDTrait;
 
     /**
      * The relation to the User that contribute.
@@ -68,11 +59,6 @@ class UserBDEContribution
      * @Assert\Date
      */
     private $end;
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
-    }
 
     public function getUser(): ?User
     {

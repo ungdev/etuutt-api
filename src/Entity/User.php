@@ -4,14 +4,13 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\SoftDeleteController;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -59,19 +58,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid()
-     */
-    #[Groups([
-        'user:read:one',
-        'user:read:some',
-    ])]
-    private $id;
+    use UUIDTrait;
 
     /**
      * The CAS login of the User.
@@ -349,11 +336,6 @@ class User implements UserInterface
         $this->setInfos(new UserInfos());
         $this->addAddress(new UserAddress());
         $this->setMailsPhones(new UserMailsPhones());
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     /**

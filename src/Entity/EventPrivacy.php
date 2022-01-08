@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\EventPrivacyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EventPrivacyRepository::class)
@@ -16,15 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class EventPrivacy
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
+    use UUIDTrait;
 
     /**
      * The relation to the Event concerned by this EventPrivacy.
@@ -58,11 +48,6 @@ class EventPrivacy
     {
         $this->allowedAssos = new ArrayCollection();
         $this->allowedRoles = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getEvent(): ?Event

@@ -4,15 +4,14 @@ namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\EventRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -24,16 +23,7 @@ class Event
 {
     use SoftDeletableTrait;
     use TimestampsTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
+    use UUIDTrait;
 
     /**
      * The relation between the Event and the Assos that organize it.
@@ -131,11 +121,6 @@ class Event
         $this->assos = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->eventAnswers = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     /**

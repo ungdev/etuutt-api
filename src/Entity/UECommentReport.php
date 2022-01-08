@@ -3,11 +3,10 @@
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECommentReportRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -20,16 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UECommentReport
 {
     use TimestampsTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
+    use UUIDTrait;
 
     /**
      * The relation to the reported Comment.
@@ -67,11 +57,6 @@ class UECommentReport
     public function __construct()
     {
         $this->setCreatedAt(new DateTime());
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getComment(): ?UEComment

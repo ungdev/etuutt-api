@@ -4,12 +4,11 @@ namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserTimestampsRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,16 +22,7 @@ class UserTimestamps
 {
     use SoftDeletableTrait;
     use TimestampsTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
+    use UUIDTrait;
 
     /**
      * The relation to the User which have those RGPD.
@@ -59,11 +49,6 @@ class UserTimestamps
     public function __construct()
     {
         $this->setCreatedAt(new DateTime());
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getUser(): ?User

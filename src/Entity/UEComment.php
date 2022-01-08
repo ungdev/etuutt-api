@@ -4,13 +4,12 @@ namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECommentRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -24,16 +23,7 @@ class UEComment
 {
     use SoftDeletableTrait;
     use TimestampsTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
+    use UUIDTrait;
 
     /**
      * The relation to the UE this Commment is for.
@@ -97,11 +87,6 @@ class UEComment
 
         $this->answers = new ArrayCollection();
         $this->reports = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getUE(): ?UE

@@ -3,13 +3,11 @@
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserBrancheRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that represents a Branch followed by a User. TC is also included.
@@ -21,16 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserBranche
 {
     use TimestampsTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
+    use UUIDTrait;
 
     /**
      * The relation to the User.
@@ -83,11 +72,6 @@ class UserBranche
     public function __construct()
     {
         $this->setCreatedAt(new DateTime());
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getUser(): ?User

@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UEStarCriterionRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,15 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UEStarCriterion
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
+    use UUIDTrait;
 
     /**
      * The name of the criterion.
@@ -48,11 +39,6 @@ class UEStarCriterion
     public function __construct()
     {
         $this->setDescriptionTranslation(new Translation());
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getName(): ?string

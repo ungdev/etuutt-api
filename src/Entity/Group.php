@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\SoftDeleteController;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\GroupRepository;
 use App\Util\Slug;
 use DateTime;
@@ -82,6 +83,7 @@ class Group
 {
     use SoftDeletableTrait;
     use TimestampsTrait;
+    use UUIDTrait;
 
     /**
      * @ORM\Id
@@ -225,11 +227,6 @@ class Group
 
         $this->members = new ArrayCollection();
         $this->admins = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getName(): ?string

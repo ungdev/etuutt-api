@@ -2,12 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserEtuUTTTeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,15 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UserEtuUTTTeam
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
+    use UUIDTrait;
 
     /**
      * The relation to the User.
@@ -60,11 +51,6 @@ class UserEtuUTTTeam
     public function __construct()
     {
         $this->semester = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getUser(): ?User

@@ -4,11 +4,10 @@ namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECommentReplyRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,16 +21,7 @@ class UECommentReply
 {
     use SoftDeletableTrait;
     use TimestampsTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
+    use UUIDTrait;
 
     /**
      * The relation to the Comment this Reply is for.
@@ -61,11 +51,6 @@ class UECommentReply
     public function __construct()
     {
         $this->setCreatedAt(new DateTime());
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getComment(): ?UEComment

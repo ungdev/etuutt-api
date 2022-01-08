@@ -4,14 +4,13 @@ namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\AssoRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,19 +22,10 @@ class Asso
 {
     use SoftDeletableTrait;
     use TimestampsTrait;
+    use UUIDTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
-     * @Assert\Uuid
-     */
-    private $id;
-
-    /**
-     * The login used for the CAS.
+     * The login used by the CAS.
      *
      * @ORM\Column(type="string", length=50, unique=true)
      *
@@ -163,11 +153,6 @@ class Asso
         $this->events = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->assoMemberships = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getLogin(): ?string
