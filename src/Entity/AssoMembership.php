@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\AssoMembershipRepository;
 use DateTime;
 use DateTimeInterface;
@@ -18,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class AssoMembership
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -77,13 +80,6 @@ class AssoMembership
      * @ORM\Column(type="date")
      */
     private $endAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
 
     public function __construct()
     {
@@ -190,18 +186,6 @@ class AssoMembership
     public function setEndAt(DateTimeInterface $endAt): self
     {
         $this->endAt = $endAt;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

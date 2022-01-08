@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\UECommentReplyRepository;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UECommentReply
 {
     use SoftDeletableTrait;
+    use TimestampsTrait;
 
     /**
      * @ORM\Id
@@ -56,24 +57,9 @@ class UECommentReply
      */
     private $body;
 
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $updatedAt;
-
     public function __construct()
     {
         $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
     }
 
     public function getId(): ?Uuid
@@ -113,30 +99,6 @@ class UECommentReply
     public function setBody(string $body): self
     {
         $this->body = $body;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

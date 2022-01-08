@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\UserTimestampsRepository;
 use DateTime;
 use DateTimeInterface;
@@ -20,6 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserTimestamps
 {
     use SoftDeletableTrait;
+    use TimestampsTrait;
 
     /**
      * @ORM\Id
@@ -53,24 +55,9 @@ class UserTimestamps
      */
     private $lastLoginDate;
 
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $updatedAt;
-
     public function __construct()
     {
         $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
     }
 
     public function getId(): ?Uuid
@@ -110,30 +97,6 @@ class UserTimestamps
     public function setLastLoginDate(?DateTimeInterface $lastLoginDate): self
     {
         $this->lastLoginDate = $lastLoginDate;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

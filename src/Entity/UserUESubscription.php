@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\UserUERepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UserUESubscription
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -50,13 +53,6 @@ class UserUESubscription
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
     private $semester;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
 
     public function __construct()
     {
@@ -100,18 +96,6 @@ class UserUESubscription
     public function setSemester(?Semester $semester): self
     {
         $this->semester = $semester;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

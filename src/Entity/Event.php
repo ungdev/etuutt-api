@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\EventRepository;
 use DateTime;
 use DateTimeInterface;
@@ -21,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Event
 {
     use SoftDeletableTrait;
+    use TimestampsTrait;
 
     /**
      * @ORM\Id
@@ -94,20 +96,6 @@ class Event
     private $descriptionTranslation;
 
     /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $updatedAt;
-
-    /**
      * The relation to the EventCategory the Event is classified as.
      *
      * @ORM\ManyToMany(targetEntity=EventCategory::class)
@@ -136,7 +124,6 @@ class Event
     public function __construct()
     {
         $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
         $this->setTitleTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
 
@@ -242,30 +229,6 @@ class Event
     public function setDescriptionTranslation(?Translation $descriptionTranslation): self
     {
         $this->descriptionTranslation = $descriptionTranslation;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

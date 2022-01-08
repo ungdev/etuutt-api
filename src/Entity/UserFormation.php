@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\UserFormationRepository;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -18,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UserFormation
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -51,13 +53,6 @@ class UserFormation
      * @ORM\JoinColumn(name="following_method_name", referencedColumnName="name")
      */
     private $followingMethod;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
 
     public function __construct()
     {
@@ -101,18 +96,6 @@ class UserFormation
     public function setFollowingMethod(?UTTFormationFollowingMethod $followingMethod): self
     {
         $this->followingMethod = $followingMethod;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

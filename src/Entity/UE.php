@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\UERepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UE
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -58,20 +61,6 @@ class UE
      * @Assert\GreaterThanOrEqual(0)
      */
     private $validationRate;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $updatedAt;
 
     /**
      * The list of subscriptions to this UE by Users.
@@ -152,7 +141,6 @@ class UE
     public function __construct()
     {
         $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
 
         $this->usersSubscriptions = new ArrayCollection();
         $this->credits = new ArrayCollection();
@@ -200,30 +188,6 @@ class UE
     public function setValidationRate(?float $validationRate): self
     {
         $this->validationRate = $validationRate;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

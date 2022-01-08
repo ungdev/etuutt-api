@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\UEAnnalReportRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UEAnnalReport
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -59,13 +62,6 @@ class UEAnnalReport
      * @Assert\Type("string")
      */
     private $body;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
 
     public function __construct()
     {
@@ -121,18 +117,6 @@ class UEAnnalReport
     public function setBody(?string $body): self
     {
         $this->body = $body;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

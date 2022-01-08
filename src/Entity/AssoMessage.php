@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\AssoMessageRepository;
 use DateTime;
 use DateTimeInterface;
@@ -17,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class AssoMessage
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -77,13 +80,6 @@ class AssoMessage
      * @Assert\Type("bool")
      */
     private $sendAsDaymail;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
 
     public function __construct()
     {
@@ -166,18 +162,6 @@ class AssoMessage
     public function setSendAsDaymail(bool $sendAsDaymail): self
     {
         $this->sendAsDaymail = $sendAsDaymail;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\UECourseRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,6 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UECourse
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -111,13 +114,6 @@ class UECourse
      * )
      */
     private $students;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
 
     public function __construct()
     {
@@ -247,18 +243,6 @@ class UECourse
     public function removeStudent(User $student): self
     {
         $this->students->removeElement($student);
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

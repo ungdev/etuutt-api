@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\CovoitRepository;
 use DateTime;
 use DateTimeInterface;
@@ -18,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Covoit
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -115,20 +118,6 @@ class Covoit
     private $endAt;
 
     /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $updatedAt;
-
-    /**
      * The relation between the Covoit and its CovoitMessages.
      *
      * @ORM\OneToMany(targetEntity=CovoitMessage::class, mappedBy="covoit", orphanRemoval=true)
@@ -158,7 +147,6 @@ class Covoit
     public function __construct()
     {
         $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
 
         $this->covoitMessages = new ArrayCollection();
         $this->passengers = new ArrayCollection();
@@ -249,30 +237,6 @@ class Covoit
     public function setEndAddress(string $endAddress): self
     {
         $this->endAddress = $endAddress;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

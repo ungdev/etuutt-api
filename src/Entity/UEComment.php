@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\UECommentRepository;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UEComment
 {
     use SoftDeletableTrait;
+    use TimestampsTrait;
 
     /**
      * @ORM\Id
@@ -89,24 +90,9 @@ class UEComment
      */
     private $reports;
 
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $updatedAt;
-
     public function __construct()
     {
         $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
 
         $this->answers = new ArrayCollection();
         $this->reports = new ArrayCollection();
@@ -233,30 +219,6 @@ class UEComment
                 $report->setComment(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

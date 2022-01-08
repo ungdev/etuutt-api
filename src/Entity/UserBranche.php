@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\UserBrancheRepository;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -19,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UserBranche
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -76,13 +78,6 @@ class UserBranche
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
     private $semester;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
 
     public function __construct()
     {
@@ -150,18 +145,6 @@ class UserBranche
     public function setSemester(?Semester $semester): self
     {
         $this->semester = $semester;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -6,10 +6,10 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\SoftDeleteController;
 use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\GroupRepository;
 use App\Util\Slug;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -80,6 +80,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Group
 {
     use SoftDeletableTrait;
+    use TimestampsTrait;
 
     /**
      * @ORM\Id
@@ -216,28 +217,10 @@ class Group
     ])]
     private $admins;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    #[Groups([
-        'group:read:one',
-        'group:read:some',
-    ])]
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    #[Groups([
-        'group:read:one',
-    ])]
-    private $updatedAt;
-
     public function __construct()
     {
         $this->setDescriptionTranslation(new Translation());
         $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
 
         $this->members = new ArrayCollection();
         $this->admins = new ArrayCollection();
@@ -384,30 +367,6 @@ class Group
     public function removeAdmin(User $user): self
     {
         $this->admins->removeElement($user);
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

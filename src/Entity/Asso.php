@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\AssoRepository;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Asso
 {
     use SoftDeletableTrait;
+    use TimestampsTrait;
 
     /**
      * @ORM\Id
@@ -111,20 +112,6 @@ class Asso
     private $logo;
 
     /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $updatedAt;
-
-    /**
      * The relation to all Keywords of this Asso.
      *
      * @ORM\ManyToMany(targetEntity=AssoKeyword::class, inversedBy="assos")
@@ -169,7 +156,6 @@ class Asso
         $this->setDescriptionShortTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
         $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
 
         $this->keywords = new ArrayCollection();
         $this->assoMessages = new ArrayCollection();
@@ -275,30 +261,6 @@ class Asso
     public function setLogo(?string $logo): self
     {
         $this->logo = $logo;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

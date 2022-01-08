@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\UEAnnalRepository;
 use DateTime;
 use DateTimeInterface;
@@ -22,6 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UEAnnal
 {
     use SoftDeletableTrait;
+    use TimestampsTrait;
 
     /**
      * @ORM\Id
@@ -97,13 +99,6 @@ class UEAnnal
      * @ORM\OneToMany(targetEntity=UEAnnalReport::class, mappedBy="annal", orphanRemoval=true)
      */
     private $reports;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
 
     public function __construct()
     {
@@ -227,18 +222,6 @@ class UEAnnal
                 $report->setAnnal(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

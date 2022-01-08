@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\GitHubIssueRepository;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -18,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class GitHubIssue
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -45,13 +47,6 @@ class GitHubIssue
      * @Assert\Positive
      */
     private $gitHubIssueId;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
 
     public function __construct()
     {
@@ -83,18 +78,6 @@ class GitHubIssue
     public function setGitHubIssueId(int $gitHubIssueId): self
     {
         $this->gitHubIssueId = $gitHubIssueId;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

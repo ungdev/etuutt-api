@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
 use App\Repository\BadgeRepository;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Badge
 {
+    use TimestampsTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -74,13 +76,6 @@ class Badge
      */
     #[SerializedName('description')]
     private $descriptionTranslation;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type("\DateTimeInterface")
-     */
-    private $createdAt;
 
     /**
      * The relation that allow to add many Badges to many Users.
@@ -163,18 +158,6 @@ class Badge
     public function setDescriptionTranslation(?Translation $descriptionTranslation): self
     {
         $this->descriptionTranslation = $descriptionTranslation;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
