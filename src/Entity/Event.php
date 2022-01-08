@@ -114,7 +114,7 @@ class Event
     /**
      * The relation to the EventCategory the Event is classified as.
      *
-     * @ORM\ManyToMany(targetEntity=EventCategory::class, inversedBy="events")
+     * @ORM\ManyToMany(targetEntity=EventCategory::class)
      * @ORM\JoinTable(
      *     name="events_categories",
      *     joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
