@@ -146,6 +146,7 @@ Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.
 |   ├── DataProvider/       # Customized ways of retrieving data
 |   ├── Doctrine/           # Doctrine custom tools (e.g. Listener)
 |   ├── Entity/             # All Symfony entities
+|   |   └── Traits/         # Properties and methods of entities factorized in PHP traits
 |   ├── EventSubscriber/    # API Platform event listeners
 |   ├── OpenApi/            # Swagger decorator for custom behavior
 |   ├── Repository/         # Files to retrieve entities
