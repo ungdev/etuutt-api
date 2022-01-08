@@ -83,6 +83,15 @@ class UEAnnal
     private $validatedBy;
 
     /**
+     * The timestamp of validation by a User.
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type("\DateTimeInterface")
+     */
+    private $validatedAt;
+
+    /**
      * The relation to the potentials Reports of this UEAnnal by Users.
      *
      * @ORM\OneToMany(targetEntity=UEAnnalReport::class, mappedBy="annal", orphanRemoval=true)
@@ -176,6 +185,18 @@ class UEAnnal
     public function setValidatedBy(?User $validatedBy): self
     {
         $this->validatedBy = $validatedBy;
+
+        return $this;
+    }
+
+    public function getValidatedAt(): ?DateTimeInterface
+    {
+        return $this->validatedAt;
+    }
+
+    public function setValidatedAt(DateTimeInterface $validatedAt): self
+    {
+        $this->validatedAt = $validatedAt;
 
         return $this;
     }
