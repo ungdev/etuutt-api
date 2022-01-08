@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="users")
+ * @ORM\HasLifecycleCallbacks
  */
 #[
     ApiResource(
@@ -504,6 +505,18 @@ class User implements UserInterface
         }
 
         $this->timestamps = $userTimestamps;
+
+        return $this;
+    }
+
+    /**
+     * Method called by ORM before inserting changes on the user into the DB. It updates the `updatedAt` property.
+     *
+     * @ORM\PreUpdate
+     */
+    public function updateTimestamp(): self
+    {
+        $this->getTimestamps()->updateTimestamp();
 
         return $this;
     }

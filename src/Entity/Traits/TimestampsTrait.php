@@ -59,8 +59,10 @@ trait TimestampsTrait
      *
      * @ORM\PreUpdate
      */
-    public function updateTimestamp()
+    public function updateTimestamp(): self
     {
         $this->setUpdatedAt(new \DateTimeImmutable());
+
+        return $this;
     }
 }
