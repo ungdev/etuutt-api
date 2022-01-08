@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\Badge;
 use App\Entity\User;
 use App\Util\Text;
-use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -62,11 +61,6 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
 
             //  Création des timestamps
             $badge->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
-            //  Soft delete aléatoire d'un Timestamps (Avec une chance de 10%)
-            if ($faker->boolean(10)) {
-                $days = (new DateTime())->diff($badge->getCreatedAt())->days;
-                $badge->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
-            }
 
             //  On persiste le Badge dans la base de données
             $manager->persist($badge);
