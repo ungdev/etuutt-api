@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A Group of User for friends, Course... Only user can see it, only god can judge me.
  *
  * @ORM\Entity(repositoryClass=GroupRepository::class)
- * @ORM\Table(name="groups")
+ * @ORM\Table(name="`groups`")
  * @ORM\EntityListeners({"App\Doctrine\GroupSetAdminAndMemberListener"})
  */
 #[
