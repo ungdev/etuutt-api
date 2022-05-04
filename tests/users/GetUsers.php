@@ -2,15 +2,13 @@
 
 namespace App\Tests\users;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
+use App\DataFixtures\UserSeeder;
+use App\Entity\User;
+use App\Tests\EtuUTTApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetUsers extends ApiTestCase
+class GetUsers extends EtuUTTApiTestCase
 {
-
-    private $responseWithNoParameter = array();
-    private $lastPage;
 
     public function testNotConnected() : void
     {
@@ -21,83 +19,88 @@ class GetUsers extends ApiTestCase
 
     public function testNoParameter() : void
     {
-        // TODO : update this code : we need to fill the database, and then run this test
-        /*$client = static::createClient();
-        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'admin' ]]);
+        $this->loadFixtures(new UserSeeder());
+        $client = static::createClient();
+        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'test' ]]);
         $crawler = $client->request('GET', '/users');
         $response = json_decode($crawler->getContent());
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertIsArray($response->{'hydra:member'});
         $this->assertNotEmpty($response->{'hydra:member'});
-        $this->responseWithNoParameter['member'] = array();
+        $expectedResults = $this->em->createQueryBuilder()
+            ->select('user.id, user.login, user.firstName, user.lastName, infos.avatar')
+            ->from(User::class, 'user')
+            ->innerJoin('user.infos', 'infos')
+            ->addOrderBy('user.id')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->execute();
         foreach ($response->{'hydra:member'} as $i => $member) {
-            $this->assertMatchesRegularExpression("/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/", $member->{'id'});
-            $this->assertNotEmpty($member->{'login'});
-            $this->assertNotEmpty($member->{'firstName'});
-            $this->assertNotEmpty($member->{'lastName'});
-            $this->assertMatchesRegularExpression("/^https?:\\/\\/[\w.-]*\\.[\w-].+$/", $member->{'infos'}->{'avatar'});
+            $this->assertEquals($expectedResults[$i]['id']->jsonSerialize(), $member->{'id'});
+            $this->assertEquals($expectedResults[$i]['login'], $member->{'login'});
+            $this->assertNotEmpty($expectedResults[$i]['firstName'], $member->{'firstName'});
+            $this->assertNotEmpty($expectedResults[$i]['lastName'], $member->{'lastName'});
+            $this->assertEquals($expectedResults[$i]['avatar'], $member->{'infos'}->{'avatar'});
             $this->assertIsArray($member->{'mailsPhones'});
-            $returnedMember = array();
-            $returnedMember['login'] = $member->{'login'};
-            $returnedMember['firstName'] = $member->{'firstName'};
-            $returnedMember['lastName'] = $member->{'lastName'};
-            $returnedMember['avatar'] = $member->{'infos'}->{'avatar'};
-            $this->responseWithNoParameter['member'][$i] = $returnedMember;
         }
         $this->assertIsNumeric($response->{'hydra:totalItems'});
         $this->assertTrue($response->{'hydra:totalItems'} >= 0);
-        $this->responseWithNoParameter['totalItems'] = $response->{'hydra:totalItems'};
         $matches = array();
         $this->assertEquals(1, preg_match("/^\\/users\\?page=(?<id>\d+)+$/", $response->{'hydra:view'}->{'@id'}, $matches));
         $this->assertArrayHasKey('id', $matches);
-        $this->responseWithNoParameter['view:id'] = $response->{'hydra:view'}->{'@id'};
         $this->assertEquals(1, preg_match("/^\\/users\\?page=(?<id>\d+)+$/", $response->{'hydra:view'}->{'hydra:next'}, $matches));
         $this->assertArrayHasKey('id', $matches);
-        $this->responseWithNoParameter['view:next'] = $response->{'hydra:view'}->{'hydra:next'};
         $this->assertEquals(1, preg_match("/^\\/users\\?page=(?<id>\d+)+$/", $response->{'hydra:view'}->{'hydra:last'}, $matches));
         $this->assertArrayHasKey('id', $matches);
-        $this->responseWithNoParameter['view:last'] = $response->{'hydra:view'}->{'hydra:last'};
-        $this->lastPage = $matches['id'];*/
     }
 
-    public function testParameter1() : void
+    public function testPageParameter() : void
     {
-        // TODO : fill the database and then run this test
-        /*$client = static::createClient();
-        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'admin' ]]);
-        $crawler = $client->request('GET', '/users?page=1');
-        $response = json_decode($crawler->getContent());
-        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        foreach ($this->responseWithNoParameter['member'] as $i => $member) {
-            $this->assertEquals($member['login'], $response->{'hydra:member'}[$i]->{'login'});
-            $this->assertEquals($member['firstName'], $response->{'hydra:member'}[$i]->{'firstName'});
-            $this->assertEquals($member['lastName'], $response->{'hydra:member'}[$i]->{'lastName'});
-            $this->assertEquals($member['avatar'], $response->{'hydra:member'}[$i]->{'infos'}->{'avatar'});
+        $this->loadFixtures(new UserSeeder());
+        $client = static::createClient();
+        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'test' ]]);
+        $expectedResults = $this->em->createQueryBuilder()
+            ->select('user.id, user.login, user.firstName, user.lastName, infos.avatar')
+            ->from(User::class, 'user')
+            ->innerJoin('user.infos', 'infos')
+            ->addOrderBy('user.id')
+            ->getQuery()
+            ->execute();
+        $expectedResultsCount = count($expectedResults);
+        $lastPage = (int) (($expectedResultsCount - 1) / 10) + 1;
+        $page = 0;
+        foreach ($expectedResults as $i => $expectedResult) {
+            if ($i % 10 == 0) {
+                $page++;
+                $crawler = $client->request('GET', '/users?page='.$page);
+                $response = json_decode($crawler->getContent());
+                $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+                $this->assertEquals($expectedResultsCount, $response->{'hydra:totalItems'});
+                $this->assertEquals("/users?page=".$page, $response->{'hydra:view'}->{'@id'});
+                if ($page > 1) {
+                    $this->assertEquals("/users?page=".($page - 1), $response->{'hydra:view'}->{'hydra:previous'});
+                }
+                if ($page < $lastPage) {
+                    $this->assertEquals("/users?page=".($page + 1), $response->{'hydra:view'}->{'hydra:next'});
+                }
+                $this->assertEquals("/users?page=".$lastPage, $response->{'hydra:view'}->{'hydra:last'});
+            }
+            $this->assertEquals($expectedResult['login'], $response->{'hydra:member'}[$i%10]->{'login'});
+            $this->assertEquals($expectedResult['id']->jsonSerialize(), $response->{'hydra:member'}[$i%10]->{'id'});
+            $this->assertEquals($expectedResult['firstName'], $response->{'hydra:member'}[$i%10]->{'firstName'});
+            $this->assertEquals($expectedResult['lastName'], $response->{'hydra:member'}[$i%10]->{'lastName'});
+            $this->assertEquals($expectedResult['avatar'], $response->{'hydra:member'}[$i%10]->{'infos'}->{'avatar'});
         }
-        $this->assertEquals($this->responseWithNoParameter['totalItems'], $response->{'hydra:totalItems'});
-        $this->assertEquals($this->responseWithNoParameter['view:id'], $response->{'hydra:view'}->{'@id'});
-        $this->assertEquals($this->responseWithNoParameter['view:next'], $response->{'hydra:view'}->{'hydra:next'});
-        $this->assertEquals($this->responseWithNoParameter['view:last'], $response->{'hydra:view'}->{'hydra:last'});*/
-    }
 
-    public function testAllParameters() : void
-    {
-        // TODO : fill the database and then run this test
-        /*$client = static::createClient();
-        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'admin' ]]);
-        for ($i = 1; $i <= $this->lastPage; $i++) {
-            $client->request('GET', '/users?page='.$i);
-            $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        }*/
     }
 
     public function testOutOfRangeParameters() : void
     {
         $client = static::createClient();
-        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'admin' ]]);
+        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'test' ]]);
         $client->request('GET', '/users?page=0');
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
-        $crawler = $client->request('GET', '/users?page=100');  // TODO : use database filling and not hard code the value of parameter 'page'
+        $crawler = $client->request('GET', '/users?page=2');
         $response = json_decode($crawler->getContent());
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertEmpty($response->{'hydra:member'});
@@ -106,11 +109,11 @@ class GetUsers extends ApiTestCase
     public function testWrongTypeParameter() : void
     {
         $client = static::createClient();
-        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'admin' ]]);
-        $crawler = $client->request('GET', '/users?page=1.5');
+        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'test' ]]);
+        $crawler = $client->request('GET', '/users?page=2.5');
         $response = json_decode($crawler->getContent());
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertEquals('/users?page=1', $response->{'hydra:view'}->{'@id'});
+        $this->assertEmpty($response->{'hydra:member'});
         $client->request('GET', '/users?page=abc');
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
     }
