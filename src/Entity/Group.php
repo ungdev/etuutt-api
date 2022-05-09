@@ -36,6 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'get' => [
                 'normalization_context' => [
                     'groups' => ['group:read:some'],
+                    'skip_null_values' => false,
                 ],
             ],
             'my_groups' => [
@@ -43,6 +44,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'path' => '/groups/me',
                 'normalization_context' => [
                     'groups' => ['group:read:some'],
+                    'skip_null_values' => false,
                 ],
             ],
             'post' => [
@@ -51,6 +53,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
                 'normalization_context' => [
                     'groups' => ['group:read:one'],
+                    'skip_null_values' => false,
                 ],
             ],
         ],
@@ -58,6 +61,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'get' => [
                 'normalization_context' => [
                     'groups' => ['group:read:one'],
+                    'skip_null_values' => false,
                 ],
             ],
             'delete' => [
@@ -70,6 +74,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
                 'normalization_context' => [
                     'groups' => ['group:read:one'],
+                    'skip_null_values' => false,
                 ],
                 'security' => "is_granted('patch', object)",
             ],

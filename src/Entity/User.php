@@ -27,9 +27,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             'security' => "is_granted('ROLE_USER')",
             'pagination_items_per_page' => 10,
         ],
-        normalizationContext: [
-            'skip_null_values' => false,
-        ],
         collectionOperations: [
             'get' => [
                 'normalization_context' => [
