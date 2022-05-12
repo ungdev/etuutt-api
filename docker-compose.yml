@@ -1,37 +1,25 @@
-version: '3.8'
+version: '3'
 services:
   api:
-    build: .
+    image: ungdev/etuutt-api
     depends_on:
-      - db
+      - database
     ports:
       - "8000:8080"
-    user: "1000:0"
-    volumes:
-      - ./:/var/www/html/
     environment:
-      - APP_ENV=dev
-      - APP_SECRET=CHANGEMEEEEEEEEEEE
-      - APACHE_DOCUMENT_ROOT=/var/www/html/public
-      - DATABASE_URL=mysql://etuutt-api:superSecretPasswordToChange@db:3306/etuutt-api?serverVersion=mariadb-10.6.3&charset=utf8
-      - WAIT_HOSTS=db:3306
+      APACHE_DOCUMENT_ROOT: /var/www/html/public
+      TZ: Europe/Paris
+      WAIT_HOSTS: "database:3306"
 
-  db:
-    image: "mariadb"
+  database:
+    image: "mariadb:10.6"
     volumes:
-      - db:/var/lib/mysql
+      - database-data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=superRootPasswordToChange
-      - MYSQL_DATABASE=etuutt-api
-      - MYSQL_USER=etuutt-api
-      - MYSQL_PASSWORD=superSecretPasswordToChange
-
-  adminer:
-    image: adminer
-    ports:
-    - "8080:8080"
-    environment:
-      - ADMINER_DESIGN=lucas-sandery
+      MYSQL_ROOT_PASSWORD: abcdef
+      MYSQL_DATABASE: etuutt
+      MYSQL_USER: etuutt
+      MYSQL_PASSWORD: abcdef
 
 volumes:
-  db:
+  database-data:
