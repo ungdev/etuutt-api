@@ -31,6 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'get' => [
                 'normalization_context' => [
                     'groups' => ['user:read:some'],
+                    'skip_null_values' => false,
                 ],
             ],
         ],
@@ -38,6 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'get' => [
                 'normalization_context' => [
                     'groups' => ['user:read:one'],
+                    'skip_null_values' => false,
                 ],
             ],
             'delete' => [
@@ -50,6 +52,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
                 'normalization_context' => [
                     'groups' => ['user:read:one'],
+                    'skip_null_values' => false,
                 ],
                 'security' => "object == user or is_granted('ROLE_ADMIN')",
             ],
