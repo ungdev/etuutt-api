@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\users;
+namespace App\Tests\Users;
 
 use App\DataFixtures\UserSeeder;
 use App\Entity\User;
