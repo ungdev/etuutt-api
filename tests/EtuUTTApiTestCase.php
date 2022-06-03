@@ -19,13 +19,7 @@ abstract class EtuUTTApiTestCase extends ApiTestCase
     {
         $this->em = $this->getContainer()->get('doctrine')->getManager();
         (new ORMPurger($this->em))->purge();
-        $this->user = new User();
-        $this->user->setFirstName('test');
-        $this->user->setLastName('test');
-        $this->user->setLogin('test');
-        $this->user->addRole('ROLE_ADMIN');
-        $this->em->persist($this->user);
-        $this->em->flush();
+        $this->user = $this->createUser('test', 'test', 'test', 'ROLE_ADMIN');
     }
 
     protected function loadFixtures(Fixture... $fixtures)
@@ -37,6 +31,18 @@ abstract class EtuUTTApiTestCase extends ApiTestCase
         foreach ($fixtureLoader->getFixtures() as $fixture) {
             $fixture->load($this->em);
         }
+    }
+
+    protected function createUser(string $firstName, string $lastName, string $login, ?string $role = 'ROLE_USER') : User
+    {
+        $user = new User();
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setLogin($login);
+        $user->addRole($role);
+        $this->em->persist($user);
+        $this->em->flush();
+        return $user;
     }
 
 }
