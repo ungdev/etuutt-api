@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\UserAdress;
+use App\Entity\UserAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|UserAdress find($id, $lockMode = null, $lockVersion = null)
- * @method null|UserAdress findOneBy(array $criteria, array $orderBy = null)
- * @method UserAdress[]    findAll()
- * @method UserAdress[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|UserAddress find($id, $lockMode = null, $lockVersion = null)
+ * @method null|UserAddress findOneBy(array $criteria, array $orderBy = null)
+ * @method UserAddress[]    findAll()
+ * @method UserAddress[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class UserAdressRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserAdress::class);
+        parent::__construct($registry, UserAddress::class);
     }
 
     // /**

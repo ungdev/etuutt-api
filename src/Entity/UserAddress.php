@@ -32,7 +32,7 @@ class UserAddress
     /**
      * The relation to the User which live at this address.
      *
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="addresses")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="addresses", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
