@@ -276,7 +276,7 @@ class User implements UserInterface
     /**
      * The relation to the Addresses of the User.
      *
-     * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
      *
      * @Assert\Valid()
      */
