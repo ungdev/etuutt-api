@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\GetEDTController;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Controller\SoftDeleteController;
+use App\DataProvider\UserDataVisibilityItemDataProvider;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,28 +29,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ApiResource(
         shortName: 'user',
-        attributes: [
-            'security' => "is_granted('ROLE_USER')",
-            'pagination_items_per_page' => 10,
-        ],
         normalizationContext: [
             'skip_null_values' => false,
         ],
-        collectionOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['user:read:some'],
-                    'skip_null_values' => false,
-                ],
-            ],
-        ],
         itemOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['user:read:one'],
-                    'skip_null_values' => false,
-                ],
-            ],
             'edt' => [
                 'method' => 'GET',
                 'path' => '/user/{id}/edt',
@@ -57,21 +44,27 @@ use Symfony\Component\Validator\Constraints as Assert;
                     'summary' => 'retrieves a user\'s schedule',
                 ],
             ],
-            'delete' => [
-                'controller' => SoftDeleteController::class,
-                'security' => "is_granted('ROLE_ADMIN')",
-            ],
-            'patch' => [
-                'denormalization_context' => [
-                    'groups' => ['user:write:update'],
-                ],
-                'normalization_context' => [
-                    'groups' => ['user:read:one'],
-                    'skip_null_values' => false,
-                ],
-                'security' => "object == user or is_granted('ROLE_ADMIN')",
-            ],
         ],
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['user:read:some'], 'skip_null_values' => false],
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['user:read:one'], 'skip_null_values' => false],
+                provider: UserDataVisibilityItemDataProvider::class
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('ROLE_ADMIN')",
+            ),
+            new Patch(
+                normalizationContext: ['groups' => ['user:read:one'], 'skip_null_values' => false],
+                denormalizationContext: ['groups' => ['user:write:update']],
+                security: "object == user or is_granted('ROLE_ADMIN')",
+            ),
+        ],
+        paginationItemsPerPage: 10,
+        security: "is_granted('ROLE_USER')",
     )
 ]
 class User implements UserInterface

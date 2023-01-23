@@ -33,7 +33,8 @@ services:
     #   A decoration of the data provider to hide some data from a user profil
     App\DataProvider\UserDataVisibilityItemDataProvider:
         bind:
-            $itemDataProvider: '@api_platform.doctrine.orm.default.item_data_provider'
+            #$itemDataProvider: '@api_platform.doctrine.orm.default.item_data_provider'
+            $itemDataProvider: '@api_platform.doctrine.orm.state.item_provider'
 
     #   An other decoration of the data provider to filter groups where the user is part of.
     App\DataProvider\MyGroupsCollectionDataProvider:
