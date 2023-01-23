@@ -2,52 +2,38 @@
 
 namespace App\DataProvider;
 
-use ApiPlatform\Core\DataProvider\DenormalizedIdentifiersAwareItemDataProviderInterface;
-use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProviderInterface;
+use App\Entity\Group;
 use App\Entity\User;
 use App\Entity\UserAddress;
 use App\Repository\GroupRepository;
-use DateTime;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * This class decorates the DataProvider for a GET request on a User item. It permits to remove info of the target user when the logged user do not have the permission to access it.
  */
-class UserDataVisibilityItemDataProvider implements DenormalizedIdentifiersAwareItemDataProviderInterface, RestrictedDataProviderInterface
+class UserDataVisibilityItemDataProvider implements ProviderInterface
 {
-    private $itemDataProvider;
-    private $security;
-    private $groupPublic;
+    private ProviderInterface $itemDataProvider;
+    private Security $security;
+    private Group $groupPublic;
 
-    public function __construct(ItemDataProviderInterface $itemDataProvider, Security $security, GroupRepository $groupRepo)
+    public function __construct(ProviderInterface $itemDataProvider, Security $security, GroupRepository $groupRepo)
     {
         $this->itemDataProvider = $itemDataProvider;
+
         $this->security = $security;
         $this->groupPublic = $groupRepo->findOneBy(['name' => 'Public']);
     }
 
-    /**
-     * This method is used by Symfony to know if it has to call this DataProvider. This method returns true if the request is a GET on a User item.
-     */
-    public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
-    {
-        $checkClass = User::class === $resourceClass;
-        $checkOperation = ('get' === $operationName) && ('item' === $context['operation_type']);
-
-        return $checkClass && $checkOperation;
-    }
-
-    /**
-     * The method called to modify the user when the `support` method returns true.
-     *
-     * @param mixed $id
-     */
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         /** @var null|User $userToShow */
-        $userToShow = $this->itemDataProvider->getItem($resourceClass, $id, $operationName, $context);
+        $userToShow = $this->itemDataProvider->provide($operation, $uriVariables, $context);
+
+        /** @var null|User $userLogged */
         $userLogged = $this->security->getUser();
 
         if (!$userToShow) {
@@ -55,7 +41,7 @@ class UserDataVisibilityItemDataProvider implements DenormalizedIdentifiersAware
         }
 
         /** @var UserAddress $address */
-        foreach ($userToShow->getAddresses()->getValues() as $key => $address) {
+        foreach ($userToShow->getAddresses()->getValues() as $address) {
             if (!$this->canAccessInfo($userToShow, $address->getAddressVisibility(), $userLogged)) {
                 $address->setStreet('');
                 $address->setCity('');
@@ -69,7 +55,7 @@ class UserDataVisibilityItemDataProvider implements DenormalizedIdentifiersAware
             $infos->setSex('');
         }
         if (!$this->canAccessInfo($userToShow, $infos->getBirthdayVisibility(), $userLogged)) {
-            $infos->setBirthday(new DateTime('0000-01-01'));
+            $infos->setBirthday(new \DateTime('0000-01-01'));
         }
         if (!$this->canAccessInfo($userToShow, $infos->getNationalityVisibility(), $userLogged)) {
             $infos->setNationality('');
@@ -90,7 +76,7 @@ class UserDataVisibilityItemDataProvider implements DenormalizedIdentifiersAware
     {
         $canAccess = false;
 
-        //  A user has acces to his own data, the admin has access to the data, the public data can be access by any logged user.
+        //  A user has access to his own data, the admin has access to the data, the public data can be access by any logged user.
         if ($userToShow->getId() === $userLogged->getId() || $this->security->isGranted('ROLE_ADMIN', $userLogged) || $fieldVisibility->contains($this->groupPublic)) {
             $canAccess = true;
         } else {

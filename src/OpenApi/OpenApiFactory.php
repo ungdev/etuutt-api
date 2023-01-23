@@ -2,9 +2,9 @@
 
 namespace App\OpenApi;
 
-use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
-use ApiPlatform\Core\OpenApi\Model\PathItem;
-use ApiPlatform\Core\OpenApi\OpenApi;
+use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
+use ApiPlatform\OpenApi\Model\PathItem;
+use ApiPlatform\OpenApi\OpenApi;
 
 /**
  * This class decorates and add modifications to the api documentation sent to the swagger. We use it to remove all operation that contains `hidden` in their summary, to hide a mandatory operation (Get on an item), and to add a way to log by the swagger.
