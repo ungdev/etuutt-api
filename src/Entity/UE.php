@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use App\ApiPlatform\SearchWithCustomParametersNamesFilter;
 use App\Repository\UERepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -15,6 +22,25 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=UERepository::class)
  * @ORM\Table(name="ues")
  */
+#[
+    ApiResource(
+        shortName: 'ue',
+        operations: [
+            new GetCollection(
+                uriTemplate: '/ues/search',
+                normalizationContext: ['groups' => ['ue:read:some'], 'skip_null_values' => false],
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['ue:read:one'], 'skip_null_values' => false],
+            ),
+        ],
+    ),
+    ApiFilter(
+        SearchWithCustomParametersNamesFilter::class,
+        properties: ['code' => 'partial', 'credits.category.code' => 'exact'],
+        arguments: ['aliasMap' => ['credits.category.code' => 'category']],
+    ),
+]
 class UE
 {
     /**
@@ -25,17 +51,27 @@ class UE
      *
      * @Assert\Uuid
      */
+    #[Groups([
+        'ue:read:some',
+        'ue:read:one',
+    ])]
+    #[ApiProperty(identifier: false)]
     private $id;
 
     /**
      * The code of the UE (e.g. "MATH01").
      *
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, unique=true)
      *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=10)
      * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
      */
+    #[Groups([
+        'ue:read:some',
+        'ue:read:one',
+    ])]
+    #[ApiProperty(identifier: true)]
     private $code;
 
     /**
@@ -46,6 +82,10 @@ class UE
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
+    #[Groups([
+        'ue:read:some',
+        'ue:read:one',
+    ])]
     private $name;
 
     /**
@@ -57,6 +97,9 @@ class UE
      * @Assert\LessThanOrEqual(100)
      * @Assert\GreaterThanOrEqual(0)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $validationRate;
 
     /**
@@ -86,6 +129,9 @@ class UE
      * @ORM\ManyToOne(targetEntity=UTTFiliere::class, inversedBy="UEs")
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $filiere;
 
     /**
@@ -93,6 +139,10 @@ class UE
      *
      * @ORM\OneToMany(targetEntity=UECredit::class, mappedBy="UE", orphanRemoval=true)
      */
+    #[Groups([
+        'ue:read:one',
+        'ue:read:some',
+    ])]
     private $credits;
 
     /**
@@ -112,13 +162,32 @@ class UE
      *     inverseJoinColumns={@ORM\JoinColumn(name="semester_code", referencedColumnName="code")}
      * )
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $openSemester;
+
+    /**
+     * Whether this UE is closed. A UE can still be opened, but not available at a given semester
+     * (it could for example only be available in spring). When it is marked as closed, it should never be available again.
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     * @Assert\Type("boolean")
+     */
+    #[Groups([
+        'ue:read:some',
+        'ue:read:one',
+    ])]
+    private $isClosed = false;
 
     /**
      * The relation to the entity that store the work time of this UE.
      *
      * @ORM\OneToOne(targetEntity=UEWorkTime::class, mappedBy="UE", cascade={"persist", "remove"})
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $workTime;
 
     /**
@@ -126,6 +195,9 @@ class UE
      *
      * @ORM\OneToOne(targetEntity=UEInfo::class, mappedBy="UE", cascade={"persist", "remove"})
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $info;
 
     /**
@@ -133,6 +205,9 @@ class UE
      *
      * @ORM\OneToMany(targetEntity=UEAnnal::class, mappedBy="UE", orphanRemoval=true)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $annals;
 
     /**
@@ -140,6 +215,9 @@ class UE
      *
      * @ORM\OneToMany(targetEntity=UEComment::class, mappedBy="UE", orphanRemoval=true)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $comments;
 
     /**
@@ -147,6 +225,9 @@ class UE
      *
      * @ORM\OneToMany(targetEntity=UECourse::class, mappedBy="UE")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $courses;
 
     public function __construct()
@@ -351,6 +432,17 @@ class UE
     {
         $this->openSemester->removeElement($openSemester);
 
+        return $this;
+    }
+
+    public function getIsClosed(): bool
+    {
+        return $this->isClosed;
+    }
+
+    public function close(): self
+    {
+        $this->isClosed = false;
         return $this;
     }
 

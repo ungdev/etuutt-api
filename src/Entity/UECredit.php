@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UECreditRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,6 +41,10 @@ class UECredit
      * @ORM\ManyToOne(targetEntity=UECreditCategory::class)
      * @ORM\JoinColumn(name="category_code", referencedColumnName="code")
      */
+    #[Groups([
+        'ue:read:one',
+        'ue:read:some',
+    ])]
     private $category;
 
     /**
@@ -50,6 +55,9 @@ class UECredit
      * @Assert\Type("int")
      * @Assert\Positive
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $credits;
 
     public function getId(): ?Uuid

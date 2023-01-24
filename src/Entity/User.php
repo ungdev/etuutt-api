@@ -63,6 +63,7 @@ class User implements UserInterface
     #[Groups([
         'user:read:one',
         'user:read:some',
+        'ue:read:one',
     ])]
     private $id;
 

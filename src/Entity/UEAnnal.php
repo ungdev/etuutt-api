@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,6 +42,9 @@ class UEAnnal
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $sender;
 
     /**
@@ -49,6 +53,9 @@ class UEAnnal
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $semester;
 
     /**
@@ -57,6 +64,9 @@ class UEAnnal
      * @ORM\ManyToOne(targetEntity=UEAnnalType::class)
      * @ORM\JoinColumn(name="type_name", referencedColumnName="name")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $type;
 
     /**
@@ -67,6 +77,9 @@ class UEAnnal
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $filename;
 
     /**

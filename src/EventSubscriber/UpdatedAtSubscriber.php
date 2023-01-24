@@ -29,10 +29,13 @@ final class UpdatedAtSubscriber implements EventSubscriberInterface
         $entity = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        $isUpdatedAtAble = property_exists($entity::class, 'updatedAt') || User::class === $entity::class;
         $methodSupported = \in_array($method, [Request::METHOD_POST, Request::METHOD_PUT, Request::METHOD_PATCH], true);
+        if (!$methodSupported) {
+            return;
+        }
+        $isUpdatedAtAble = property_exists($entity::class, 'updatedAt') || User::class === $entity::class;
 
-        if ($isUpdatedAtAble && $methodSupported) {
+        if ($isUpdatedAtAble) {
             $entity = User::class === $entity::class ? $entity->getTimestamps() : $entity;
             $entity->setUpdatedAt(new DateTime());
         }
