@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\SoftDeleteController;
 use App\Repository\AssoRepository;
 use DateTime;
 use DateTimeInterface;
@@ -13,12 +14,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *  The main entity that represents all Assos.
- * 
+ *
  * @ORM\Entity(repositoryClass=AssoRepository::class)
  * @ORM\Table(name="assos")
  * 
@@ -56,10 +58,9 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'security' => "object == user or is_granted('ROLE_ADMIN')",
             ],
         ],
-    )
-]
-#[
-    ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])  
+        order: ['name'],
+    ),
+    ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'keywords' => 'exact']),
 ]
 class Asso
 {
@@ -177,6 +178,9 @@ class Asso
      *
      * @Assert\Type("\DateTimeInterface")
      */
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $createdAt;
 
     /**
@@ -203,6 +207,9 @@ class Asso
      *     inverseJoinColumns={@ORM\JoinColumn(name="keyword", referencedColumnName="name")}
      * )
      */
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $keywords;
 
     /**
