@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UEWorkTimeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,6 +41,9 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $cm;
 
     /**
@@ -49,6 +53,9 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $td;
 
     /**
@@ -58,6 +65,9 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $tp;
 
     /**
@@ -67,6 +77,9 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $the;
 
     /**
@@ -76,6 +89,9 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $projet;
 
     /**
@@ -85,6 +101,9 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $internship;
 
     public function getId(): ?Uuid

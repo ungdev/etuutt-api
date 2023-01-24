@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UECommentReplyRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -39,6 +40,9 @@ class UECommentReply
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $author;
 
     /**
@@ -47,6 +51,9 @@ class UECommentReply
      * @ORM\Column(type="text")
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $body;
 
     /**

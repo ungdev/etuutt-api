@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UECreditCategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,6 +24,10 @@ class UECreditCategory
      * @Assert\Length(min=1, max=10)
      * @Assert\Regex("/^[A-Z]{1,10}$/")
      */
+    #[Groups([
+        'ue:read:one',
+        'ue:read:some',
+    ])]
     private $code;
 
     /**

@@ -47,6 +47,7 @@ class UECourse
      */
     #[Groups([
         'user-edt:read:one',
+        'ue:read:one',
     ])]
     private $day;
 
@@ -58,6 +59,7 @@ class UECourse
      */
     #[Groups([
         'user-edt:read:one',
+        'ue:read:one',
     ])]
     private $startHour;
 
@@ -69,6 +71,7 @@ class UECourse
      */
     #[Groups([
         'user-edt:read:one',
+        'ue:read:one',
     ])]
     private $endHour;
 
@@ -81,6 +84,7 @@ class UECourse
      */
     #[Groups([
         'user-edt:read:one',
+        'ue:read:one',
     ])]
     private $week;
 
@@ -91,6 +95,7 @@ class UECourse
      */
     #[Groups([
         'user-edt:read:one',
+        'ue:read:one',
     ])]
     private $type;
 
@@ -103,6 +108,7 @@ class UECourse
      */
     #[Groups([
         'user-edt:read:one',
+        'ue:read:one',
     ])]
     private $room;
 
@@ -112,6 +118,9 @@ class UECourse
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $semester;
 
     /**
