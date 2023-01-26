@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\GetEDTController;
 use App\Controller\SoftDeleteController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,6 +28,9 @@ use Symfony\Component\Validator\Constraints as Assert;
             'security' => "is_granted('ROLE_USER')",
             'pagination_items_per_page' => 10,
         ],
+        normalizationContext: [
+            'skip_null_values' => false,
+        ],
         collectionOperations: [
             'get' => [
                 'normalization_context' => [
@@ -40,6 +44,17 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'normalization_context' => [
                     'groups' => ['user:read:one'],
                     'skip_null_values' => false,
+                ],
+            ],
+            'edt' => [
+                'method' => 'GET',
+                'path' => '/user/{id}/edt',
+                'controller' => GetEDTController::class,
+                'normalization_context' => [
+                    'groups' => ['user-edt:read:one'],
+                ],
+                'openapi_context' => [
+                    'summary' => 'retrieves a user\'s schedule',
                 ],
             ],
             'delete' => [
@@ -326,6 +341,9 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity=UECourse::class, mappedBy="students")
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $courses;
 
     public function __construct()

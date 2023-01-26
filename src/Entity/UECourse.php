@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,6 +35,9 @@ class UECourse
      *
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="courses")
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $UE;
 
     /**
@@ -44,6 +48,9 @@ class UECourse
      * @Assert\Type("string")
      * @Assert\Choice({"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"})
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $day;
 
     /**
@@ -53,6 +60,9 @@ class UECourse
      *
      * @Assert\Time
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $startHour;
 
     /**
@@ -62,6 +72,9 @@ class UECourse
      *
      * @Assert\Time
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $endHour;
 
     /**
@@ -72,6 +85,9 @@ class UECourse
      * @Assert\Type("string")
      * @Assert\Choice({"A", "B"})
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $week;
 
     /**
@@ -80,6 +96,9 @@ class UECourse
      * @Assert\Type("string")
      * @Assert\Choice({"CM", "TD", "TP"})
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $type;
 
     /**
@@ -90,6 +109,9 @@ class UECourse
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=50)
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $room;
 
     /**

@@ -36,6 +36,11 @@ class UE
      * @Assert\Length(min=1, max=10)
      * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
      */
+    #[Groups([
+        'ue:read:one',
+        'ue:read:some',
+        'user-edt:read:one',
+    ])]
     private $code;
 
     /**
