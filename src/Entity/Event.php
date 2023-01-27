@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\SoftDeleteController;
 use App\Repository\EventRepository;
-use ApiPlatform\Core\Annotation\ApiResource;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;

@@ -23,7 +23,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=AssoRepository::class)
  * @ORM\Table(name="assos")
- * 
  */
 #[
     ApiResource(
