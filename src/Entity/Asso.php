@@ -31,6 +31,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         attributes: [
             'pagination_items_per_page' => 10,
         ],
+        normalizationContext: [
+            'skip_null_values' => false,
+        ],
         collectionOperations: [
             'get' => [
                 'normalization_context' => [
@@ -107,6 +110,9 @@ class Asso
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('descriptionShort')]
+    #[Groups([
+        'asso:read:some',
+    ])]
     private $descriptionShortTranslation;
 
     /**
@@ -115,6 +121,9 @@ class Asso
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $descriptionTranslation;
 
     /**
@@ -241,6 +250,9 @@ class Asso
      *
      * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="asso", orphanRemoval=true)
      */
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $assoMemberships;
 
     public function __construct()
@@ -538,5 +550,13 @@ class Asso
         }
 
         return $this;
+    }
+
+    #[Groups([
+        'asso:read:some',
+    ])]
+    public function getMembershipsCount(): int
+    {
+        return $this->assoMemberships->count();
     }
 }
