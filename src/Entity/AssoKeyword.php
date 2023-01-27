@@ -6,6 +6,7 @@ use App\Repository\AssoKeywordRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,6 +23,9 @@ class AssoKeyword
      * @Assert\Length(min=1, max=30)
      * @Assert\Regex("/^[a-z]{1,30}$/")
      */
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $name;
 
     /**

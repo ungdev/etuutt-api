@@ -37,6 +37,8 @@ class Translation
         'group:read:one',
         'group:write:update',
         'group:write:create',
+        'asso:read:one',
+        'asso:read:some',
     ])]
     private $french;
 
@@ -51,6 +53,8 @@ class Translation
         'group:read:one',
         'group:write:update',
         'group:write:create',
+        'asso:read:one',
+        'asso:read:some',
     ])]
     private $english;
 
@@ -65,6 +69,8 @@ class Translation
         'group:read:one',
         'group:write:update',
         'group:write:create',
+        'asso:read:one',
+        'asso:read:some',
     ])]
     private $spanish;
 
@@ -79,6 +85,8 @@ class Translation
         'group:read:one',
         'group:write:update',
         'group:write:create',
+        'asso:read:one',
+        'asso:read:some',
     ])]
     private $german;
 
@@ -93,6 +101,8 @@ class Translation
         'group:read:one',
         'group:write:update',
         'group:write:create',
+        'asso:read:one',
+        'asso:read:some',
     ])]
     private $chinese;
 

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\SoftDeleteController;
 use App\Repository\EventRepository;
 use DateTime;
 use DateTimeInterface;
@@ -9,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,6 +20,45 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=EventRepository::class)
  * @ORM\Table(name="events")
  */
+#[
+    ApiResource(
+        collectionOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ['event:read:some'],
+                ],
+            ],
+        ],
+        itemOperations: [
+            'get' => [
+                'normalization_context' => [
+                    'groups' => ['event:read:one'],
+                ],
+            ],
+            'delete' => [
+                'controller' => SoftDeleteController::class,
+                'security' => "is_granted('ROLE_ADMIN')",
+            ],
+            'patch' => [
+                'denormalization_context' => [
+                    'groups' => ['event:write:update'],
+                ],
+                'normalization_context' => [
+                    'groups' => ['event:read:one'],
+                ],
+                'security' => "object == user or is_granted('ROLE_ADMIN')",
+            ],
+        ],
+        shortName: 'event',
+        attributes: [
+            'pagination_items_per_page' => 10,
+            'security' => "is_granted('ROLE_USER')",
+        ],
+        normalizationContext: [
+            'skip_null_values' => false,
+        ],
+    )
+]
 class Event
 {
     /**
@@ -27,6 +69,11 @@ class Event
      *
      * @Assert\Uuid
      */
+    #[Groups([
+        'event:read:some',
+        'event:read:one',
+        'asso:read:one',
+    ])]
     private $id;
 
     /**
@@ -35,6 +82,9 @@ class Event
      * @ORM\ManyToMany(targetEntity=Asso::class, inversedBy="events")
      * @ORM\JoinTable(name="events_assos")
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $assos;
 
     /**
@@ -43,6 +93,11 @@ class Event
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('title')]
+    #[Groups([
+        'event:read:some',
+        'event:read:one',
+        'asso:read:one',
+    ])]
     private $titleTranslation;
 
     /**
@@ -52,6 +107,9 @@ class Event
      *
      * @Assert\Type("\DateTimeInterface")
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $startAt;
 
     /**
@@ -61,6 +119,9 @@ class Event
      *
      * @Assert\Type("\DateTimeInterface")
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $endAt;
 
     /**
@@ -70,6 +131,9 @@ class Event
      *
      * @Assert\Type("bool")
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $isAllDay;
 
     /**
@@ -80,6 +144,9 @@ class Event
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=255)
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $location;
 
     /**
@@ -87,6 +154,9 @@ class Event
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     #[SerializedName('description')]
     private $descriptionTranslation;
 
@@ -121,6 +191,9 @@ class Event
      *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
      * )
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $categories;
 
     /**
@@ -128,6 +201,9 @@ class Event
      *
      * @ORM\OneToMany(targetEntity=EventAnswer::class, mappedBy="event", orphanRemoval=true)
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $eventAnswers;
 
     /**
@@ -135,6 +211,9 @@ class Event
      *
      * @ORM\OneToOne(targetEntity=EventPrivacy::class, mappedBy="event", cascade={"persist", "remove"})
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $eventPrivacy;
 
     public function __construct()
