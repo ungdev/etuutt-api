@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Controller\SoftDeleteController;
 use App\Repository\AssoRepository;
 use DateTime;
@@ -26,41 +30,29 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[
     ApiResource(
-        collectionOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['asso:read:some'],
-                ],
-            ],
-        ],
-        itemOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['asso:read:one'],
-                ],
-            ],
-            'delete' => [
-                'controller' => SoftDeleteController::class,
-                'security' => "is_granted('ROLE_ADMIN')",
-            ],
-            'patch' => [
-                'denormalization_context' => [
-                    'groups' => ['asso:write:update'],
-                ],
-                'normalization_context' => [
-                    'groups' => ['asso:read:one'],
-                ],
-                'security' => "object == user or is_granted('ROLE_ADMIN')",
-            ],
-        ],
         shortName: 'asso',
-        attributes: [
-            'pagination_items_per_page' => 10,
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['asso:read:some']],
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['asso:read:one']],
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('ROLE_ADMIN')",
+            ),
+            new Patch(
+                normalizationContext: ['groups' => ['asso:read:one']],
+                denormalizationContext: ['groups' => ['asso:write:update']],
+                security: "object == user or is_granted('ROLE_ADMIN')",
+            ),
         ],
         normalizationContext: [
             'skip_null_values' => false,
         ],
         order: ['name'],
+        paginationItemsPerPage: 10,
     ),
     ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'keywords' => 'exact']),
 ]

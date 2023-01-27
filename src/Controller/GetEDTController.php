@@ -20,7 +20,7 @@ class GetEDTController extends AbstractController
 
     public function __invoke(User $data): User
     {
-        $repository = $this->getDoctrine()->getRepository(Semester::class);
+        $repository = $this->manager->getRepository(Semester::class);
         $currentSemesterCode = $repository->getSemesterOfDate(new DateTime())->getCode();
 
         $nbCourses = \count($data->getCourses());

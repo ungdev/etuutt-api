@@ -29,39 +29,32 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ApiResource(
         shortName: 'user',
-        normalizationContext: [
-            'skip_null_values' => false,
-        ],
-        itemOperations: [
-            'edt' => [
-                'method' => 'GET',
-                'path' => '/user/{id}/edt',
-                'controller' => GetEDTController::class,
-                'normalization_context' => [
-                    'groups' => ['user-edt:read:one'],
-                ],
-                'openapi_context' => [
-                    'summary' => 'retrieves a user\'s schedule',
-                ],
-            ],
-        ],
         operations: [
             new GetCollection(
-                normalizationContext: ['groups' => ['user:read:some'], 'skip_null_values' => false],
+                normalizationContext: ['groups' => ['user:read:some']],
             ),
             new Get(
-                normalizationContext: ['groups' => ['user:read:one'], 'skip_null_values' => false],
+                normalizationContext: ['groups' => ['user:read:one']],
                 provider: UserDataVisibilityItemDataProvider::class
+            ),
+            new Get(
+                uriTemplate: '/user/{id}/edt',
+                controller: GetEDTController::class,
+                openapiContext: ['summary' => "retrieves a user's schedule"],
+                normalizationContext: ['groups' => ['user-edt:read:one']],
             ),
             new Delete(
                 controller: SoftDeleteController::class,
                 security: "is_granted('ROLE_ADMIN')",
             ),
             new Patch(
-                normalizationContext: ['groups' => ['user:read:one'], 'skip_null_values' => false],
+                normalizationContext: ['groups' => ['user:read:one']],
                 denormalizationContext: ['groups' => ['user:write:update']],
                 security: "object == user or is_granted('ROLE_ADMIN')",
             ),
+        ],
+        normalizationContext: [
+            'skip_null_values' => false,
         ],
         paginationItemsPerPage: 10,
         security: "is_granted('ROLE_USER')",

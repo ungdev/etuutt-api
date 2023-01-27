@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Controller\SoftDeleteController;
 use App\Repository\UERepository;
 use DateTime;
@@ -22,41 +26,33 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[
     ApiResource(
-        collectionOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['ue:read:some'],
-                ],
-            ],
-        ],
-        itemOperations: [
-            'get' => [
-                'normalization_context' => [
+        shortName: 'ue',
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['ue:read:some']]
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['ue:read:one']]
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('ROLE_ADMIN')"
+            ),
+            new Patch(
+                normalizationContext: [
                     'groups' => ['ue:read:one'],
                 ],
-            ],
-            'delete' => [
-                'controller' => SoftDeleteController::class,
-                'security' => "is_granted('ROLE_ADMIN')",
-            ],
-            'patch' => [
-                'denormalization_context' => [
+                denormalizationContext: [
                     'groups' => ['ue:write:update'],
                 ],
-                'normalization_context' => [
-                    'groups' => ['ue:read:one'],
-                ],
-                'security' => "object == user or is_granted('ROLE_ADMIN')",
-            ],
-        ],
-        shortName: 'ue',
-        attributes: [
-            'pagination_items_per_page' => 10,
-            'security' => "is_granted('ROLE_USER')",
+                security: "object == user or is_granted('ROLE_ADMIN')",
+            ),
         ],
         normalizationContext: [
             'skip_null_values' => false,
         ],
+        paginationItemsPerPage: 10,
+        security: "is_granted('ROLE_USER')",
     )
 ]
 #[
