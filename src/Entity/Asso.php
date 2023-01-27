@@ -11,8 +11,6 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use App\Controller\SoftDeleteController;
 use App\Repository\AssoRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -63,7 +61,6 @@ class Asso
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     #[Groups([
@@ -76,7 +73,6 @@ class Asso
      * The login used for the CAS.
      *
      * @ORM\Column(type="string", length=50, unique=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=50)
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
@@ -85,7 +81,6 @@ class Asso
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      */
@@ -121,7 +116,6 @@ class Asso
      * The email address of the association.
      *
      * @ORM\Column(type="string", length=100)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      * @Assert\Email
@@ -135,7 +129,6 @@ class Asso
      * The phone number of the association.
      *
      * @ORM\Column(type="string", length=30, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=30)
      * @Assert\Regex("/^0[0-9]{9}$/")
@@ -149,7 +142,6 @@ class Asso
      * The website of the association. It is optional.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=100)
      * @Assert\Url
@@ -163,7 +155,6 @@ class Asso
      * Link to the logo of the association. It is optional.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=100)
      */
@@ -175,7 +166,6 @@ class Asso
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
@@ -185,14 +175,12 @@ class Asso
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
@@ -250,8 +238,8 @@ class Asso
     {
         $this->setDescriptionShortTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
-        $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
 
         $this->keywords = new ArrayCollection();
         $this->assoMessages = new ArrayCollection();
@@ -361,36 +349,36 @@ class Asso
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?DateTimeInterface
+    public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 

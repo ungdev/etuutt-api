@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserUERepository;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -22,7 +21,6 @@ class UserUESubscription
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -53,14 +51,13 @@ class UserUESubscription
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getId(): ?Uuid

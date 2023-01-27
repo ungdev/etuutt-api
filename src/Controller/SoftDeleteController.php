@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,7 +28,7 @@ class SoftDeleteController extends AbstractController
         }
         $deletedAt = $data->getDeletedAt();
         if (null === $deletedAt) {
-            $data->setDeletedAt(new DateTime());
+            $data->setDeletedAt(new \DateTime());
             $this->manager->persist($data);
             $this->manager->flush();
             $body = [

@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\BadgeRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,7 +22,6 @@ class Badge
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -33,7 +30,6 @@ class Badge
      * The Serie is a group of Badge with the same idea (e.g. Badges that deal with being an asso member).
      *
      * @ORM\Column(type="string", length=50, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
@@ -43,7 +39,6 @@ class Badge
      * The Level is serves to determine which badge of a serie is more advanced.
      *
      * @ORM\Column(type="smallint", nullable=true)
-     *
      * @Assert\Type("int")
      * @Assert\Positive
      */
@@ -51,7 +46,6 @@ class Badge
 
     /**
      * @ORM\Column(type="string", length=100)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      */
@@ -61,7 +55,6 @@ class Badge
      * The path to the picture of the badge.
      *
      * @ORM\Column(type="string", length=255)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
@@ -77,14 +70,12 @@ class Badge
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
@@ -103,7 +94,7 @@ class Badge
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
         $this->setDescriptionTranslation(new Translation());
 
         $this->users = new ArrayCollection();
@@ -174,24 +165,24 @@ class Badge
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?DateTimeInterface
+    public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 

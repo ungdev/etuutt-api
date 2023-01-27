@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\CovoitRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +21,6 @@ class Covoit
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -39,7 +36,6 @@ class Covoit
      * The maximum number of passengers of this Covoit.
      *
      * @ORM\Column(type="smallint")
-     *
      * @Assert\Type("int")
      * @Assert\Positive
      */
@@ -49,7 +45,6 @@ class Covoit
      * The price in cents (x100).
      *
      * @ORM\Column(type="integer")
-     *
      * @Assert\Type("int")
      * @Assert\Positive
      */
@@ -59,7 +54,6 @@ class Covoit
      * The URL of this Covoit on the blablacar website. It is optional.
      *
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
-     *
      * @Assert\Url
      */
     private $blablacarUrl;
@@ -82,7 +76,6 @@ class Covoit
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
-     *
      * @Assert\Uuid
      */
     private $startCityId;
@@ -91,7 +84,6 @@ class Covoit
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
-     *
      * @Assert\Uuid
      */
     private $endCityId;
@@ -100,7 +92,6 @@ class Covoit
      * The starting date of the Covoit.
      *
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $startAt;
@@ -109,21 +100,18 @@ class Covoit
      * The end date of the Covoit.
      *
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $endAt;
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
@@ -157,8 +145,8 @@ class Covoit
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
 
         $this->covoitMessages = new ArrayCollection();
         $this->passengers = new ArrayCollection();
@@ -253,24 +241,24 @@ class Covoit
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -351,24 +339,24 @@ class Covoit
         return $this;
     }
 
-    public function getStartAt(): ?DateTimeInterface
+    public function getStartAt(): ?\DateTimeInterface
     {
         return $this->startAt;
     }
 
-    public function setStartAt(DateTimeInterface $startAt): self
+    public function setStartAt(\DateTimeInterface $startAt): self
     {
         $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEndAt(): ?DateTimeInterface
+    public function getEndAt(): ?\DateTimeInterface
     {
         return $this->endAt;
     }
 
-    public function setEndAt(DateTimeInterface $endAt): self
+    public function setEndAt(\DateTimeInterface $endAt): self
     {
         $this->endAt = $endAt;
 

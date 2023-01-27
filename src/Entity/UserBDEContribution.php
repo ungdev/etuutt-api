@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserBDEContributionRepository;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -22,7 +21,6 @@ class UserBDEContribution
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -55,7 +53,6 @@ class UserBDEContribution
      * The starting date of the BDEContribution.
      *
      * @ORM\Column(type="date")
-     *
      * @Assert\Date
      */
     private $start;
@@ -64,7 +61,6 @@ class UserBDEContribution
      * The ending date of the BDEContribution.
      *
      * @ORM\Column(type="date")
-     *
      * @Assert\Date
      */
     private $end;
@@ -110,24 +106,24 @@ class UserBDEContribution
         return $this;
     }
 
-    public function getStart(): ?DateTimeInterface
+    public function getStart(): ?\DateTimeInterface
     {
         return $this->start;
     }
 
-    public function setStart(DateTimeInterface $start): self
+    public function setStart(\DateTimeInterface $start): self
     {
         $this->start = $start;
 
         return $this;
     }
 
-    public function getEnd(): ?DateTimeInterface
+    public function getEnd(): ?\DateTimeInterface
     {
         return $this->end;
     }
 
-    public function setEnd(DateTimeInterface $end): self
+    public function setEnd(\DateTimeInterface $end): self
     {
         $this->end = $end;
 

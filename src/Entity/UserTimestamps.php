@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserTimestampsRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -23,7 +21,6 @@ class UserTimestamps
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -38,43 +35,38 @@ class UserTimestamps
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $firstLoginDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $lastLoginDate;
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
     }
 
     public function getId(): ?Uuid
@@ -94,60 +86,60 @@ class UserTimestamps
         return $this;
     }
 
-    public function getFirstLoginDate(): ?DateTimeInterface
+    public function getFirstLoginDate(): ?\DateTimeInterface
     {
         return $this->firstLoginDate;
     }
 
-    public function setFirstLoginDate(?DateTimeInterface $firstLoginDate): self
+    public function setFirstLoginDate(?\DateTimeInterface $firstLoginDate): self
     {
         $this->firstLoginDate = $firstLoginDate;
 
         return $this;
     }
 
-    public function getLastLoginDate(): ?DateTimeInterface
+    public function getLastLoginDate(): ?\DateTimeInterface
     {
         return $this->lastLoginDate;
     }
 
-    public function setLastLoginDate(?DateTimeInterface $lastLoginDate): self
+    public function setLastLoginDate(?\DateTimeInterface $lastLoginDate): self
     {
         $this->lastLoginDate = $lastLoginDate;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?DateTimeInterface
+    public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 

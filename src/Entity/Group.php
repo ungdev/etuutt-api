@@ -123,7 +123,6 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/")
@@ -143,7 +142,6 @@ class Group
      * The path to the avatar of the Group.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
@@ -157,7 +155,6 @@ class Group
 
     /**
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     #[Groups([

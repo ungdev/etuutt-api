@@ -14,7 +14,6 @@ use App\Entity\User;
 use App\Entity\UserUESubscription;
 use App\Repository\SemesterRepository;
 use App\Util\Text;
-use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -56,7 +55,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             $ue->setValidationRate($faker->randomFloat(2, 50, 100));
             $createdAt = $faker->dateTimeBetween('-3 years');
             $ue->setCreatedAt($createdAt);
-            $days = (new DateTime())->diff($ue->getCreatedAt())->days;
+            $days = (new \DateTime())->diff($ue->getCreatedAt())->days;
             $ue->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             $ue->addOpenSemester($semesterRepository->getSemesterOfDate($ue->getCreatedAt()));
             $ue->addOpenSemester($semesterRepository->getSemesterOfDate($ue->getUpdatedAt()));
@@ -98,7 +97,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $subscription = new UserUESubscription();
                 $subscription->setUser($user);
                 $subscription->setUE($faker->randomElement($ues));
-                $subscription->setCreatedAt(new DateTime());
+                $subscription->setCreatedAt(new \DateTime());
                 $subscription->setSemester($semesterRepository->getSemesterOfDate($subscription->getCreatedAt()));
                 $manager->persist($subscription);
             }

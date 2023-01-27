@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\SemesterRepository;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,7 +17,6 @@ class Semester
     /**
      * @ORM\Id
      * @ORM\Column(type="string", length=10)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=10)
      * @Assert\Regex("/^(A|P)\d{2}$/")
@@ -29,7 +27,6 @@ class Semester
      * The starting date of the Semester.
      *
      * @ORM\Column(type="date")
-     *
      * @Assert\Date
      */
     private $start;
@@ -38,7 +35,6 @@ class Semester
      * The ending date of the Semester.
      *
      * @ORM\Column(type="date")
-     *
      * @Assert\Date
      */
     private $end;
@@ -53,24 +49,24 @@ class Semester
         return $this->code;
     }
 
-    public function getStart(): ?DateTimeInterface
+    public function getStart(): ?\DateTimeInterface
     {
         return $this->start;
     }
 
-    public function setStart(DateTimeInterface $start): self
+    public function setStart(\DateTimeInterface $start): self
     {
         $this->start = $start;
 
         return $this;
     }
 
-    public function getEnd(): ?DateTimeInterface
+    public function getEnd(): ?\DateTimeInterface
     {
         return $this->end;
     }
 
-    public function setEnd(DateTimeInterface $end): self
+    public function setEnd(\DateTimeInterface $end): self
     {
         $this->end = $end;
 

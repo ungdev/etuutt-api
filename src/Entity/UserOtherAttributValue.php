@@ -21,7 +21,6 @@ class UserOtherAttributValue
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -46,7 +45,6 @@ class UserOtherAttributValue
      * The value given to the attribut.
      *
      * @ORM\Column(type="text")
-     *
      * @Assert\Type("string")
      */
     private $value;

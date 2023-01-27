@@ -22,7 +22,6 @@ class UTTFiliere
      *
      * @ORM\Id
      * @ORM\Column(type="string", length=10)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=10)
      * @Assert\Regex("/^[A-Z\d]{1,10}$/")
@@ -33,7 +32,6 @@ class UTTFiliere
      * The complete name of the Filiere.
      *
      * @ORM\Column(type="string", length=255)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */

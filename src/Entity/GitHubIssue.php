@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\GitHubIssueRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -23,7 +21,6 @@ class GitHubIssue
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -40,7 +37,6 @@ class GitHubIssue
      * The id of the GitHub issue.
      *
      * @ORM\Column(type="integer")
-     *
      * @Assert\Type(type="integer")
      * @Assert\Positive
      */
@@ -48,14 +44,13 @@ class GitHubIssue
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getId(): ?Uuid
@@ -87,12 +82,12 @@ class GitHubIssue
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

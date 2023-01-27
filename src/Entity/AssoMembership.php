@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\AssoMembershipRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,7 +22,6 @@ class AssoMembership
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -84,14 +81,13 @@ class AssoMembership
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->roles = new ArrayCollection();
         $this->permissions = new ArrayCollection();
@@ -174,36 +170,36 @@ class AssoMembership
         return $this;
     }
 
-    public function getStartAt(): ?DateTimeInterface
+    public function getStartAt(): ?\DateTimeInterface
     {
         return $this->startAt;
     }
 
-    public function setStartAt(DateTimeInterface $startAt): self
+    public function setStartAt(\DateTimeInterface $startAt): self
     {
         $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEndAt(): ?DateTimeInterface
+    public function getEndAt(): ?\DateTimeInterface
     {
         return $this->endAt;
     }
 
-    public function setEndAt(DateTimeInterface $endAt): self
+    public function setEndAt(\DateTimeInterface $endAt): self
     {
         $this->endAt = $endAt;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

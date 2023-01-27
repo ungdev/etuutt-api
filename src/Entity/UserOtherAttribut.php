@@ -19,7 +19,6 @@ class UserOtherAttribut
      *
      * @ORM\Id
      * @ORM\Column(type="string", length=100)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      */
@@ -29,7 +28,6 @@ class UserOtherAttribut
      * The type of value that this attribut is.
      *
      * @ORM\Column(type="string", length=50)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=50)
      * @Assert\Choice({"bool", "int", "float", "string", "longtext", "date", "datetime"})

@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UECommentRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +23,6 @@ class UEComment
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -50,7 +47,6 @@ class UEComment
      * The content of this Comment.
      *
      * @ORM\Column(type="text")
-     *
      * @Assert\Type("string")
      */
     private $body;
@@ -59,7 +55,6 @@ class UEComment
      * A boolean that says if the author will be display next to his Comment.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     private $isAnonymous;
@@ -88,29 +83,26 @@ class UEComment
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
 
         $this->answers = new ArrayCollection();
         $this->reports = new ArrayCollection();
@@ -241,36 +233,36 @@ class UEComment
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?DateTimeInterface
+    public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 

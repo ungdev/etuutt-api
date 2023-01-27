@@ -7,7 +7,6 @@ use App\Entity\UE;
 use App\Entity\UECourse;
 use App\Entity\User;
 use App\Repository\SemesterRepository;
-use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -28,6 +27,7 @@ class UECourseSeeder extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $users = $manager->getRepository(User::class)->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
+
         /** @var SemesterRepository $semesterRepository */
         $semesterRepository = $manager->getRepository(Semester::class);
 
@@ -36,8 +36,8 @@ class UECourseSeeder extends Fixture implements DependentFixtureInterface
             $course = new UECourse();
             $course->setUE($faker->randomElement($ues));
             $course->setDay($faker->randomElement(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']));
-            $course->setStartHour(new DateTime($faker->time()));
-            $course->setEndHour(new DateTime($faker->time()));
+            $course->setStartHour(new \DateTime($faker->time()));
+            $course->setEndHour(new \DateTime($faker->time()));
             if ($faker->boolean(30)) {
                 $course->setWeek($faker->randomElement(['A', 'B']));
             }
