@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Controller\SoftDeleteController;
 use App\Repository\EventRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTime;
@@ -21,13 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[
     ApiResource(
-        shortName: 'event',
-        attributes: [
-            'pagination_items_per_page' => 10,
-        ],
-        normalizationContext: [
-            'skip_null_values' => false,
-        ],
         collectionOperations: [
             'get' => [
                 'normalization_context' => [
@@ -54,6 +48,14 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
                 'security' => "object == user or is_granted('ROLE_ADMIN')",
             ],
+        ],
+        shortName: 'event',
+        attributes: [
+            'pagination_items_per_page' => 10,
+            'security' => "is_granted('ROLE_USER')",
+        ],
+        normalizationContext: [
+            'skip_null_values' => false,
         ],
     )
 ]
