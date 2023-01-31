@@ -21,7 +21,6 @@ class UEWorkTime
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -38,7 +37,6 @@ class UEWorkTime
      * The number of hours during the semester of CM (Cours Magistral).
      *
      * @ORM\Column(type="integer", nullable=true)
-     *
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
@@ -48,7 +46,6 @@ class UEWorkTime
      * The number of hours during the semester of TD (Travaux Dirigés).
      *
      * @ORM\Column(type="integer", nullable=true)
-     *
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
@@ -58,7 +55,6 @@ class UEWorkTime
      * The number of hours during the semester of TP (Travaux Pratiques).
      *
      * @ORM\Column(type="integer", nullable=true)
-     *
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
@@ -68,7 +64,6 @@ class UEWorkTime
      * The estimated number of hours during the semester of THE (Travail Hors Encadrement).
      *
      * @ORM\Column(type="integer", nullable=true)
-     *
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
@@ -78,7 +73,6 @@ class UEWorkTime
      * The estimated number of hours during the semester of project.
      *
      * @ORM\Column(type="integer", nullable=true)
-     *
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
@@ -88,7 +82,6 @@ class UEWorkTime
      * The number of week that this internship has to lasts.
      *
      * @ORM\Column(type="integer", nullable=true)
-     *
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */

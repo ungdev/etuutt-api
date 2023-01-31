@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UEStarVoteRepository;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -22,7 +21,6 @@ class UEStarVote
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -55,7 +53,6 @@ class UEStarVote
      * The number of stars of this vote.
      *
      * @ORM\Column(type="smallint")
-     *
      * @Assert\Type("int")
      * @Assert\LessThanOrEqual(5)
      * @Assert\GreaterThanOrEqual(0)
@@ -64,14 +61,13 @@ class UEStarVote
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getId(): ?Uuid

@@ -21,7 +21,6 @@ class Translation
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -30,7 +29,6 @@ class Translation
      * The french translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([
@@ -46,7 +44,6 @@ class Translation
      * The english translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([
@@ -62,7 +59,6 @@ class Translation
      * The spanish translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([
@@ -78,7 +74,6 @@ class Translation
      * The german translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([
@@ -94,7 +89,6 @@ class Translation
      * The chinese translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([

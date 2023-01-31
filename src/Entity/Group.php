@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Controller\SoftDeleteController;
+use App\DataProvider\MyGroupsCollectionDataProvider;
 use App\Repository\GroupRepository;
 use App\Util\Slug;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,57 +32,34 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ApiResource(
         shortName: 'group',
-        attributes: [
-            'security' => "is_granted('ROLE_USER')",
-            'pagination_items_per_page' => 10,
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['group:read:some'], 'skip_null_values' => false],
+            ),
+            new GetCollection(
+                uriTemplate: '/groups/me',
+                normalizationContext: ['groups' => ['group:read:some'], 'skip_null_values' => false],
+                provider: MyGroupsCollectionDataProvider::class,
+            ),
+            new Post(
+                normalizationContext: ['groups' => ['group:read:one'], 'skip_null_values' => false],
+                denormalizationContext: ['groups' => ['group:write:create']],
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['group:read:one'], 'skip_null_values' => false],
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('delete', object)",
+            ),
+            new Patch(
+                normalizationContext: ['groups' => ['group:read:one'], 'skip_null_values' => false],
+                denormalizationContext: ['groups' => ['group:write:update']],
+                security: "is_granted('patch', object)",
+            ),
         ],
-        collectionOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['group:read:some'],
-                    'skip_null_values' => false,
-                ],
-            ],
-            'my_groups' => [
-                'method' => 'GET',
-                'path' => '/groups/me',
-                'normalization_context' => [
-                    'groups' => ['group:read:some'],
-                    'skip_null_values' => false,
-                ],
-            ],
-            'post' => [
-                'denormalization_context' => [
-                    'groups' => ['group:write:create'],
-                ],
-                'normalization_context' => [
-                    'groups' => ['group:read:one'],
-                    'skip_null_values' => false,
-                ],
-            ],
-        ],
-        itemOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['group:read:one'],
-                    'skip_null_values' => false,
-                ],
-            ],
-            'delete' => [
-                'controller' => SoftDeleteController::class,
-                'security' => "is_granted('delete', object)",
-            ],
-            'patch' => [
-                'denormalization_context' => [
-                    'groups' => ['group:write:update'],
-                ],
-                'normalization_context' => [
-                    'groups' => ['group:read:one'],
-                    'skip_null_values' => false,
-                ],
-                'security' => "is_granted('patch', object)",
-            ],
-        ]
+        paginationItemsPerPage: 10,
+        security: "is_granted('ROLE_USER')",
     )
 ]
 class Group
@@ -88,7 +69,6 @@ class Group
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid()
      */
     #[
@@ -104,7 +84,6 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      */
@@ -120,13 +99,15 @@ class Group
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
-    #[Groups([
-        'group:read:one',
-        'group:read:some',
-        'group:write:update',
-        'group:write:create',
-    ]),
-    SerializedName('description')]
+    #[
+        Groups([
+            'group:read:one',
+            'group:read:some',
+            'group:write:update',
+            'group:write:create',
+        ]),
+        SerializedName('description')
+    ]
     private $descriptionTranslation;
 
     /**
@@ -142,7 +123,6 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/")
@@ -162,7 +142,6 @@ class Group
      * The path to the avatar of the Group.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
@@ -176,7 +155,6 @@ class Group
 
     /**
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -243,8 +221,8 @@ class Group
     public function __construct()
     {
         $this->setDescriptionTranslation(new Translation());
-        $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
 
         $this->members = new ArrayCollection();
         $this->admins = new ArrayCollection();
@@ -395,36 +373,36 @@ class Group
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?DateTimeInterface
+    public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(DateTimeInterface $deletedAt): self
+    public function setDeletedAt(\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 

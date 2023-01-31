@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\AssoMessageRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -22,7 +20,6 @@ class AssoMessage
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -55,7 +52,6 @@ class AssoMessage
      * The date of the event presented in the message.
      *
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $date;
@@ -64,7 +60,6 @@ class AssoMessage
      * Whether the message should be displayed on mobile or not.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     private $sendToMobile;
@@ -73,21 +68,19 @@ class AssoMessage
      * Whether the message should be send in the daymails or not.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     private $sendAsDaymail;
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->setTitleTranslation(new Translation());
         $this->setBodyTranslation(new Translation());
@@ -134,12 +127,12 @@ class AssoMessage
         return $this;
     }
 
-    public function getDate(): ?DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -170,12 +163,12 @@ class AssoMessage
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

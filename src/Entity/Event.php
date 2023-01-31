@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Controller\SoftDeleteController;
 use App\Repository\EventRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,41 +24,29 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[
     ApiResource(
-        collectionOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['event:read:some'],
-                ],
-            ],
-        ],
-        itemOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['event:read:one'],
-                ],
-            ],
-            'delete' => [
-                'controller' => SoftDeleteController::class,
-                'security' => "is_granted('ROLE_ADMIN')",
-            ],
-            'patch' => [
-                'denormalization_context' => [
-                    'groups' => ['event:write:update'],
-                ],
-                'normalization_context' => [
-                    'groups' => ['event:read:one'],
-                ],
-                'security' => "object == user or is_granted('ROLE_ADMIN')",
-            ],
-        ],
         shortName: 'event',
-        attributes: [
-            'pagination_items_per_page' => 10,
-            'security' => "is_granted('ROLE_USER')",
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['event:read:some']],
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['event:read:one']],
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('ROLE_ADMIN')",
+            ),
+            new Patch(
+                normalizationContext: ['groups' => ['event:read:one']],
+                denormalizationContext: ['groups' => ['event:write:update']],
+                security: "object == user or is_granted('ROLE_ADMIN')",
+            ),
         ],
         normalizationContext: [
             'skip_null_values' => false,
         ],
+        paginationItemsPerPage: 10,
+        security: "is_granted('ROLE_USER')",
     )
 ]
 class Event
@@ -66,7 +56,6 @@ class Event
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     #[Groups([
@@ -104,7 +93,6 @@ class Event
      * The starting date of the event.
      *
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
@@ -116,7 +104,6 @@ class Event
      * The ending date of the event.
      *
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
@@ -128,7 +115,6 @@ class Event
      * A boolean telling whether the event is from morning to evening or not.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -140,7 +126,6 @@ class Event
      * The location of the event. It is optional.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=255)
      */
@@ -162,21 +147,18 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
@@ -218,8 +200,8 @@ class Event
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
         $this->setTitleTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
 
@@ -269,24 +251,24 @@ class Event
         return $this;
     }
 
-    public function getStartAt(): ?DateTimeInterface
+    public function getStartAt(): ?\DateTimeInterface
     {
         return $this->startAt;
     }
 
-    public function setStartAt(DateTimeInterface $startAt): self
+    public function setStartAt(\DateTimeInterface $startAt): self
     {
         $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEndAt(): ?DateTimeInterface
+    public function getEndAt(): ?\DateTimeInterface
     {
         return $this->endAt;
     }
 
-    public function setEndAt(DateTimeInterface $endAt): self
+    public function setEndAt(\DateTimeInterface $endAt): self
     {
         $this->endAt = $endAt;
 
@@ -329,36 +311,36 @@ class Event
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?DateTimeInterface
+    public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 

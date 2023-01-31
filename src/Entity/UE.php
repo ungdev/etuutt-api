@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Controller\SoftDeleteController;
 use App\Repository\UERepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,41 +25,33 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[
     ApiResource(
-        collectionOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['ue:read:some'],
-                ],
-            ],
-        ],
-        itemOperations: [
-            'get' => [
-                'normalization_context' => [
+        shortName: 'ue',
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['ue:read:some']]
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['ue:read:one']]
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('ROLE_ADMIN')"
+            ),
+            new Patch(
+                normalizationContext: [
                     'groups' => ['ue:read:one'],
                 ],
-            ],
-            'delete' => [
-                'controller' => SoftDeleteController::class,
-                'security' => "is_granted('ROLE_ADMIN')",
-            ],
-            'patch' => [
-                'denormalization_context' => [
+                denormalizationContext: [
                     'groups' => ['ue:write:update'],
                 ],
-                'normalization_context' => [
-                    'groups' => ['ue:read:one'],
-                ],
-                'security' => "object == user or is_granted('ROLE_ADMIN')",
-            ],
-        ],
-        shortName: 'ue',
-        attributes: [
-            'pagination_items_per_page' => 10,
-            'security' => "is_granted('ROLE_USER')",
+                security: "object == user or is_granted('ROLE_ADMIN')",
+            ),
         ],
         normalizationContext: [
             'skip_null_values' => false,
         ],
+        paginationItemsPerPage: 10,
+        security: "is_granted('ROLE_USER')",
     )
 ]
 #[
@@ -69,7 +64,6 @@ class UE
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     #[Groups([
@@ -82,7 +76,6 @@ class UE
      * The code of the UE (e.g. "MATH01").
      *
      * @ORM\Column(type="string", length=10)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=10)
      * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
@@ -98,7 +91,6 @@ class UE
      * The title of the UE (e.g. "Analyse : suites et fonctions d’une variable réelle pour les TC01 ou les TC05 aguerris.").
      *
      * @ORM\Column(type="string", length=255)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
@@ -112,7 +104,6 @@ class UE
      * The validation rate computed with data in our database.
      *
      * @ORM\Column(type="float", nullable=true)
-     *
      * @Assert\Type("float")
      * @Assert\LessThanOrEqual(100)
      * @Assert\GreaterThanOrEqual(0)
@@ -124,14 +115,12 @@ class UE
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
@@ -214,8 +203,8 @@ class UE
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
 
         $this->usersSubscriptions = new ArrayCollection();
         $this->credits = new ArrayCollection();

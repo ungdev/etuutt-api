@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserBanRepository;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -22,7 +21,6 @@ class UserBan
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -39,7 +37,6 @@ class UserBan
      * The date until which the User can only read data on this app.
      *
      * @ORM\Column(type="date", nullable=true)
-     *
      * @Assert\Date
      */
     private $readOnlyExpiration;
@@ -48,7 +45,6 @@ class UserBan
      * The date until which the User is banned and can not access to this app.
      *
      * @ORM\Column(type="date", nullable=true)
-     *
      * @Assert\Date
      */
     private $bannedExpiration;
@@ -70,24 +66,24 @@ class UserBan
         return $this;
     }
 
-    public function getReadOnlyExpiration(): ?DateTimeInterface
+    public function getReadOnlyExpiration(): ?\DateTimeInterface
     {
         return $this->readOnlyExpiration;
     }
 
-    public function setReadOnlyExpiration(?DateTimeInterface $readOnlyExpiration): self
+    public function setReadOnlyExpiration(?\DateTimeInterface $readOnlyExpiration): self
     {
         $this->readOnlyExpiration = $readOnlyExpiration;
 
         return $this;
     }
 
-    public function getBannedExpiration(): ?DateTimeInterface
+    public function getBannedExpiration(): ?\DateTimeInterface
     {
         return $this->bannedExpiration;
     }
 
-    public function setBannedExpiration(?DateTimeInterface $bannedExpiration): self
+    public function setBannedExpiration(?\DateTimeInterface $bannedExpiration): self
     {
         $this->bannedExpiration = $bannedExpiration;
 

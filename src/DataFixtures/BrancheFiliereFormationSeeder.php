@@ -13,7 +13,6 @@ use App\Entity\UTTFormation;
 use App\Entity\UTTFormationFollowingMethod;
 use App\Repository\SemesterRepository;
 use App\Util\Text;
-use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -109,6 +108,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
         //  Récupération des users et des branches
         $users = $manager->getRepository(User::class)->findAll();
+
         /** @var SemesterRepository $semesterRepository */
         $semesterRepository = $manager->getRepository(Semester::class);
 
@@ -192,7 +192,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $userUTTFormation->setUser($user);
             $userUTTFormation->setUTTFormation($faker->randomElement($formations));
             $userUTTFormation->setFollowingMethod($faker->randomElement($followingMethod));
-            $days = (new DateTime())->diff($user->getTimestamps()->getCreatedAt())->days;
+            $days = (new \DateTime())->diff($user->getTimestamps()->getCreatedAt())->days;
             $userUTTFormation->setCreatedAt($faker->dateTimeBetween('-'.$days.' days'));
 
             $manager->persist($userUTTFormation);

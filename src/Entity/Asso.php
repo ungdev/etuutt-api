@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Controller\SoftDeleteController;
 use App\Repository\AssoRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,41 +28,29 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[
     ApiResource(
-        collectionOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['asso:read:some'],
-                ],
-            ],
-        ],
-        itemOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['asso:read:one'],
-                ],
-            ],
-            'delete' => [
-                'controller' => SoftDeleteController::class,
-                'security' => "is_granted('ROLE_ADMIN')",
-            ],
-            'patch' => [
-                'denormalization_context' => [
-                    'groups' => ['asso:write:update'],
-                ],
-                'normalization_context' => [
-                    'groups' => ['asso:read:one'],
-                ],
-                'security' => "object == user or is_granted('ROLE_ADMIN')",
-            ],
-        ],
         shortName: 'asso',
-        attributes: [
-            'pagination_items_per_page' => 10,
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['asso:read:some']],
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['asso:read:one']],
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('ROLE_ADMIN')",
+            ),
+            new Patch(
+                normalizationContext: ['groups' => ['asso:read:one']],
+                denormalizationContext: ['groups' => ['asso:write:update']],
+                security: "object == user or is_granted('ROLE_ADMIN')",
+            ),
         ],
         normalizationContext: [
             'skip_null_values' => false,
         ],
         order: ['name'],
+        paginationItemsPerPage: 10,
     ),
     ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'keywords' => 'exact']),
 ]
@@ -71,7 +61,6 @@ class Asso
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     #[Groups([
@@ -84,7 +73,6 @@ class Asso
      * The login used for the CAS.
      *
      * @ORM\Column(type="string", length=50, unique=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=50)
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
@@ -93,7 +81,6 @@ class Asso
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      */
@@ -129,7 +116,6 @@ class Asso
      * The email address of the association.
      *
      * @ORM\Column(type="string", length=100)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      * @Assert\Email
@@ -143,7 +129,6 @@ class Asso
      * The phone number of the association.
      *
      * @ORM\Column(type="string", length=30, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=30)
      * @Assert\Regex("/^0[0-9]{9}$/")
@@ -157,7 +142,6 @@ class Asso
      * The website of the association. It is optional.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=100)
      * @Assert\Url
@@ -171,7 +155,6 @@ class Asso
      * Link to the logo of the association. It is optional.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=100)
      */
@@ -183,7 +166,6 @@ class Asso
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
@@ -193,14 +175,12 @@ class Asso
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
@@ -258,8 +238,8 @@ class Asso
     {
         $this->setDescriptionShortTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
-        $this->setCreatedAt(new DateTime());
-        $this->setUpdatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
 
         $this->keywords = new ArrayCollection();
         $this->assoMessages = new ArrayCollection();
@@ -369,36 +349,36 @@ class Asso
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?DateTimeInterface
+    public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 

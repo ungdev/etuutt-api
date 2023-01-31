@@ -24,7 +24,6 @@ class UserMailsPhones
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -41,7 +40,6 @@ class UserMailsPhones
      * The UTT email address of the User. It ends by "@utt.fr".
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Email
      * @Assert\Regex("/^.+@utt\.fr$/")
      */
@@ -51,7 +49,6 @@ class UserMailsPhones
      * The personal mail fo the User. Elle ne peut pas finir par "@utt.fr".
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Email()
      */
     #[Groups([
@@ -76,7 +73,6 @@ class UserMailsPhones
      * The phone number of the User. It must have this form : 0647935003, +33 6 47 93 50 03, or with . and - as separator.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
-     *
      * @Assert\Regex("/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/")
      */
     #[Groups([

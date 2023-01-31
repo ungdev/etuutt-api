@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Controller\GetEDTController;
 use App\Controller\SoftDeleteController;
+use App\DataProvider\UserDataVisibilityItemDataProvider;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,54 +29,35 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ApiResource(
         shortName: 'user',
-        attributes: [
-            'security' => "is_granted('ROLE_USER')",
-            'pagination_items_per_page' => 10,
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['user:read:some']],
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['user:read:one']],
+                provider: UserDataVisibilityItemDataProvider::class
+            ),
+            new Get(
+                uriTemplate: '/user/{id}/edt',
+                controller: GetEDTController::class,
+                openapiContext: ['summary' => "retrieves a user's schedule"],
+                normalizationContext: ['groups' => ['user-edt:read:one']],
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('ROLE_ADMIN')",
+            ),
+            new Patch(
+                normalizationContext: ['groups' => ['user:read:one']],
+                denormalizationContext: ['groups' => ['user:write:update']],
+                security: "object == user or is_granted('ROLE_ADMIN')",
+            ),
         ],
         normalizationContext: [
             'skip_null_values' => false,
         ],
-        collectionOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['user:read:some'],
-                    'skip_null_values' => false,
-                ],
-            ],
-        ],
-        itemOperations: [
-            'get' => [
-                'normalization_context' => [
-                    'groups' => ['user:read:one'],
-                    'skip_null_values' => false,
-                ],
-            ],
-            'edt' => [
-                'method' => 'GET',
-                'path' => '/user/{id}/edt',
-                'controller' => GetEDTController::class,
-                'normalization_context' => [
-                    'groups' => ['user-edt:read:one'],
-                ],
-                'openapi_context' => [
-                    'summary' => 'retrieves a user\'s schedule',
-                ],
-            ],
-            'delete' => [
-                'controller' => SoftDeleteController::class,
-                'security' => "is_granted('ROLE_ADMIN')",
-            ],
-            'patch' => [
-                'denormalization_context' => [
-                    'groups' => ['user:write:update'],
-                ],
-                'normalization_context' => [
-                    'groups' => ['user:read:one'],
-                    'skip_null_values' => false,
-                ],
-                'security' => "object == user or is_granted('ROLE_ADMIN')",
-            ],
-        ],
+        paginationItemsPerPage: 10,
+        security: "is_granted('ROLE_USER')",
     )
 ]
 class User implements UserInterface
@@ -81,7 +67,6 @@ class User implements UserInterface
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid()
      */
     #[Groups([
@@ -94,7 +79,6 @@ class User implements UserInterface
      * The CAS login of the User.
      *
      * @ORM\Column(type="string", length=50, unique=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
@@ -109,7 +93,6 @@ class User implements UserInterface
      * For the User that are students, this is the UTT student number.
      *
      * @ORM\Column(type="integer", nullable=true, unique=true)
-     *
      * @Assert\Type("int")
      * @Assert\Positive
      */
@@ -120,7 +103,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      */
@@ -132,7 +114,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      */
@@ -160,7 +141,6 @@ class User implements UserInterface
      * The relation to the entity that contains the User's SocialNetwork.
      *
      * @ORM\OneToOne(targetEntity=UserSocialNetwork::class, mappedBy="user", cascade={"persist", "remove"})
-     *
      * @Assert\Valid()
      */
     #[Groups([
@@ -180,7 +160,6 @@ class User implements UserInterface
      * The relation to the entity that contains the User's RGPD.
      *
      * @ORM\OneToOne(targetEntity=UserRGPD::class, mappedBy="user", cascade={"persist", "remove"})
-     *
      * @Assert\Valid()
      */
     #[Groups([
@@ -265,7 +244,6 @@ class User implements UserInterface
      * The relation to the Preference of the User.
      *
      * @ORM\OneToOne(targetEntity=UserPreference::class, mappedBy="user", cascade={"persist", "remove"})
-     *
      * @Assert\Valid()
      */
     #[Groups([
@@ -278,7 +256,6 @@ class User implements UserInterface
      * The relation to the Infos of the User.
      *
      * @ORM\OneToOne(targetEntity=UserInfos::class, mappedBy="user", cascade={"persist", "remove"})
-     *
      * @Assert\Valid()
      */
     #[Groups([
@@ -292,7 +269,6 @@ class User implements UserInterface
      * The relation to the Addresses of the User.
      *
      * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
-     *
      * @Assert\Valid()
      */
     #[Groups([
@@ -305,7 +281,6 @@ class User implements UserInterface
      * The relation to mails and phone number of the User.
      *
      * @ORM\OneToOne(targetEntity=UserMailsPhones::class, mappedBy="user", cascade={"persist", "remove"})
-     *
      * @Assert\Valid()
      */
     #[Groups([

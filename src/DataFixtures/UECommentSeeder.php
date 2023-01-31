@@ -12,7 +12,6 @@ use App\Entity\UECommentUpvote;
 use App\Entity\User;
 use App\Repository\SemesterRepository;
 use App\Util\Text;
-use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -33,6 +32,7 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $users = $manager->getRepository(User::class)->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
+
         /** @var SemesterRepository $semesterRepository */
         $semesterRepository = $manager->getRepository(Semester::class);
 
@@ -46,11 +46,11 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $comment->setIsAnonymous($faker->boolean(10));
             $comment->setCreatedAt($faker->dateTimeBetween('-3 years'));
             $comment->setSemester($semesterRepository->getSemesterOfDate($comment->getCreatedAt()));
-            $days = (new DateTime())->diff($comment->getCreatedAt())->days;
+            $days = (new \DateTime())->diff($comment->getCreatedAt())->days;
             $comment->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             //  Soft delete aléatoire d'un commentaire (Avec une chance de 2%)
             if ($faker->boolean(2)) {
-                $days = (new DateTime())->diff($comment->getUpdatedAt())->days;
+                $days = (new \DateTime())->diff($comment->getUpdatedAt())->days;
                 $comment->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
             $manager->persist($comment);
@@ -66,11 +66,11 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $body = Text::createRandomText(5, 9);
             $answer->setBody($body);
             $answer->setCreatedAt($faker->dateTimeBetween('-3 years'));
-            $days = (new DateTime())->diff($answer->getCreatedAt())->days;
+            $days = (new \DateTime())->diff($answer->getCreatedAt())->days;
             $answer->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             //  Soft delete aléatoire d'un User (Avec une chance de 1%)
             if ($faker->boolean(2)) {
-                $days = (new DateTime())->diff($answer->getUpdatedAt())->days;
+                $days = (new \DateTime())->diff($answer->getUpdatedAt())->days;
                 $answer->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
             $manager->persist($answer);

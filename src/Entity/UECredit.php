@@ -21,7 +21,6 @@ class UECredit
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -46,7 +45,6 @@ class UECredit
      * The amount of credit.
      *
      * @ORM\Column(type="smallint")
-     *
      * @Assert\Type("int")
      * @Assert\Positive
      */

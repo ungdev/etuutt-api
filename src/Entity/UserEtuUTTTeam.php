@@ -23,7 +23,6 @@ class UserEtuUTTTeam
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     *
      * @Assert\Uuid
      */
     private $id;
@@ -52,7 +51,6 @@ class UserEtuUTTTeam
      * The description of what the User has done.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     private $role;
