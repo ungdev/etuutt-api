@@ -6,6 +6,7 @@ use App\Repository\UTTFiliereRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -26,6 +27,9 @@ class UTTFiliere
      * @Assert\Length(max=10)
      * @Assert\Regex("/^[A-Z\d]{1,10}$/")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $code;
 
     /**
@@ -35,6 +39,9 @@ class UTTFiliere
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $name;
 
     /**

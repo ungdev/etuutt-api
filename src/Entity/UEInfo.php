@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UEInfoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -58,11 +59,14 @@ class UEInfo
     private $antecedent;
 
     /**
-     * The languages spoken in ths UE, and their minimum level to understand.
+     * The languages spoken in this UE, and their minimum level to understand.
      *
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $languages;
 
     /**
@@ -71,6 +75,9 @@ class UEInfo
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $comment;
 
     /**
@@ -79,6 +86,9 @@ class UEInfo
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $objectives;
 
     /**
@@ -87,6 +97,9 @@ class UEInfo
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $programme;
 
     public function getId(): ?Uuid
