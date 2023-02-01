@@ -33,6 +33,7 @@ class Translation
      */
     #[Groups([
         'group:read:one',
+        'group:read:some',
         'group:write:update',
         'group:write:create',
         'asso:read:one',
@@ -48,6 +49,7 @@ class Translation
      */
     #[Groups([
         'group:read:one',
+        'group:read:some',
         'group:write:update',
         'group:write:create',
         'asso:read:one',
@@ -63,6 +65,7 @@ class Translation
      */
     #[Groups([
         'group:read:one',
+        'group:read:some',
         'group:write:update',
         'group:write:create',
         'asso:read:one',
@@ -78,6 +81,7 @@ class Translation
      */
     #[Groups([
         'group:read:one',
+        'group:read:some',
         'group:write:update',
         'group:write:create',
         'asso:read:one',
@@ -93,6 +97,7 @@ class Translation
      */
     #[Groups([
         'group:read:one',
+        'group:read:some',
         'group:write:update',
         'group:write:create',
         'asso:read:one',

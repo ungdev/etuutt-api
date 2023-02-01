@@ -4,21 +4,22 @@ namespace App\Tests\Users;
 
 use App\DataFixtures\UserSeeder;
 use App\Entity\User;
-use App\Entity\UserAddress;
 use App\Tests\EtuUTTApiTestCase;
-use DateTimeInterface;
-use Faker\Provider\Address;
 use Faker\Provider\Uuid;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetUserFromId extends EtuUTTApiTestCase
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
+final class GetUserFromId extends EtuUTTApiTestCase
 {
-
-    public function testNormal() : void
+    public function testNormal(): void
     {
         $this->loadFixtures(new UserSeeder());
         $client = static::createClient();
-        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'test' ]]);
+        $client->setDefaultOptions(['headers' => ['CAS-LOGIN' => 'test']]);
         $users = $this->em->createQueryBuilder()
             ->select('user.id, user.login, user.studentId, user.firstName, user.lastName,
                             socials.facebook, socials.twitter, socials.instagram, socials.linkedin, socials.pseudoDiscord, socials.wantDiscordUTT,
@@ -31,65 +32,66 @@ class GetUserFromId extends EtuUTTApiTestCase
             ->innerJoin('user.addresses', 'addresses')
             ->innerJoin('user.mailsPhones', 'mailsPhones')
             ->getQuery()
-            ->execute();
+            ->execute()
+        ;
         foreach ($users as $user) {
-            $crawler = $client->request('GET', '/users/'.($user['id']->jsonSerialize()));
+            $crawler = $client->request('GET', '/users/'.$user['id']->jsonSerialize());
             $this->assertResponseStatusCodeSame(Response::HTTP_OK);
             $response = json_decode($crawler->getContent());
-            $this->assertEquals($user['id']->jsonSerialize(), $response->{'id'});
-            $this->assertEquals($user['login'], $response->{'login'});
-            $this->assertEquals($user['studentId'], $response->{'studentId'});
-            $this->assertEquals($user['firstName'], $response->{'firstName'});
-            $this->assertEquals($user['lastName'], $response->{'lastName'});
-            $this->assertEquals($user['facebook'], $response->{'socialNetwork'}->{'facebook'});
-            $this->assertEquals($user['twitter'], $response->{'socialNetwork'}->{'twitter'});
-            $this->assertEquals($user['instagram'], $response->{'socialNetwork'}->{'instagram'});
-            $this->assertEquals($user['linkedin'], $response->{'socialNetwork'}->{'linkedin'});
-            $this->assertEquals($user['pseudoDiscord'], $response->{'socialNetwork'}->{'pseudoDiscord'});
-            $this->assertEquals($user['wantDiscordUTT'], $response->{'socialNetwork'}->{'wantDiscordUTT'});
-            $this->assertEquals($user['sex'], $response->{'infos'}->{'sex'});
-            $this->assertEquals($user['nationality'], $response->{'infos'}->{'nationality'});
+            print_r($response);
+            static::assertSame($user['id']->jsonSerialize(), $response->{'id'});
+            static::assertSame($user['login'], $response->{'login'});
+            static::assertSame($user['studentId'], $response->{'studentId'});
+            static::assertSame($user['firstName'], $response->{'firstName'});
+            static::assertSame($user['lastName'], $response->{'lastName'});
+            static::assertSame($user['facebook'], $response->{'socialNetwork'}->{'facebook'});
+            static::assertSame($user['twitter'], $response->{'socialNetwork'}->{'twitter'});
+            static::assertSame($user['instagram'], $response->{'socialNetwork'}->{'instagram'});
+            static::assertSame($user['linkedin'], $response->{'socialNetwork'}->{'linkedin'});
+            static::assertSame($user['pseudoDiscord'], $response->{'socialNetwork'}->{'pseudoDiscord'});
+            static::assertSame($user['wantDiscordUTT'], $response->{'socialNetwork'}->{'wantDiscordUTT'});
+            static::assertSame($user['sex'], $response->{'infos'}->{'sex'});
+            static::assertSame($user['nationality'], $response->{'infos'}->{'nationality'});
             // RFC3339 is the default normalization format of the date with symfony :
             // https://github.com/symfony/symfony/blob/60b1a2af0d819a98cde0b2144b3b22415f30d6c1/src/Symfony/Component/Serializer/Normalizer/DateTimeNormalizer.php#L29
-            $this->assertEquals($user['birthday']->format(DateTimeInterface::RFC3339), $response->{'infos'}->{'birthday'});
-            $this->assertEquals($user['avatar'], $response->{'infos'}->{'avatar'});
-            $this->assertEquals($user['nickname'], $response->{'infos'}->{'nickname'});
-            $this->assertEquals($user['passions'], $response->{'infos'}->{'passions'});
-            $this->assertEquals($user['website'], $response->{'infos'}->{'website'});
-            $this->assertEquals($user['street'], $response->{'addresses'}[0]->{'street'});
-            $this->assertEquals($user['postalCode'], $response->{'addresses'}[0]->{'postalCode'});
-            $this->assertEquals($user['city'], $response->{'addresses'}[0]->{'city'});
-            $this->assertEquals($user['country'], $response->{'addresses'}[0]->{'country'});
-            $this->assertEquals($user['mailPersonal'], $response->{'mailsPhones'}->{'mailPersonal'});
-            $this->assertEquals($user['phoneNumber'], $response->{'mailsPhones'}->{'phoneNumber'});
+            static::assertSame($user['birthday']->format(\DateTimeInterface::RFC3339), $response->{'infos'}->{'birthday'});
+            static::assertSame($user['avatar'], $response->{'infos'}->{'avatar'});
+            static::assertSame($user['nickname'], $response->{'infos'}->{'nickname'});
+            static::assertSame($user['passions'], $response->{'infos'}->{'passions'});
+            static::assertSame($user['website'], $response->{'infos'}->{'website'});
+            static::assertSame($user['street'], $response->{'addresses'}[0]->{'street'});
+            static::assertSame($user['postalCode'], $response->{'addresses'}[0]->{'postalCode'});
+            static::assertSame($user['city'], $response->{'addresses'}[0]->{'city'});
+            static::assertSame($user['country'], $response->{'addresses'}[0]->{'country'});
+            static::assertSame($user['mailPersonal'], $response->{'mailsPhones'}->{'mailPersonal'});
+            static::assertSame($user['phoneNumber'], $response->{'mailsPhones'}->{'phoneNumber'});
         }
     }
 
-    public function testNotConnected() : void
+    public function testNotConnected(): void
     {
         $client = static::createClient();
         $client->request('GET', '/users/'.$this->user->getId());
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
-        $client->request('GET', '/users/'.(Uuid::uuid()));
+        $client->request('GET', '/users/'.Uuid::uuid());
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testNonExistingUser() : void
+    public function testNonExistingUser(): void
     {
         $client = static::createClient();
-        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'test' ]]);
+        $client->setDefaultOptions(['headers' => ['CAS-LOGIN' => 'test']]);
         $client->request('GET', '/users/'.Uuid::uuid());
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
-    public function testSQLInjection() : void
+    public function testSQLInjection(): void
     {
         $client = static::createClient();
-        $client->setDefaultOptions([ 'headers' => [ 'CAS-LOGIN' => 'test' ]]);
+        $client->setDefaultOptions(['headers' => ['CAS-LOGIN' => 'test']]);
         $client->request('GET', '/users/\'');
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $client->request('GET', '/users/"');
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
-
 }
