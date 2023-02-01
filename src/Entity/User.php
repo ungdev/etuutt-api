@@ -1043,4 +1043,9 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getIdentifier(): string
+    {
+        return '/users/'.$this->getId();
+    }
 }
