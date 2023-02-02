@@ -2,24 +2,13 @@
 
 namespace App\ApiPlatform;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
 
-class SearchInNamesFilter extends AbstractContextAwareFilter
+class SearchInNamesFilter extends AbstractFilter
 {
-    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
-    {
-        if ($property !== 'name') {
-            return;
-        }
-        $alias = $queryBuilder->getRootAliases()[0];
-        $infoAlias = $queryNameGenerator->generateJoinAlias('info');
-        $queryBuilder
-            ->innerJoin("{$alias}.infos", $infoAlias)
-            ->andWhere("({$alias}.firstName LIKE '%{$value}%' OR {$alias}.lastName LIKE '%{$value}%' OR {$infoAlias}.nickname LIKE '%{$value}%')");
-    }
-
     public function getDescription(string $resourceClass): array
     {
         return [
@@ -29,5 +18,18 @@ class SearchInNamesFilter extends AbstractContextAwareFilter
                 'required' => false,
             ],
         ];
+    }
+
+    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
+    {
+        if ('name' !== $property) {
+            return;
+        }
+        $alias = $queryBuilder->getRootAliases()[0];
+        $infoAlias = $queryNameGenerator->generateJoinAlias('info');
+        $queryBuilder
+            ->innerJoin("{$alias}.infos", $infoAlias)
+            ->andWhere("({$alias}.firstName LIKE '%{$value}%' OR {$alias}.lastName LIKE '%{$value}%' OR {$infoAlias}.nickname LIKE '%{$value}%')")
+        ;
     }
 }

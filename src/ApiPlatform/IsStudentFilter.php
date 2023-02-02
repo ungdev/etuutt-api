@@ -2,21 +2,13 @@
 
 namespace App\ApiPlatform;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
 
-class IsStudentFilter extends AbstractContextAwareFilter
+class IsStudentFilter extends AbstractFilter
 {
-    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
-    {
-        if ($property !== 'is_student') {
-            return;
-        }
-        $alias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->andWhere("{$alias}.studentId ".($value == 'true' ? 'IS NOT' : 'IS').' NULL');
-    }
-
     public function getDescription(string $resourceClass): array
     {
         return [
@@ -26,5 +18,14 @@ class IsStudentFilter extends AbstractContextAwareFilter
                 'required' => false,
             ],
         ];
+    }
+
+    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
+    {
+        if ('is_student' !== $property) {
+            return;
+        }
+        $alias = $queryBuilder->getRootAliases()[0];
+        $queryBuilder->andWhere("{$alias}.studentId ".('true' === $value ? 'IS NOT' : 'IS').' NULL');
     }
 }
