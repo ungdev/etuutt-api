@@ -9,16 +9,20 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\DBAL\Schema\Table;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 abstract class EtuUTTApiTestCase extends ApiTestCase
 {
     protected EntityManager $em;
     protected User $user;
+    private array $databaseBackup;
 
     protected function setUp(): void
     {
-        $this->em = static::getContainer()->get('doctrine.orm.entity_manager');//!->getManager();
+        $this->em = static::getContainer()->get('doctrine.orm.entity_manager'); // !->getManager();
         (new ORMPurger($this->em))->purge();
         $this->em->clear();
         $this->user = $this->createUser('test', 'test', 'test', 'ROLE_ADMIN');
@@ -100,4 +104,54 @@ abstract class EtuUTTApiTestCase extends ApiTestCase
         return $user;
     }
 
+    protected function backupDatabase(): void
+    {
+        $this->databaseBackup = [];
+        $this->_backupDatabase($this->databaseBackup);
+    }
+
+    protected function assertDatabaseSameExcept(array $diff, array $new): void
+    {
+        $actualDatabase = [];
+        $this->_backupDatabase($actualDatabase);
+        foreach ($diff as $table => ['where' => $where, 'diff' => $delta]) {
+            foreach ($this->databaseBackup[$table] as $i => $entry) {
+                if (!array_diff_assoc($where, $entry)) {
+                    foreach ($delta as $key => $value) {
+                        $this->databaseBackup[$table][$i][$key] = $value;
+                    }
+                }
+            }
+        }
+        foreach ($new as $table => $entries) {
+            foreach ($entries as $entry) {
+                $this->databaseBackup[$table][] = $entry;
+            }
+        }
+        static::assertEquals($this->databaseBackup, $actualDatabase);
+    }
+
+    private function _backupDatabase(array &$backup): void
+    {
+        $backup = [];
+        $tables = $this->em->getConnection()->createSchemaManager()->listTables();
+        foreach ($tables as $table) {
+            $tableName = $table->getName();
+            $backup[$tableName] = [];
+            $rows = $this->em->getConnection()->prepare("SELECT * FROM {$tableName}")->executeQuery()->fetchAllAssociative();
+            foreach ($rows as $row) {
+                // Convert all values to printable values
+                foreach ($row as $column => &$value) {
+                    $value = $this->getPrintableValue($table, $column, $value);
+                }
+                // Store the row
+                $backup[$tableName][] = $row;
+            }
+        }
+    }
+
+    private function getPrintableValue(Table $table, string $column, $value): ?string
+    {
+        return UuidType::class === $table->getColumn($column)->getType()::class && null !== $value ? Uuid::fromBinary($value)->jsonSerialize() : $value;
+    }
 }
