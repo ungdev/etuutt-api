@@ -3,8 +3,9 @@
 namespace App\Tests\Groups;
 
 use App\Entity\Group;
+use App\Repository\GroupRepository;
 use App\Tests\EtuUTTApiTestCase;
-use Faker\Provider\Uuid;
+use Faker\Provider\Uuid as FakerUuid;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -18,9 +19,10 @@ final class UpdateGroup extends EtuUTTApiTestCase
     {
         $client = static::createClient();
         $client->setDefaultOptions(['headers' => ['CAS-LOGIN' => 'test', 'Content-Type' => 'application/merge-patch+json']]);
-        $group = $this->createGroup('test', false);
+        $group = $this->createGroup('test', false, flushDb: false);
         $user = $this->createUser('foo', 'bar', 'foobar');
         $userAdmin = $this->createUser('imthe', 'admin', 'imtheadmin');
+        $this->backupDatabase();
         // Changing the group there doesn't change the group in the database anymore (even if we flush)
         $this->em->detach($group);
         $group->getDescriptionTranslation()
@@ -55,27 +57,43 @@ final class UpdateGroup extends EtuUTTApiTestCase
             })->toArray(),
         ])]);
         // TODO : do something about the updatedAt field, it doesn't always work depending on the second-subdivisions (ok, i get what i mean) we are executing the test
-        // $group->setUpdatedAt(new \DateTime());
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $response = json_decode($crawler->getContent());
         static::assertSameGroupReadOne($group, $response);
-        // TODO : verify that the group has been updated in the database, i just don't get how doctrine works
-        //$this->em->clear();
-        //print("l'id c'est ".$group->getId());
-        /*$dbGroup = $this->em->createQueryBuilder()
-            ->select('g')
-            ->from(Group::class, 'g')
-            ->innerJoin('g.descriptionTranslation', 'd')
-            // ->where('g.id = :id')
-            // ->setParameter('id', $group->getId())
-            ->getQuery()
-            ->getArrayResult()
-        ;*/
-        //echo 'dans la db';
-        //print_r($dbGroup);
-        $dbGroup = $this->em->getRepository(Group::class)->findAll()[0];
-        // echo "dans le truc de merde";
-        //static::assertEquals($group, $dbGroup);
+        $this->assertDatabaseSameExcept([
+            'translations' => [
+                'where' => ['id' => $group->getDescriptionTranslation()->getId()],
+                'diff' => [
+                    'french' => $group->getDescriptionTranslation()->getFrench(),
+                    'english' => $group->getDescriptionTranslation()->getEnglish(),
+                    'spanish' => $group->getDescriptionTranslation()->getSpanish(),
+                    'german' => $group->getDescriptionTranslation()->getGerman(),
+                    'chinese' => $group->getDescriptionTranslation()->getChinese(),
+                ],
+            ],
+            'groups' => [
+                'where' => ['id' => $group->getId()],
+                'diff' => [
+                    'avatar' => $group->getAvatar(),
+                    'is_visible' => $group->getIsVisible(),
+                ],
+            ],
+            'user_timestamps' => [
+                'where' => ['user_id' => $this->user->getId()],
+                'diff' => [
+                    'first_login_date' => $group->getUpdatedAt()->format('Y-m-d H:i:s'),
+                    'last_login_date' => $group->getUpdatedAt()->format('Y-m-d H:i:s'),
+                ],
+            ],
+        ], [
+            'users_groups' => [
+                ['member_id' => $user->getId(), 'group_id' => $group->getId()],
+                ['member_id' => $userAdmin->getId(), 'group_id' => $group->getId()],
+            ],
+            'users_groups_admins' => [
+                ['admin_id' => $userAdmin->getId(), 'group_id' => $group->getId()],
+            ],
+        ]);
     }
 
     public function testNotConnected(): void
@@ -85,7 +103,7 @@ final class UpdateGroup extends EtuUTTApiTestCase
         $group = $this->createGroup('group', true);
         $client->request('PATCH', '/groups/'.$group->getSlug(), ['body' => []]);
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
-        $client->request('PATCH', '/groups/'.Uuid::uuid(), ['body' => []]);
+        $client->request('PATCH', '/groups/'.FakerUuid::uuid(), ['body' => []]);
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
@@ -93,7 +111,7 @@ final class UpdateGroup extends EtuUTTApiTestCase
     {
         $client = static::createClient();
         $client->setDefaultOptions(['headers' => ['CAS-LOGIN' => 'test', 'Content-Type' => 'application/merge-patch+json']]);
-        $client->request('PATCH', '/groups/'.Uuid::uuid(), ['body' => []]);
+        $client->request('PATCH', '/groups/'.FakerUuid::uuid(), ['body' => []]);
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
