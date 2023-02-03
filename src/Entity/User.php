@@ -37,10 +37,16 @@ use Symfony\Component\Validator\Constraints as Assert;
         shortName: 'user',
         operations: [
             new GetCollection(
-                normalizationContext: ['groups' => ['user:read:some']],
+                normalizationContext: [
+                    'groups' => ['user:read:some'],
+                    'skip_null_values' => false,
+                ],
             ),
             new Get(
-                normalizationContext: ['groups' => ['user:read:one']],
+                normalizationContext: [
+                    'groups' => ['user:read:one'],
+                    'skip_null_values' => false,
+                ],
                 provider: UserDataVisibilityItemDataProvider::class
             ),
             new Get(
@@ -59,11 +65,9 @@ use Symfony\Component\Validator\Constraints as Assert;
                 security: "object == user or is_granted('ROLE_ADMIN')",
             ),
         ],
-        normalizationContext: [
-            'skip_null_values' => false,
-        ],
         paginationItemsPerPage: 10,
         security: "is_granted('ROLE_USER')",
+        order: ['lastName' => 'ASC', 'firstName' => 'ASC'],
     ),
     ApiFilter(
         SearchFilter::class,
@@ -324,7 +328,6 @@ class User implements UserInterface
      */
     #[Groups([
         'user:read:one',
-        'user:read:some',
         'user:write:update',
     ])]
     private $mailsPhones;

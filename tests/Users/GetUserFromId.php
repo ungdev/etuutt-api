@@ -38,7 +38,6 @@ final class GetUserFromId extends EtuUTTApiTestCase
             $crawler = $client->request('GET', '/users/'.$user['id']->jsonSerialize());
             $this->assertResponseStatusCodeSame(Response::HTTP_OK);
             $response = json_decode($crawler->getContent());
-            print_r($response);
             static::assertSame($user['id']->jsonSerialize(), $response->{'id'});
             static::assertSame($user['login'], $response->{'login'});
             static::assertSame($user['studentId'], $response->{'studentId'});
