@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class GetGroups extends EtuUTTApiTestCase
