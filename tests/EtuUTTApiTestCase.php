@@ -114,7 +114,7 @@ abstract class EtuUTTApiTestCase extends ApiTestCase
         }
     }
 
-    protected function createUser(string $firstName, string $lastName, string $login, ?string $role = 'ROLE_USER'): User
+    protected function createUser(string $firstName, string $lastName, string $login, ?string $role = 'ROLE_USER', bool $flush = true): User
     {
         $user = new User();
         $user->setFirstName($firstName);
@@ -122,7 +122,9 @@ abstract class EtuUTTApiTestCase extends ApiTestCase
         $user->setLogin($login);
         $user->addRole($role);
         $this->em->persist($user);
-        $this->em->flush();
+        if ($flush) {
+            $this->em->flush();
+        }
 
         return $user;
     }
