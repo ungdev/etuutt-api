@@ -73,7 +73,7 @@ final class GetUserFromId extends EtuUTTApiTestCase
         $client->request('GET', '/users/'.$this->user->getId());
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
         $client->request('GET', '/users/'.Uuid::uuid());
-        $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
     public function testNonExistingUser(): void

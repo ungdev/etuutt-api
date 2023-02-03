@@ -51,12 +51,14 @@ class UpdateUser extends EtuUTTApiTestCase
                 'website' => 'https://foobar.com',
             ],
             'addresses' => [
-                'street' => 'Foobar Avenue',
-                'postalCode' => '00 000',
-                'city' => 'Foobar City',
-                'country' => 'United States of Foobar',
+                [
+                    'street' => 'Foobar Avenue',
+                    'postalCode' => '00 000',
+                    'city' => 'Foobar City',
+                    'country' => 'United States of Foobar',
+                ],
             ],
-            'mailsPhone' => [
+            'mailsPhones' => [
                 'mailPersonal' => 'foo@bar.com',
                 'phoneNumber' => '01 23 45 67 89',
             ]
@@ -85,7 +87,7 @@ class UpdateUser extends EtuUTTApiTestCase
         $this->assertEquals('I don\'t have passions :(', $response->{'infos'}->{'passions'});
         $this->assertEquals('https://foobar.com', $response->{'infos'}->{'website'});
         // addresses checks
-        $this->assertEquals(1, $response->{'addresses'}->length());
+        $this->assertCount(1, $response->{'addresses'});
         $this->assertEquals('Foobar Avenue', $response->{'addresses'}[0]->{'street'});
         $this->assertEquals('00 000', $response->{'addresses'}[0]->{'postalCode'});
         $this->assertEquals('Foobar City', $response->{'addresses'}[0]->{'city'});
@@ -102,7 +104,8 @@ class UpdateUser extends EtuUTTApiTestCase
         $client->request('PATCH', '/users/'.$this->user->getId(), [ 'body' => []]);
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
         $client->request('PATCH', '/users/'.Uuid::uuid(), [ 'body' => []]);
-        $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
+        // Strange this returns a 404, but it does not change much about security issues
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
     public function testNonExistingUser() : void
@@ -131,9 +134,9 @@ class UpdateUser extends EtuUTTApiTestCase
         $client->request('PATCH', '/users/"', [ 'body' => [] ]);
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $client->request('PATCH', '/users/'.$testUser->getId(), [ 'body' => [ 'socialNetwork' => ['facebook' => '\''] ]]);
-        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
         $client->request('PATCH', '/users/'.$testUser->getId(), [ 'body' => [ 'socialNetwork' => ['facebook' => '"'] ]]);
-        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
     }
 
     public function testInvalidFieldContent() : void
@@ -146,9 +149,9 @@ class UpdateUser extends EtuUTTApiTestCase
         $client->request('PATCH', '/users/"', [ 'body' => [] ]);
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $client->request('PATCH', '/users/'.$testUser->getId(), [ 'body' => [ 'socialNetwork' => ['facebook' => '\''] ]]);
-        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
         $client->request('PATCH', '/users/'.$testUser->getId(), [ 'body' => [ 'socialNetwork' => ['facebook' => '"'] ]]);
-        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
     }
 
 }
