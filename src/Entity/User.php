@@ -60,7 +60,10 @@ use Symfony\Component\Validator\Constraints as Assert;
                 security: "is_granted('ROLE_ADMIN')",
             ),
             new Patch(
-                normalizationContext: ['groups' => ['user:read:one']],
+                normalizationContext: [
+                    'groups' => ['user:read:one'],
+                    'skip_null_values' => false,
+                ],
                 denormalizationContext: ['groups' => ['user:write:update']],
                 security: "object == user or is_granted('ROLE_ADMIN')",
             ),

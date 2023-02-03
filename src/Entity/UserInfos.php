@@ -158,7 +158,7 @@ class UserInfos
     {
         //  Default values
         $this->setSex('Autre');
-        $this->setBirthday(new \DateTime());
+        $this->setBirthday((new \DateTime())->setTime(0, 0));
         $this->setAvatar('/default_user_avatar.png');
 
         $this->sexVisibility = new ArrayCollection();
