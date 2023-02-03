@@ -13,15 +13,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BadgeRepository::class)
+ *
  * @ORM\Table(name="badges")
  */
 class Badge
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -30,7 +35,9 @@ class Badge
      * The Serie is a group of Badge with the same idea (e.g. Badges that deal with being an asso member).
      *
      * @ORM\Column(type="string", length=50, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=50)
      */
     private $serie;
@@ -39,14 +46,18 @@ class Badge
      * The Level is serves to determine which badge of a serie is more advanced.
      *
      * @ORM\Column(type="smallint", nullable=true)
+     *
      * @Assert\Type("int")
+     *
      * @Assert\Positive
      */
     private $level;
 
     /**
      * @ORM\Column(type="string", length=100)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=100)
      */
     private $name;
@@ -55,7 +66,9 @@ class Badge
      * The path to the picture of the badge.
      *
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=255)
      */
     private $picture;
@@ -70,12 +83,14 @@ class Badge
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
@@ -84,6 +99,7 @@ class Badge
      * The relation that allow to add many Badges to many Users.
      *
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="badges")
+     *
      * @ORM\JoinTable(
      *     name="users_badges",
      *     joinColumns={@ORM\JoinColumn(name="badge_id", referencedColumnName="id")},

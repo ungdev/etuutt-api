@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that is created whan a User report a UEAnnal.
  *
  * @ORM\Entity(repositoryClass=UEAnnalReportRepository::class)
+ *
  * @ORM\Table(name="ue_annal_report")
  */
 class UEAnnalReport
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class UEAnnalReport
      * The relation to the reported UEAnnal.
      *
      * @ORM\ManyToOne(targetEntity=UEAnnal::class, inversedBy="reports")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $annal;
@@ -37,6 +43,7 @@ class UEAnnalReport
      * The relation to the User reporting the UEAnnal.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -45,6 +52,7 @@ class UEAnnalReport
      * The relation to the reason of reporting.
      *
      * @ORM\ManyToOne(targetEntity=UEAnnalReportReason::class)
+     *
      * @ORM\JoinColumn(name="reason_name", referencedColumnName="name")
      */
     private $reason;
@@ -53,12 +61,14 @@ class UEAnnalReport
      * The text typed by the reporter to describe the reason.
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Assert\Type("string")
      */
     private $body;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;

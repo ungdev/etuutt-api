@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CovoitRepository::class)
+ *
  * @ORM\Table(name="covoits")
  */
 class Covoit
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -36,7 +41,9 @@ class Covoit
      * The maximum number of passengers of this Covoit.
      *
      * @ORM\Column(type="smallint")
+     *
      * @Assert\Type("int")
+     *
      * @Assert\Positive
      */
     private $capacity;
@@ -45,7 +52,9 @@ class Covoit
      * The price in cents (x100).
      *
      * @ORM\Column(type="integer")
+     *
      * @Assert\Type("int")
+     *
      * @Assert\Positive
      */
     private $price;
@@ -54,6 +63,7 @@ class Covoit
      * The URL of this Covoit on the blablacar website. It is optional.
      *
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     *
      * @Assert\Url
      */
     private $blablacarUrl;
@@ -76,6 +86,7 @@ class Covoit
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
+     *
      * @Assert\Uuid
      */
     private $startCityId;
@@ -84,6 +95,7 @@ class Covoit
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
+     *
      * @Assert\Uuid
      */
     private $endCityId;
@@ -92,6 +104,7 @@ class Covoit
      * The starting date of the Covoit.
      *
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $startAt;
@@ -100,18 +113,21 @@ class Covoit
      * The end date of the Covoit.
      *
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $endAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
@@ -127,6 +143,7 @@ class Covoit
      * The relation between the Covoit and the User that created it.
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="createdCovoits")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
@@ -135,6 +152,7 @@ class Covoit
      * The relation between the Covoit and the User that are subscribed to it.
      *
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="passengerCovoits")
+     *
      * @ORM\JoinTable(
      *     name="covoits_users_passengers",
      *     inverseJoinColumns={@ORM\JoinColumn(name="covoit_id", referencedColumnName="id")},

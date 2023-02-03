@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that stores the stars given to a UE by a User following a Criterion.
  *
  * @ORM\Entity(repositoryClass=UEStarVoteRepository::class)
+ *
  * @ORM\Table(name="ue_stars_votes")
  */
 class UEStarVote
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class UEStarVote
      * The UE that the User rates.
      *
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="starVotes")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $UE;
@@ -37,6 +43,7 @@ class UEStarVote
      * The criterion that is rated.
      *
      * @ORM\ManyToOne(targetEntity=UEStarCriterion::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $criterion;
@@ -45,6 +52,7 @@ class UEStarVote
      * The User taht rates the UE.
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="UEStarVotes")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -53,14 +61,18 @@ class UEStarVote
      * The number of stars of this vote.
      *
      * @ORM\Column(type="smallint")
+     *
      * @Assert\Type("int")
+     *
      * @Assert\LessThanOrEqual(5)
+     *
      * @Assert\GreaterThanOrEqual(0)
      */
     private $value;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;

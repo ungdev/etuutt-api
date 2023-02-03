@@ -15,15 +15,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity related to a User that stores mails and phone of a User.
  *
  * @ORM\Entity(repositoryClass=UserMailsPhonesRepository::class)
+ *
  * @ORM\Table(name="user_mails_phones")
  */
 class UserMailsPhones
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -32,6 +37,7 @@ class UserMailsPhones
      * The relation to the User related to this info.
      *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="mailsPhones", cascade={"persist", "remove"})
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -40,7 +46,9 @@ class UserMailsPhones
      * The UTT email address of the User. It ends by "@utt.fr".
      *
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Assert\Email
+     *
      * @Assert\Regex("/^.+@utt\.fr$/")
      */
     private $mailUTT;
@@ -49,6 +57,7 @@ class UserMailsPhones
      * The personal mail fo the User. Elle ne peut pas finir par "@utt.fr".
      *
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Assert\Email()
      */
     #[Groups([
@@ -61,6 +70,7 @@ class UserMailsPhones
      * Relations to all groups that can access to this data.
      *
      * @ORM\ManyToMany(targetEntity=Group::class)
+     *
      * @ORM\JoinTable(
      *     name="user_visibility_mail_perso",
      *     joinColumns={@ORM\JoinColumn(name="user_mails_phones_id", referencedColumnName="id")},
@@ -73,6 +83,7 @@ class UserMailsPhones
      * The phone number of the User. It must have this form : 0647935003, +33 6 47 93 50 03, or with . and - as separator.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
+     *
      * @Assert\Regex("/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/")
      */
     #[Groups([
@@ -85,6 +96,7 @@ class UserMailsPhones
      * Relations to all groups that can access to this data.
      *
      * @ORM\ManyToMany(targetEntity=Group::class)
+     *
      * @ORM\JoinTable(
      *     name="user_visibility_phone_number",
      *     joinColumns={@ORM\JoinColumn(name="user_mails_phones_id", referencedColumnName="id")},

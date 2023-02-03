@@ -13,15 +13,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The criterions to rate a UE.
  *
  * @ORM\Entity(repositoryClass=UEStarCriterionRepository::class)
+ *
  * @ORM\Table(name="ue_stars_criterions")
  */
 class UEStarCriterion
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -30,7 +35,9 @@ class UEStarCriterion
      * The name of the criterion.
      *
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=255)
      */
     private $name;

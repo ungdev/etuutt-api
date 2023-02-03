@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UEAnnalRepository::class)
+ *
  * @ORM\Table(name="ue_annals")
  */
 class UEAnnal
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class UEAnnal
      * The relation to the UE of this UEAnnal.
      *
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="annals")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $UE;
@@ -37,6 +43,7 @@ class UEAnnal
      * The relation to the User that sent this UEAnnal.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $sender;
@@ -45,6 +52,7 @@ class UEAnnal
      * The relation to the Semester during which the UEAnnal was an exam.
      *
      * @ORM\ManyToOne(targetEntity=Semester::class)
+     *
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
     private $semester;
@@ -53,6 +61,7 @@ class UEAnnal
      * A relation to the type of exam that this UEAnnal is.
      *
      * @ORM\ManyToOne(targetEntity=UEAnnalType::class)
+     *
      * @ORM\JoinColumn(name="type_name", referencedColumnName="name")
      */
     private $type;
@@ -61,7 +70,9 @@ class UEAnnal
      * The path to the file.
      *
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=255)
      */
     private $filename;
@@ -82,12 +93,14 @@ class UEAnnal
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;

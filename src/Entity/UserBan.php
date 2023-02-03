@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity representing a Ban of a User, either a readOnly or a ban until a date.
  *
  * @ORM\Entity(repositoryClass=UserBanRepository::class)
+ *
  * @ORM\Table(name="user_bans")
  */
 class UserBan
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class UserBan
      * The relation to the banned User.
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bans")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -37,6 +43,7 @@ class UserBan
      * The date until which the User can only read data on this app.
      *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Assert\Date
      */
     private $readOnlyExpiration;
@@ -45,6 +52,7 @@ class UserBan
      * The date until which the User is banned and can not access to this app.
      *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Assert\Date
      */
     private $bannedExpiration;

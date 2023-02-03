@@ -66,9 +66,13 @@ class Group
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid()
      */
     #[
@@ -84,7 +88,9 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=255)
      */
     #[Groups([
@@ -123,8 +129,11 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=255)
+     *
      * @Assert\Regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/")
      */
     #[
@@ -142,7 +151,9 @@ class Group
      * The path to the avatar of the Group.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=255)
      */
     #[Groups([
@@ -155,6 +166,7 @@ class Group
 
     /**
      * @ORM\Column(type="boolean")
+     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -168,6 +180,7 @@ class Group
      * The relation that allow to add many Users into many Groups.
      *
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="groups")
+     *
      * @ORM\JoinTable(
      *     name="users_groups",
      *     joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
@@ -184,6 +197,7 @@ class Group
      * The relation that allow to add many admins to this group. Admins of a group can update and delete it.
      *
      * @ORM\ManyToMany(targetEntity=User::class)
+     *
      * @ORM\JoinTable(
      *     name="users_groups_admins",
      *     joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},

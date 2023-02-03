@@ -11,15 +11,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AssoKeywordRepository::class)
+ *
  * @ORM\Table(name="asso_keywords")
  */
 class AssoKeyword
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="string", length=30, unique=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=30)
+     *
      * @Assert\Regex("/^[a-z]{1,30}$/")
      */
     #[Groups([

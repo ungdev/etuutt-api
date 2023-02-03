@@ -13,15 +13,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AssoMembershipRepository::class)
+ *
  * @ORM\Table(name="asso_memberships")
  */
 class AssoMembership
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -30,6 +35,7 @@ class AssoMembership
      * The relation to the User that is subscribed to an Asso.
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="assoMembership")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     #[Groups([
@@ -41,6 +47,7 @@ class AssoMembership
      * The Asso in which the User is subscribed.
      *
      * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="assoMemberships")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $asso;
@@ -49,6 +56,7 @@ class AssoMembership
      * The relation to the roles accorded to the User in an Asso.
      *
      * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
+     *
      * @ORM\JoinTable(
      *     name="asso_memberships_roles",
      *     joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
@@ -61,6 +69,7 @@ class AssoMembership
      * The relation to the permissions accorded to the User in an Asso.
      *
      * @ORM\ManyToMany(targetEntity=AssoMembershipPermission::class)
+     *
      * @ORM\JoinTable(
      *     name="asso_memberships_permissions",
      *     joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
@@ -81,6 +90,7 @@ class AssoMembership
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;

@@ -14,15 +14,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that stores which User has been member of this project, what he or she has done, and when.
  *
  * @ORM\Entity(repositoryClass=UserEtuUTTTeamRepository::class)
+ *
  * @ORM\Table(name="user_etuutt_team")
  */
 class UserEtuUTTTeam
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -31,6 +36,7 @@ class UserEtuUTTTeam
      * The relation to the User.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -39,6 +45,7 @@ class UserEtuUTTTeam
      * The relation to the Semesters during which the User has worked on this project.
      *
      * @ORM\ManyToMany(targetEntity=Semester::class)
+     *
      * @ORM\JoinTable(
      *     name="user_etuutt_team_semesters",
      *     joinColumns={@ORM\JoinColumn(name="user_etuutt_team_id", referencedColumnName="id")},
@@ -51,6 +58,7 @@ class UserEtuUTTTeam
      * The description of what the User has done.
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Assert\Type("string")
      */
     private $role;

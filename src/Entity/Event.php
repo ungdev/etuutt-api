@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
+ *
  * @ORM\Table(name="events")
  */
 #[
@@ -53,9 +54,13 @@ class Event
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     #[Groups([
@@ -69,6 +74,7 @@ class Event
      * The relation between the Event and the Assos that organize it.
      *
      * @ORM\ManyToMany(targetEntity=Asso::class, inversedBy="events")
+     *
      * @ORM\JoinTable(name="events_assos")
      */
     #[Groups([
@@ -93,6 +99,7 @@ class Event
      * The starting date of the event.
      *
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
@@ -104,6 +111,7 @@ class Event
      * The ending date of the event.
      *
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
@@ -115,6 +123,7 @@ class Event
      * A boolean telling whether the event is from morning to evening or not.
      *
      * @ORM\Column(type="boolean")
+     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -126,7 +135,9 @@ class Event
      * The location of the event. It is optional.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=0, max=255)
      */
     #[Groups([
@@ -147,18 +158,21 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
@@ -167,6 +181,7 @@ class Event
      * The relation to the EventCategory the Event is classified as.
      *
      * @ORM\ManyToMany(targetEntity=EventCategory::class, inversedBy="events")
+     *
      * @ORM\JoinTable(
      *     name="events_categories",
      *     joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},

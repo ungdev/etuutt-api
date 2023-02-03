@@ -15,15 +15,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that represente a Course of a UE.
  *
  * @ORM\Entity(repositoryClass=UECourseRepository::class)
+ *
  * @ORM\Table(name="ue_courses")
  */
 class UECourse
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -42,7 +47,9 @@ class UECourse
      * The day of the week during which this Course takes place.
      *
      * @ORM\Column(type="string", length=20)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Choice({"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"})
      */
     #[Groups([
@@ -54,6 +61,7 @@ class UECourse
      * The starting hour of this Course.
      *
      * @ORM\Column(type="time")
+     *
      * @Assert\Time
      */
     #[Groups([
@@ -65,6 +73,7 @@ class UECourse
      * The ending hour of this Course.
      *
      * @ORM\Column(type="time")
+     *
      * @Assert\Time
      */
     #[Groups([
@@ -76,7 +85,9 @@ class UECourse
      * The week code during which the Course takes place.
      *
      * @ORM\Column(type="string", length=1, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Choice({"A", "B"})
      */
     #[Groups([
@@ -86,7 +97,9 @@ class UECourse
 
     /**
      * @ORM\Column(type="string", length=2, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Choice({"CM", "TD", "TP"})
      */
     #[Groups([
@@ -98,7 +111,9 @@ class UECourse
      * The place where the Course takes place.
      *
      * @ORM\Column(type="string", length=50)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=50)
      */
     #[Groups([
@@ -110,6 +125,7 @@ class UECourse
      * The relation to the Semester during which the Course takes place.
      *
      * @ORM\ManyToOne(targetEntity=Semester::class)
+     *
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
     private $semester;
@@ -118,6 +134,7 @@ class UECourse
      * The relation with User to have all students of this Course.
      *
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="courses")
+     *
      * @ORM\JoinTable(
      *     name="user_ue_courses",
      *     joinColumns={@ORM\JoinColumn(name="course_id", referencedColumnName="id")},
@@ -128,6 +145,7 @@ class UECourse
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;

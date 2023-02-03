@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that represents a Filiere at the UTT.
  *
  * @ORM\Entity(repositoryClass=UTTFiliereRepository::class)
+ *
  * @ORM\Table(name="utt_filieres")
  */
 class UTTFiliere
@@ -21,9 +22,13 @@ class UTTFiliere
      * The code of the Filiere.
      *
      * @ORM\Id
+     *
      * @ORM\Column(type="string", length=10)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=10)
+     *
      * @Assert\Regex("/^[A-Z\d]{1,10}$/")
      */
     private $code;
@@ -32,7 +37,9 @@ class UTTFiliere
      * The complete name of the Filiere.
      *
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=255)
      */
     private $name;
@@ -41,6 +48,7 @@ class UTTFiliere
      * The relation to the Branche that contains this Filiere.
      *
      * @ORM\ManyToOne(targetEntity=UTTBranche::class, inversedBy="filieres")
+     *
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
      */
     private $branche;

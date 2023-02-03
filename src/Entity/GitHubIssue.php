@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that stores the User that has created an issue on GitHub from etu.utt.fr.
  *
  * @ORM\Entity(repositoryClass=GitHubIssueRepository::class)
+ *
  * @ORM\Table(name="github_issues")
  */
 class GitHubIssue
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class GitHubIssue
      * The relation that allow to each User to add own a GitHubIssue.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -37,13 +43,16 @@ class GitHubIssue
      * The id of the GitHub issue.
      *
      * @ORM\Column(type="integer")
+     *
      * @Assert\Type(type="integer")
+     *
      * @Assert\Positive
      */
     private $gitHubIssueId;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;

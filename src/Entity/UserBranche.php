@@ -13,15 +13,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that represents a Branch followed by a User. TC is also included.
  *
  * @ORM\Entity(repositoryClass=UserBrancheRepository::class)
+ *
  * @ORM\Table(name="user_branches")
  */
 class UserBranche
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -30,6 +35,7 @@ class UserBranche
      * The relation to the User.
      *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="branche", cascade={"persist", "remove"})
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -38,6 +44,7 @@ class UserBranche
      * The relation to the UTTBranche.
      *
      * @ORM\ManyToOne(targetEntity=UTTBranche::class)
+     *
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
      */
     #[Groups([
@@ -49,6 +56,7 @@ class UserBranche
      * The relation to the Filiere, if the User has one.
      *
      * @ORM\ManyToOne(targetEntity=UTTFiliere::class)
+     *
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
     #[Groups([
@@ -70,12 +78,14 @@ class UserBranche
      * The relation to the semester during which the User follows this UserBranche.
      *
      * @ORM\ManyToOne(targetEntity=Semester::class)
+     *
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
     private $semester;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;

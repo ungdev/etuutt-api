@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity related to a User to track the formation and the following method.
  *
  * @ORM\Entity(repositoryClass=UserFormationRepository::class)
+ *
  * @ORM\Table(name="user_formations")
  */
 class UserFormation
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class UserFormation
      * The relation to the User.
      *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="formation", cascade={"persist", "remove"})
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -37,6 +43,7 @@ class UserFormation
      * The relation to the Formation.
      *
      * @ORM\ManyToOne(targetEntity=UTTFormation::class)
+     *
      * @ORM\JoinColumn(name="formation_name", referencedColumnName="name")
      */
     private $formation;
@@ -45,12 +52,14 @@ class UserFormation
      * The relation to the FollowingMethod.
      *
      * @ORM\ManyToOne(targetEntity=UTTFormationFollowingMethod::class)
+     *
      * @ORM\JoinColumn(name="following_method_name", referencedColumnName="name")
      */
     private $followingMethod;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;

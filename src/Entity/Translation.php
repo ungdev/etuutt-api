@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that contains the translations in french, english, spanish, german and chinese of the field that reference it.
  *
  * @ORM\Entity(repositoryClass=TranslationRepository::class)
+ *
  * @ORM\Table(name="translations")
  */
 class Translation
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class Translation
      * The french translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Assert\Type("string")
      */
     #[Groups([
@@ -44,6 +50,7 @@ class Translation
      * The english translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Assert\Type("string")
      */
     #[Groups([
@@ -59,6 +66,7 @@ class Translation
      * The spanish translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Assert\Type("string")
      */
     #[Groups([
@@ -74,6 +82,7 @@ class Translation
      * The german translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Assert\Type("string")
      */
     #[Groups([
@@ -89,6 +98,7 @@ class Translation
      * The chinese translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Assert\Type("string")
      */
     #[Groups([

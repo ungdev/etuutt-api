@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity related to User that stores its Timestamps.
  *
  * @ORM\Entity(repositoryClass=UserTimestampsRepository::class)
+ *
  * @ORM\Table(name="user_timestamps")
  */
 class UserTimestamps
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,36 +34,42 @@ class UserTimestamps
      * The relation to the User which have those RGPD.
      *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="timestamps", cascade={"persist", "remove"})
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $firstLoginDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $lastLoginDate;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;

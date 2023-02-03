@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that represents a Formation at the UTT.
  *
  * @ORM\Entity(repositoryClass=UTTFormationRepository::class)
+ *
  * @ORM\Table(name="utt_formations")
  */
 class UTTFormation
@@ -19,8 +20,11 @@ class UTTFormation
      * The name of the Formation.
      *
      * @ORM\Id
+     *
      * @ORM\Column(type="string", length=100)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=100)
      */
     private $name;

@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity of a reason for reporting a UEAnnal.
  *
  * @ORM\Entity(repositoryClass=UEAnnalReportReasonRepository::class)
+ *
  * @ORM\Table(name="ue_annal_report_reasons")
  */
 class UEAnnalReportReason
@@ -19,8 +20,11 @@ class UEAnnalReportReason
      * The name of the report reason (e.g. "Mauvaise UE").
      *
      * @ORM\Id
+     *
      * @ORM\Column(type="string", length=100)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=100)
      */
     private $name;

@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that store the amount and the category of credits that a UE gives.
  *
  * @ORM\Entity(repositoryClass=UECreditRepository::class)
+ *
  * @ORM\Table(name="ue_credits")
  */
 class UECredit
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class UECredit
      * The relation to the UE the credits are for.
      *
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="credits")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $UE;
@@ -37,6 +43,7 @@ class UECredit
      * The relation to the category of the credits.
      *
      * @ORM\ManyToOne(targetEntity=UECreditCategory::class)
+     *
      * @ORM\JoinColumn(name="category_code", referencedColumnName="code")
      */
     private $category;
@@ -45,7 +52,9 @@ class UECredit
      * The amount of credit.
      *
      * @ORM\Column(type="smallint")
+     *
      * @Assert\Type("int")
+     *
      * @Assert\Positive
      */
     private $credits;

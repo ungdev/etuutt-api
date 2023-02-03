@@ -10,15 +10,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EventAnswerRepository::class)
+ *
  * @ORM\Table(name="event_answers")
  */
 class EventAnswer
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -27,6 +32,7 @@ class EventAnswer
      * The relation between the EventAnswer and its Event.
      *
      * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="eventAnswers")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $event;
@@ -35,6 +41,7 @@ class EventAnswer
      * The relation to the User that wrote the EventAnswer.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -43,7 +50,9 @@ class EventAnswer
      * The answer of the User to the Event (e.g. "je viens").
      *
      * @ORM\Column(type="string", length=20)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=20)
      */
     private $answer;
@@ -57,18 +66,21 @@ class EventAnswer
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;

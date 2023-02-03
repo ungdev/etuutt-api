@@ -14,15 +14,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * This entity represents a proposition of the author to exchange one of his courses.
  *
  * @ORM\Entity(repositoryClass=UECourseExchangeRepository::class)
+ *
  * @ORM\Table(name="ue_course_exchanges")
  */
 class UECourseExchange
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -31,6 +36,7 @@ class UECourseExchange
      * The relation to the author of this Exchange.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
@@ -39,6 +45,7 @@ class UECourseExchange
      * The relation to the course the author wants to change.
      *
      * @ORM\ManyToOne(targetEntity=UECourse::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $courseFrom;
@@ -54,6 +61,7 @@ class UECourseExchange
      * A boolean to know if this Exchange is still wanted by the author.
      *
      * @ORM\Column(type="boolean")
+     *
      * @Assert\Type("bool")
      */
     private $stillAvailable;
@@ -74,18 +82,21 @@ class UECourseExchange
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;

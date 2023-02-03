@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that represents a subscription of a User to a UE during a Semester.
  *
  * @ORM\Entity(repositoryClass=UserUERepository::class)
+ *
  * @ORM\Table(name="user_ue_subscriptions")
  */
 class UserUESubscription
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class UserUESubscription
      * The relation to the User which is subscribing to a UE.
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="UEsSubscriptions")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -37,6 +43,7 @@ class UserUESubscription
      * The relation to the UE that the User is subscribing to.
      *
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="usersSubscriptions")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $UE;
@@ -45,12 +52,14 @@ class UserUESubscription
      * The relation to the semester during which the subscription is made.
      *
      * @ORM\ManyToOne(targetEntity=Semester::class)
+     *
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
     private $semester;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;

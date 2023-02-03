@@ -13,15 +13,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity related to User that stores its RGPD's infos.
  *
  * @ORM\Entity(repositoryClass=UserRGPDRepository::class)
+ *
  * @ORM\Table(name="user_rgpd")
  */
 class UserRGPD
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -30,6 +35,7 @@ class UserRGPD
      * The relation to the User which have those RGPD.
      *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="RGPD", cascade={"persist", "remove"})
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -38,6 +44,7 @@ class UserRGPD
      * A boolean to store if we keep the User's account in the database.
      *
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -49,6 +56,7 @@ class UserRGPD
      * A boolean to store if we delete all info about this User in our database.
      *
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Assert\Type("bool")
      */
     #[Groups([

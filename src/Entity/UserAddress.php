@@ -15,15 +15,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity related to User that stores its address.
  *
  * @ORM\Entity(repositoryClass=UserAdressRepository::class)
+ *
  * @ORM\Table(name="user_address")
  */
 class UserAddress
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -32,13 +37,16 @@ class UserAddress
      * The relation to the User which live at this address.
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="addresses")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=255)
      */
     #[Groups([
@@ -51,8 +59,11 @@ class UserAddress
      * The french postal code.
      *
      * @ORM\Column(type="string", length=20, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=20)
+     *
      * @Assert\Regex("/^$|^\d{2}\s?\d{3}$/")
      */
     #[Groups([
@@ -63,7 +74,9 @@ class UserAddress
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=255)
      */
     #[Groups([
@@ -74,7 +87,9 @@ class UserAddress
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=50)
      */
     #[Groups([
@@ -87,6 +102,7 @@ class UserAddress
      * Relations to all groups that can access to this data.
      *
      * @ORM\ManyToMany(targetEntity=Group::class)
+     *
      * @ORM\JoinTable(
      *     name="user_visibility_addresses",
      *     joinColumns={@ORM\JoinColumn(name="user_address_id", referencedColumnName="id")},

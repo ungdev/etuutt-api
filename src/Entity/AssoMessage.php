@@ -11,15 +11,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AssoMessageRepository::class)
+ *
  * @ORM\Table(name="asso_messages")
  */
 class AssoMessage
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -28,6 +33,7 @@ class AssoMessage
      * The relation to the Asso that sent this AssoMessage.
      *
      * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="assoMessages")
+     *
      * @ORM\JoinColumn(name="asso_id", nullable=false)
      */
     private $asso;
@@ -52,6 +58,7 @@ class AssoMessage
      * The date of the event presented in the message.
      *
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $date;
@@ -60,6 +67,7 @@ class AssoMessage
      * Whether the message should be displayed on mobile or not.
      *
      * @ORM\Column(type="boolean")
+     *
      * @Assert\Type("bool")
      */
     private $sendToMobile;
@@ -68,12 +76,14 @@ class AssoMessage
      * Whether the message should be send in the daymails or not.
      *
      * @ORM\Column(type="boolean")
+     *
      * @Assert\Type("bool")
      */
     private $sendAsDaymail;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;

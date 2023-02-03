@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity of a reply to a Comment on a UE.
  *
  * @ORM\Entity(repositoryClass=UECommentReplyRepository::class)
+ *
  * @ORM\Table(name="ue_comment_replies")
  */
 class UECommentReply
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class UECommentReply
      * The relation to the Comment this Reply is for.
      *
      * @ORM\ManyToOne(targetEntity=UEComment::class, inversedBy="answers")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $comment;
@@ -37,6 +43,7 @@ class UECommentReply
      * The relation to the User who has created this Reply.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
@@ -45,24 +52,28 @@ class UECommentReply
      * The content of this Reply.
      *
      * @ORM\Column(type="text")
+     *
      * @Assert\Type("string")
      */
     private $body;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;

@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity that represents custom field in a User profil.
  *
  * @ORM\Entity(repositoryClass=UserOtherAttributRepository::class)
+ *
  * @ORM\Table(name="user_other_attributs")
  */
 class UserOtherAttribut
@@ -18,8 +19,11 @@ class UserOtherAttribut
      * The name of this field.
      *
      * @ORM\Id
+     *
      * @ORM\Column(type="string", length=100)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=100)
      */
     private $name;
@@ -28,8 +32,11 @@ class UserOtherAttribut
      * The type of value that this attribut is.
      *
      * @ORM\Column(type="string", length=50)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=50)
+     *
      * @Assert\Choice({"bool", "int", "float", "string", "longtext", "date", "datetime"})
      */
     private $type;

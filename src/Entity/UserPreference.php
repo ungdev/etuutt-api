@@ -15,15 +15,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity related to User that stores its Preferences.
  *
  * @ORM\Entity(repositoryClass=UserPreferenceRepository::class)
+ *
  * @ORM\Table(name="user_preferences")
  */
 class UserPreference
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -32,6 +37,7 @@ class UserPreference
      * The relation to the User which have those Preferences.
      *
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="preference", cascade={"persist", "remove"})
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -40,6 +46,7 @@ class UserPreference
      * The boolean that informs us if we show or not the birthday of this User.
      *
      * @ORM\Column(type="boolean")
+     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -51,7 +58,9 @@ class UserPreference
      * The language prefered by the User. It follows the ISO 639-1 convention.
      *
      * @ORM\Column(type="string", length=5)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Choice({"fr", "en", "es", "de", "zh"})
      */
     #[Groups([
@@ -63,6 +72,7 @@ class UserPreference
      * The boolean that informs us if we send day mail to this User or not.
      *
      * @ORM\Column(type="boolean")
+     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -74,6 +84,7 @@ class UserPreference
      * The boolean that informs us if we send day notif to this User or not.
      *
      * @ORM\Column(type="boolean")
+     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -85,6 +96,7 @@ class UserPreference
      * Relations to all groups that can access to this data.
      *
      * @ORM\ManyToMany(targetEntity=Group::class)
+     *
      * @ORM\JoinTable(
      *     name="user_visibility_schedule",
      *     joinColumns={@ORM\JoinColumn(name="user_preferences_id", referencedColumnName="id")},

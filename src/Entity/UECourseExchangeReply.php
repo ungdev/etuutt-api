@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * This entity represents a comment replying to a UECourseExchange.
  *
  * @ORM\Entity(repositoryClass=UECourseExchangeReplyRepository::class)
+ *
  * @ORM\Table(name="ue_course_exchange_replies")
  */
 class UECourseExchangeReply
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class UECourseExchangeReply
      * The relation to the author of this reply.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
@@ -37,6 +43,7 @@ class UECourseExchangeReply
      * The relation to the exchange this message is replying to.
      *
      * @ORM\ManyToOne(targetEntity=UECourseExchange::class, inversedBy="responses")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $exchange;
@@ -50,18 +57,21 @@ class UECourseExchangeReply
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;

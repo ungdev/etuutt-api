@@ -10,15 +10,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CovoitMessageRepository::class)
+ *
  * @ORM\Table(name="covoit_messages")
  */
 class CovoitMessage
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -27,6 +32,7 @@ class CovoitMessage
      * The relation between the CovoitMessage and its Covoit.
      *
      * @ORM\ManyToOne(targetEntity=Covoit::class, inversedBy="covoitMessages")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $covoit;
@@ -35,6 +41,7 @@ class CovoitMessage
      * The author of the CovoitMessage.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
@@ -48,18 +55,21 @@ class CovoitMessage
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;

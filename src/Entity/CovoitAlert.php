@@ -10,15 +10,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CovoitAlertRepository::class)
+ *
  * @ORM\Table(name="covoit_alerts")
  */
 class CovoitAlert
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -27,6 +32,7 @@ class CovoitAlert
      * The relation between the CovoitAlert and the User that created it.
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="covoitAlerts")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -35,7 +41,9 @@ class CovoitAlert
      * The maximum price in cents (x100). It is optional.
      *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Assert\Type("int")
+     *
      * @Assert\Positive
      */
     private $priceMax;
@@ -44,6 +52,7 @@ class CovoitAlert
      * The first boundary of the Covoit starting date.
      *
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $startAt;
@@ -52,6 +61,7 @@ class CovoitAlert
      * The second boundary of the Covoit starting date.
      *
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $endAt;
@@ -60,6 +70,7 @@ class CovoitAlert
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
+     *
      * @Assert\Uuid
      */
     private $startCityId;
@@ -68,18 +79,21 @@ class CovoitAlert
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
+     *
      * @Assert\Uuid
      */
     private $endCityId;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;

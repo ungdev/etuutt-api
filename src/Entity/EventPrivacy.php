@@ -12,15 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EventPrivacyRepository::class)
+ *
  * @ORM\Table(name="event_privacies")
  */
 class EventPrivacy
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -29,6 +34,7 @@ class EventPrivacy
      * The relation to the Event concerned by this EventPrivacy.
      *
      * @ORM\OneToOne(targetEntity=Event::class, inversedBy="eventPrivacy", cascade={"persist", "remove"})
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $event;
@@ -37,6 +43,7 @@ class EventPrivacy
      * The relation to the Assos allowed in the Event. If no Assos are added, the Event is public.
      *
      * @ORM\ManyToMany(targetEntity=Asso::class)
+     *
      * @ORM\JoinTable(name="event_privacies_allowed_assos")
      */
     private $allowedAssos;
@@ -45,6 +52,7 @@ class EventPrivacy
      * The relation to the Roles allowed in the Event. If no Roles are added, every member of the Assos are allowed.
      *
      * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
+     *
      * @ORM\JoinTable(
      *     name="event_privacies_allowed_roles",
      *     joinColumns={@ORM\JoinColumn(name="event_privacy_id", referencedColumnName="id")},

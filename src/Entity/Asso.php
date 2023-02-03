@@ -24,6 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  The main entity that represents all Assos.
  *
  * @ORM\Entity(repositoryClass=AssoRepository::class)
+ *
  * @ORM\Table(name="assos")
  */
 #[
@@ -58,9 +59,13 @@ class Asso
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     #[Groups([
@@ -73,15 +78,20 @@ class Asso
      * The login used for the CAS.
      *
      * @ORM\Column(type="string", length=50, unique=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=50)
+     *
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
     private $login;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=100)
      */
     #[Groups([
@@ -116,8 +126,11 @@ class Asso
      * The email address of the association.
      *
      * @ORM\Column(type="string", length=100)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=100)
+     *
      * @Assert\Email
      */
     #[Groups([
@@ -129,8 +142,11 @@ class Asso
      * The phone number of the association.
      *
      * @ORM\Column(type="string", length=30, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=0, max=30)
+     *
      * @Assert\Regex("/^0[0-9]{9}$/")
      */
     #[Groups([
@@ -142,8 +158,11 @@ class Asso
      * The website of the association. It is optional.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=0, max=100)
+     *
      * @Assert\Url
      */
     #[Groups([
@@ -155,7 +174,9 @@ class Asso
      * Link to the logo of the association. It is optional.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=0, max=100)
      */
     #[Groups([
@@ -166,6 +187,7 @@ class Asso
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
@@ -175,12 +197,14 @@ class Asso
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;
@@ -189,6 +213,7 @@ class Asso
      * The relation to all Keywords of this Asso.
      *
      * @ORM\ManyToMany(targetEntity=AssoKeyword::class, inversedBy="assos")
+     *
      * @ORM\JoinTable(
      *     name="assos_keywords",
      *     joinColumns={@ORM\JoinColumn(name="asso_id", referencedColumnName="id")},

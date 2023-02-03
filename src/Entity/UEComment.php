@@ -14,15 +14,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The entity of a Comment on a UE. It allow Users to give feedback on a UE.
  *
  * @ORM\Entity(repositoryClass=UECommentRepository::class)
+ *
  * @ORM\Table(name="ue_comments")
  */
 class UEComment
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     private $id;
@@ -31,6 +36,7 @@ class UEComment
      * The relation to the UE this Commment is for.
      *
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="comments")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $UE;
@@ -39,6 +45,7 @@ class UEComment
      * The relation to the User who has created this Comment.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
@@ -47,6 +54,7 @@ class UEComment
      * The content of this Comment.
      *
      * @ORM\Column(type="text")
+     *
      * @Assert\Type("string")
      */
     private $body;
@@ -55,6 +63,7 @@ class UEComment
      * A boolean that says if the author will be display next to his Comment.
      *
      * @ORM\Column(type="boolean")
+     *
      * @Assert\Type("bool")
      */
     private $isAnonymous;
@@ -63,6 +72,7 @@ class UEComment
      * The relation to the semester in which this comment have been created.
      *
      * @ORM\ManyToOne(targetEntity=Semester::class)
+     *
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
     private $semester;
@@ -83,18 +93,21 @@ class UEComment
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $deletedAt;

@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UERepository::class)
+ *
  * @ORM\Table(name="ues")
  */
 #[
@@ -61,9 +62,13 @@ class UE
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid
      */
     #[Groups([
@@ -76,8 +81,11 @@ class UE
      * The code of the UE (e.g. "MATH01").
      *
      * @ORM\Column(type="string", length=10)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=10)
+     *
      * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
      */
     #[Groups([
@@ -91,7 +99,9 @@ class UE
      * The title of the UE (e.g. "Analyse : suites et fonctions d’une variable réelle pour les TC01 ou les TC05 aguerris.").
      *
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(min=1, max=255)
      */
     #[Groups([
@@ -104,8 +114,11 @@ class UE
      * The validation rate computed with data in our database.
      *
      * @ORM\Column(type="float", nullable=true)
+     *
      * @Assert\Type("float")
+     *
      * @Assert\LessThanOrEqual(100)
+     *
      * @Assert\GreaterThanOrEqual(0)
      */
     #[Groups([
@@ -115,12 +128,14 @@ class UE
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $updatedAt;
@@ -136,6 +151,7 @@ class UE
      * The potential UTTFiliere of which this UE belongs to. It is optional.
      *
      * @ORM\ManyToOne(targetEntity=UTTFiliere::class, inversedBy="UEs")
+     *
      * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
     private $filiere;
@@ -158,6 +174,7 @@ class UE
      * The relation that allow to know that many UEs can be open during many Semesters.
      *
      * @ORM\ManyToMany(targetEntity=Semester::class)
+     *
      * @ORM\JoinTable(
      *     name="ue_open_semesters",
      *     joinColumns={@ORM\JoinColumn(name="ue_id", referencedColumnName="id")},
