@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @internal
  *
  * @coversNothing
+ *
+ * Tests for route GET /groups/{slug}
  */
 final class GetGroupFromSlug extends EtuUTTApiTestCase
 {

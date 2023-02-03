@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @internal
  *
  * @coversNothing
+ *
+ * Tests for route PATCH /groups/{slug}
  */
 final class UpdateGroup extends EtuUTTApiTestCase
 {

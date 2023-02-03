@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @internal
  *
  * @coversNothing
+ *
+ * Tests for route DELETE /users/{id}
  */
 final class DeleteUser extends EtuUTTApiTestCase
 {

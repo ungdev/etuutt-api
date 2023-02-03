@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @internal
  *
  * @coversNothing
+ *
+ * Tests for route PATCH /users/{id}
  */
 final class UpdateUser extends EtuUTTApiTestCase
 {

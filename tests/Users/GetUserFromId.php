@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @internal
  *
  * @coversNothing
+ *
+ * Tests for route GET /users/{id}
  */
 final class GetUserFromId extends EtuUTTApiTestCase
 {
