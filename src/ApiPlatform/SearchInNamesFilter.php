@@ -27,9 +27,11 @@ class SearchInNamesFilter extends AbstractFilter
         }
         $alias = $queryBuilder->getRootAliases()[0];
         $infoAlias = $queryNameGenerator->generateJoinAlias('info');
+        $valueParameter = $queryNameGenerator->generateParameterName('value');
         $queryBuilder
             ->innerJoin("{$alias}.infos", $infoAlias)
-            ->andWhere("({$alias}.firstName LIKE '%{$value}%' OR {$alias}.lastName LIKE '%{$value}%' OR {$infoAlias}.nickname LIKE '%{$value}%')")
+            ->andWhere("({$alias}.firstName LIKE :{$valueParameter} OR {$alias}.lastName LIKE :{$valueParameter} OR {$infoAlias}.nickname LIKE :{$valueParameter})")
+            ->setParameter($valueParameter, "%{$value}%")
         ;
     }
 }

@@ -27,18 +27,21 @@ class UEFilter extends AbstractFilter
             return;
         }
         $alias = $queryBuilder->getRootAliases()[0];
+        $nowParameter = $queryNameGenerator->generateParameterName('now');
         foreach ($value as $ueCode) {
             $ueAlias = $queryNameGenerator->generateJoinAlias('UE');
             $ueSubscriptionAlias = $queryNameGenerator->generateJoinAlias('UEsSubscriptions');
             $semesterAlias = $queryNameGenerator->generateJoinAlias('Semester');
+            $ueParameter = $queryNameGenerator->generateParameterName('ue');
             $queryBuilder->innerJoin("{$alias}.UEsSubscriptions", $ueSubscriptionAlias)
                 ->innerJoin("{$ueSubscriptionAlias}.UE", $ueAlias)
                 ->innerJoin("{$ueSubscriptionAlias}.semester", $semesterAlias)
-                ->andWhere("{$ueAlias}.code = '{$ueCode}'")
-                ->andWhere("{$semesterAlias}.start <= :now")
-                ->andWhere("{$semesterAlias}.end >= :now")
+                ->andWhere("{$ueAlias}.code = :{$ueParameter}")
+                ->andWhere("{$semesterAlias}.start <= :{$nowParameter}")
+                ->andWhere("{$semesterAlias}.end >= :{$nowParameter}")
+                ->setParameter($ueParameter, $ueCode)
             ;
         }
-        $queryBuilder->setParameter('now', new \DateTime());
+        $queryBuilder->setParameter($nowParameter, new \DateTime());
     }
 }
