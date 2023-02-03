@@ -64,7 +64,6 @@ class UpdateUser extends EtuUTTApiTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $response = json_decode($crawler->getContent());
         // User checks
-        print_r($response);
         $this->assertEquals($testUserId->jsonSerialize(), $response->{'id'});
         $this->assertEquals('foobar', $response->{'login'});
         $this->assertEquals($testUserStudentId, $response->{'studentId'});

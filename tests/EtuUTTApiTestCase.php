@@ -6,10 +6,10 @@ use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\Group;
 use App\Entity\Translation;
 use App\Entity\User;
+use App\Entity\UserInfos;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
@@ -22,7 +22,7 @@ abstract class EtuUTTApiTestCase extends ApiTestCase
 
     protected function setUp(): void
     {
-        $this->em = static::getContainer()->get('doctrine.orm.entity_manager'); // !->getManager();
+        $this->em = static::getContainer()->get('doctrine.orm.entity_manager');
         (new ORMPurger($this->em))->purge();
         $this->em->clear();
         $this->user = $this->createUser('test', 'test', 'test', 'ROLE_ADMIN');
@@ -78,6 +78,29 @@ abstract class EtuUTTApiTestCase extends ApiTestCase
         static::assertSame($expected->getSpanish(), $actual->spanish);
         static::assertSame($expected->getGerman(), $actual->german);
         static::assertSame($expected->getChinese(), $actual->chinese);
+    }
+
+    protected static function assertSameUserReadSome(User $expected, mixed $actual): void
+    {
+        static::assertIsObject($actual);
+        static::assertSame(7, \count((array) $actual));
+        static::assertSame('user', $actual->{'@type'});
+        static::assertSame("/users/{$expected->getId()}", $actual->{'@id'});
+        static::assertSame($expected->getId()->jsonSerialize(), $actual->id);
+        static::assertSame($expected->getFirstName(), $actual->firstName);
+        static::assertSame($expected->getLastName(), $actual->lastName);
+        static::assertSame($expected->getLogin(), $actual->login);
+        static::assertSameUserInfosReadSome($expected->getInfos(), $actual->infos);
+    }
+
+    protected static function assertSameUserInfosReadSome(UserInfos $expected, mixed $actual): void
+    {
+        static::assertIsObject($actual);
+        static::assertSame(4, \count((array) $actual));
+        static::assertSame('UserInfos', $actual->{'@type'});
+        static::assertStringStartsWith('/.well-known/genid/', $actual->{'@id'});
+        static::assertSame($expected->getAvatar(), $actual->avatar);
+        static::assertSame($expected->getNickname(), $actual->nickname);
     }
 
     protected function loadFixtures(Fixture ...$fixtures)
@@ -139,19 +162,15 @@ abstract class EtuUTTApiTestCase extends ApiTestCase
             $tableName = $table->getName();
             $backup[$tableName] = [];
             $rows = $this->em->getConnection()->prepare("SELECT * FROM {$tableName}")->executeQuery()->fetchAllAssociative();
+            $getPrintableValue = fn (string $column, $value): ?string => UuidType::class === $table->getColumn($column)->getType()::class && null !== $value ? Uuid::fromBinary($value)->jsonSerialize() : $value;
             foreach ($rows as $row) {
                 // Convert all values to printable values
                 foreach ($row as $column => &$value) {
-                    $value = $this->getPrintableValue($table, $column, $value);
+                    $value = $getPrintableValue($column, $value);
                 }
                 // Store the row
                 $backup[$tableName][] = $row;
             }
         }
-    }
-
-    private function getPrintableValue(Table $table, string $column, $value): ?string
-    {
-        return UuidType::class === $table->getColumn($column)->getType()::class && null !== $value ? Uuid::fromBinary($value)->jsonSerialize() : $value;
     }
 }
