@@ -3,7 +3,6 @@
 namespace App\Tests\Groups;
 
 use App\Entity\Group;
-use App\Repository\GroupRepository;
 use App\Tests\EtuUTTApiTestCase;
 use Faker\Provider\Uuid as FakerUuid;
 use Symfony\Component\HttpFoundation\Response;

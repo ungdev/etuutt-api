@@ -7,9 +7,13 @@ use App\Entity\Group;
 use App\Tests\EtuUTTApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetGroupFromSlug extends EtuUTTApiTestCase
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
+final class GetGroupFromSlug extends EtuUTTApiTestCase
 {
-
     public function testNormal(): void
     {
         static::loadFixtures(new GroupSeeder());
@@ -47,5 +51,4 @@ class GetGroupFromSlug extends EtuUTTApiTestCase
         $client->request('GET', '/groups/"');
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
-
 }
