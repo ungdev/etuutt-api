@@ -37,7 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ),
     ApiFilter(
         SearchWithCustomParametersNamesFilter::class,
-        properties: ['code' => 'partial', 'credits.category.code' => 'exact'],
+        properties: ['code' => 'partial', 'credits.category.code' => 'exact', 'filiere.branche.code' => 'exact'],
         arguments: ['aliasMap' => ['credits.category.code' => 'category']],
     ),
 ]
@@ -126,13 +126,17 @@ class UE
     /**
      * The potential UTTFiliere of which this UE belongs to. It is optional.
      *
-     * @ORM\ManyToOne(targetEntity=UTTFiliere::class, inversedBy="UEs")
-     * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
+     * @ORM\ManyToMany(targetEntity=UTTFiliere::class, inversedBy="UEs")
+     * @ORM\JoinTable(
+     *     name="ue_filiere",
+     *     joinColumns={@ORM\JoinColumn(name="ue_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="filiere_code", referencedColumnName="code")}
+     *     )
      */
     #[Groups([
         'ue:read:one',
     ])]
-    private $filiere;
+    private $filieres;
 
     /**
      * The amount of UECredits of this UE. A UECredit object is a number of credit in a UECreditCategory.
@@ -339,14 +343,25 @@ class UE
         return $this;
     }
 
-    public function getFiliere(): ?UTTFiliere
+    /**
+     * @return Collection|UTTFiliere[]
+     */
+    public function getFiliere(): Collection
     {
         return $this->filiere;
     }
-
-    public function setFiliere(?UTTFiliere $filiere): self
+    public function addFiliere(UTTFiliere $filiere): self
     {
-        $this->filiere = $filiere;
+        if (!$this->filieres->contains($filiere)) {
+            $this->filieres[] = $filiere;
+        }
+
+        return $this;
+    }
+
+    public function removeFiliere(UTTFiliere $filiere): self
+    {
+        $this->filieres->removeElement($filiere);
 
         return $this;
     }

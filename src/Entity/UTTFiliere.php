@@ -65,8 +65,11 @@ class UTTFiliere
     /**
      * The relation to all UEs contained in this Filiere.
      *
-     * @ORM\OneToMany(targetEntity=UE::class, mappedBy="filiere")
+     * @ORM\ManyToMany(targetEntity=UE::class, mappedBy="filiere")
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $UEs;
 
     public function __construct(string $code = null)
@@ -130,7 +133,7 @@ class UTTFiliere
     {
         if (!$this->UEs->contains($uE)) {
             $this->UEs[] = $uE;
-            $uE->setFiliere($this);
+            $uE->addFiliere($this);
         }
 
         return $this;
@@ -141,7 +144,7 @@ class UTTFiliere
         if ($this->UEs->removeElement($uE)) {
             // set the owning side to null (unless already changed)
             if ($uE->getFiliere() === $this) {
-                $uE->setFiliere(null);
+                $uE->removeFiliere($this);
             }
         }
 
