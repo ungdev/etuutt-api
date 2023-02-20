@@ -2,13 +2,14 @@ version: '3'
 
 services:
   application:
-    image: larueli/php-symfony-base-image:8.0
+    container_name: application
     user: "1000:0"
     environment:
       DATABASE_URL: "mysql://etuutt:abcdef@database:3306/etuutt?serverVersion=mariadb-10.6.3&charset=utf8"
       MAILER_DSN: "smtp://mailer:1025"
     volumes:
       - ./:/var/www/html
+      - /var/www/vendor/
 
   database:
     ports:

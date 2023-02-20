@@ -46,7 +46,8 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#installation-using-docker-🐋">Installation using Docker 🐋</a></li>
+        <li><a href="#manual-installation">Manual installation</a></li>
         <li><a href="#run-the-project">Run the project</a></li>
       </ul>
     </li>
@@ -94,33 +95,78 @@ You can go to that page by clicking on the image.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is the API documentation. Everything that concernes the front and the back is in [the project documentation](https://ungdev.github.io/etuutt-core/).\
-First, you will have to read the project doc, then what follows.
+This is the API documentation. Everything that concerns the front and the back is in [the project documentation](https://ungdev.github.io/etuutt-core/).\
+First, you will have to read the project doc, then the following documentation.
 
 ### Prerequisites
 
-At this point, thanks to [this part of the documentation](https://ungdev.github.io/etuutt-core/1-Configuration/), you have all prerequisites to install the API on your computer.
+There are 2 ways to setup the project :
+*  Using Docker : You just need to [install Docker](https://docs.docker.com/engine/install/) and [install Git](https://github.com/git-guides/install-git) on your machine. **(Recommended way)**
+*  Manually, by installing every required software on your device. To do so, follow [this part of the documentation](https://ungdev.github.io/etuutt-core/1-Configuration/) to install everything you will need.
 
-### Installation
+### Installation using Docker 🐋
 
-1. Clone the repo by opening a command prompt in the folder you want it to be
+1. Clone the repo by opening a command prompt in the folder you want it to be.
    ```sh
    git clone https://github.com/ungdev/etuutt-api
    ```
-2. Install composer packages
+2. Tell Docker to download and setup everything for you. Run that command inside the `etuutt-api` folder that have just been created.
+   ```sh
+   docker compose up
+   ```
+3. Now that the server is running, we need to create the database and its schema.
+   1. Open a terminal into the application's container.
+   ```sh
+   docker container exec -it application /bin/bash
+   ```
+   2. The database is already created by the Docker setup, we only have to create all tables and relations inside that database. To do so, run the following command inside the terminal of the container.
+   ```sh
+   php bin/console doctrine:schema:update --force
+   ```
+   3. Optional : Fill the database with with fake data.
+   ```sh
+   php bin/console doctrine:fixtures:load -n
+   ```
+
+
+### Manual installation
+
+1. Make sure you followed all the steps listed in [this part of the documentation](https://ungdev.github.io/etuutt-core/1-Configuration/).
+2. Clone the repo by opening a command prompt in the folder you want it to be.
+   ```sh
+   git clone https://github.com/ungdev/etuutt-api
+   ```
+3. Install composer packages.
    ```sh
    composer install
    ```
-3. Duplicate the `.env` file and name it `.env.local`\
+4. Duplicate the `.env` file and name it `.env.local`\
    You will put your private info in this file, such as passwords or path to your local database. This `.env.local` will not be sent to GitHub, it is local to your computer.
+5. Now that the server is running, we need to create the database and its schema.
+   1. We create the database.
+   ```sh
+   php bin/console doctrine:database:create
+   ```
+   2. Then we create all tables and relations inside that database.
+   ```sh
+   php bin/console doctrine:schema:update --force
+   ```
+   3. Optional : Fill the database with with fake data.
+   ```sh
+   php bin/console doctrine:fixtures:load -n
 
 ### Run the project
 
 Now that everything is installed and ready to go, let the magic begin ✨
-```sh
-symfony serve
-```
-Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+* If you used Docker, run the following command into a command prompt in the `etuutt-api` folder.
+   ```sh
+   docker compose up
+   ```
+* If you followed the manual setup, run that command into a command prompt in the `etuutt-api` folder.
+   ```sh
+   symfony serve
+   ```
+In both cases, you can now go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/) to see the app !
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -156,7 +202,7 @@ Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.
 ├── vendor/                 # The third-party dependencies
 ├── .czrc                   # Git Commitizen configuration file
 ├── .dockerignore           # A Docker file to build image of the project
-├── .env                    # Environment variables file. The content is accessible everywhere.
+├── .env                    # Environment variables file. The content is accessible everywhere
 ├── .env.local              # Environment variables specific to your computer, do not share it
 ├── .env.test               # Environment variables specific to the "test" environment
 ├── .gitignore              # The list of folders and files that will not be sent to GitHub
@@ -165,8 +211,8 @@ Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.
 ├── .travis.yml             # Info and script for CI/CD
 ├── composer.json           # The list of dependencies and their versions
 ├── composer.lock           # The list of the dependencies's dependencies
-├── docker-compose.yml      # A Docker file to build image of the project
-├── Dockerfile              # A Docker file to build image of the project
+├── docker-compose.yml      # A Docker file to run only the necessary tools
+├── docker-compose.override # A Docker file to add development tools on your machine
 ├── LICENSE.txt             # MIT license text
 ├── phpunit.xml.dist        # The configuration file of the PHP testing framework, PHPUnit
 ├── README.md               # This amazing documentation
