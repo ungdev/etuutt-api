@@ -24,6 +24,7 @@ services:
       MYSQL_DATABASE: etuutt
       MYSQL_USER: etuutt
       MYSQL_PASSWORD: abcdef
+      MARIADB_MYSQL_LOCALHOST_USER: true
 
 volumes:
   database-data:
