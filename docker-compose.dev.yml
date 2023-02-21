@@ -15,18 +15,35 @@ services:
   #     - "3306:3306"
 
   adminer:
-    restart: always
     image: adminer
+    networks:
+      - traefik
     environment:
       ADMINER_DEFAULT_DB_HOST: database
       ADMINER_DEFAULT_DB_NAME: etuutt
       ADMINER_DESIGN: lucas-sandery
     ports:
       - "8080:8080"
+    labels:
+      - "traefik.http.routers.etuutt_api_adminer.rule=Host(`localhost`) && PathPrefix(`/adminer/`)"
+      - "traefik.http.services.etuutt_api_adminer.loadbalancer.server.port=8080"
+      - "traefik.http.routers.etuutt_api_adminer.middlewares=etuutt_api_adminer_strip"
+      - "traefik.http.middlewares.etuutt_api_adminer_strip.stripprefix.prefixes=/adminer"
+      - "traefik.http.middlewares.etuutt_api_adminer_strip.stripprefix.forceslash=false"
 
   mailer:
-    restart: always
     image: sj26/mailcatcher
-    ports:
-      - "1025"
-      - "1080:1080"
+    environment:
+      HTTPPATH: "mailer"
+    networks:
+      - traefik
+    command:
+      - "--ip"
+      - "0.0.0.0"
+      - "--http-path"
+      - "mailer"
+    # ports:
+    #   - "8081:1080"
+    labels:
+      - "traefik.http.routers.etuutt_api_mailer.rule=Host(`localhost`) && PathPrefix(`/mailer`)"
+      - "traefik.http.services.etuutt_api_mailer.loadbalancer.server.port=1080"

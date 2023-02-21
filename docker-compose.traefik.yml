@@ -1,0 +1,25 @@
+# A faire une seule fois par PC (et même une seule fois pour tous les projets du PC)
+# Créer un dossier traefik dans votre PC, y copier ce fichier et le renommer `docker-compose.yml`
+# docker network create traefik
+# docker compose up -d
+# Traefik se relancera automatiquement à chaque démarrage de docker
+# Pour tout couper : `docker compose down`
+
+version: '3'
+
+services:
+  reverse-proxy:
+    image: traefik:v2.9
+    restart: always
+    networks:
+      - traefik
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "9081:8080" # UI
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  traefik:
+    external: true

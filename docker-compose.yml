@@ -5,11 +5,17 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    ports:
-      - "8000:8080"
+    networks:
+      - traefik
     environment:
       APACHE_DOCUMENT_ROOT: /var/www/html/public
       TZ: Europe/Paris
+    labels:
+      - "traefik.http.routers.etuutt_api.rule=Host(`localhost`) && PathPrefix(`/api`)"
+      - "traefik.http.services.etuutt_api.loadbalancer.server.port=8080"
+      - "traefik.http.routers.etuutt_api.middlewares=etuutt_api_strip"
+      - "traefik.http.middlewares.etuutt_api.stripprefix.prefixes=/api"
+      - "traefik.http.middlewares.etuutt_api.stripprefix.forceslash=false"
 
   database:
     image: "mariadb:10.11"
