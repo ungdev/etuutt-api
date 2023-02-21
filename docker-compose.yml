@@ -1,7 +1,7 @@
 version: '3'
 services:
   application:
-    image: ungdev/etuutt-api
+    image: ghcr.io/ungdev/etuutt-api:master
     depends_on:
       database:
         condition: service_healthy
