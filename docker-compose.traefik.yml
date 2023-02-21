@@ -1,10 +1,13 @@
-# A faire une seule fois par PC (et même une seule fois pour tous les projets du PC)
-# Créer un dossier traefik dans votre PC, y copier ce fichier et le renommer `docker-compose.yml`
-# `mkdir -p ${HOME}/programmation/traefik && cp docker-compose.traefik.yml ${HOME}/programmation/traefik/docker-compose.yml && cd ${HOME}/programmation/traefik`
-# `docker network create traefik`
-# `cd ${HOME}/programmation/traefik && docker compose up -d`
-# Traefik se relancera automatiquement à chaque démarrage de docker
-# Pour tout couper : `cd ${HOME}/programmation/traefik && docker compose down`
+# This must be done only once for every computer (it can be used for every web project, not only this one)
+# 1. Launch WSL/Ubuntu
+# 2. Go to your etuutt-api directory
+# 3. Create traefik docker-compose : `mkdir -p ${HOME}/programmation/traefik && cp docker-compose.traefik.yml ${HOME}/programmation/traefik/docker-compose.yml && cd ${HOME}/programmation/traefik`
+# 4. Create docker network for traefik to link all containers to it : `docker network create traefik`
+# 5. Launch it : `cd ${HOME}/programmation/traefik && docker compose up -d`
+
+# Thanks to the `restart: always` directive, traefik will launch every time docker launches, so no need to launch it by hand every time. It uses very few ram and cpu.
+# If you still want to shut it down for good : `cd ${HOME}/programmation/traefik && docker compose down`
+# To restart it : `cd ${HOME}/programmation/traefik && docker compose up -d`
 
 version: '3'
 
