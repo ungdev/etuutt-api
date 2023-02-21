@@ -7,6 +7,7 @@ services:
     environment:
       DATABASE_URL: "mysql://etuutt:abcdef@database:3306/etuutt?serverVersion=mariadb-10.11.2&charset=utf8"
       MAILER_DSN: "smtp://mailer:1025"
+      TRUSTED_PROXIES: "0.0.0.0/0"
     volumes:
       - ./:/var/www/html
 
