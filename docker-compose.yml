@@ -3,16 +3,20 @@ services:
   application:
     image: ungdev/etuutt-api
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     ports:
       - "8000:8080"
     environment:
       APACHE_DOCUMENT_ROOT: /var/www/html/public
       TZ: Europe/Paris
-      WAIT_HOSTS: "database:3306"
 
   database:
-    image: "mariadb:10.6"
+    image: "mariadb:10.11"
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
+      interval: 2s
+      retries: 120
     volumes:
       - database-data:/var/lib/mysql
     environment:
