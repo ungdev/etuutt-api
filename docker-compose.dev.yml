@@ -51,3 +51,4 @@ services:
     labels:
       - "traefik.http.routers.etuutt_api_mailer.rule=Host(`localhost`) && PathPrefix(`/mailer`)"
       - "traefik.http.services.etuutt_api_mailer.loadbalancer.server.port=1080"
+      - "traefik.docker.network=traefik"

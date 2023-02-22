@@ -17,6 +17,7 @@ services:
       - "traefik.http.routers.etuutt_api.middlewares=etuutt_api_strip"
       - "traefik.http.middlewares.etuutt_api_strip.stripprefix.prefixes=/api"
       - "traefik.http.middlewares.etuutt_api_strip.stripprefix.forceslash=false"
+      - "traefik.docker.network=traefik"
 
   database:
     image: "mariadb:10.11"
