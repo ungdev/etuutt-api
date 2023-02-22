@@ -2,10 +2,9 @@
 
 namespace App\EventSubscriber;
 
-use ApiPlatform\Core\EventListener\EventPriorities;
+use ApiPlatform\Symfony\EventListener\EventPriorities;
 use App\Entity\User;
 use App\Entity\UserTimestamps;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,9 +38,9 @@ class LoginDateSubscriber implements EventSubscriberInterface
             /** @var UserTimestamps $userTimestamps */
             $userTimestamps = $this->security->getUser()->getTimestamps();
             if (null === $userTimestamps->getFirstLoginDate()) {
-                $userTimestamps->setFirstLoginDate(new DateTime());
+                $userTimestamps->setFirstLoginDate(new \DateTime());
             }
-            $userTimestamps->setLastLoginDate(new DateTime());
+            $userTimestamps->setLastLoginDate(new \DateTime());
 
             $this->manager->persist($userTimestamps);
             $this->manager->flush();

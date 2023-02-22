@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECommentUpvoteRepository;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

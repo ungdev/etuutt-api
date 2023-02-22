@@ -7,6 +7,7 @@ use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECourseExchangeReplyRepository;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,7 +48,7 @@ class UECourseExchangeReply
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getAuthor(): ?User

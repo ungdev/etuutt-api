@@ -30,7 +30,6 @@ class UserAddress
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      */
@@ -44,7 +43,6 @@ class UserAddress
      * The french postal code.
      *
      * @ORM\Column(type="string", length=20, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=20)
      * @Assert\Regex("/^$|^\d{2}\s?\d{3}$/")
@@ -57,7 +55,6 @@ class UserAddress
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      */
@@ -69,7 +66,6 @@ class UserAddress
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */

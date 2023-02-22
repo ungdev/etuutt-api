@@ -3,7 +3,7 @@ dist: focal
 
 language: php
 php:
-  - 8.0
+  - 8.1
 
 cache:
     directories:

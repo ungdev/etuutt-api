@@ -30,7 +30,6 @@ class UserSocialNetwork
      * The URL of the User's Facebook.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Url
@@ -46,7 +45,6 @@ class UserSocialNetwork
      * The URL of the User's Twitter.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Url
@@ -62,7 +60,6 @@ class UserSocialNetwork
      * The URL of the User's Instagram.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Url
@@ -78,7 +75,6 @@ class UserSocialNetwork
      * The URL of the User's LinkedIn.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      * @Assert\Url
@@ -94,7 +90,6 @@ class UserSocialNetwork
      * The Discord pseudo of the User. It is usefull to create a link to discord bot.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      */
@@ -108,7 +103,6 @@ class UserSocialNetwork
      * A boolean to store if the User wants to be added to the UTT's discord.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     #[Groups([

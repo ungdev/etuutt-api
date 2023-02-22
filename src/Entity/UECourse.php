@@ -5,10 +5,10 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECourseRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -28,62 +28,77 @@ class UECourse
      *
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="courses")
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $UE;
 
     /**
      * The day of the week during which this Course takes place.
      *
      * @ORM\Column(type="string", length=20)
-     *
      * @Assert\Type("string")
      * @Assert\Choice({"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"})
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $day;
 
     /**
      * The starting hour of this Course.
      *
      * @ORM\Column(type="time")
-     *
      * @Assert\Time
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $startHour;
 
     /**
      * The ending hour of this Course.
      *
      * @ORM\Column(type="time")
-     *
      * @Assert\Time
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $endHour;
 
     /**
      * The week code during which the Course takes place.
      *
      * @ORM\Column(type="string", length=1, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Choice({"A", "B"})
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $week;
 
     /**
      * @ORM\Column(type="string", length=2, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Choice({"CM", "TD", "TP"})
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $type;
 
     /**
      * The place where the Course takes place.
      *
      * @ORM\Column(type="string", length=50)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=50)
      */
+    #[Groups([
+        'user-edt:read:one',
+    ])]
     private $room;
 
     /**
@@ -108,7 +123,7 @@ class UECourse
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->students = new ArrayCollection();
     }

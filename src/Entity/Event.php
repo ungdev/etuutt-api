@@ -2,15 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use App\Controller\SoftDeleteController;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\EventRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,11 +24,45 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="events")
  * @ORM\HasLifecycleCallbacks
  */
+#[
+    ApiResource(
+        shortName: 'event',
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['event:read:some']],
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['event:read:one']],
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('ROLE_ADMIN')",
+            ),
+            new Patch(
+                normalizationContext: ['groups' => ['event:read:one']],
+                denormalizationContext: ['groups' => ['event:write:update']],
+                security: "object == user or is_granted('ROLE_ADMIN')",
+            ),
+        ],
+        normalizationContext: [
+            'skip_null_values' => false,
+        ],
+        paginationItemsPerPage: 10,
+        security: "is_granted('ROLE_USER')",
+    )
+]
 class Event
 {
     use SoftDeletableTrait;
     use TimestampsTrait;
     use UUIDTrait;
+
+    #[Groups([
+        'event:read:some',
+        'event:read:one',
+        'asso:read:one',
+    ])]
+    private $id;
 
     /**
      * The relation between the Event and the Assos that organize it.
@@ -31,6 +70,9 @@ class Event
      * @ORM\ManyToMany(targetEntity=Asso::class, inversedBy="events")
      * @ORM\JoinTable(name="events_assos")
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $assos;
 
     /**
@@ -39,43 +81,56 @@ class Event
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('title')]
+    #[Groups([
+        'event:read:some',
+        'event:read:one',
+        'asso:read:one',
+    ])]
     private $titleTranslation;
 
     /**
      * The starting date of the event.
      *
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $startAt;
 
     /**
      * The ending date of the event.
      *
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $endAt;
 
     /**
      * A boolean telling whether the event is from morning to evening or not.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $isAllDay;
 
     /**
      * The location of the event. It is optional.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=255)
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $location;
 
     /**
@@ -83,6 +138,9 @@ class Event
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     #[SerializedName('description')]
     private $descriptionTranslation;
 
@@ -96,6 +154,9 @@ class Event
      *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
      * )
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $categories;
 
     /**
@@ -103,6 +164,9 @@ class Event
      *
      * @ORM\OneToMany(targetEntity=EventAnswer::class, mappedBy="event", orphanRemoval=true)
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $eventAnswers;
 
     /**
@@ -110,11 +174,14 @@ class Event
      *
      * @ORM\OneToOne(targetEntity=EventPrivacy::class, mappedBy="event", cascade={"persist", "remove"})
      */
+    #[Groups([
+        'event:read:one',
+    ])]
     private $eventPrivacy;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
         $this->setTitleTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
 
@@ -159,24 +226,24 @@ class Event
         return $this;
     }
 
-    public function getStartAt(): ?DateTimeInterface
+    public function getStartAt(): ?\DateTimeInterface
     {
         return $this->startAt;
     }
 
-    public function setStartAt(DateTimeInterface $startAt): self
+    public function setStartAt(\DateTimeInterface $startAt): self
     {
         $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEndAt(): ?DateTimeInterface
+    public function getEndAt(): ?\DateTimeInterface
     {
         return $this->endAt;
     }
 
-    public function setEndAt(DateTimeInterface $endAt): self
+    public function setEndAt(\DateTimeInterface $endAt): self
     {
         $this->endAt = $endAt;
 

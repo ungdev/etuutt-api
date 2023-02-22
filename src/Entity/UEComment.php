@@ -45,7 +45,6 @@ class UEComment
      * The content of this Comment.
      *
      * @ORM\Column(type="text")
-     *
      * @Assert\Type("string")
      */
     private $body;
@@ -54,7 +53,6 @@ class UEComment
      * A boolean that says if the author will be display next to his Comment.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     private $isAnonymous;
@@ -83,7 +81,7 @@ class UEComment
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->answers = new ArrayCollection();
         $this->reports = new ArrayCollection();

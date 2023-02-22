@@ -6,8 +6,6 @@ use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UEAnnalRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -62,7 +60,6 @@ class UEAnnal
      * The path to the file.
      *
      * @ORM\Column(type="string", length=255)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
@@ -93,7 +90,7 @@ class UEAnnal
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->reports = new ArrayCollection();
     }

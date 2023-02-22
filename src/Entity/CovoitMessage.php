@@ -45,7 +45,7 @@ class CovoitMessage
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getCovoit(): ?Covoit

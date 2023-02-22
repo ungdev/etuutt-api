@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserBDEContributionRepository;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -46,7 +45,6 @@ class UserBDEContribution
      * The starting date of the BDEContribution.
      *
      * @ORM\Column(type="date")
-     *
      * @Assert\Date
      */
     private $start;
@@ -55,7 +53,6 @@ class UserBDEContribution
      * The ending date of the BDEContribution.
      *
      * @ORM\Column(type="date")
-     *
      * @Assert\Date
      */
     private $end;
@@ -96,24 +93,24 @@ class UserBDEContribution
         return $this;
     }
 
-    public function getStart(): ?DateTimeInterface
+    public function getStart(): ?\DateTimeInterface
     {
         return $this->start;
     }
 
-    public function setStart(DateTimeInterface $start): self
+    public function setStart(\DateTimeInterface $start): self
     {
         $this->start = $start;
 
         return $this;
     }
 
-    public function getEnd(): ?DateTimeInterface
+    public function getEnd(): ?\DateTimeInterface
     {
         return $this->end;
     }
 
-    public function setEnd(DateTimeInterface $end): self
+    public function setEnd(\DateTimeInterface $end): self
     {
         $this->end = $end;
 

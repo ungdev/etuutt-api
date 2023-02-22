@@ -71,7 +71,7 @@ class UserBranche
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getUser(): ?User

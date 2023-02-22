@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UEStarVoteRepository;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -49,7 +48,6 @@ class UEStarVote
      * The number of stars of this vote.
      *
      * @ORM\Column(type="smallint")
-     *
      * @Assert\Type("int")
      * @Assert\LessThanOrEqual(5)
      * @Assert\GreaterThanOrEqual(0)

@@ -2,13 +2,23 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use App\Controller\SoftDeleteController;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UERepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,41 +26,90 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="ues")
  * @ORM\HasLifecycleCallbacks
  */
+#[
+    ApiResource(
+        shortName: 'ue',
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['ue:read:some']]
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['ue:read:one']]
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('ROLE_ADMIN')"
+            ),
+            new Patch(
+                normalizationContext: [
+                    'groups' => ['ue:read:one'],
+                ],
+                denormalizationContext: [
+                    'groups' => ['ue:write:update'],
+                ],
+                security: "object == user or is_granted('ROLE_ADMIN')",
+            ),
+        ],
+        normalizationContext: [
+            'skip_null_values' => false,
+        ],
+        paginationItemsPerPage: 10,
+        security: "is_granted('ROLE_USER')",
+    )
+]
+#[
+    ApiFilter(SearchFilter::class, properties : ['code' => 'partial'])
+]
 class UE
 {
     use TimestampsTrait;
     use UUIDTrait;
 
+    #[Groups([
+        'ue:read:one',
+        'ue:read:some',
+    ])]
+    private $id;
+
     /**
      * The code of the UE (e.g. "MATH01").
      *
      * @ORM\Column(type="string", length=10)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=10)
      * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
      */
+    #[Groups([
+        'ue:read:one',
+        'ue:read:some',
+        'user-edt:read:one',
+    ])]
     private $code;
 
     /**
      * The title of the UE (e.g. "Analyse : suites et fonctions d’une variable réelle pour les TC01 ou les TC05 aguerris.").
      *
      * @ORM\Column(type="string", length=255)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
+    #[Groups([
+        'ue:read:one',
+        'ue:read:some',
+    ])]
     private $name;
 
     /**
      * The validation rate computed with data in our database.
      *
      * @ORM\Column(type="float", nullable=true)
-     *
      * @Assert\Type("float")
      * @Assert\LessThanOrEqual(100)
      * @Assert\GreaterThanOrEqual(0)
      */
+    #[Groups([
+        'ue:read:one',
+    ])]
     private $validationRate;
 
     /**
@@ -131,7 +190,7 @@ class UE
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->usersSubscriptions = new ArrayCollection();
         $this->credits = new ArrayCollection();

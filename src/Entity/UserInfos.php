@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserInfosRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,7 +30,6 @@ class UserInfos
 
     /**
      * @ORM\Column(type="string", length=50)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      * @Assert\Choice({"Masculin", "Féminin", "Autre"})
@@ -57,7 +54,6 @@ class UserInfos
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
@@ -80,7 +76,6 @@ class UserInfos
 
     /**
      * @ORM\Column(type="date")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
@@ -104,7 +99,6 @@ class UserInfos
      * The path to the avatar of the User.
      *
      * @ORM\Column(type="string", length=255)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
@@ -118,7 +112,6 @@ class UserInfos
      * The User's nickname.
      *
      * @ORM\Column(type="string", length=50, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
@@ -132,7 +125,6 @@ class UserInfos
      * A text given by the User to explicite his or her passions.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([
@@ -145,7 +137,6 @@ class UserInfos
      * The website of the User.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\Url
      */
     #[Groups([
@@ -158,7 +149,7 @@ class UserInfos
     {
         //  Default values
         $this->setSex('Autre');
-        $this->setBirthday(new DateTime());
+        $this->setBirthday(new \DateTime());
         $this->setAvatar('/default_user_avatar.png');
 
         $this->sexVisibility = new ArrayCollection();
@@ -257,12 +248,12 @@ class UserInfos
         return $this;
     }
 
-    public function getBirthday(): ?DateTimeInterface
+    public function getBirthday(): ?\DateTimeInterface
     {
         return $this->birthday;
     }
 
-    public function setBirthday(?DateTimeInterface $birthday): self
+    public function setBirthday(?\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
 

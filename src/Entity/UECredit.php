@@ -37,7 +37,6 @@ class UECredit
      * The amount of credit.
      *
      * @ORM\Column(type="smallint")
-     *
      * @Assert\Type("int")
      * @Assert\Positive
      */

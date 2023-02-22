@@ -37,7 +37,6 @@ class UserOtherAttributValue
      * The value given to the attribut.
      *
      * @ORM\Column(type="text")
-     *
      * @Assert\Type("string")
      */
     private $value;

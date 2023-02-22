@@ -43,7 +43,6 @@ class UserEtuUTTTeam
      * The description of what the User has done.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     private $role;

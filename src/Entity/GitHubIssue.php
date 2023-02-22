@@ -33,7 +33,6 @@ class GitHubIssue
      * The id of the GitHub issue.
      *
      * @ORM\Column(type="integer")
-     *
      * @Assert\Type(type="integer")
      * @Assert\Positive
      */

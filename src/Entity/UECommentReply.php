@@ -43,14 +43,13 @@ class UECommentReply
      * The content of this Reply.
      *
      * @ORM\Column(type="text")
-     *
      * @Assert\Type("string")
      */
     private $body;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getComment(): ?UEComment

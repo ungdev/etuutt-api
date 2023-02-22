@@ -7,6 +7,7 @@ use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECourseExchangeRepository;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -52,7 +53,6 @@ class UECourseExchange
      * A boolean to know if this Exchange is still wanted by the author.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     private $stillAvailable;
@@ -73,7 +73,7 @@ class UECourseExchange
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->responses = new ArrayCollection();
     }

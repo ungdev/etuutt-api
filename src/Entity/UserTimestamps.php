@@ -6,8 +6,6 @@ use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserTimestampsRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,21 +32,19 @@ class UserTimestamps
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $firstLoginDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $lastLoginDate;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getUser(): ?User
@@ -63,24 +59,24 @@ class UserTimestamps
         return $this;
     }
 
-    public function getFirstLoginDate(): ?DateTimeInterface
+    public function getFirstLoginDate(): ?\DateTimeInterface
     {
         return $this->firstLoginDate;
     }
 
-    public function setFirstLoginDate(?DateTimeInterface $firstLoginDate): self
+    public function setFirstLoginDate(?\DateTimeInterface $firstLoginDate): self
     {
         $this->firstLoginDate = $firstLoginDate;
 
         return $this;
     }
 
-    public function getLastLoginDate(): ?DateTimeInterface
+    public function getLastLoginDate(): ?\DateTimeInterface
     {
         return $this->lastLoginDate;
     }
 
-    public function setLastLoginDate(?DateTimeInterface $lastLoginDate): self
+    public function setLastLoginDate(?\DateTimeInterface $lastLoginDate): self
     {
         $this->lastLoginDate = $lastLoginDate;
 

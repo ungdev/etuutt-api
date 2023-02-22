@@ -22,13 +22,14 @@ class Translation
      * The french translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([
         'group:read:one',
         'group:write:update',
         'group:write:create',
+        'asso:read:one',
+        'asso:read:some',
     ])]
     private $french;
 
@@ -36,13 +37,14 @@ class Translation
      * The english translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([
         'group:read:one',
         'group:write:update',
         'group:write:create',
+        'asso:read:one',
+        'asso:read:some',
     ])]
     private $english;
 
@@ -50,13 +52,14 @@ class Translation
      * The spanish translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([
         'group:read:one',
         'group:write:update',
         'group:write:create',
+        'asso:read:one',
+        'asso:read:some',
     ])]
     private $spanish;
 
@@ -64,13 +67,14 @@ class Translation
      * The german translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([
         'group:read:one',
         'group:write:update',
         'group:write:create',
+        'asso:read:one',
+        'asso:read:some',
     ])]
     private $german;
 
@@ -78,13 +82,14 @@ class Translation
      * The chinese translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     #[Groups([
         'group:read:one',
         'group:write:update',
         'group:write:create',
+        'asso:read:one',
+        'asso:read:some',
     ])]
     private $chinese;
 

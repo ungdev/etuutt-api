@@ -26,7 +26,6 @@ class Badge
      * The Serie is a group of Badge with the same idea (e.g. Badges that deal with being an asso member).
      *
      * @ORM\Column(type="string", length=50, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
@@ -36,7 +35,6 @@ class Badge
      * The Level is serves to determine which badge of a serie is more advanced.
      *
      * @ORM\Column(type="smallint", nullable=true)
-     *
      * @Assert\Type("int")
      * @Assert\Positive
      */
@@ -44,7 +42,6 @@ class Badge
 
     /**
      * @ORM\Column(type="string", length=100)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      */
@@ -54,7 +51,6 @@ class Badge
      * The path to the picture of the badge.
      *
      * @ORM\Column(type="string", length=255)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
@@ -82,7 +78,7 @@ class Badge
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
         $this->setDescriptionTranslation(new Translation());
 
         $this->users = new ArrayCollection();

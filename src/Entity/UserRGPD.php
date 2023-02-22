@@ -30,7 +30,6 @@ class UserRGPD
      * A boolean to store if we keep the User's account in the database.
      *
      * @ORM\Column(type="boolean", nullable=true)
-     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -42,7 +41,6 @@ class UserRGPD
      * A boolean to store if we delete all info about this User in our database.
      *
      * @ORM\Column(type="boolean", nullable=true)
-     *
      * @Assert\Type("bool")
      */
     #[Groups([

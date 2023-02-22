@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\CovoitAlertRepository;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -32,7 +31,6 @@ class CovoitAlert
      * The maximum price in cents (x100). It is optional.
      *
      * @ORM\Column(type="integer", nullable=true)
-     *
      * @Assert\Type("int")
      * @Assert\Positive
      */
@@ -42,7 +40,6 @@ class CovoitAlert
      * The first boundary of the Covoit starting date.
      *
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $startAt;
@@ -51,7 +48,6 @@ class CovoitAlert
      * The second boundary of the Covoit starting date.
      *
      * @ORM\Column(type="datetime")
-     *
      * @Assert\Type("\DateTimeInterface")
      */
     private $endAt;
@@ -60,7 +56,6 @@ class CovoitAlert
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
-     *
      * @Assert\Uuid
      */
     private $startCityId;
@@ -69,14 +64,13 @@ class CovoitAlert
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
-     *
      * @Assert\Uuid
      */
     private $endCityId;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getUser(): ?User

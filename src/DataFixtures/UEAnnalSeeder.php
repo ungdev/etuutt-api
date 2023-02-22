@@ -11,7 +11,6 @@ use App\Entity\UEAnnalType;
 use App\Entity\User;
 use App\Repository\SemesterRepository;
 use App\Util\Text;
-use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -32,6 +31,7 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $users = $manager->getRepository(User::class)->findAll();
         $ues = $manager->getRepository(UE::class)->findAll();
+
         /** @var SemesterRepository $semesterRepository */
         $semesterRepository = $manager->getRepository(Semester::class);
 
@@ -71,11 +71,13 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
             $annal->setSemester($semesterRepository->getSemesterOfDate($annal->getCreatedAt()));
             $annal->setType($faker->randomElement($types));
             $annal->setFilename($faker->imageUrl());
-            $days = (new DateTime())->diff($annal->getCreatedAt())->days;
+            $days = (new \DateTime())->diff($annal->getCreatedAt())->days;
             $annal->setValidatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             if ($faker->boolean(1)) {
-                $days = (new DateTime())->diff($annal->getCreatedAt())->days;
+                $days = (new \DateTime())->diff($annal->getCreatedAt())->days;
                 $annal->setCreatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
+                $days = (new \DateTime())->diff($annal->getCreatedAt())->days;
+                $annal->setCreatedAt($faker->dateTimeBetween('-'.$days.' years', 'now'));
             }
             $manager->persist($annal);
         }

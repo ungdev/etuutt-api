@@ -32,7 +32,6 @@ class UserPreference
      * The boolean that informs us if we show or not the birthday of this User.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -44,7 +43,6 @@ class UserPreference
      * The language prefered by the User. It follows the ISO 639-1 convention.
      *
      * @ORM\Column(type="string", length=5)
-     *
      * @Assert\Type("string")
      * @Assert\Choice({"fr", "en", "es", "de", "zh"})
      */
@@ -57,7 +55,6 @@ class UserPreference
      * The boolean that informs us if we send day mail to this User or not.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     #[Groups([
@@ -69,7 +66,6 @@ class UserPreference
      * The boolean that informs us if we send day notif to this User or not.
      *
      * @ORM\Column(type="boolean")
-     *
      * @Assert\Type("bool")
      */
     #[Groups([

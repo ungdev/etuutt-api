@@ -5,30 +5,76 @@ namespace App\Entity;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use App\Controller\SoftDeleteController;
 use App\Repository\AssoRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ *  The main entity that represents all Assos.
+ *
  * @ORM\Entity(repositoryClass=AssoRepository::class)
  * @ORM\Table(name="assos")
  * @ORM\HasLifecycleCallbacks
  */
+#[
+    ApiResource(
+        shortName: 'asso',
+        operations: [
+            new GetCollection(
+                normalizationContext: ['groups' => ['asso:read:some']],
+            ),
+            new Get(
+                normalizationContext: ['groups' => ['asso:read:one']],
+            ),
+            new Delete(
+                controller: SoftDeleteController::class,
+                security: "is_granted('ROLE_ADMIN')",
+            ),
+            new Patch(
+                normalizationContext: ['groups' => ['asso:read:one']],
+                denormalizationContext: ['groups' => ['asso:write:update']],
+                security: "object == user or is_granted('ROLE_ADMIN')",
+            ),
+        ],
+        normalizationContext: [
+            'skip_null_values' => false,
+        ],
+        order: ['name'],
+        paginationItemsPerPage: 10,
+    ),
+    ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'keywords' => 'exact']),
+]
 class Asso
 {
+
     use SoftDeletableTrait;
     use TimestampsTrait;
     use UUIDTrait;
+
+    #[Groups([
+        'asso:read:one',
+        'asso:read:some',
+    ])]
+    private $id;
 
     /**
      * The login used by the CAS.
      *
      * @ORM\Column(type="string", length=50, unique=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=50)
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
@@ -37,10 +83,13 @@ class Asso
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      */
+    #[Groups([
+        'asso:read:one',
+        'asso:read:some',
+    ])]
     private $name;
 
     /**
@@ -49,6 +98,9 @@ class Asso
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('descriptionShort')]
+    #[Groups([
+        'asso:read:some',
+    ])]
     private $descriptionShortTranslation;
 
     /**
@@ -57,50 +109,71 @@ class Asso
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $descriptionTranslation;
 
     /**
      * The email address of the association.
      *
      * @ORM\Column(type="string", length=100)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      * @Assert\Email
      */
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $mail;
 
     /**
      * The phone number of the association.
      *
      * @ORM\Column(type="string", length=30, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=30)
      * @Assert\Regex("/^0[0-9]{9}$/")
      */
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $phoneNumber;
 
     /**
      * The website of the association. It is optional.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=100)
      * @Assert\Url
      */
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $website;
 
     /**
      * Link to the logo of the association. It is optional.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=0, max=100)
      */
+    #[Groups([
+        'asso:read:some',
+        'asso:read:one',
+    ])]
     private $logo;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Assert\Type("\DateTimeInterface")
+     */
+    #[Groups([
+        'asso:read:one',
+    ])]
+    private $createdAt;
 
     /**
      * The relation to all Keywords of this Asso.
@@ -112,6 +185,9 @@ class Asso
      *     inverseJoinColumns={@ORM\JoinColumn(name="keyword", referencedColumnName="name")}
      * )
      */
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $keywords;
 
     /**
@@ -126,6 +202,9 @@ class Asso
      *
      * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="assos")
      */
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $events;
 
     /**
@@ -140,13 +219,16 @@ class Asso
      *
      * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="asso", orphanRemoval=true)
      */
+    #[Groups([
+        'asso:read:one',
+    ])]
     private $assoMemberships;
 
     public function __construct()
     {
         $this->setDescriptionShortTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->keywords = new ArrayCollection();
         $this->assoMessages = new ArrayCollection();
@@ -390,5 +472,13 @@ class Asso
         }
 
         return $this;
+    }
+
+    #[Groups([
+        'asso:read:some',
+    ])]
+    public function getMembershipsCount(): int
+    {
+        return $this->assoMemberships->count();
     }
 }

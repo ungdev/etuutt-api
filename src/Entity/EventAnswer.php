@@ -41,7 +41,6 @@ class EventAnswer
      * The answer of the User to the Event (e.g. "je viens").
      *
      * @ORM\Column(type="string", length=20)
-     *
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=20)
      */
@@ -56,7 +55,7 @@ class EventAnswer
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getEvent(): ?Event

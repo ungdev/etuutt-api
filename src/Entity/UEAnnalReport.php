@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UEAnnalReportRepository;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -49,7 +48,6 @@ class UEAnnalReport
      * The text typed by the reporter to describe the reason.
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      * @Assert\Type("string")
      */
     private $body;
