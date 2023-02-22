@@ -21,9 +21,9 @@ services:
   database:
     image: "mariadb:10.11"
     healthcheck:
-      test: ["CMD", "/usr/local/bin/healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
-      interval: 2s
-      retries: 120
+      test: ["CMD-SHELL", "mysql $$MYSQL_DATABASE -u$$MYSQL_USER -p$$MYSQL_PASSWORD -e 'SELECT 1;'  || exit 1"]
+      interval: 5s
+      retries: 10
     networks:
       - default
     volumes:
@@ -33,7 +33,6 @@ services:
       MYSQL_DATABASE: etuutt
       MYSQL_USER: etuutt
       MYSQL_PASSWORD: abcdef
-      MARIADB_MYSQL_LOCALHOST_USER: true
 
 volumes:
   database-data:
