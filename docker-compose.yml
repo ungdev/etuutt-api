@@ -6,6 +6,7 @@ services:
       database:
         condition: service_healthy
     networks:
+      - default
       - traefik
     environment:
       APACHE_DOCUMENT_ROOT: /var/www/html/public
@@ -23,6 +24,8 @@ services:
       test: ["CMD", "/usr/local/bin/healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
       interval: 2s
       retries: 120
+    networks:
+      - default
     volumes:
       - database-data:/var/lib/mysql
     environment:

@@ -19,6 +19,7 @@ services:
     image: adminer
     networks:
       - traefik
+      - default
     environment:
       ADMINER_DEFAULT_DB_HOST: database
       ADMINER_DEFAULT_DB_NAME: etuutt
@@ -26,11 +27,12 @@ services:
     ports:
       - "8080:8080"
     labels:
-      - "traefik.http.routers.etuutt_api_adminer.rule=Host(`localhost`) && PathPrefix(`/adminer/`)"
+      - "traefik.http.routers.etuutt_api_adminer.rule=Host(`localhost`) && PathPrefix(`/adminer`)"
       - "traefik.http.services.etuutt_api_adminer.loadbalancer.server.port=8080"
       - "traefik.http.routers.etuutt_api_adminer.middlewares=etuutt_api_adminer_strip"
-      - "traefik.http.middlewares.etuutt_api_adminer_strip.stripprefix.prefixes=/adminer"
+      - "traefik.http.middlewares.etuutt_api_adminer_strip.stripprefix.prefixes=/adminer/"
       - "traefik.http.middlewares.etuutt_api_adminer_strip.stripprefix.forceslash=false"
+      - "traefik.docker.network=traefik"
 
   mailer:
     image: sj26/mailcatcher
@@ -38,6 +40,7 @@ services:
       HTTPPATH: "mailer"
     networks:
       - traefik
+      - default
     command:
       - "--ip"
       - "0.0.0.0"
