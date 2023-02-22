@@ -10,6 +10,7 @@ services:
       TRUSTED_PROXIES: "0.0.0.0/0"
     volumes:
       - ./:/var/www/html
+      - ./.docker/launch.sh:/docker-entrypoint-init.d/launch.sh
 
   # database:
   #   ports:
