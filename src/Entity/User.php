@@ -64,6 +64,14 @@ class User implements UserInterface
 {
     use UUIDTrait;
 
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
+     * @Assert\Uuid
+     */
     #[Groups([
         'user:read:one',
         'user:read:some',

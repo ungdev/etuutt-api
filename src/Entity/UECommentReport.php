@@ -7,6 +7,7 @@ use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECommentReportRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DateTime;
 
 /**
  * The entity that is created whan a User report a Comment.

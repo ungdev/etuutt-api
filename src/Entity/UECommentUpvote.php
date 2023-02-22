@@ -6,6 +6,7 @@ use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECommentUpvoteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * This entity is a vote of a User to a Comment to bring it to the fore.

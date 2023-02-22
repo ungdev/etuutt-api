@@ -6,6 +6,7 @@ use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserUERepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * The entity that represents a subscription of a User to a UE during a Semester.

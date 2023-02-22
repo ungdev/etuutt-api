@@ -65,6 +65,14 @@ class UE
     use TimestampsTrait;
     use UUIDTrait;
 
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
+     * @Assert\Uuid
+     */
     #[Groups([
         'ue:read:one',
         'ue:read:some',
