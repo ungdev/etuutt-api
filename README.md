@@ -159,6 +159,7 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 
 ```
 ./
+├── .docker/                # Set of instructions used by Docker to install the project
 ├── .github/                # Files used to customize GitHub behavior
 ├── bin/                    # Executable files, called by CLI
 |   ├── console             # The one we call to handle this Symfony project
