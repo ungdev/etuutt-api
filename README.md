@@ -46,7 +46,8 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#installation-using-docker-🐋">Installation using Docker 🐋</a></li>
+        <li><a href="#manual-installation">Manual installation</a></li>
         <li><a href="#run-the-project">Run the project</a></li>
       </ul>
     </li>
@@ -82,6 +83,8 @@ You can go to that page by clicking on the image.
 
 ### Built With
 
+* [Docker](https://www.docker.com/)
+  <img width="26px" style="margin-left:8px" alt="Docker" title="Symfony" src="https://cdn-icons-png.flaticon.com/512/919/919853.png" />
 * [Symfony](https://symfony.com/)
   <img width="26px" style="margin-left:8px" alt="Symfony" title="Symfony" src="https://seeklogo.com/images/S/symfony-logo-AA34C8FC16-seeklogo.com.png" />
 * [API Platform](https://api-platform.com/)
@@ -94,33 +97,58 @@ You can go to that page by clicking on the image.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is the API documentation. Everything that concernes the front and the back is in [the project documentation](https://ungdev.github.io/etuutt-core/).\
-First, you will have to read the project doc, then what follows.
+This is the API documentation. Everything that concerns the front and the back is in [the project documentation](https://ungdev.github.io/etuutt-core/).\
+First, you will have to read the project doc, read then the following documentation.
 
 ### Prerequisites
 
-At this point, thanks to [this part of the documentation](https://ungdev.github.io/etuutt-core/1-Configuration/), you have all prerequisites to install the API on your computer.
+To install the project on your machine, you just need to [install WSL 2](https://learn.microsoft.com/fr-fr/windows/wsl/install) if you are on Windows, [install Docker](https://docs.docker.com/engine/install/) and [install Git](https://github.com/git-guides/install-git).
 
 ### Installation
 
-1. Clone the repo by opening a command prompt in the folder you want it to be
+1. Make sure you followed all the steps listed in [this part of the documentation](https://ungdev.github.io/etuutt-core/1-Configuration/).
+2. Clone the repo by opening a command prompt in the folder you want it to be.
    ```sh
    git clone https://github.com/ungdev/etuutt-api
    ```
-2. Install composer packages
+3. Setup the reverse proxy named `traefik` by following the set of instructions inside the `docker-compose.traefik.yml` file.
+4. Tell Docker to download and setup everything for you. Run that command inside the `etuutt-api` folder that have just been created.
    ```sh
-   composer install
+   docker compose -f docker-compose.yml -f docker-compose.dev.yml up
    ```
-3. Duplicate the `.env` file and name it `.env.local`\
-   You will put your private info in this file, such as passwords or path to your local database. This `.env.local` will not be sent to GitHub, it is local to your computer.
+5. Now that the server is running, we need to create the database and its schema.
+   1. Open a terminal into the application's container.
+   ```sh
+   docker container exec -it application /bin/bash
+   ```
+   2. The database is already created by the Docker setup, we only have to create all tables and relations inside that database. To do so, run the following command inside the terminal of the container.
+   ```sh
+   php bin/console doctrine:schema:update --force
+   ```
+   3. Optional : Fill the database with with fake data.
+   ```sh
+   php bin/console doctrine:fixtures:load -n
+   ```
 
 ### Run the project
 
-Now that everything is installed and ready to go, let the magic begin ✨
+Now that everything is installed and ready to go, let the magic begin ✨\
+Run the following command into a command prompt inside the `etuutt-api` folder.
 ```sh
-symfony serve
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
-Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+You can now go to [http://localhost/api](http:/localhost/api) to see the app !\
+Moreover, some app are running inside the development environment to help you doing magic with your computer 🎩🐇
+| Service name | URL | Description |
+| - | - | - |
+| API | [http://localhost/api](http:/localhost/api) | The API home page. You can read the functional documentation and try all endpoints. |
+| Adminer | [http://localhost/adminer](http:/localhost/adminer) | Adminer is a tool for managing content in databases : Seeing tables structures and content in a web app without writting SQL queries. Here are the credentials : `System:SQL ; Server:database ; Username:etuutt ; Password:abcdef ; Databse:etuutt` |
+| Mailer | [http://localhost/mailer](http:/localhost/mailer) | Mailer is a local SMTP server which catches any mail sent to it to display in a web interface. It allows our app to send test mails without spamming anyone. |
+
+To stop the project, simply run that command into the `etuutt-api` folder.
+```sh
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -156,17 +184,18 @@ Once the local server is running, go to [http://127.0.0.1:8000/](http://127.0.0.
 ├── vendor/                 # The third-party dependencies
 ├── .czrc                   # Git Commitizen configuration file
 ├── .dockerignore           # A Docker file to build image of the project
-├── .env                    # Environment variables file. The content is accessible everywhere.
-├── .env.local              # Environment variables specific to your computer, do not share it
+├── .env                    # Environment variables file. The content is accessible everywhere
 ├── .env.test               # Environment variables specific to the "test" environment
 ├── .gitignore              # The list of folders and files that will not be sent to GitHub
 ├── .php-cs-fixer.dist.php  # The set of rules and convention that PHP CS Fixer follows
-├── .php-version            # Tells Symfony to use a specific version of PHP
+├── .php-version            # Tells the Symfony CLI to use a specific version of PHP
 ├── .travis.yml             # Info and script for CI/CD
 ├── composer.json           # The list of dependencies and their versions
 ├── composer.lock           # The list of the dependencies's dependencies
-├── docker-compose.yml      # A Docker file to build image of the project
-├── Dockerfile              # A Docker file to build image of the project
+├── docker-compose.dev.yml  # A Docker file to add development tools inside the container
+├── docker-compose.prod.yml # A Docker file to add some prod specifications
+├── docker-compose.traefik  # A Docker file to set up the reverse proxy
+├── Dockerfile              # A Docker file used only in prod to build the image
 ├── LICENSE.txt             # MIT license text
 ├── phpunit.xml.dist        # The configuration file of the PHP testing framework, PHPUnit
 ├── README.md               # This amazing documentation
@@ -216,7 +245,7 @@ But first, some points to keep in mind 📝
 
 Here is a list of commands to manipulate the database, entities and `php-cs-fixer`.
 
-- To create the empty database.
+- To create an empty database.
    ```sh
    php bin/console doctrine:database:create
    ```
@@ -239,10 +268,6 @@ Here is a list of commands to manipulate the database, entities and `php-cs-fixe
 - To start the database seeding based on `DataFixtures`.
    ```sh
    php bin/console doctrine:fixtures:load -n
-   ```
-- To regenerate the getters and setters of the targeted entity.
-   ```sh
-   php bin/console make:entity --regenerate
    ```
 - To call `php-cs-fixer` to modify the PHP code on src folder so that it follows the conventions described in the `.php-cs-fixer.dist.php` file.
   
