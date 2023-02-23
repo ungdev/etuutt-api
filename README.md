@@ -46,8 +46,7 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation-using-docker-🐋">Installation using Docker 🐋</a></li>
-        <li><a href="#manual-installation">Manual installation</a></li>
+        <li><a href="#installation">Installation</a></li>
         <li><a href="#run-the-project">Run the project</a></li>
       </ul>
     </li>
