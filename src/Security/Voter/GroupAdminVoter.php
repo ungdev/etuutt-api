@@ -29,8 +29,9 @@ class GroupAdminVoter extends Voter
     protected function supports($attribute, $subject): bool
     {
         $supportsAttribute = 'ROLE_ADMIN' === $attribute;
+        $supportsSubject = $subject instanceof Group;
 
-        return $supportsAttribute;
+        return $supportsAttribute && $supportsSubject;
     }
 
     /**
