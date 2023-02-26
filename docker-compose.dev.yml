@@ -2,7 +2,7 @@ version: '3'
 
 services:
   application:
-    image: larueli/php-symfony-base-image:8.2
+    image: larueli/php-symfony-base-image:8.1
     container_name: application
     user: "1000:0"
     environment:

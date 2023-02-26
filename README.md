@@ -269,16 +269,15 @@ Here is a list of commands to manipulate the database, entities and `php-cs-fixe
    ```sh
    php bin/console doctrine:fixtures:load -n
    ```
-- To call `php-cs-fixer` to modify the PHP code on src folder so that it follows the conventions described in the `.php-cs-fixer.dist.php` file.
-  
-  Linux OS
-   ```sh
-   php vendor/bin/php-cs-fixer fix src
-   ```
-  Windows OS
-   ```sh
-   vendor/bin/php-cs-fixer.bat fix src
-   ```
+- To call `php-cs-fixer` to modify the PHP code on `src` folder so that it follows the conventions described in the `.php-cs-fixer.dist.php` file.
+  1. Open a terminal into the application's container.
+     ```sh
+     docker container exec -it application /bin/bash
+     ```
+  2. Start `php-cs-fixer`.
+     ```sh
+     php vendor/bin/php-cs-fixer fix src
+     ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
