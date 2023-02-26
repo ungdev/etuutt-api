@@ -6,7 +6,6 @@ use App\Entity\Group;
 use App\Entity\User;
 use App\Entity\UserAddress;
 use App\Entity\UserInfos;
-use App\Entity\UserMailsPhones;
 use App\Entity\UserPreference;
 use App\Repository\GroupRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -79,7 +78,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
             $mailPhone->setMailPersonal($faker->email);
             $mailUTT = $faker->email;
             $mailPhone->setMailUTT(substr($mailUTT, 0, strpos($mailUTT, '@')).'@utt.fr');
-            $mailPhone->setPhoneNumber($faker->randomElement(['0647935003', '+33 6 47 93 50 03', '06 47 93 50 03', '06.47.93.50.03']));
+            $mailPhone->setPhoneNumber($faker->phoneNumber);
             $this->setFieldVisibility($mailPhone, 'addMailPersonalVisibility', $faker, $groupRepo);
             $this->setFieldVisibility($mailPhone, 'addPhoneNumberVisibility', $faker, $groupRepo);
         }

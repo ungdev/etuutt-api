@@ -28,11 +28,10 @@ class GroupAdminVoter extends Voter
      */
     protected function supports($attribute, $subject): bool
     {
-        $supportsAttribute = \in_array($attribute, ['patch', 'delete'], true);
+        $supportsAttribute = 'ROLE_ADMIN' === $attribute;
         $supportsSubject = $subject instanceof Group;
-        $userLogged = null !== $this->security->getUser();
 
-        return $supportsAttribute && $supportsSubject && $userLogged;
+        return $supportsAttribute && $supportsSubject;
     }
 
     /**
@@ -45,6 +44,10 @@ class GroupAdminVoter extends Voter
     {
         /** @var User $userLogged */
         $userLogged = $this->security->getUser();
+
+        if (null === $userLogged) {
+            return false;
+        }
 
         //  Admin users can do anything
         $isAdmin = $this->security->isGranted('ROLE_ADMIN');
