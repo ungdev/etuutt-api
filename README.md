@@ -2,7 +2,7 @@
 
 
 <!-- PROJECT SHIELDS -->
-[![MIT License](https://img.shields.io/github/license/ungdev/etuutt-api.svg?style=for-the-badge)](https://github.com/ungdev/etuutt-api/blob/master/LICENSE.txt)
+[![MIT License](https://img.shields.io/github/license/ungdev/etuutt-api.svg?style=for-the-badge)](https://github.com/ungdev/etuutt-api/blob/dev/LICENCE.txt)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 
@@ -34,20 +34,20 @@
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary>Table of contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#about-the-project">About the project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#built-with">Built with</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#getting-started">Getting started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
-        <li><a href="#run-the-project">Run the project</a></li>
+        <li><a href="#running-the-project">Running the project</a></li>
       </ul>
     </li>
     <li><a href="#folder-structure">Folder structure</a></li>
@@ -68,7 +68,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About the project
 
 [![Swagger screenshot](docs/images/interface.png)](https://api-etuutt-2020.dev.uttnetgroup.fr/)
 
@@ -80,7 +80,7 @@ You can go to that page by clicking on the image.
 
 
 
-### Built With
+### Built with
 
 * [Docker](https://www.docker.com/)
   <img width="26px" style="margin-left:8px" alt="Docker" title="Symfony" src="https://cdn-icons-png.flaticon.com/512/919/919853.png" />
@@ -94,10 +94,10 @@ You can go to that page by clicking on the image.
 
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Getting started
 
-This is the API documentation. Everything that concerns the front and the back is in [the project documentation](https://ungdev.github.io/etuutt-core/).\
-First, you will have to read the project doc, read then the following documentation.
+This is the API documentation. The [EtuUTT project documentation](https://ungdev.github.io/etuutt-core/) covers everything related to both the front and the back.\
+Read the project documentation first, and then refer to the following documentation for more specific informations about the API.
 
 ### Prerequisites
 
@@ -128,7 +128,7 @@ To install the project on your machine, you just need to [install WSL 2](https:/
    php bin/console doctrine:fixtures:load -n
    ```
 
-### Run the project
+### Running the project
 
 Now that everything is installed and ready to go, let the magic begin ✨\
 Run the following command into a command prompt inside the `etuutt-api` folder.
@@ -241,41 +241,39 @@ But first, some points to keep in mind 📝
 
 ### Useful commands
 
-Here is a list of commands to manipulate the database, entities and `php-cs-fixer`.
-
-- To create an empty database.
-   ```sh
-   php bin/console doctrine:database:create
-   ```
-- To delete the database.
-   ```sh
-   php bin/console doctrine:database:drop --force
-   ```
-- To update the table structure to match all entities without migrations.
-   ```sh
-   php bin/console doctrine:schema:update --force
-   ```
-- To delete all tables in the database that are refereced by an entity.
-   ```sh
-   php bin/console doctrine:schema:drop --force
-   ```
-- To delete all tables in the database.
-   ```sh
-   php bin/console doctrine:schema:drop --full-database --force
-   ```
+All following commands should be executed into the application's container. To do so :
+```sh
+docker exec -it application /bin/bash
+```
+Here is a list of commands to interact with the database, entities, tests, `php-cs-fixer` and `composer`.
+- To update the database schema to match all entities without migrations.
+  ```sh
+  php bin/console doctrine:schema:update --force
+  ```
 - To start the database seeding based on `DataFixtures`.
-   ```sh
-   php bin/console doctrine:fixtures:load -n
-   ```
+  ```sh
+  php bin/console doctrine:fixtures:load -n
+  ```
+- To create or update a Doctrine entity class, and optionally an API Platform resource.
+  ```sh
+  php bin/console make:entity
+  ```
+- To run all tests written inside the `tests` folder.
+  ```sh
+  php bin/phpunit
+  ```
 - To call `php-cs-fixer` to modify the PHP code on `src` folder so that it follows the conventions described in the `.php-cs-fixer.dist.php` file.
-  1. Open a terminal into the application's container.
-     ```sh
-     docker container exec -it application /bin/bash
-     ```
-  2. Start `php-cs-fixer`.
-     ```sh
-     php vendor/bin/php-cs-fixer fix src
-     ```
+  ```sh
+  php vendor/bin/php-cs-fixer fix src
+  ```
+- To install all PHP dependencies.
+  ```sh
+  composer install
+  ```
+- To update the current set of PHP dependencies.
+  ```sh
+  composer update
+  ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
