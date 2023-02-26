@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\Group;
 use App\Entity\Translation;
 use App\Entity\User;
@@ -36,6 +37,26 @@ abstract class EtuUTTApiTestCase extends ApiTestCase
         (new ORMPurger($this->em))->purge();
         $this->em->clear();
         $this->user = $this->createUser('test', 'test', 'test', 'ROLE_ADMIN');
+    }
+
+    /**
+     * Creates a new client, and sets the default header values based on what was passed as arguments.
+     *
+     * @param ?string $casLogin    The CAS-LOGIN header
+     * @param ?string $contentType The Content-Type header
+     */
+    protected function createClientHelper(?string $casLogin = 'test', ?string $contentType = null): Client
+    {
+        $client = static::createClient();
+        $defaultHeaders = [];
+        if ($casLogin) {
+            $defaultHeaders['CAS-LOGIN'] = $casLogin;
+        }
+        if ($contentType) {
+            $defaultHeaders['Content-Type'] = $contentType;
+        }
+        $client->setDefaultOptions(['headers' => $defaultHeaders]);
+        return $client;
     }
 
     /**
