@@ -29,8 +29,6 @@
 .vscode/
 .idea/
 
-## Old stuff
-.php_cs.cache
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
