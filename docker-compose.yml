@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   application:
     image: ghcr.io/ungdev/etuutt-api:master
@@ -34,6 +35,17 @@ services:
       MYSQL_DATABASE: etuutt
       MYSQL_USER: etuutt
       MYSQL_PASSWORD: abcdef
+
+  reverse-proxy:
+    image: traefik:v2.9
+    networks:
+      - traefik
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "9081:8080" # UI
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   database-data:

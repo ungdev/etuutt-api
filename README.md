@@ -110,12 +110,11 @@ To install the project on your machine, you just need to [install WSL 2](https:/
    ```sh
    git clone https://github.com/ungdev/etuutt-api
    ```
-3. Setup the reverse proxy named `traefik` by following the set of instructions inside the `docker-compose.traefik.yml` file.
-4. Tell Docker to download and setup everything for you. Run that command inside the `etuutt-api` folder that have just been created.
+3. Tell Docker to download and setup everything for you. Run that command inside the `etuutt-api` folder that have just been created.
    ```sh
    docker compose -f docker-compose.yml -f docker-compose.dev.yml up
    ```
-5. Now that the server is running, we need to create the database and its schema.
+4. Now that the server is running, we need to create the database and its schema.
    1. Open a terminal into the application's container.
    ```sh
    docker container exec -it application /bin/bash
@@ -136,13 +135,13 @@ Run the following command into a command prompt inside the `etuutt-api` folder.
 ```sh
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
-You can now go to [http://localhost/api](http:/localhost/api) to see the app !\
+You can now go to [http://localhost/api](http://localhost/api) to see the app !\
 Moreover, some app are running inside the development environment to help you doing magic with your computer 🎩🐇
 | Service name | URL | Description |
 | - | - | - |
-| API | [http://localhost/api](http:/localhost/api) | The API home page. You can read the functional documentation and try all endpoints. |
-| Adminer | [http://localhost/adminer](http:/localhost/adminer) | Adminer is a tool for managing content in databases : Seeing tables structures and content in a web app without writting SQL queries. Here are the credentials : `System:SQL ; Server:database ; Username:etuutt ; Password:abcdef ; Databse:etuutt` |
-| Mailer | [http://localhost/mailer](http:/localhost/mailer) | Mailer is a local SMTP server which catches any mail sent to it to display in a web interface. It allows our app to send test mails without spamming anyone. |
+| API | [http://localhost/api](http://localhost/api) | The API home page. You can read the functional documentation and try all endpoints. |
+| Adminer | [http://localhost/adminer](http://localhost/adminer) | Adminer is a tool for managing content in databases : Seeing tables structures and content in a web app without writting SQL queries. Here are the credentials : `System:SQL ; Server:database ; Username:etuutt ; Password:abcdef ; Databse:etuutt` |
+| Mailer | [http://localhost/mailer](http://localhost/mailer) | Mailer is a local SMTP server which catches any mail sent to it to display in a web interface. It allows our app to send test mails without spamming anyone. |
 
 To stop the project, simply run that command into the `etuutt-api` folder.
 ```sh
@@ -194,7 +193,6 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 ├── composer.lock           # The list of the dependencies's dependencies
 ├── docker-compose.dev.yml  # A Docker file to add development tools inside the container
 ├── docker-compose.prod.yml # A Docker file to add some prod specifications
-├── docker-compose.traefik  # A Docker file to set up the reverse proxy
 ├── Dockerfile              # A Docker file used only in prod to build the image
 ├── LICENSE.txt             # MIT license text
 ├── phpunit.xml.dist        # The configuration file of the PHP testing framework, PHPUnit
