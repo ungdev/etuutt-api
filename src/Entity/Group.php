@@ -62,7 +62,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             ),
             new Delete(
                 controller: SoftDeleteController::class,
-                security: "is_granted('delete', object)",
+                security: "is_granted('ROLE_ADMIN', object)",
             ),
             new Patch(
                 normalizationContext: [
