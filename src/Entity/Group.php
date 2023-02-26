@@ -70,7 +70,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                     'skip_null_values' => false,
                 ],
                 denormalizationContext: ['groups' => ['group:write:update']],
-                security: "is_granted('ROLE_ADMIN')",
+                security: "is_granted('ROLE_ADMIN', object)",
             ),
         ],
         paginationItemsPerPage: 10,
