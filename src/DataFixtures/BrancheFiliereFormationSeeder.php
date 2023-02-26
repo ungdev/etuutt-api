@@ -67,9 +67,9 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             //  Création des autres informations pour les branches
             if (0 !== $i) {
                 $branche->setExitSalary($faker->numberBetween(35000, 45000));
-                $branche->setEmploymentRate((int) ($faker->numberBetween(7500, 10000) / 100));
-                $branche->setCDIRate((int) ($faker->numberBetween(7500, 10000) / 100));
-                $branche->setAbroadEmploymentRate((int) ($faker->numberBetween(7500, 10000) / 100));
+                $branche->setEmploymentRate($faker->numberBetween(7500, 10000) / 100);
+                $branche->setCDIRate($faker->numberBetween(7500, 10000) / 100);
+                $branche->setAbroadEmploymentRate($faker->numberBetween(7500, 10000) / 100);
             }
 
             //  On persiste l'entité dans la base de données
