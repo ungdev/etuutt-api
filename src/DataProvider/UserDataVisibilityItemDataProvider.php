@@ -18,7 +18,7 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
 {
     private ProviderInterface $itemDataProvider;
     private Security $security;
-    private ?Group $groupPublic;
+    private Group $groupPublic;
 
     public function __construct(ProviderInterface $itemDataProvider, Security $security, GroupRepository $groupRepo)
     {
