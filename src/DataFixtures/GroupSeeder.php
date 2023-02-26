@@ -56,13 +56,16 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
             $group->setSlug(Slug::slugify($name));
 
             // isVisible property. We might need to force the last groups to be visible or not, so that the minimum/maximum amounts are respected.
-            $isVisible = true;
-            if ($this->minimumVisibleGroupCount - $visibleGroupCount < 19 - $i // Minimum condition
-                && $this->maximumVisibleGroupCount !== $visibleGroupCount) {   // Maximum condition
+            if ($visibleGroupCount < $this->minimumVisibleGroupCount) {
+                $isVisible = true;
+            } else if ($visibleGroupCount < $this->maximumVisibleGroupCount) {
                 $isVisible = $faker->boolean(75);
+            } else {
+                $isVisible = false;
             }
+            
             if ($isVisible) {
-                ++$visibleGroupCount;
+                $visibleGroupCount++;
             }
             $group->setIsVisible($isVisible);
 
