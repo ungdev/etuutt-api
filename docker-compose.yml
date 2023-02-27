@@ -1,18 +1,33 @@
 version: '3'
+
 services:
   application:
-    image: ungdev/etuutt-api
+    image: ghcr.io/ungdev/etuutt-api:master
     depends_on:
-      - database
-    ports:
-      - "8000:8080"
+      database:
+        condition: service_healthy
+    networks:
+      - default
+      - traefik
     environment:
       APACHE_DOCUMENT_ROOT: /var/www/html/public
       TZ: Europe/Paris
-      WAIT_HOSTS: "database:3306"
+    labels:
+      - "traefik.http.routers.etuutt_api.rule=Host(`localhost`) && PathPrefix(`/api`)"
+      - "traefik.http.services.etuutt_api.loadbalancer.server.port=8080"
+      - "traefik.http.routers.etuutt_api.middlewares=etuutt_api_strip"
+      - "traefik.http.middlewares.etuutt_api_strip.stripprefix.prefixes=/api"
+      - "traefik.http.middlewares.etuutt_api_strip.stripprefix.forceslash=false"
+      - "traefik.docker.network=traefik"
 
   database:
-    image: "mariadb:10.6"
+    image: "mariadb:10.11"
+    healthcheck:
+      test: ["CMD-SHELL", "mysql $$MYSQL_DATABASE -u$$MYSQL_USER -p$$MYSQL_PASSWORD -e 'SELECT 1;'  || exit 1"]
+      interval: 5s
+      retries: 10
+    networks:
+      - default
     volumes:
       - database-data:/var/lib/mysql
     environment:
@@ -21,5 +36,20 @@ services:
       MYSQL_USER: etuutt
       MYSQL_PASSWORD: abcdef
 
+  reverse-proxy:
+    image: traefik:v2.9
+    networks:
+      - traefik
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "9081:8080" # UI
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
 volumes:
   database-data:
+
+networks:
+  traefik:
+    external: true
