@@ -18,6 +18,13 @@ use Faker\Factory;
 
 class UserSeeder extends Fixture implements DependentFixtureInterface
 {
+    private int $userCount;
+
+    public function __construct(int $userCount = 301)
+    {
+        $this->userCount = $userCount;
+    }
+
     public function getDependencies()
     {
         return [
@@ -41,7 +48,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
         $manager->persist($user);
 
         $userRepository = $manager->getRepository(User::class);
-        for ($i = 0; $i < 300; ++$i) {
+        for ($i = 0; $i < $this->userCount - 1; ++$i) {
             //  Créations d'un User
             $user = new User();
             $user->setStudentId(44000 + $i);
