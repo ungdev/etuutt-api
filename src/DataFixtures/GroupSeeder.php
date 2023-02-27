@@ -13,6 +13,21 @@ use Faker\Factory;
 
 class GroupSeeder extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @var int The minimum number of groups which will have the isVisible property set to true
+     */
+    protected int $minimumVisibleGroupCount;
+    /**
+     * @var int The maximum number of groups which will have the isVisible property set to true
+     */
+    protected int $maximumVisibleGroupCount;
+
+    public function __construct(int $minimumVisibleGroupCount = 0, int $maximumVisibleGroupCount = 20)
+    {
+        $this->minimumVisibleGroupCount = $minimumVisibleGroupCount;
+        $this->maximumVisibleGroupCount = $maximumVisibleGroupCount;
+    }
+
     public function getDependencies()
     {
         return [
@@ -25,6 +40,9 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $users = $manager->getRepository(User::class)->findAll();
 
+        // How many groups which have the property isVisible set to true have been created so far
+        $visibleGroupCount = 0;
+
         //  Création de 20 groupes
         for ($i = 0; $i < 20; ++$i) {
             //  Créations d'un group
@@ -36,7 +54,20 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
             };
             $group->setName($name);
             $group->setSlug(Slug::slugify($name));
-            $group->setIsVisible($faker->boolean(75));
+
+            // isVisible property. We might need to force the last groups to be visible or not, so that the minimum/maximum amounts are respected.
+            if ($visibleGroupCount < $this->minimumVisibleGroupCount) {
+                $isVisible = true;
+            } else if ($visibleGroupCount < $this->maximumVisibleGroupCount) {
+                $isVisible = $faker->boolean(75);
+            } else {
+                $isVisible = false;
+            }
+            
+            if ($isVisible) {
+                $visibleGroupCount++;
+            }
+            $group->setIsVisible($isVisible);
 
             //  Création d'une traduction
             $descriptionTranslation = $group->getDescriptionTranslation();

@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A Group of User for friends, Course... Only user can see it, only god can judge me.
  *
  * @ORM\Entity(repositoryClass=GroupRepository::class)
- * @ORM\Table(name="groups")
+ * @ORM\Table(name="`groups`")
  * @ORM\EntityListeners({"App\Doctrine\GroupSetAdminAndMemberListener"})
  */
 #[
@@ -34,28 +34,43 @@ use Symfony\Component\Validator\Constraints as Assert;
         shortName: 'group',
         operations: [
             new GetCollection(
-                normalizationContext: ['groups' => ['group:read:some'], 'skip_null_values' => false],
+                normalizationContext: [
+                    'groups' => ['group:read:some'],
+                    'skip_null_values' => false
+                ],
             ),
             new GetCollection(
                 uriTemplate: '/groups/me',
-                normalizationContext: ['groups' => ['group:read:some'], 'skip_null_values' => false],
+                normalizationContext: [
+                    'groups' => ['group:read:some'],
+                    'skip_null_values' => false,
+                ],
                 provider: MyGroupsCollectionDataProvider::class,
             ),
             new Post(
-                normalizationContext: ['groups' => ['group:read:one'], 'skip_null_values' => false],
+                normalizationContext: [
+                    'groups' => ['group:read:one'],
+                    'skip_null_values' => false,
+                ],
                 denormalizationContext: ['groups' => ['group:write:create']],
             ),
             new Get(
-                normalizationContext: ['groups' => ['group:read:one'], 'skip_null_values' => false],
+                normalizationContext: [
+                    'groups' => ['group:read:one'],
+                    'skip_null_values' => false,
+                ],
             ),
             new Delete(
                 controller: SoftDeleteController::class,
-                security: "is_granted('delete', object)",
+                security: "is_granted('ROLE_ADMIN', object)",
             ),
             new Patch(
-                normalizationContext: ['groups' => ['group:read:one'], 'skip_null_values' => false],
+                normalizationContext: [
+                    'groups' => ['group:read:one'],
+                    'skip_null_values' => false,
+                ],
                 denormalizationContext: ['groups' => ['group:write:update']],
-                security: "is_granted('patch', object)",
+                security: "is_granted('ROLE_ADMIN', object)",
             ),
         ],
         paginationItemsPerPage: 10,

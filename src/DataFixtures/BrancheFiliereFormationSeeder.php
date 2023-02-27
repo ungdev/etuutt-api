@@ -20,6 +20,13 @@ use Faker\Factory;
 
 class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureInterface
 {
+    private int $minFiliereCount;
+
+    public function __construct(int $minFiliereCount = 0)
+    {
+        $this->minFiliereCount = $minFiliereCount;
+    }
+
     public function getDependencies()
     {
         return [
@@ -111,16 +118,17 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
         /** @var SemesterRepository $semesterRepository */
         $semesterRepository = $manager->getRepository(Semester::class);
+        $usersCount = \count($users);
 
-        foreach ($users as $user) {
+        foreach ($users as $i => $user) {
             //  Création de la variable pivot
             $userUTTBranche = new UserBranche();
             $userUTTBranche->setUser($user);
             $branche = $faker->randomElement($branches);
             $userUTTBranche->setUTTBranche($branche);
 
-            //  Ajout d'une filière pour la moitié des users
-            if ($faker->boolean()) {
+            //  Ajout d'une filière pour la moitié des users (forcer l'ajout si cela est nécessaire pour atteindre le minimum demandé)
+            if ($usersCount - $i <= $this->minFiliereCount || $faker->boolean()) {
                 $userUTTBranche->setUTTFiliere($faker->randomElement($branche->getUTTFilieres()->getValues()));
             }
 

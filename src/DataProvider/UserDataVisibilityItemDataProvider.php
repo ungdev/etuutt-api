@@ -40,6 +40,11 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
             return null;
         }
 
+        if (!$userLogged) {
+            // We don't want to return null because it would return a 404
+            return new User();
+        }
+
         /** @var UserAddress $address */
         foreach ($userToShow->getAddresses()->getValues() as $address) {
             if (!$this->canAccessInfo($userToShow, $address->getAddressVisibility(), $userLogged)) {

@@ -56,12 +56,12 @@ class UTTBranche
     private $employmentRate;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $CDIRate;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $abroadEmploymentRate;
 
@@ -118,36 +118,36 @@ class UTTBranche
         return $this;
     }
 
-    public function getEmploymentRate(): ?int
+    public function getEmploymentRate(): ?float
     {
         return $this->employmentRate;
     }
 
-    public function setEmploymentRate(?int $employmentRate): self
+    public function setEmploymentRate(?float $employmentRate): self
     {
         $this->employmentRate = $employmentRate;
 
         return $this;
     }
 
-    public function getCDIRate(): ?int
+    public function getCDIRate(): ?float
     {
         return $this->CDIRate;
     }
 
-    public function setCDIRate(?int $CDIRate): self
+    public function setCDIRate(?float $CDIRate): self
     {
         $this->CDIRate = $CDIRate;
 
         return $this;
     }
 
-    public function getAbroadEmploymentRate(): ?int
+    public function getAbroadEmploymentRate(): ?float
     {
         return $this->abroadEmploymentRate;
     }
 
-    public function setAbroadEmploymentRate(?int $abroadEmploymentRate): self
+    public function setAbroadEmploymentRate(?float $abroadEmploymentRate): self
     {
         $this->abroadEmploymentRate = $abroadEmploymentRate;
 
