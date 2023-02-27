@@ -9,9 +9,6 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
-use App\ApiPlatform\IsStudentFilter;
-use App\ApiPlatform\SearchInNamesFilter;
-use App\ApiPlatform\UEFilter;
 use App\Controller\GetEDTController;
 use App\Controller\SoftDeleteController;
 use App\DataProvider\UserDataVisibilityItemDataProvider;
@@ -83,9 +80,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             'branche.semesterNumber' => 'exact',
         ]
     ),
-    ApiFilter(UEFilter::class),
-    ApiFilter(SearchInNamesFilter::class),
-    ApiFilter(IsStudentFilter::class),
 ]
 class User implements UserInterface
 {

@@ -179,8 +179,6 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 |   ├── Security/           # Login process and Voters
 |   └── Util/               # Static classes to centralize simple tasks
 ├── tests/                  # Automated tests (e.g. Unit tests)
-|   └── Groups/             # Tests for /groups routes
-|   └── Users/              # Tests for /users routes
 ├── var/                    # Generated files (cache, logs, etc)
 ├── vendor/                 # The third-party dependencies
 ├── .czrc                   # Git Commitizen configuration file
