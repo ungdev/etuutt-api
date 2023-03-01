@@ -24,7 +24,7 @@ class UserRGPD
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User which have those RGPD.
@@ -32,7 +32,7 @@ class UserRGPD
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="RGPD", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * A boolean to store if we keep the User's account in the database.
@@ -43,7 +43,7 @@ class UserRGPD
     #[Groups([
         'user:write:update',
     ])]
-    private $isKeepingAccount;
+    private ?bool $isKeepingAccount = null;
 
     /**
      * A boolean to store if we delete all info about this User in our database.
@@ -54,7 +54,7 @@ class UserRGPD
     #[Groups([
         'user:write:update',
     ])]
-    private $isDeletingEverything;
+    private ?bool $isDeletingEverything = null;
 
     public function getId(): ?Uuid
     {

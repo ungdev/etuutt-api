@@ -21,9 +21,9 @@ class AssoMembershipPermission
      * @Assert\Length(min=1, max=50)
      * @Assert\Regex("/^[a-z_]{1,50}/")
      */
-    private $name;
+    private ?string $name = null;
 
-    public function __construct($name)
+    public function __construct(?string $name)
     {
         $this->name = $name;
     }

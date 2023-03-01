@@ -17,7 +17,7 @@ use Symfony\Bundle\SecurityBundle\Security;
  */
 class FilterSoftDeletedExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
-    private $security;
+    private Security $security;
 
     public function __construct(Security $security)
     {

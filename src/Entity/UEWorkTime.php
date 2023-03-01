@@ -23,7 +23,7 @@ class UEWorkTime
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The UE related to this Worktime.
@@ -31,7 +31,7 @@ class UEWorkTime
      * @ORM\OneToOne(targetEntity=UE::class, inversedBy="workTime", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $UE;
+    private ?UE $UE = null;
 
     /**
      * The number of hours during the semester of CM (Cours Magistral).
@@ -40,7 +40,7 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
-    private $cm;
+    private ?int $cm = null;
 
     /**
      * The number of hours during the semester of TD (Travaux Dirigés).
@@ -49,7 +49,7 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
-    private $td;
+    private ?int $td = null;
 
     /**
      * The number of hours during the semester of TP (Travaux Pratiques).
@@ -58,7 +58,7 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
-    private $tp;
+    private ?int $tp = null;
 
     /**
      * The estimated number of hours during the semester of THE (Travail Hors Encadrement).
@@ -67,7 +67,7 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
-    private $the;
+    private ?int $the = null;
 
     /**
      * The estimated number of hours during the semester of project.
@@ -76,7 +76,7 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
-    private $projet;
+    private ?int $projet = null;
 
     /**
      * The number of week that this internship has to lasts.
@@ -85,7 +85,7 @@ class UEWorkTime
      * @Assert\Type("int")
      * @Assert\PositiveOrZero
      */
-    private $internship;
+    private ?int $internship = null;
 
     public function getId(): ?Uuid
     {

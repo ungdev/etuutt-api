@@ -22,7 +22,7 @@ class AssoMembershipRole
      * @Assert\Length(min=1, max=255)
      * @Assert\Regex("/^[a-z_]{1,255}/")
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * The Translation object that contains the translation of the description.
@@ -30,9 +30,9 @@ class AssoMembershipRole
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
-    private $descriptionTranslation;
+    private ?Translation $descriptionTranslation = null;
 
-    public function __construct($name)
+    public function __construct(?string $name)
     {
         $this->name = $name;
         $this->setDescriptionTranslation(new Translation());

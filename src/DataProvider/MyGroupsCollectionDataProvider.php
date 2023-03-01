@@ -12,7 +12,7 @@ use Symfony\Bundle\SecurityBundle\Security;
  */
 class MyGroupsCollectionDataProvider implements ProviderInterface
 {
-    private $security;
+    private Security $security;
 
     public function __construct(Security $security)
     {

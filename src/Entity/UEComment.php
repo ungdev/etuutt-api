@@ -25,7 +25,7 @@ class UEComment
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the UE this Commment is for.
@@ -33,7 +33,7 @@ class UEComment
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $UE;
+    private ?UE $UE = null;
 
     /**
      * The relation to the User who has created this Comment.
@@ -41,7 +41,7 @@ class UEComment
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $author;
+    private ?User $author = null;
 
     /**
      * The content of this Comment.
@@ -49,7 +49,7 @@ class UEComment
      * @ORM\Column(type="text")
      * @Assert\Type("string")
      */
-    private $body;
+    private ?string $body = null;
 
     /**
      * A boolean that says if the author will be display next to his Comment.
@@ -57,7 +57,7 @@ class UEComment
      * @ORM\Column(type="boolean")
      * @Assert\Type("bool")
      */
-    private $isAnonymous;
+    private ?bool $isAnonymous = null;
 
     /**
      * The relation to the semester in which this comment have been created.
@@ -65,39 +65,39 @@ class UEComment
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
-    private $semester;
+    private ?Semester $semester = null;
 
     /**
      * The relation to all UECommentReply that are answering to this Comment.
      *
      * @ORM\OneToMany(targetEntity=UECommentReply::class, mappedBy="comment")
      */
-    private $answers;
+    private Collection $answers;
 
     /**
      * The relation to all Reports of this Comment.
      *
      * @ORM\OneToMany(targetEntity=UECommentReport::class, mappedBy="comment", orphanRemoval=true)
      */
-    private $reports;
+    private Collection $reports;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
      */
-    private $deletedAt;
+    private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()
     {

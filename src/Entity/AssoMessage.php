@@ -22,7 +22,7 @@ class AssoMessage
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the Asso that sent this AssoMessage.
@@ -30,7 +30,7 @@ class AssoMessage
      * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="assoMessages")
      * @ORM\JoinColumn(name="asso_id", nullable=false)
      */
-    private $asso;
+    private ?Asso $asso = null;
 
     /**
      * The Translation object that contains the translation of the title.
@@ -38,7 +38,7 @@ class AssoMessage
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('title')]
-    private $titleTranslation;
+    private ?Translation $titleTranslation = null;
 
     /**
      * The Translation object that contains the translation of the description.
@@ -46,7 +46,7 @@ class AssoMessage
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('body')]
-    private $bodyTranslation;
+    private ?Translation $bodyTranslation = null;
 
     /**
      * The date of the event presented in the message.
@@ -54,7 +54,7 @@ class AssoMessage
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $date;
+    private ?\DateTimeInterface $date = null;
 
     /**
      * Whether the message should be displayed on mobile or not.
@@ -62,7 +62,7 @@ class AssoMessage
      * @ORM\Column(type="boolean")
      * @Assert\Type("bool")
      */
-    private $sendToMobile;
+    private ?bool $sendToMobile = null;
 
     /**
      * Whether the message should be send in the daymails or not.
@@ -70,13 +70,13 @@ class AssoMessage
      * @ORM\Column(type="boolean")
      * @Assert\Type("bool")
      */
-    private $sendAsDaymail;
+    private ?bool $sendAsDaymail = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

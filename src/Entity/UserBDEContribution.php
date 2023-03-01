@@ -23,7 +23,7 @@ class UserBDEContribution
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User that contribute.
@@ -31,7 +31,7 @@ class UserBDEContribution
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="BDEContributions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The relation to the starting Semester of the BDEContribution.
@@ -39,7 +39,7 @@ class UserBDEContribution
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="start_semester_code", referencedColumnName="code")
      */
-    private $startSemester;
+    private ?Semester $startSemester = null;
 
     /**
      * The relation to the ending Semester of the BDEContribution.
@@ -47,7 +47,7 @@ class UserBDEContribution
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="end_semester_code", referencedColumnName="code")
      */
-    private $endSemester;
+    private ?Semester $endSemester = null;
 
     /**
      * The starting date of the BDEContribution.
@@ -55,7 +55,7 @@ class UserBDEContribution
      * @ORM\Column(type="date")
      * @Assert\Date
      */
-    private $start;
+    private ?\DateTimeInterface $start = null;
 
     /**
      * The ending date of the BDEContribution.
@@ -63,7 +63,7 @@ class UserBDEContribution
      * @ORM\Column(type="date")
      * @Assert\Date
      */
-    private $end;
+    private ?\DateTimeInterface $end = null;
 
     public function getId(): ?Uuid
     {

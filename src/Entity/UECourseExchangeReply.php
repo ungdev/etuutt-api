@@ -23,7 +23,7 @@ class UECourseExchangeReply
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the author of this reply.
@@ -31,7 +31,7 @@ class UECourseExchangeReply
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $author;
+    private ?User $author = null;
 
     /**
      * The relation to the exchange this message is replying to.
@@ -39,32 +39,32 @@ class UECourseExchangeReply
      * @ORM\ManyToOne(targetEntity=UECourseExchange::class, inversedBy="responses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $exchange;
+    private ?UECourseExchange $exchange = null;
 
     /**
      * The content of the reply message.
      *
      * @ORM\Column(type="text")
      */
-    private $body;
+    private ?string $body = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
      */
-    private $deletedAt;
+    private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()
     {

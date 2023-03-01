@@ -80,7 +80,7 @@ class Group
             'group:read:some',
         ])
     ]
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -92,7 +92,7 @@ class Group
         'group:read:some',
         'group:write:create',
     ])]
-    private $name;
+    private ?string $name = null;
 
     /**
      * The Translation object that contains the translation of the description.
@@ -108,7 +108,7 @@ class Group
         ]),
         SerializedName('description')
     ]
-    private $descriptionTranslation;
+    private ?Translation $descriptionTranslation = null;
 
     /**
      * If the group is related to an Asso, this field own the relation.
@@ -119,7 +119,7 @@ class Group
         'group:read:one',
         'group:read:some',
     ])]
-    private $asso;
+    private ?Asso $asso = null;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -136,7 +136,7 @@ class Group
             'group:read:some',
         ])
     ]
-    private $slug;
+    private ?string $slug = null;
 
     /**
      * The path to the avatar of the Group.
@@ -151,7 +151,7 @@ class Group
         'group:write:update',
         'group:write:create',
     ])]
-    private $avatar;
+    private ?string $avatar = null;
 
     /**
      * @ORM\Column(type="boolean")
@@ -162,7 +162,7 @@ class Group
         'group:write:update',
         'group:write:create',
     ])]
-    private $isVisible;
+    private ?bool $isVisible = null;
 
     /**
      * The relation that allow to add many Users into many Groups.
@@ -178,7 +178,7 @@ class Group
         'group:read:one',
         'group:write:update',
     ])]
-    private $members;
+    private Collection $members;
 
     /**
      * The relation that allow to add many admins to this group. Admins of a group can update and delete it.
@@ -194,7 +194,7 @@ class Group
         'group:write:update',
         'group:write:create',
     ])]
-    private $admins;
+    private Collection $admins;
 
     /**
      * @ORM\Column(type="datetime")
@@ -203,7 +203,7 @@ class Group
         'group:read:one',
         'group:read:some',
     ])]
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
@@ -211,12 +211,12 @@ class Group
     #[Groups([
         'group:read:one',
     ])]
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $deletedAt;
+    private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()
     {

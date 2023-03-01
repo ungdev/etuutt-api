@@ -26,7 +26,7 @@ class UECourse
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the UE related to this Course.
@@ -36,7 +36,7 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    private $UE;
+    private ?UE $UE = null;
 
     /**
      * The day of the week during which this Course takes place.
@@ -48,7 +48,7 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    private $day;
+    private ?string $day = null;
 
     /**
      * The starting hour of this Course.
@@ -59,7 +59,7 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    private $startHour;
+    private ?\DateTimeInterface $startHour = null;
 
     /**
      * The ending hour of this Course.
@@ -70,7 +70,7 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    private $endHour;
+    private ?\DateTimeInterface $endHour = null;
 
     /**
      * The week code during which the Course takes place.
@@ -82,7 +82,7 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    private $week;
+    private ?string $week = null;
 
     /**
      * @ORM\Column(type="string", length=2, nullable=true)
@@ -92,7 +92,7 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    private $type;
+    private ?string $type = null;
 
     /**
      * The place where the Course takes place.
@@ -104,7 +104,7 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    private $room;
+    private ?string $room = null;
 
     /**
      * The relation to the Semester during which the Course takes place.
@@ -112,7 +112,7 @@ class UECourse
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
-    private $semester;
+    private ?Semester $semester = null;
 
     /**
      * The relation with User to have all students of this Course.
@@ -124,13 +124,13 @@ class UECourse
      *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      * )
      */
-    private $students;
+    private Collection $students;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

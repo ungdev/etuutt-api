@@ -23,14 +23,14 @@ class Covoit
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The description of this Covoit. It is optional.
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private ?string $description = null;
 
     /**
      * The maximum number of passengers of this Covoit.
@@ -39,7 +39,7 @@ class Covoit
      * @Assert\Type("int")
      * @Assert\Positive
      */
-    private $capacity;
+    private ?int $capacity = null;
 
     /**
      * The price in cents (x100).
@@ -48,7 +48,7 @@ class Covoit
      * @Assert\Type("int")
      * @Assert\Positive
      */
-    private $price;
+    private ?int $price = null;
 
     /**
      * The URL of this Covoit on the blablacar website. It is optional.
@@ -56,21 +56,21 @@ class Covoit
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      * @Assert\Url
      */
-    private $blablacarUrl;
+    private ?string $blablacarUrl = null;
 
     /**
      * The starting address of the Covoit.
      *
      * @ORM\Column(type="string", length=255)
      */
-    private $startAddress;
+    private ?string $startAddress = null;
 
     /**
      * The end address (destination) of the Covoit.
      *
      * @ORM\Column(type="string", length=255)
      */
-    private $endAddress;
+    private ?string $endAddress = null;
 
     /**
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
@@ -78,7 +78,7 @@ class Covoit
      * @ORM\Column(type="uuid", nullable=true)
      * @Assert\Uuid
      */
-    private $startCityId;
+    private Uuid $startCityId;
 
     /**
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
@@ -94,7 +94,7 @@ class Covoit
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $startAt;
+    private ?\DateTimeInterface $startAt = null;
 
     /**
      * The end date of the Covoit.
@@ -102,26 +102,26 @@ class Covoit
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $endAt;
+    private ?\DateTimeInterface $endAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * The relation between the Covoit and its CovoitMessages.
      *
      * @ORM\OneToMany(targetEntity=CovoitMessage::class, mappedBy="covoit", orphanRemoval=true)
      */
-    private $covoitMessages;
+    private Collection $covoitMessages;
 
     /**
      * The relation between the Covoit and the User that created it.
@@ -129,7 +129,7 @@ class Covoit
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="createdCovoits")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $author;
+    private ?User $author = null;
 
     /**
      * The relation between the Covoit and the User that are subscribed to it.
@@ -141,7 +141,7 @@ class Covoit
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      * )
      */
-    private $passengers;
+    private Collection $passengers;
 
     public function __construct()
     {

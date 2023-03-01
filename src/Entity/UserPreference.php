@@ -26,7 +26,7 @@ class UserPreference
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User which have those Preferences.
@@ -34,7 +34,7 @@ class UserPreference
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="preference", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The boolean that informs us if we show or not the birthday of this User.
@@ -45,7 +45,7 @@ class UserPreference
     #[Groups([
         'user:write:update',
     ])]
-    private $birthdayDisplayOnlyAge;
+    private ?bool $birthdayDisplayOnlyAge = null;
 
     /**
      * The language prefered by the User. It follows the ISO 639-1 convention.
@@ -57,7 +57,7 @@ class UserPreference
     #[Groups([
         'user:write:update',
     ])]
-    private $language;
+    private ?string $language = null;
 
     /**
      * The boolean that informs us if we send day mail to this User or not.
@@ -68,7 +68,7 @@ class UserPreference
     #[Groups([
         'user:write:update',
     ])]
-    private $wantDaymail;
+    private ?bool $wantDaymail = null;
 
     /**
      * The boolean that informs us if we send day notif to this User or not.
@@ -79,7 +79,7 @@ class UserPreference
     #[Groups([
         'user:write:update',
     ])]
-    private $wantDayNotif;
+    private ?bool $wantDayNotif = null;
 
     /**
      * Relations to all groups that can access to this data.
@@ -91,7 +91,7 @@ class UserPreference
      *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
-    private $scheduleVisibility;
+    private Collection $scheduleVisibility;
 
     public function __construct()
     {
@@ -109,7 +109,7 @@ class UserPreference
      * @param mixed $to_call
      * @param mixed $arg
      */
-    public function caller($to_call, $arg)
+    public function caller($to_call, $arg): void
     {
         if (\is_callable([$this, $to_call])) {
             $this->{$to_call}($arg);

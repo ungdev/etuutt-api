@@ -21,7 +21,7 @@ class CovoitAlert
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation between the CovoitAlert and the User that created it.
@@ -29,7 +29,7 @@ class CovoitAlert
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="covoitAlerts")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The maximum price in cents (x100). It is optional.
@@ -38,7 +38,7 @@ class CovoitAlert
      * @Assert\Type("int")
      * @Assert\Positive
      */
-    private $priceMax;
+    private ?int $priceMax = null;
 
     /**
      * The first boundary of the Covoit starting date.
@@ -46,7 +46,7 @@ class CovoitAlert
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $startAt;
+    private ?\DateTimeInterface $startAt = null;
 
     /**
      * The second boundary of the Covoit starting date.
@@ -54,7 +54,7 @@ class CovoitAlert
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $endAt;
+    private ?\DateTimeInterface $endAt = null;
 
     /**
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
@@ -76,13 +76,13 @@ class CovoitAlert
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     public function __construct()
     {

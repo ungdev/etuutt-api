@@ -23,7 +23,7 @@ class UECredit
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the UE the credits are for.
@@ -31,7 +31,7 @@ class UECredit
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="credits")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $UE;
+    private ?UE $UE = null;
 
     /**
      * The relation to the category of the credits.
@@ -39,7 +39,7 @@ class UECredit
      * @ORM\ManyToOne(targetEntity=UECreditCategory::class)
      * @ORM\JoinColumn(name="category_code", referencedColumnName="code")
      */
-    private $category;
+    private ?UECreditCategory $category = null;
 
     /**
      * The amount of credit.
@@ -48,7 +48,7 @@ class UECredit
      * @Assert\Type("int")
      * @Assert\Positive
      */
-    private $credits;
+    private ?int $credits = null;
 
     public function getId(): ?Uuid
     {

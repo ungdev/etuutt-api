@@ -26,7 +26,7 @@ class UTTFiliere
      * @Assert\Length(max=10)
      * @Assert\Regex("/^[A-Z\d]{1,10}$/")
      */
-    private $code;
+    private ?string $code;
 
     /**
      * The complete name of the Filiere.
@@ -35,7 +35,7 @@ class UTTFiliere
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * The relation to the Branche that contains this Filiere.
@@ -43,7 +43,7 @@ class UTTFiliere
      * @ORM\ManyToOne(targetEntity=UTTBranche::class, inversedBy="filieres")
      * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
      */
-    private $branche;
+    private ?UTTBranche $branche = null;
 
     /**
      * The Translation object that contains the translation of the description.
@@ -51,14 +51,14 @@ class UTTFiliere
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
-    private $descriptionTranslation;
+    private ?Translation $descriptionTranslation = null;
 
     /**
      * The relation to all UEs contained in this Filiere.
      *
      * @ORM\OneToMany(targetEntity=UE::class, mappedBy="filiere")
      */
-    private $UEs;
+    private Collection $UEs;
 
     public function __construct(string $code = null)
     {

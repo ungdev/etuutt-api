@@ -24,7 +24,7 @@ class Badge
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The Serie is a group of Badge with the same idea (e.g. Badges that deal with being an asso member).
@@ -33,7 +33,7 @@ class Badge
      * @Assert\Type("string")
      * @Assert\Length(max=50)
      */
-    private $serie;
+    private ?string $serie = null;
 
     /**
      * The Level is serves to determine which badge of a serie is more advanced.
@@ -42,14 +42,14 @@ class Badge
      * @Assert\Type("int")
      * @Assert\Positive
      */
-    private $level;
+    private ?int $level = null;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * The path to the picture of the badge.
@@ -58,7 +58,7 @@ class Badge
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
-    private $picture;
+    private ?string $picture = null;
 
     /**
      * The Translation object that contains the translation of the description.
@@ -66,19 +66,19 @@ class Badge
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
-    private $descriptionTranslation;
+    private ?Translation $descriptionTranslation = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
      */
-    private $deletedAt;
+    private ?\DateTimeInterface $deletedAt = null;
 
     /**
      * The relation that allow to add many Badges to many Users.
@@ -90,7 +90,7 @@ class Badge
      *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      * )
      */
-    private $users;
+    private Collection $users;
 
     public function __construct()
     {

@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 // This class is a controller that removes expired courses from the user's EDT
 class GetEDTController extends AbstractController
 {
-    private $manager;
+    private EntityManagerInterface $manager;
 
     public function __construct(EntityManagerInterface $manager)
     {

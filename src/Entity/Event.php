@@ -63,7 +63,7 @@ class Event
         'event:read:one',
         'asso:read:one',
     ])]
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation between the Event and the Assos that organize it.
@@ -74,7 +74,7 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    private $assos;
+    private Collection $assos;
 
     /**
      * The Translation object that contains the translation of the title of the event.
@@ -87,7 +87,7 @@ class Event
         'event:read:one',
         'asso:read:one',
     ])]
-    private $titleTranslation;
+    private ?Translation $titleTranslation = null;
 
     /**
      * The starting date of the event.
@@ -98,7 +98,7 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    private $startAt;
+    private ?\DateTimeInterface $startAt = null;
 
     /**
      * The ending date of the event.
@@ -109,7 +109,7 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    private $endAt;
+    private ?\DateTimeInterface $endAt = null;
 
     /**
      * A boolean telling whether the event is from morning to evening or not.
@@ -120,7 +120,7 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    private $isAllDay;
+    private ?bool $isAllDay = null;
 
     /**
      * The location of the event. It is optional.
@@ -132,7 +132,7 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    private $location;
+    private ?string $location = null;
 
     /**
      * The Translation object that contains the translation of the description.
@@ -143,25 +143,25 @@ class Event
         'event:read:one',
     ])]
     #[SerializedName('description')]
-    private $descriptionTranslation;
+    private ?Translation $descriptionTranslation = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
      */
-    private $deletedAt;
+    private ?\DateTimeInterface $deletedAt = null;
 
     /**
      * The relation to the EventCategory the Event is classified as.
@@ -176,7 +176,7 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    private $categories;
+    private Collection $categories;
 
     /**
      * The relation to the EventAnswers of the Event.
@@ -186,7 +186,7 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    private $eventAnswers;
+    private Collection $eventAnswers;
 
     /**
      * The privacy of the Event.
@@ -196,7 +196,7 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    private $eventPrivacy;
+    private ?EventPrivacy $eventPrivacy = null;
 
     public function __construct()
     {

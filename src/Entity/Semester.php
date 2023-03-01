@@ -21,7 +21,7 @@ class Semester
      * @Assert\Length(max=10)
      * @Assert\Regex("/^(A|P)\d{2}$/")
      */
-    private $code;
+    private ?string $code;
 
     /**
      * The starting date of the Semester.
@@ -29,7 +29,7 @@ class Semester
      * @ORM\Column(type="date")
      * @Assert\Date
      */
-    private $start;
+    private ?\DateTimeInterface $start = null;
 
     /**
      * The ending date of the Semester.
@@ -37,7 +37,7 @@ class Semester
      * @ORM\Column(type="date")
      * @Assert\Date
      */
-    private $end;
+    private ?\DateTimeInterface $end = null;
 
     public function __construct(string $code = null)
     {

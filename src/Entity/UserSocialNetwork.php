@@ -24,7 +24,7 @@ class UserSocialNetwork
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User which have those SocialNetworks.
@@ -32,7 +32,7 @@ class UserSocialNetwork
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="socialNetwork", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The URL of the User's Facebook.
@@ -47,7 +47,7 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    private $facebook;
+    private ?string $facebook = null;
 
     /**
      * The URL of the User's Twitter.
@@ -62,7 +62,7 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    private $twitter;
+    private ?string $twitter = null;
 
     /**
      * The URL of the User's Instagram.
@@ -77,7 +77,7 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    private $instagram;
+    private ?string $instagram = null;
 
     /**
      * The URL of the User's LinkedIn.
@@ -92,7 +92,7 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    private $linkedin;
+    private ?string $linkedin = null;
 
     /**
      * The Discord pseudo of the User. It is usefull to create a link to discord bot.
@@ -105,7 +105,7 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    private $pseudoDiscord;
+    private ?string $pseudoDiscord = null;
 
     /**
      * A boolean to store if the User wants to be added to the UTT's discord.
@@ -117,7 +117,7 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    private $wantDiscordUTT = false;
+    private bool $wantDiscordUTT = false;
 
     public function getId(): ?Uuid
     {

@@ -26,7 +26,7 @@ class UserMailsPhones
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User related to this info.
@@ -34,7 +34,7 @@ class UserMailsPhones
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="mailsPhones", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The UTT email address of the User. It ends by "@utt.fr".
@@ -43,7 +43,7 @@ class UserMailsPhones
      * @Assert\Email
      * @Assert\Regex("/^.+@utt\.fr$/")
      */
-    private $mailUTT;
+    private ?string $mailUTT = null;
 
     /**
      * The personal mail fo the User. Elle ne peut pas finir par "@utt.fr".
@@ -55,7 +55,7 @@ class UserMailsPhones
         'user:read:one',
         'user:write:update',
     ])]
-    private $mailPersonal;
+    private ?string $mailPersonal = null;
 
     /**
      * Relations to all groups that can access to this data.
@@ -67,7 +67,7 @@ class UserMailsPhones
      *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
-    private $mailPersonalVisibility;
+    private Collection $mailPersonalVisibility;
 
     /**
      * The phone number of the User. It must have this form : 0647935003, +33 6 47 93 50 03, or with . and - as separator.
@@ -79,7 +79,7 @@ class UserMailsPhones
         'user:read:one',
         'user:write:update',
     ])]
-    private $phoneNumber;
+    private ?string $phoneNumber = null;
 
     /**
      * Relations to all groups that can access to this data.
@@ -91,7 +91,7 @@ class UserMailsPhones
      *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
-    private $phoneNumberVisibility;
+    private Collection $phoneNumberVisibility;
 
     public function __construct()
     {
@@ -99,7 +99,7 @@ class UserMailsPhones
         $this->phoneNumberVisibility = new ArrayCollection();
     }
 
-    public function caller($to_call, $arg)
+    public function caller($to_call, $arg): void
     {
         if (\is_callable([$this, $to_call])) {
             $this->{$to_call}($arg);

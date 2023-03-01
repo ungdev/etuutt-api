@@ -30,7 +30,7 @@ class UECommentUpvote
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the Comment that this Upvote is for.
@@ -38,7 +38,7 @@ class UECommentUpvote
      * @ORM\ManyToOne(targetEntity=UEComment::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $comment;
+    private ?UEComment $comment = null;
 
     /**
      * The relation to the User that this Upvote is from.
@@ -46,13 +46,13 @@ class UECommentUpvote
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

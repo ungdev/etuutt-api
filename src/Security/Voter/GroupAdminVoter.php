@@ -6,14 +6,14 @@ use App\Entity\Group;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * The voter that get the argument of `is-granted()` and return a boolean to give access or not to the ressource. It allow admins of a group to update and delete it.
  */
 class GroupAdminVoter extends Voter
 {
-    private $security;
+    private Security $security;
 
     public function __construct(Security $security)
     {

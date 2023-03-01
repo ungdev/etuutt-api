@@ -23,7 +23,7 @@ class UEStarVote
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The UE that the User rates.
@@ -31,7 +31,7 @@ class UEStarVote
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="starVotes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $UE;
+    private ?UE $UE = null;
 
     /**
      * The criterion that is rated.
@@ -39,7 +39,7 @@ class UEStarVote
      * @ORM\ManyToOne(targetEntity=UEStarCriterion::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $criterion;
+    private ?UEStarCriterion $criterion = null;
 
     /**
      * The User taht rates the UE.
@@ -47,7 +47,7 @@ class UEStarVote
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="UEStarVotes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The number of stars of this vote.
@@ -57,13 +57,13 @@ class UEStarVote
      * @Assert\LessThanOrEqual(5)
      * @Assert\GreaterThanOrEqual(0)
      */
-    private $value;
+    private ?int $value = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

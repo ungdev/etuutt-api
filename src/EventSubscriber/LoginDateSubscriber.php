@@ -4,8 +4,8 @@ namespace App\EventSubscriber;
 
 use App\Entity\UserTimestamps;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 /**

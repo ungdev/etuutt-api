@@ -24,7 +24,7 @@ class UEStarCriterion
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The name of the criterion.
@@ -33,7 +33,7 @@ class UEStarCriterion
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * The Translation object that contains the translation of the description.
@@ -41,7 +41,7 @@ class UEStarCriterion
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
-    private $descriptionTranslation;
+    private ?Translation $descriptionTranslation = null;
 
     public function __construct()
     {

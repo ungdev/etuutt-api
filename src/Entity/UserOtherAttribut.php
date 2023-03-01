@@ -22,7 +22,7 @@ class UserOtherAttribut
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * The type of value that this attribut is.
@@ -32,7 +32,7 @@ class UserOtherAttribut
      * @Assert\Length(min=1, max=50)
      * @Assert\Choice({"bool", "int", "float", "string", "longtext", "date", "datetime"})
      */
-    private $type;
+    private ?string $type = null;
 
     public function __construct(string $name = null)
     {

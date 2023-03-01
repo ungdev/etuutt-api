@@ -21,7 +21,7 @@ class EventAnswer
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation between the EventAnswer and its Event.
@@ -29,7 +29,7 @@ class EventAnswer
      * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="eventAnswers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $event;
+    private ?Event $event = null;
 
     /**
      * The relation to the User that wrote the EventAnswer.
@@ -37,7 +37,7 @@ class EventAnswer
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The answer of the User to the Event (e.g. "je viens").
@@ -46,32 +46,32 @@ class EventAnswer
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=20)
      */
-    private $answer;
+    private ?string $answer = null;
 
     /**
      * The comment of the User concerning the Event. It is optional.
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $comment;
+    private ?string $comment = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
      */
-    private $deletedAt;
+    private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()
     {
