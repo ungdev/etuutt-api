@@ -110,11 +110,15 @@ To install the project on your machine, you just need to [install WSL 2](https:/
    ```sh
    git clone https://github.com/ungdev/etuutt-api
    ```
-3. Tell Docker to download and setup everything for you. Run that command inside the `etuutt-api` folder that have just been created.
+3. Create a Docker network named `traefik` to allow all components to communicate.
+   ```sh
+   docker network create traefik
+   ```
+4. Tell Docker to download and setup everything for you. Run that command inside the `etuutt-api` folder that have just been created.
    ```sh
    docker compose -f docker-compose.yml -f docker-compose.dev.yml up
    ```
-4. Now that the server is running, we need to create the database and its schema.
+5. Now that the server is running, we need to create the database and its schema.
    1. Open a terminal into the application's container.
    ```sh
    docker container exec -it application /bin/bash
