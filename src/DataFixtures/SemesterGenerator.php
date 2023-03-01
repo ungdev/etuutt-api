@@ -18,11 +18,7 @@ class SemesterGenerator extends Fixture
             $iteratorDate->modify('+6 month');
             $endDate = clone $iteratorDate;
 
-            if ($startDate->format('Y') !== $endDate->format('Y')) {
-                $code = 'A';
-            } else {
-                $code = 'P';
-            }
+            $code = $startDate->format('Y') !== $endDate->format('Y') ? 'A' : 'P';
             $code .= substr($startDate->format('Y'), -2);
 
             $semester = new Semester($code);

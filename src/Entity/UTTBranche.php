@@ -174,11 +174,9 @@ class UTTBranche
 
     public function removeUTTFiliere(UTTFiliere $filiere): self
     {
-        if ($this->filieres->removeElement($filiere)) {
-            // set the owning side to null (unless already changed)
-            if ($filiere->getUTTBranche() === $this) {
-                $filiere->setUTTBranche(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->filieres->removeElement($filiere) && $filiere->getUTTBranche() === $this) {
+            $filiere->setUTTBranche(null);
         }
 
         return $this;

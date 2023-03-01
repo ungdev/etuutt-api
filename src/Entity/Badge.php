@@ -191,7 +191,7 @@ class Badge
 
     public function isSoftDeleted(): bool
     {
-        return !(null === $this->deletedAt);
+        return null !== $this->deletedAt;
     }
 
     /**

@@ -541,11 +541,9 @@ class User implements UserInterface
 
     public function removeBan(UserBan $ban): self
     {
-        if ($this->bans->removeElement($ban)) {
-            // set the owning side to null (unless already changed)
-            if ($ban->getUser() === $this) {
-                $ban->setUser(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->bans->removeElement($ban) && $ban->getUser() === $this) {
+            $ban->setUser(null);
         }
 
         return $this;
@@ -588,11 +586,9 @@ class User implements UserInterface
 
     public function removeBDEContribution(UserBDEContribution $bDEContribution): self
     {
-        if ($this->BDEContributions->removeElement($bDEContribution)) {
-            // set the owning side to null (unless already changed)
-            if ($bDEContribution->getUser() === $this) {
-                $bDEContribution->setUser(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->BDEContributions->removeElement($bDEContribution) && $bDEContribution->getUser() === $this) {
+            $bDEContribution->setUser(null);
         }
 
         return $this;
@@ -647,11 +643,9 @@ class User implements UserInterface
 
     public function removeCreatedCovoit(Covoit $createdCovoit): self
     {
-        if ($this->createdCovoits->removeElement($createdCovoit)) {
-            // set the owning side to null (unless already changed)
-            if ($createdCovoit->getAuthor() === $this) {
-                $createdCovoit->setAuthor(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->createdCovoits->removeElement($createdCovoit) && $createdCovoit->getAuthor() === $this) {
+            $createdCovoit->setAuthor(null);
         }
 
         return $this;
@@ -677,11 +671,9 @@ class User implements UserInterface
 
     public function removeAssoMembership(AssoMembership $assoMembership): self
     {
-        if ($this->assoMembership->removeElement($assoMembership)) {
-            // set the owning side to null (unless already changed)
-            if ($assoMembership->getUser() === $this) {
-                $assoMembership->setUser(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->assoMembership->removeElement($assoMembership) && $assoMembership->getUser() === $this) {
+            $assoMembership->setUser(null);
         }
 
         return $this;
@@ -802,11 +794,9 @@ class User implements UserInterface
 
     public function removeAddress(UserAddress $address): self
     {
-        if ($this->addresses->removeElement($address)) {
-            // set the owning side to null (unless already changed)
-            if ($address->getUser() === $this) {
-                $address->setUser(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->addresses->removeElement($address) && $address->getUser() === $this) {
+            $address->setUser(null);
         }
 
         return $this;
@@ -849,11 +839,9 @@ class User implements UserInterface
 
     public function removeOtherAttribut(UserOtherAttributValue $otherAttribut): self
     {
-        if ($this->otherAttributs->removeElement($otherAttribut)) {
-            // set the owning side to null (unless already changed)
-            if ($otherAttribut->getUser() === $this) {
-                $otherAttribut->setUser(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->otherAttributs->removeElement($otherAttribut) && $otherAttribut->getUser() === $this) {
+            $otherAttribut->setUser(null);
         }
 
         return $this;
@@ -908,11 +896,9 @@ class User implements UserInterface
 
     public function removeUEsSubscription(UserUESubscription $userUESubscription): self
     {
-        if ($this->UEsSubscriptions->removeElement($userUESubscription)) {
-            // set the owning side to null (unless already changed)
-            if ($userUESubscription->getUser() === $this) {
-                $userUESubscription->setUser(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->UEsSubscriptions->removeElement($userUESubscription) && $userUESubscription->getUser() === $this) {
+            $userUESubscription->setUser(null);
         }
 
         return $this;
@@ -938,11 +924,9 @@ class User implements UserInterface
 
     public function removeCovoitAlert(CovoitAlert $covoitAlert): self
     {
-        if ($this->covoitAlerts->removeElement($covoitAlert)) {
-            // set the owning side to null (unless already changed)
-            if ($covoitAlert->getUser() === $this) {
-                $covoitAlert->setUser(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->covoitAlerts->removeElement($covoitAlert) && $covoitAlert->getUser() === $this) {
+            $covoitAlert->setUser(null);
         }
 
         return $this;
@@ -968,11 +952,9 @@ class User implements UserInterface
 
     public function removeUEStarVote(UEStarVote $uEStarVote): self
     {
-        if ($this->UEStarVotes->removeElement($uEStarVote)) {
-            // set the owning side to null (unless already changed)
-            if ($uEStarVote->getUser() === $this) {
-                $uEStarVote->setUser(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->UEStarVotes->removeElement($uEStarVote) && $uEStarVote->getUser() === $this) {
+            $uEStarVote->setUser(null);
         }
 
         return $this;

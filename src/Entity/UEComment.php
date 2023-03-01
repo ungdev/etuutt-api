@@ -193,11 +193,9 @@ class UEComment
 
     public function removeAnswer(UECommentReply $answer): self
     {
-        if ($this->answers->removeElement($answer)) {
-            // set the owning side to null (unless already changed)
-            if ($answer->getComment() === $this) {
-                $answer->setComment(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->answers->removeElement($answer) && $answer->getComment() === $this) {
+            $answer->setComment(null);
         }
 
         return $this;
@@ -223,11 +221,9 @@ class UEComment
 
     public function removeReport(UECommentReport $report): self
     {
-        if ($this->reports->removeElement($report)) {
-            // set the owning side to null (unless already changed)
-            if ($report->getComment() === $this) {
-                $report->setComment(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->reports->removeElement($report) && $report->getComment() === $this) {
+            $report->setComment(null);
         }
 
         return $this;
@@ -271,6 +267,6 @@ class UEComment
 
     public function isSoftDeleted(): bool
     {
-        return !(null === $this->deletedAt);
+        return null !== $this->deletedAt;
     }
 }

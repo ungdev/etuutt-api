@@ -183,11 +183,9 @@ class UECourseExchange
 
     public function removeResponse(UECourseExchangeReply $response): self
     {
-        if ($this->responses->removeElement($response)) {
-            // set the owning side to null (unless already changed)
-            if ($response->getExchange() === $this) {
-                $response->setExchange(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->responses->removeElement($response) && $response->getExchange() === $this) {
+            $response->setExchange(null);
         }
 
         return $this;
@@ -231,6 +229,6 @@ class UECourseExchange
 
     public function isSoftDeleted(): bool
     {
-        return !(null === $this->deletedAt);
+        return null !== $this->deletedAt;
     }
 }

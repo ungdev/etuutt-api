@@ -285,11 +285,9 @@ class Covoit
 
     public function removeCovoitMessage(CovoitMessage $covoitMessage): self
     {
-        if ($this->covoitMessages->removeElement($covoitMessage)) {
-            // set the owning side to null (unless already changed)
-            if ($covoitMessage->getCovoit() === $this) {
-                $covoitMessage->setCovoit(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->covoitMessages->removeElement($covoitMessage) && $covoitMessage->getCovoit() === $this) {
+            $covoitMessage->setCovoit(null);
         }
 
         return $this;

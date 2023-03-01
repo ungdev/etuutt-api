@@ -47,7 +47,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             $user->setStudentId(44000 + $i);
             $user->setFirstName($faker->firstName);
             $user->setLastName($faker->lastName);
-            $user->setLogin(self::generateLogin($user->getFirstName(), $user->getLastName(), $userRepository));
+            $user->setLogin(self::generateLogin($userRepository, $user->getFirstName(), $user->getLastName()));
             $manager->persist($user);
 
             //  Création d'un timestamps pour chaque User
@@ -161,7 +161,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
      *
      * @return string $login Le login de l'utilisateur
      */
-    public static function generateLogin(string $firstName = null, string $lastName = null, UserRepository $userRepository)
+    public static function generateLogin(UserRepository $userRepository, string $firstName = null, string $lastName = null)
     {
         $unwanted_array = ['Š' => 'S', 'š' => 's', 'Ž' => 'Z', 'ž' => 'z', 'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'A', 'Ç' => 'C', 'È' => 'E', 'É' => 'E',
             'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O', 'Ù' => 'U',

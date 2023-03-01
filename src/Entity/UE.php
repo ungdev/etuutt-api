@@ -126,7 +126,7 @@ class UE
     private $updatedAt;
 
     /**
-     * The list of subscriptions to this UE by Users.
+     * The list of subscriptions to this UE by Users. A subscription is a student taking an UE during one semester.
      *
      * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="UE", orphanRemoval=true)
      */
@@ -283,28 +283,26 @@ class UE
     /**
      * @return Collection|UserUESubscription[]
      */
-    public function getUserUESubscriptions(): Collection
+    public function getUsersSubscriptions(): Collection
     {
         return $this->usersSubscriptions;
     }
 
-    public function addUserUESubscriptions(UserUESubscription $userUESubscription): self
+    public function addUserSubscription(UserUESubscription $UserSubscription): self
     {
-        if (!$this->UserUESubscriptions->contains($userUESubscription)) {
-            $this->UserUESubscriptions[] = $userUESubscription;
-            $userUESubscription->setUE($this);
+        if (!$this->usersSubscriptions->contains($UserSubscription)) {
+            $this->usersSubscriptions[] = $UserSubscription;
+            $UserSubscription->setUE($this);
         }
 
         return $this;
     }
 
-    public function removeUserUESubscriptions(UserUESubscription $userUESubscription): self
+    public function removeUserSubscription(UserUESubscription $UserSubscription): self
     {
-        if ($this->UserUESubscriptions->removeElement($userUESubscription)) {
-            // set the owning side to null (unless already changed)
-            if ($userUESubscription->getUE() === $this) {
-                $userUESubscription->setUE(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->usersSubscriptions->removeElement($UserSubscription) && $UserSubscription->getUE() === $this) {
+            $UserSubscription->setUE(null);
         }
 
         return $this;
@@ -342,11 +340,9 @@ class UE
 
     public function removeCredit(UECredit $credit): self
     {
-        if ($this->credits->removeElement($credit)) {
-            // set the owning side to null (unless already changed)
-            if ($credit->getUE() === $this) {
-                $credit->setUE(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->credits->removeElement($credit) && $credit->getUE() === $this) {
+            $credit->setUE(null);
         }
 
         return $this;
@@ -372,11 +368,9 @@ class UE
 
     public function removeStarVote(UEStarVote $starVote): self
     {
-        if ($this->starVotes->removeElement($starVote)) {
-            // set the owning side to null (unless already changed)
-            if ($starVote->getUE() === $this) {
-                $starVote->setUE(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->starVotes->removeElement($starVote) && $starVote->getUE() === $this) {
+            $starVote->setUE(null);
         }
 
         return $this;
@@ -460,11 +454,9 @@ class UE
 
     public function removeAnnal(UEAnnal $annal): self
     {
-        if ($this->annals->removeElement($annal)) {
-            // set the owning side to null (unless already changed)
-            if ($annal->getUE() === $this) {
-                $annal->setUE(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->annals->removeElement($annal) && $annal->getUE() === $this) {
+            $annal->setUE(null);
         }
 
         return $this;
@@ -490,11 +482,9 @@ class UE
 
     public function removeComment(UEComment $comment): self
     {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getUE() === $this) {
-                $comment->setUE(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->comments->removeElement($comment) && $comment->getUE() === $this) {
+            $comment->setUE(null);
         }
 
         return $this;
@@ -520,11 +510,9 @@ class UE
 
     public function removeCourse(UECourse $course): self
     {
-        if ($this->courses->removeElement($course)) {
-            // set the owning side to null (unless already changed)
-            if ($course->getUE() === $this) {
-                $course->setUE(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->courses->removeElement($course) && $course->getUE() === $this) {
+            $course->setUE(null);
         }
 
         return $this;

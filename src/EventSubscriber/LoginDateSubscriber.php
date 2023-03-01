@@ -15,6 +15,9 @@ use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
  */
 class LoginDateSubscriber implements EventSubscriberInterface
 {
+    private Security $security;
+    private EntityManagerInterface $manager;
+
     public function __construct(Security $security, EntityManagerInterface $manager)
     {
         $this->security = $security;
