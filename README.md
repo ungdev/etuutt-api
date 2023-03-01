@@ -201,6 +201,7 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 ├── LICENSE.txt             # MIT license text
 ├── phpunit.xml.dist        # The configuration file of the PHP testing framework, PHPUnit
 ├── README.md               # This amazing documentation
+├── rector.php              # The set of rules and convention that Rector use to refactor
 └── symfony.lock            # A proper lock file for Symfony recipes
 ```
 
