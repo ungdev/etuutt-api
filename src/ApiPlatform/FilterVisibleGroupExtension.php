@@ -15,13 +15,6 @@ use Symfony\Bundle\SecurityBundle\Security;
  */
 class FilterVisibleGroupExtension implements QueryCollectionExtensionInterface
 {
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
     {
         if (Group::class === $resourceClass && is_a($operation, GetCollection::class)) {
