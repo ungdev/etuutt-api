@@ -54,6 +54,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
                 do {
                     $newUser = $faker->randomElement($users);
                 } while (\in_array($newUser, $subscribedUsers, true));
+
                 $subscribedUsers[] = $newUser;
                 $covoit->addPassenger($newUser);
             }
@@ -76,6 +77,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             // On persiste le covoit dans la base de données
             $manager->persist($covoit);
         }
+
         $manager->flush();
 
         // Création de 30 covoitAlerts
@@ -100,12 +102,13 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoitAlert->setEndAt($faker->dateTimeBetween('-'.$days.' days'));
 
             // Création des villes de départ et d'arrivée
-            $covoitAlert->setStartCity($faker->uuid);
-            $covoitAlert->setEndCity($faker->uuid);
+            $covoitAlert->setStartCityId($faker->uuid);
+            $covoitAlert->setEndCityid($faker->uuid);
 
             // On persiste l'alerte dans la base de données
             $manager->persist($covoitAlert);
         }
+
         $manager->flush();
 
         // Récupération des covoits
@@ -138,6 +141,7 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             // On persiste le covoitMessage dans la base de données
             $manager->persist($covoitMessage);
         }
+
         $manager->flush();
     }
 }

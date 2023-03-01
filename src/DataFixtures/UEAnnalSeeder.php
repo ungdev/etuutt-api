@@ -52,6 +52,7 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
             $manager->persist($descriptionTranslation);
             $manager->persist($reportReason);
         }
+
         $manager->flush();
 
         //  Création de 5 types d'annals
@@ -59,6 +60,7 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
             $type = new UEAnnalType($faker->word.$faker->word.$faker->word);
             $manager->persist($type);
         }
+
         $manager->flush();
 
         //  Création d'annals
@@ -76,8 +78,10 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
                 $days = (new \DateTime())->diff($annal->getCreatedAt())->days;
                 $annal->setCreatedAt($faker->dateTimeBetween('-'.$days.' years', 'now'));
             }
+
             $manager->persist($annal);
         }
+
         $manager->flush();
 
         //  Création de 20 reports d'annal
@@ -93,6 +97,7 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
             $report->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
             $manager->persist($report);
         }
+
         $manager->flush();
     }
 }

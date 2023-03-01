@@ -17,7 +17,9 @@ use Symfony\Bundle\SecurityBundle\Security;
 class UserDataVisibilityItemDataProvider implements ProviderInterface
 {
     private ProviderInterface $itemDataProvider;
+
     private Security $security;
+
     private Group $groupPublic;
 
     public function __construct(ProviderInterface $itemDataProvider, Security $security, GroupRepository $groupRepo)
@@ -53,9 +55,11 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
         if (!$this->canAccessInfo($userToShow, $infos->getSexVisibility(), $userLogged)) {
             $infos->setSex('');
         }
+
         if (!$this->canAccessInfo($userToShow, $infos->getBirthdayVisibility(), $userLogged)) {
             $infos->setBirthday(new \DateTime('0000-01-01'));
         }
+
         if (!$this->canAccessInfo($userToShow, $infos->getNationalityVisibility(), $userLogged)) {
             $infos->setNationality('');
         }
@@ -64,6 +68,7 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
         if (!$this->canAccessInfo($userToShow, $mailsPhones->getPhoneNumberVisibility(), $userLogged)) {
             $mailsPhones->setPhoneNumber('');
         }
+
         if (!$this->canAccessInfo($userToShow, $mailsPhones->getMailPersonalVisibility(), $userLogged)) {
             $mailsPhones->setMailPersonal('');
         }
@@ -81,7 +86,7 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
             $userLoggedGroups = $userLogged->getGroups();
 
             //  Intersection of 2 arrays of object : https://stackoverflow.com/questions/2834607/array-intersect-for-object-array-php
-            $groupsIntersection = array_uintersect($fieldVisibility->toArray(), $userLoggedGroups->toArray(), function ($a, $b): int {
+            $groupsIntersection = array_uintersect($fieldVisibility->toArray(), $userLoggedGroups->toArray(), static function ($a, $b) : int {
                 return strcmp(spl_object_hash($a), spl_object_hash($b));
             });
             $canAccess = [] !== $groupsIntersection;

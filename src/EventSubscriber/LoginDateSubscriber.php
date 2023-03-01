@@ -16,6 +16,7 @@ use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 class LoginDateSubscriber implements EventSubscriberInterface
 {
     private Security $security;
+
     private EntityManagerInterface $manager;
 
     public function __construct(Security $security, EntityManagerInterface $manager)
@@ -39,6 +40,7 @@ class LoginDateSubscriber implements EventSubscriberInterface
             if (null === $userTimestamps->getFirstLoginDate()) {
                 $userTimestamps->setFirstLoginDate(new \DateTime());
             }
+
             $userTimestamps->setLastLoginDate(new \DateTime());
 
             $this->manager->persist($userTimestamps);

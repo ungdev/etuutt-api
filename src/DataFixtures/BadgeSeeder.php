@@ -33,6 +33,7 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
                 if (0 === $i) {
                     $serie = $faker->word;
                 }
+
                 $badge->setSerie($serie);
                 $badge->setLevel($i);
             }
@@ -42,6 +43,7 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
                 if (5 === $i) {
                     $serie = $faker->word;
                 }
+
                 $badge->setSerie($serie);
                 $badge->setLevel($i - 5);
             }
@@ -70,6 +72,7 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
             //  On persiste le Badge dans la base de données
             $manager->persist($badge);
         }
+
         $manager->flush();
 
         //  Attribution de badges à des utilisateurs
@@ -83,6 +86,7 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
                 $user->addBadge($faker->randomElement($badges));
             }
         }
+
         $manager->flush();
     }
 }

@@ -75,6 +75,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             // On persiste l'asso dans la base de données
             $manager->persist($asso);
         }
+
         $manager->flush();
 
         // Récupération des assos
@@ -113,6 +114,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             // On persiste message dans la base de données
             $manager->persist($assoMessage);
         }
+
         $manager->flush();
 
         // Création de 100 mots-clés
@@ -125,6 +127,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             // On persiste le mot-clé dans la base de données
             $manager->persist($keyword);
         }
+
         $manager->flush();
 
         // Attribution de mots-clé à des assos
@@ -134,6 +137,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
                 $asso->addKeyword($faker->randomElement($keywords));
             }
         }
+
         $manager->flush();
 
         // Récupération des utilisateurs
@@ -159,6 +163,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
                 $manager->persist($assoMember);
             }
         }
+
         $manager->flush();
 
         // Création de 100 permissions
@@ -171,6 +176,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             // On persiste la permission dans la base de données
             $manager->persist($permission);
         }
+
         $manager->flush();
 
         // Attribution de permissions à des membres
@@ -183,6 +189,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
                 $assoMember->addPermission($faker->randomElement($permissions));
             }
         }
+
         $manager->flush();
 
         // Création de 100 rôles
@@ -209,6 +216,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
             // On persiste le rôle dans la base de données
             $manager->persist($role);
         }
+
         $manager->flush();
 
         // Attribution de rôles à des membres
@@ -218,6 +226,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
                 $assoMember->addRole($faker->randomElement($roles));
             }
         }
+
         $manager->flush();
     }
 }

@@ -43,6 +43,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             $category->setName($name);
             $manager->persist($category);
         }
+
         $manager->flush();
 
         //  Création de 100 UEs
@@ -72,6 +73,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             } else {
                 $workTime->setInternship($faker->numberBetween(0, 28));
             }
+
             $manager->persist($workTime);
 
             $info = new UEInfo();
@@ -86,6 +88,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             $info->setProgramme($text);
             $manager->persist($info);
         }
+
         $manager->flush();
 
         //  Ajout de 6 UEs pour tous les utilisateurs
@@ -102,6 +105,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $manager->persist($subscription);
             }
         }
+
         $manager->flush();
 
         //  Attribution de crédits aux UEs
@@ -115,6 +119,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $manager->persist($credits);
             }
         }
+
         $manager->flush();
 
         //  Création de critères de notations pour les UEs
@@ -135,6 +140,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
             $manager->persist($descriptionTranslation);
             $manager->persist($criterion);
         }
+
         $manager->flush();
 
         //  Attribution de stars pour les UEs
@@ -150,6 +156,7 @@ class UESeeder extends Fixture implements DependentFixtureInterface
                 $manager->persist($vote);
             }
         }
+
         $manager->flush();
     }
 }

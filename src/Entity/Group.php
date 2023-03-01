@@ -359,6 +359,7 @@ class Group
         if (!$this->members->contains($user)) {
             $this->members[] = $user;
         }
+
         if (!$this->admins->contains($user)) {
             $this->admins[] = $user;
         }

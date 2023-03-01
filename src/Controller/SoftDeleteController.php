@@ -26,6 +26,7 @@ class SoftDeleteController extends AbstractController
         if ($data instanceof User) {
             $data = $data->getTimestamps();
         }
+
         $deletedAt = $data->getDeletedAt();
         if (null === $deletedAt) {
             $data->setDeletedAt(new \DateTime());
