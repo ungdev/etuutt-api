@@ -67,6 +67,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
                     $address = new UserAddress();
                     $user->addAddress($address);
                 }
+
                 $address->setStreet($faker->streetAddress);
                 $address->setPostalCode($faker->postcode);
                 $address->setCity($faker->city);

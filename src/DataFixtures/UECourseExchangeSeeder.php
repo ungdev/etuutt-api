@@ -45,8 +45,10 @@ class UECourseExchangeSeeder extends Fixture implements DependentFixtureInterfac
                 $days = (new \DateTime())->diff($exchange->getUpdatedAt())->days;
                 $exchange->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
+
             $manager->persist($exchange);
         }
+
         $manager->flush();
 
         //  Création de 200 demandes réponses
@@ -65,8 +67,10 @@ class UECourseExchangeSeeder extends Fixture implements DependentFixtureInterfac
                 $days = (new \DateTime())->diff($response->getUpdatedAt())->days;
                 $response->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
+
             $manager->persist($response);
         }
+
         $manager->flush();
     }
 }

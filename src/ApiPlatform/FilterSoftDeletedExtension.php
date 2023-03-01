@@ -30,19 +30,13 @@ class FilterSoftDeletedExtension implements QueryCollectionExtensionInterface, Q
         $checkCanNotSeeDeleted = !$this->security->isGranted('ROLE_ADMIN');
 
         if ($checkSoftDeletable && $checkCanNotSeeDeleted) {
-            switch ($resourceClass) {
-                case User::class:
-                    $rootAlias = $queryBuilder->getRootAliases()[0];
-                    $queryBuilder->innerJoin(UserTimestamps::class, 'u_t', Join::WITH, sprintf('%s.id = u_t.user', $rootAlias));
-                    $queryBuilder->andWhere('u_t.deletedAt IS NULL');
-
-                    break;
-
-                default:
-                    $rootAlias = $queryBuilder->getRootAliases()[0];
-                    $queryBuilder->andWhere(sprintf('%s.deletedAt IS NULL', $rootAlias));
-
-                    break;
+            if ($resourceClass == User::class) {
+                $rootAlias = $queryBuilder->getRootAliases()[0];
+                $queryBuilder->innerJoin(UserTimestamps::class, 'u_t', Join::WITH, sprintf('%s.id = u_t.user', $rootAlias));
+                $queryBuilder->andWhere('u_t.deletedAt IS NULL');
+            } else {
+                $rootAlias = $queryBuilder->getRootAliases()[0];
+                $queryBuilder->andWhere(sprintf('%s.deletedAt IS NULL', $rootAlias));
             }
         }
     }

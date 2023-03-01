@@ -66,6 +66,7 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
             //  On persiste l'entité dans la base de données
             $manager->persist($group);
         }
+
         $manager->flush();
 
         //  Attribution de groupes aux utilisateurs
@@ -78,12 +79,14 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
                     if ($faker->boolean(15)) {
                         $group->addMember($user);
                     }
+
                     if ($faker->boolean(2)) {
                         $group->addAdmin($user);
                     }
                 }
             }
         }
+
         $manager->flush();
     }
 }

@@ -64,6 +64,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             //  On persiste l'entité dans la base de données
             $manager->persist($branche);
         }
+
         $manager->flush();
 
         //  Création de filières pour les branches, hors TC
@@ -98,6 +99,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
                 }
             }
         }
+
         $manager->flush();
 
         //  Attribution de branche et de filiere aux utilisateurs (UserBranche)
@@ -127,6 +129,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
             $manager->persist($userUTTBranche);
         }
+
         $manager->flush();
 
         //  Création de formations
@@ -151,6 +154,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
             $manager->persist($formation);
         }
+
         $manager->flush();
 
         //  Création de following methodes
@@ -175,6 +179,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
             $manager->persist($followingMethod);
         }
+
         $manager->flush();
 
         //  Création de UserFormation
@@ -193,6 +198,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
 
             $manager->persist($userUTTFormation);
         }
+
         $manager->flush();
     }
 }

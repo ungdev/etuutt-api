@@ -82,6 +82,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             // On persiste event dans la base de données
             $manager->persist($event);
         }
+
         $manager->flush();
 
         // Récupération des événements, des utilisateurs et des rôles
@@ -104,6 +105,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
                         $eventPrivacy->addAllowedAsso($asso);
                     }
                 }
+
                 // On a 25% de chance que tous les membres des associations soit autorisés
                 if ($faker->boolean(75)) {
                     // On a 75% de chance d'ajouter un rôle à la liste de permissions
@@ -118,6 +120,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             // On persiste event_answer dans la base de données
             $manager->persist($eventPrivacy);
         }
+
         $manager->flush();
 
         // Création de 100 event_answers
@@ -150,6 +153,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             // On persiste event_answer dans la base de données
             $manager->persist($eventAnswer);
         }
+
         $manager->flush();
 
         // Création de 50 catégories
@@ -160,6 +164,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             for ($j = 0; $j < $faker->numberBetween(5, 20); ++$j) {
                 $name .= $faker->randomLetter;
             }
+
             $category = new EventCategory();
             $category->setName($name);
 
@@ -167,6 +172,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
             // On persiste la catégorie dans la base de données
             $manager->persist($category);
         }
+
         $manager->flush();
 
         // Attribution de catégories à des events
@@ -179,6 +185,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
                 $event->addCategory($faker->randomElement($categories));
             }
         }
+
         $manager->flush();
     }
 }

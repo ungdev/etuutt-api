@@ -53,8 +53,10 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
                 $days = (new \DateTime())->diff($comment->getUpdatedAt())->days;
                 $comment->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
+
             $manager->persist($comment);
         }
+
         $manager->flush();
 
         //  Créations de 200 réponses aux commentaires
@@ -73,8 +75,10 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
                 $days = (new \DateTime())->diff($answer->getUpdatedAt())->days;
                 $answer->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
+
             $manager->persist($answer);
         }
+
         $manager->flush();
 
         //  Créations de 400 upvotes sur des commentaires
@@ -93,11 +97,13 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
                     $alreadyIn = true;
                 }
             }
+
             if (!$alreadyIn) {
                 $upvotes[] = $upvote;
                 $manager->persist($upvote);
             }
         }
+
         $manager->flush();
 
         //  Création de 5 motifs de report
@@ -117,6 +123,7 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $manager->persist($descriptionTranslation);
             $manager->persist($reportReason);
         }
+
         $manager->flush();
 
         //  Création de 20 reports de commentaire
@@ -131,6 +138,7 @@ class UECommentSeeder extends Fixture implements DependentFixtureInterface
             $report->setCreatedAt($faker->dateTimeBetween('-3 years'));
             $manager->persist($report);
         }
+
         $manager->flush();
     }
 }

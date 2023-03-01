@@ -17,8 +17,10 @@ class Text
                 if (0 !== $j) {
                     $text .= ' ';
                 }
+
                 $text .= $faker->word;
             }
+
             $text .= str_repeat($faker->word, $nbOfWordsPerParagraphs);
             $text .= '</p>';
         }

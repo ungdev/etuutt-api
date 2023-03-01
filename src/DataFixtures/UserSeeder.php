@@ -38,6 +38,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
         $user->setLastName('admin');
         $user->setLogin('admin');
         $user->addRole('ROLE_ADMIN');
+
         $manager->persist($user);
 
         $userRepository = $manager->getRepository(User::class);
@@ -72,18 +73,23 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             if ($faker->boolean(75)) {
                 $socialNetwork->setFacebook('https://facebook.com/'.$sluggedName);
             }
+
             if ($faker->boolean(75)) {
                 $socialNetwork->setTwitter('https://twitter.com/'.$sluggedName);
             }
+
             if ($faker->boolean(75)) {
                 $socialNetwork->setInstagram('https://instagram.com/'.$sluggedName);
             }
+
             if ($faker->boolean(75)) {
                 $socialNetwork->setLinkedin('https://linkedin.com/'.$sluggedName);
             }
+
             if ($faker->boolean(75)) {
                 $socialNetwork->setPseudoDiscord($faker->word);
             }
+
             $socialNetwork->setWantDiscordUTT($faker->boolean(75));
 
             //  Création d'un RGPD pour chaque User
@@ -91,6 +97,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             if ($faker->boolean(75)) {
                 $RGPD->setIsDeletingEverything($faker->boolean());
             }
+
             if ($faker->boolean(75)) {
                 $RGPD->setIsKeepingAccount($faker->boolean());
             }
