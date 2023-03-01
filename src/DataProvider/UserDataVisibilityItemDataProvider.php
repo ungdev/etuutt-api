@@ -73,8 +73,6 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
 
     private function canAccessInfo(User $userToShow, Collection $fieldVisibility, User $userLogged): bool
     {
-        $canAccess = false;
-
         //  A user has access to his own data, the admin has access to the data, the public data can be access by any logged user.
         if ($userToShow->getId() === $userLogged->getId() || $this->security->isGranted('ROLE_ADMIN', $userLogged) || $fieldVisibility->contains($this->groupPublic)) {
             $canAccess = true;
