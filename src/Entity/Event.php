@@ -349,7 +349,7 @@ class Event
 
     public function isSoftDeleted(): bool
     {
-        return !(null === $this->deletedAt);
+        return null !== $this->deletedAt;
     }
 
     /**
@@ -396,11 +396,9 @@ class Event
 
     public function removeEventAnswer(EventAnswer $eventAnswer): self
     {
-        if ($this->eventAnswers->removeElement($eventAnswer)) {
-            // set the owning side to null (unless already changed)
-            if ($eventAnswer->getEvent() === $this) {
-                $eventAnswer->setEvent(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->eventAnswers->removeElement($eventAnswer) && $eventAnswer->getEvent() === $this) {
+            $eventAnswer->setEvent(null);
         }
 
         return $this;

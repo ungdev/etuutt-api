@@ -196,11 +196,9 @@ class UEAnnal
 
     public function removeReport(UEAnnalReport $report): self
     {
-        if ($this->reports->removeElement($report)) {
-            // set the owning side to null (unless already changed)
-            if ($report->getAnnal() === $this) {
-                $report->setAnnal(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->reports->removeElement($report) && $report->getAnnal() === $this) {
+            $report->setAnnal(null);
         }
 
         return $this;
@@ -232,6 +230,6 @@ class UEAnnal
 
     public function isSoftDeleted(): bool
     {
-        return !(null === $this->deletedAt);
+        return null !== $this->deletedAt;
     }
 }

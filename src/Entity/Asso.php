@@ -387,7 +387,7 @@ class Asso
 
     public function isSoftDeleted(): bool
     {
-        return !(null === $this->deletedAt);
+        return null !== $this->deletedAt;
     }
 
     /**
@@ -434,11 +434,9 @@ class Asso
 
     public function removeAssoMessage(AssoMessage $assoMessage): self
     {
-        if ($this->assoMessages->removeElement($assoMessage)) {
-            // set the owning side to null (unless already changed)
-            if ($assoMessage->getAsso() === $this) {
-                $assoMessage->setAsso(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->assoMessages->removeElement($assoMessage) && $assoMessage->getAsso() === $this) {
+            $assoMessage->setAsso(null);
         }
 
         return $this;
@@ -491,11 +489,9 @@ class Asso
 
     public function removeGroup(Group $group): self
     {
-        if ($this->groups->removeElement($group)) {
-            // set the owning side to null (unless already changed)
-            if ($group->getAsso() === $this) {
-                $group->setAsso(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->groups->removeElement($group) && $group->getAsso() === $this) {
+            $group->setAsso(null);
         }
 
         return $this;
@@ -521,11 +517,9 @@ class Asso
 
     public function removeAssoMembership(AssoMembership $assoMember): self
     {
-        if ($this->assoMemberships->removeElement($assoMember)) {
-            // set the owning side to null (unless already changed)
-            if ($assoMember->getAsso() === $this) {
-                $assoMember->setAsso(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->assoMemberships->removeElement($assoMember) && $assoMember->getAsso() === $this) {
+            $assoMember->setAsso(null);
         }
 
         return $this;

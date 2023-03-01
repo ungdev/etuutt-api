@@ -30,13 +30,12 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        /** @var null|User $userToShow */
         $userToShow = $this->itemDataProvider->provide($operation, $uriVariables, $context);
 
         /** @var null|User $userLogged */
         $userLogged = $this->security->getUser();
 
-        if (!$userToShow) {
+        if (!$userToShow instanceof \App\Entity\User) {
             return null;
         }
 
@@ -84,10 +83,10 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
             $userLoggedGroups = $userLogged->getGroups();
 
             //  Intersection of 2 arrays of object : https://stackoverflow.com/questions/2834607/array-intersect-for-object-array-php
-            $groupsIntersection = array_uintersect($fieldVisibility->toArray(), $userLoggedGroups->toArray(), function ($a, $b) {
+            $groupsIntersection = array_uintersect($fieldVisibility->toArray(), $userLoggedGroups->toArray(), function ($a, $b): int {
                 return strcmp(spl_object_hash($a), spl_object_hash($b));
             });
-            $canAccess = 0 !== \count($groupsIntersection);
+            $canAccess = [] !== $groupsIntersection;
         }
 
         return $canAccess;

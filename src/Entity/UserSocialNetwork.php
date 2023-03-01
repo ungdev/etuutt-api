@@ -117,11 +117,10 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    private $wantDiscordUTT;
+    private $wantDiscordUTT = false;
 
     public function __construct()
     {
-        $this->wantDiscordUTT = false;
     }
 
     public function getId(): ?Uuid

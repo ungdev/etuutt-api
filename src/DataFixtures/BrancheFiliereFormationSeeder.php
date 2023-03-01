@@ -36,11 +36,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
         //  Création du TC et de 8 branches
         for ($i = 0; $i < 9; ++$i) {
             //  Créations d'une entité
-            if (0 === $i) {
-                $code = 'TC';
-            } else {
-                $code = strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter);
-            }
+            $code = 0 === $i ? 'TC' : strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter);
             $branche = new UTTBranche($code);
 
             $branche->setName(implode(' ', $faker->words));

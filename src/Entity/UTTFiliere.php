@@ -129,11 +129,9 @@ class UTTFiliere
 
     public function removeUE(UE $uE): self
     {
-        if ($this->UEs->removeElement($uE)) {
-            // set the owning side to null (unless already changed)
-            if ($uE->getFiliere() === $this) {
-                $uE->setFiliere(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->UEs->removeElement($uE) && $uE->getFiliere() === $this) {
+            $uE->setFiliere(null);
         }
 
         return $this;

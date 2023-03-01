@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EventCategoryRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,6 +30,13 @@ class EventCategory
      */
     private $name;
 
+    /**
+     * All events related to that category.
+     *
+     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="categories")
+     */
+    private $events;
+
     public function getId()
     {
         return $this->id;
@@ -42,6 +50,33 @@ class EventCategory
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Event[]|Collection
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeCategory($this);
+        }
 
         return $this;
     }

@@ -119,54 +119,6 @@ class CovoitAlert
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
-    {
-        return $this->startDate;
-    }
-
-    public function setStartDate(\DateTimeInterface $startDate): self
-    {
-        $this->startDate = $startDate;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTimeInterface
-    {
-        return $this->endDate;
-    }
-
-    public function setEndDate(\DateTimeInterface $endDate): self
-    {
-        $this->endDate = $endDate;
-
-        return $this;
-    }
-
-    public function getStartCity(): ?string
-    {
-        return $this->startCity;
-    }
-
-    public function setStartCity(string $startCity): self
-    {
-        $this->startCity = $startCity;
-
-        return $this;
-    }
-
-    public function getEndCity(): ?string
-    {
-        return $this->endCity;
-    }
-
-    public function setEndCity(string $endCity): self
-    {
-        $this->endCity = $endCity;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
