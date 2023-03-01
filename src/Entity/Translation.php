@@ -23,7 +23,7 @@ class Translation
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?string $id = null;
 
     /**
      * The french translation of the element.
@@ -38,7 +38,7 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
-    private $french;
+    private ?string $french = null;
 
     /**
      * The english translation of the element.
@@ -53,7 +53,7 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
-    private $english;
+    private ?string $english = null;
 
     /**
      * The spanish translation of the element.
@@ -68,7 +68,7 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
-    private $spanish;
+    private ?string $spanish = null;
 
     /**
      * The german translation of the element.
@@ -83,7 +83,7 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
-    private $german;
+    private ?string $german = null;
 
     /**
      * The chinese translation of the element.
@@ -98,7 +98,7 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
-    private $chinese;
+    private ?string $chinese = null;
 
     public function getId(): ?string
     {

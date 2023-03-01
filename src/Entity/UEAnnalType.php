@@ -20,7 +20,7 @@ class UEAnnalType
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=50)
      */
-    private $name;
+    private ?string $name;
 
     public function __construct(string $name = null)
     {

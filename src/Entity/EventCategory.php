@@ -28,14 +28,14 @@ class EventCategory
      *
      * @ORM\Column(type="string", length=100, unique=true)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * All events related to that category.
      *
      * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="categories")
      */
-    private $events;
+    private Collection $events;
 
     public function getId()
     {

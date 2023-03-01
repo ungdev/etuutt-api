@@ -23,7 +23,7 @@ class UECreditCategory
      * @Assert\Length(min=1, max=10)
      * @Assert\Regex("/^[A-Z]{1,10}$/")
      */
-    private $code;
+    private ?string $code;
 
     /**
      * The meaning of the code.
@@ -32,7 +32,7 @@ class UECreditCategory
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=10)
      */
-    private $name;
+    private ?string $name = null;
 
     public function __construct(string $code = null)
     {

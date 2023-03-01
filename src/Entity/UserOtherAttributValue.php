@@ -23,7 +23,7 @@ class UserOtherAttributValue
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User.
@@ -31,7 +31,7 @@ class UserOtherAttributValue
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="otherAttributs")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The relation to the attribut.
@@ -39,7 +39,7 @@ class UserOtherAttributValue
      * @ORM\ManyToOne(targetEntity=UserOtherAttribut::class)
      * @ORM\JoinColumn(name="attribut_name", referencedColumnName="name")
      */
-    private $attribut;
+    private ?UserOtherAttribut $attribut = null;
 
     /**
      * The value given to the attribut.
@@ -47,7 +47,7 @@ class UserOtherAttributValue
      * @ORM\Column(type="text")
      * @Assert\Type("string")
      */
-    private $value;
+    private ?string $value = null;
 
     public function getId(): ?Uuid
     {

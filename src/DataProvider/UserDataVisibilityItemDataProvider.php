@@ -37,7 +37,7 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
         /** @var null|User $userLogged */
         $userLogged = $this->security->getUser();
 
-        if (!$userToShow instanceof \App\Entity\User) {
+        if (!$userToShow instanceof User) {
             return null;
         }
 

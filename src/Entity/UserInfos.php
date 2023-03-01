@@ -26,7 +26,7 @@ class UserInfos
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User which have those Infos.
@@ -34,7 +34,7 @@ class UserInfos
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="infos", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -46,7 +46,7 @@ class UserInfos
         'user:read:one',
         'user:write:update',
     ])]
-    private $sex;
+    private ?string $sex = null;
 
     /**
      * Relations to all groups that can access to this data.
@@ -58,7 +58,7 @@ class UserInfos
      *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
-    private $sexVisibility;
+    private Collection $sexVisibility;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -68,7 +68,7 @@ class UserInfos
     #[Groups([
         'user:read:one',
     ])]
-    private $nationality;
+    private ?string $nationality = null;
 
     /**
      * Relations to all groups that can access to this data.
@@ -80,7 +80,7 @@ class UserInfos
      *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
-    private $nationalityVisibility;
+    private Collection $nationalityVisibility;
 
     /**
      * @ORM\Column(type="date")
@@ -89,7 +89,7 @@ class UserInfos
     #[Groups([
         'user:read:one',
     ])]
-    private $birthday;
+    private ?\DateTimeInterface $birthday = null;
 
     /**
      * Relations to all groups that can access to this data.
@@ -101,7 +101,7 @@ class UserInfos
      *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
-    private $birthdayVisibility;
+    private Collection $birthdayVisibility;
 
     /**
      * The path to the avatar of the User.
@@ -114,7 +114,7 @@ class UserInfos
         'user:read:one',
         'user:read:some',
     ])]
-    private $avatar;
+    private ?string $avatar = null;
 
     /**
      * The User's nickname.
@@ -127,7 +127,7 @@ class UserInfos
         'user:read:one',
         'user:write:update',
     ])]
-    private $nickname;
+    private ?string $nickname = null;
 
     /**
      * A text given by the User to explicite his or her passions.
@@ -139,7 +139,7 @@ class UserInfos
         'user:read:one',
         'user:write:update',
     ])]
-    private $passions;
+    private ?string $passions = null;
 
     /**
      * The website of the User.
@@ -151,7 +151,7 @@ class UserInfos
         'user:read:one',
         'user:write:update',
     ])]
-    private $website;
+    private ?string $website = null;
 
     public function __construct()
     {
@@ -165,7 +165,7 @@ class UserInfos
         $this->birthdayVisibility = new ArrayCollection();
     }
 
-    public function caller($to_call, $arg)
+    public function caller($to_call, $arg): void
     {
         if (\is_callable([$this, $to_call])) {
             $this->{$to_call}($arg);

@@ -25,7 +25,7 @@ class UserEtuUTTTeam
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User.
@@ -33,7 +33,7 @@ class UserEtuUTTTeam
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The relation to the Semesters during which the User has worked on this project.
@@ -45,7 +45,7 @@ class UserEtuUTTTeam
      *     inverseJoinColumns={@ORM\JoinColumn(name="semester_code", referencedColumnName="code")}
      * )
      */
-    private $semester;
+    private Collection $semester;
 
     /**
      * The description of what the User has done.
@@ -53,7 +53,7 @@ class UserEtuUTTTeam
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
-    private $role;
+    private ?string $role = null;
 
     public function __construct()
     {

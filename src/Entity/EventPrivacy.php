@@ -23,7 +23,7 @@ class EventPrivacy
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the Event concerned by this EventPrivacy.
@@ -31,7 +31,7 @@ class EventPrivacy
      * @ORM\OneToOne(targetEntity=Event::class, inversedBy="eventPrivacy", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $event;
+    private ?Event $event = null;
 
     /**
      * The relation to the Assos allowed in the Event. If no Assos are added, the Event is public.
@@ -39,7 +39,7 @@ class EventPrivacy
      * @ORM\ManyToMany(targetEntity=Asso::class)
      * @ORM\JoinTable(name="event_privacies_allowed_assos")
      */
-    private $allowedAssos;
+    private Collection $allowedAssos;
 
     /**
      * The relation to the Roles allowed in the Event. If no Roles are added, every member of the Assos are allowed.
@@ -51,7 +51,7 @@ class EventPrivacy
      *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="name")}
      * )
      */
-    private $allowedRoles;
+    private Collection $allowedRoles;
 
     public function __construct()
     {

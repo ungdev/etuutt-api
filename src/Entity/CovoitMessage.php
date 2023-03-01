@@ -21,7 +21,7 @@ class CovoitMessage
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation between the CovoitMessage and its Covoit.
@@ -29,7 +29,7 @@ class CovoitMessage
      * @ORM\ManyToOne(targetEntity=Covoit::class, inversedBy="covoitMessages")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $covoit;
+    private ?Covoit $covoit = null;
 
     /**
      * The author of the CovoitMessage.
@@ -37,32 +37,32 @@ class CovoitMessage
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $author;
+    private ?User $author = null;
 
     /**
      * The text of the CovoitMessage.
      *
      * @ORM\Column(type="text")
      */
-    private $body;
+    private ?string $body = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
      */
-    private $deletedAt;
+    private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()
     {

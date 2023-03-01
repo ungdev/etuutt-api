@@ -23,7 +23,7 @@ class UserUESubscription
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User which is subscribing to a UE.
@@ -31,7 +31,7 @@ class UserUESubscription
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="UEsSubscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The relation to the UE that the User is subscribing to.
@@ -39,7 +39,7 @@ class UserUESubscription
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="usersSubscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $UE;
+    private ?UE $UE = null;
 
     /**
      * The relation to the semester during which the subscription is made.
@@ -47,13 +47,13 @@ class UserUESubscription
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
-    private $semester;
+    private ?Semester $semester = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

@@ -25,7 +25,7 @@ class UECourseExchange
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the author of this Exchange.
@@ -33,7 +33,7 @@ class UECourseExchange
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $author;
+    private ?User $author = null;
 
     /**
      * The relation to the course the author wants to change.
@@ -41,14 +41,14 @@ class UECourseExchange
      * @ORM\ManyToOne(targetEntity=UECourse::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $courseFrom;
+    private ?UECourse $courseFrom = null;
 
     /**
      * The relation to the course the author may want in exchange.
      *
      * @ORM\ManyToOne(targetEntity=UECourse::class)
      */
-    private $courseTo;
+    private ?UECourse $courseTo = null;
 
     /**
      * A boolean to know if this Exchange is still wanted by the author.
@@ -56,39 +56,39 @@ class UECourseExchange
      * @ORM\Column(type="boolean")
      * @Assert\Type("bool")
      */
-    private $stillAvailable;
+    private ?bool $stillAvailable = null;
 
     /**
      * The content of the message that goes with the Exchange proposition.
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $body;
+    private ?string $body = null;
 
     /**
      * The relation to the comments that reply to this exchange proposition.
      *
      * @ORM\OneToMany(targetEntity=UECourseExchangeReply::class, mappedBy="exchange", orphanRemoval=true)
      */
-    private $responses;
+    private Collection $responses;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
      */
-    private $deletedAt;
+    private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()
     {

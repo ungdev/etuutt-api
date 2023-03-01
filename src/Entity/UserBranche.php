@@ -24,7 +24,7 @@ class UserBranche
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User.
@@ -32,7 +32,7 @@ class UserBranche
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="branche", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The relation to the UTTBranche.
@@ -43,7 +43,7 @@ class UserBranche
     #[Groups([
         'user:read:some',
     ])]
-    private $branche;
+    private ?UTTBranche $branche = null;
 
     /**
      * The relation to the Filiere, if the User has one.
@@ -54,7 +54,7 @@ class UserBranche
     #[Groups([
         'user:read:some',
     ])]
-    private $filiere;
+    private ?UTTFiliere $filiere = null;
 
     /**
      * The number of semesters done in this UTTBranche. (e.g. 2 in "TC02").
@@ -64,7 +64,7 @@ class UserBranche
     #[Groups([
         'user:read:some',
     ])]
-    private $semesterNumber;
+    private ?int $semesterNumber = null;
 
     /**
      * The relation to the semester during which the User follows this UserBranche.
@@ -72,13 +72,13 @@ class UserBranche
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
-    private $semester;
+    private ?Semester $semester = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

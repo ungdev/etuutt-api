@@ -23,7 +23,7 @@ class UEAnnal
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the UE of this UEAnnal.
@@ -31,7 +31,7 @@ class UEAnnal
      * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="annals")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $UE;
+    private ?UE $UE = null;
 
     /**
      * The relation to the User that sent this UEAnnal.
@@ -39,7 +39,7 @@ class UEAnnal
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $sender;
+    private ?User $sender = null;
 
     /**
      * The relation to the Semester during which the UEAnnal was an exam.
@@ -47,7 +47,7 @@ class UEAnnal
      * @ORM\ManyToOne(targetEntity=Semester::class)
      * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
-    private $semester;
+    private ?Semester $semester = null;
 
     /**
      * A relation to the type of exam that this UEAnnal is.
@@ -55,7 +55,7 @@ class UEAnnal
      * @ORM\ManyToOne(targetEntity=UEAnnalType::class)
      * @ORM\JoinColumn(name="type_name", referencedColumnName="name")
      */
-    private $type;
+    private ?UEAnnalType $type = null;
 
     /**
      * The path to the file.
@@ -64,33 +64,33 @@ class UEAnnal
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
-    private $filename;
+    private ?string $filename = null;
 
     /**
      * The relation to the User who has validated this UEAnnal.
      *
      * @ORM\ManyToOne(targetEntity=User::class)
      */
-    private $validatedBy;
+    private ?User $validatedBy = null;
 
     /**
      * The relation to the potentials Reports of this UEAnnal by Users.
      *
      * @ORM\OneToMany(targetEntity=UEAnnalReport::class, mappedBy="annal", orphanRemoval=true)
      */
-    private $reports;
+    private Collection $reports;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
      */
-    private $deletedAt;
+    private ?\DateTime $deletedAt = null;
 
     public function __construct()
     {

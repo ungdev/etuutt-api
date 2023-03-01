@@ -23,7 +23,7 @@ class GitHubIssue
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation that allow to each User to add own a GitHubIssue.
@@ -31,7 +31,7 @@ class GitHubIssue
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The id of the GitHub issue.
@@ -40,13 +40,13 @@ class GitHubIssue
      * @Assert\Type(type="integer")
      * @Assert\Positive
      */
-    private $gitHubIssueId;
+    private ?int $gitHubIssueId = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

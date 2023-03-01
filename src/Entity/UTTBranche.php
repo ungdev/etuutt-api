@@ -26,7 +26,7 @@ class UTTBranche
      * @Assert\Length(max=10)
      * @Assert\Regex("/^[A-Z\d]{1,10}$/")
      */
-    private $code;
+    private ?string $code;
 
     /**
      * The complete name of the Branche.
@@ -35,7 +35,7 @@ class UTTBranche
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=255)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * The Translation object that contains the translation of the description.
@@ -43,32 +43,32 @@ class UTTBranche
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
-    private $descriptionTranslation;
+    private ?Translation $descriptionTranslation = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $exitSalary;
+    private ?int $exitSalary = null;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $employmentRate;
+    private ?int $employmentRate = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $CDIRate;
+    private ?int $CDIRate = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $abroadEmploymentRate;
+    private ?int $abroadEmploymentRate = null;
 
     /**
      * @ORM\OneToMany(targetEntity=UTTFiliere::class, mappedBy="branche", orphanRemoval=true)
      */
-    private $filieres;
+    private Collection $filieres;
 
     public function __construct(string $code = null)
     {

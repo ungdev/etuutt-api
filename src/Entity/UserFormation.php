@@ -23,7 +23,7 @@ class UserFormation
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User.
@@ -31,7 +31,7 @@ class UserFormation
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="formation", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The relation to the Formation.
@@ -39,7 +39,7 @@ class UserFormation
      * @ORM\ManyToOne(targetEntity=UTTFormation::class)
      * @ORM\JoinColumn(name="formation_name", referencedColumnName="name")
      */
-    private $formation;
+    private ?UTTFormation $formation = null;
 
     /**
      * The relation to the FollowingMethod.
@@ -47,13 +47,13 @@ class UserFormation
      * @ORM\ManyToOne(targetEntity=UTTFormationFollowingMethod::class)
      * @ORM\JoinColumn(name="following_method_name", referencedColumnName="name")
      */
-    private $followingMethod;
+    private ?UTTFormationFollowingMethod $followingMethod = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

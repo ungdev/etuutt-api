@@ -23,7 +23,7 @@ class UEAnnalReport
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the reported UEAnnal.
@@ -31,7 +31,7 @@ class UEAnnalReport
      * @ORM\ManyToOne(targetEntity=UEAnnal::class, inversedBy="reports")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $annal;
+    private ?UEAnnal $annal = null;
 
     /**
      * The relation to the User reporting the UEAnnal.
@@ -39,7 +39,7 @@ class UEAnnalReport
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The relation to the reason of reporting.
@@ -47,7 +47,7 @@ class UEAnnalReport
      * @ORM\ManyToOne(targetEntity=UEAnnalReportReason::class)
      * @ORM\JoinColumn(name="reason_name", referencedColumnName="name")
      */
-    private $reason;
+    private ?UEAnnalReportReason $reason = null;
 
     /**
      * The text typed by the reporter to describe the reason.
@@ -55,13 +55,13 @@ class UEAnnalReport
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
-    private $body;
+    private ?string $body = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

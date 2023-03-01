@@ -25,16 +25,16 @@ class AssoKeyword
     #[Groups([
         'asso:read:one',
     ])]
-    private $name;
+    private ?string $name = null;
 
     /**
      * The relation between Keywords and Assos.
      *
      * @ORM\ManyToMany(targetEntity=Asso::class, mappedBy="keywords")
      */
-    private $assos;
+    private Collection $assos;
 
-    public function __construct($name)
+    public function __construct(?string $name)
     {
         $this->name = $name;
         $this->assos = new ArrayCollection();

@@ -73,7 +73,7 @@ class User implements UserInterface
         'user:read:one',
         'user:read:some',
     ])]
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The CAS login of the User.
@@ -87,7 +87,7 @@ class User implements UserInterface
         'user:read:one',
         'user:read:some',
     ])]
-    private $login;
+    private ?string $login = null;
 
     /**
      * For the User that are students, this is the UTT student number.
@@ -99,7 +99,7 @@ class User implements UserInterface
     #[Groups([
         'user:read:one',
     ])]
-    private $studentId;
+    private ?int $studentId = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -110,7 +110,7 @@ class User implements UserInterface
         'user:read:one',
         'user:read:some',
     ])]
-    private $firstName;
+    private ?string $firstName = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -121,21 +121,21 @@ class User implements UserInterface
         'user:read:one',
         'user:read:some',
     ])]
-    private $lastName;
+    private ?string $lastName = null;
 
     /**
      * The roles of the user. Admin, UE editor, UE comment moderator...
      *
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * The relation to the entity that contains the User's Timestamps.
      *
      * @ORM\OneToOne(targetEntity=UserTimestamps::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $timestamps;
+    private ?UserTimestamps $timestamps = null;
 
     /**
      * The relation to the entity that contains the User's SocialNetwork.
@@ -147,14 +147,14 @@ class User implements UserInterface
         'user:read:one',
         'user:write:update',
     ])]
-    private $socialNetwork;
+    private ?UserSocialNetwork $socialNetwork = null;
 
     /**
      * The possibles relations to the entities that contains the User's Bans.
      *
      * @ORM\OneToMany(targetEntity=UserBan::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $bans;
+    private Collection $bans;
 
     /**
      * The relation to the entity that contains the User's RGPD.
@@ -166,14 +166,14 @@ class User implements UserInterface
         'user:read:one',
         'user:write:update',
     ])]
-    private $RGPD;
+    private ?UserRGPD $RGPD = null;
 
     /**
      * The possibles relations to the entities that contains the User's BDEContributions.
      *
      * @ORM\OneToMany(targetEntity=UserBDEContribution::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $BDEContributions;
+    private Collection $BDEContributions;
 
     /**
      * The relation to the badges that this User owns.
@@ -183,33 +183,33 @@ class User implements UserInterface
     #[Groups([
         'user:read:one',
     ])]
-    private $badges;
+    private Collection $badges;
 
     /**
      * The relation to all Covoits created by this User.
      *
      * @ORM\OneToMany(targetEntity=Covoit::class, mappedBy="author", orphanRemoval=true)
      */
-    private $createdCovoits;
+    private Collection $createdCovoits;
 
     /**
      * The relation to all Covoits in which the User is subscribed.
      *
      * @ORM\ManyToMany(targetEntity=Covoit::class, mappedBy="passengers")
      */
-    private $passengerCovoits;
+    private Collection $passengerCovoits;
 
     /**
      * The relation to all alerts made by the User.
      *
      * @ORM\OneToMany(targetEntity=CovoitAlert::class, mappedBy="user", orphanRemoval=true)
      */
-    private $covoitAlerts;
+    private Collection $covoitAlerts;
 
     /**
      * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="user", orphanRemoval=true)
      */
-    private $assoMembership;
+    private Collection $assoMembership;
 
     /**
      * The relation to the Branche of the User.
@@ -220,7 +220,7 @@ class User implements UserInterface
         'user:read:one',
         'user:read:some',
     ])]
-    private $branche;
+    private ?UserBranche $branche = null;
 
     /**
      * The relation to the Formation of the User.
@@ -231,14 +231,14 @@ class User implements UserInterface
         'user:read:one',
         'user:read:some',
     ])]
-    private $formation;
+    private ?UserFormation $formation = null;
 
     /**
      * The relation to all group in which there is this User.
      *
      * @ORM\ManyToMany(targetEntity=Group::class, mappedBy="members")
      */
-    private $groups;
+    private Collection $groups;
 
     /**
      * The relation to the Preference of the User.
@@ -250,7 +250,7 @@ class User implements UserInterface
         'user:read:one',
         'user:write:update',
     ])]
-    private $preference;
+    private ?UserPreference $preference = null;
 
     /**
      * The relation to the Infos of the User.
@@ -263,7 +263,7 @@ class User implements UserInterface
         'user:read:some',
         'user:write:update',
     ])]
-    private $infos;
+    private ?UserInfos $infos = null;
 
     /**
      * The relation to the Addresses of the User.
@@ -275,7 +275,7 @@ class User implements UserInterface
         'user:read:one',
         'user:write:update',
     ])]
-    private $addresses;
+    private Collection $addresses;
 
     /**
      * The relation to mails and phone number of the User.
@@ -288,28 +288,28 @@ class User implements UserInterface
         'user:read:some',
         'user:write:update',
     ])]
-    private $mailsPhones;
+    private ?UserMailsPhones $mailsPhones = null;
 
     /**
      * The relation to OtherAttributs made by the User.
      *
      * @ORM\OneToMany(targetEntity=UserOtherAttributValue::class, mappedBy="user", orphanRemoval=true)
      */
-    private $otherAttributs;
+    private Collection $otherAttributs;
 
     /**
      * The relation to all UEsSubscriptions of the User.
      *
      * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="user", orphanRemoval=true)
      */
-    private $UEsSubscriptions;
+    private Collection $UEsSubscriptions;
 
     /**
      * The relation to all UEVotes made by this User.
      *
      * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="user", orphanRemoval=true)
      */
-    private $UEStarVotes;
+    private Collection $UEStarVotes;
 
     /**
      * The relation to all courses of this User.
@@ -319,7 +319,7 @@ class User implements UserInterface
     #[Groups([
         'user-edt:read:one',
     ])]
-    private $courses;
+    private Collection $courses;
 
     public function __construct()
     {
@@ -481,7 +481,7 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;

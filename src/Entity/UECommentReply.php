@@ -23,7 +23,7 @@ class UECommentReply
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the Comment this Reply is for.
@@ -31,7 +31,7 @@ class UECommentReply
      * @ORM\ManyToOne(targetEntity=UEComment::class, inversedBy="answers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $comment;
+    private ?UEComment $comment = null;
 
     /**
      * The relation to the User who has created this Reply.
@@ -39,7 +39,7 @@ class UECommentReply
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $author;
+    private ?User $author = null;
 
     /**
      * The content of this Reply.
@@ -47,25 +47,25 @@ class UECommentReply
      * @ORM\Column(type="text")
      * @Assert\Type("string")
      */
-    private $body;
+    private ?string $body = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
      */
-    private $deletedAt;
+    private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()
     {

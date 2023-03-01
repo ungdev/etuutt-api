@@ -24,7 +24,7 @@ class AssoMembership
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User that is subscribed to an Asso.
@@ -35,7 +35,7 @@ class AssoMembership
     #[Groups([
         'asso:read:one',
     ])]
-    private $user;
+    private ?User $user = null;
 
     /**
      * The Asso in which the User is subscribed.
@@ -43,7 +43,7 @@ class AssoMembership
      * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="assoMemberships")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $asso;
+    private ?Asso $asso = null;
 
     /**
      * The relation to the roles accorded to the User in an Asso.
@@ -55,7 +55,7 @@ class AssoMembership
      *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="name")}
      * )
      */
-    private $roles;
+    private Collection $roles;
 
     /**
      * The relation to the permissions accorded to the User in an Asso.
@@ -67,23 +67,23 @@ class AssoMembership
      *     inverseJoinColumns={@ORM\JoinColumn(name="permission", referencedColumnName="name")}
      * )
      */
-    private $permissions;
+    private Collection $permissions;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $startAt;
+    private ?\DateTimeInterface $startAt = null;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $endAt;
+    private ?\DateTimeInterface $endAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

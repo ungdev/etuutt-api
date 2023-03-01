@@ -26,7 +26,7 @@ class UserAddress
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the User which live at this address.
@@ -34,7 +34,7 @@ class UserAddress
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="addresses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -45,7 +45,7 @@ class UserAddress
         'user:read:one',
         'user:write:update',
     ])]
-    private $street;
+    private ?string $street = null;
 
     /**
      * The french postal code.
@@ -59,7 +59,7 @@ class UserAddress
         'user:read:one',
         'user:write:update',
     ])]
-    private $postalCode;
+    private ?string $postalCode = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -70,7 +70,7 @@ class UserAddress
         'user:read:one',
         'user:write:update',
     ])]
-    private $city;
+    private ?string $city = null;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -81,7 +81,7 @@ class UserAddress
         'user:read:one',
         'user:write:update',
     ])]
-    private $country;
+    private ?string $country = null;
 
     /**
      * Relations to all groups that can access to this data.
@@ -93,14 +93,14 @@ class UserAddress
      *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
-    private $addressVisibility;
+    private Collection $addressVisibility;
 
     public function __construct()
     {
         $this->addressVisibility = new ArrayCollection();
     }
 
-    public function caller($to_call, $arg)
+    public function caller($to_call, $arg): void
     {
         if (\is_callable([$this, $to_call])) {
             $this->{$to_call}($arg);

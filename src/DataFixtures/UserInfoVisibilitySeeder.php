@@ -25,7 +25,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
         ];
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
 
@@ -96,7 +96,7 @@ class UserInfoVisibilitySeeder extends Fixture implements DependentFixtureInterf
      * @param Generator       $faker      La factory faker pour générer des données
      * @param GroupRepository $groupRepo  Le repository pour accéder aux Users
      */
-    public static function setFieldVisibility(object $entity, string $methodName, Generator $faker, GroupRepository $groupRepo)
+    public static function setFieldVisibility(object $entity, string $methodName, Generator $faker, GroupRepository $groupRepo): void
     {
         $groups = $groupRepo->findAll();
         $groupChoice = $faker->numberBetween(0, 2);

@@ -67,7 +67,7 @@ class Asso
         'asso:read:one',
         'asso:read:some',
     ])]
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The login used for the CAS.
@@ -77,7 +77,7 @@ class Asso
      * @Assert\Length(min=1, max=50)
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
-    private $login;
+    private ?string $login = null;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
@@ -88,7 +88,7 @@ class Asso
         'asso:read:one',
         'asso:read:some',
     ])]
-    private $name;
+    private ?string $name = null;
 
     /**
      * The Translation object that contains the translation of the short description.
@@ -99,7 +99,7 @@ class Asso
     #[Groups([
         'asso:read:some',
     ])]
-    private $descriptionShortTranslation;
+    private ?Translation $descriptionShortTranslation = null;
 
     /**
      * The Translation object that contains the translation of the complete description.
@@ -110,7 +110,7 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    private $descriptionTranslation;
+    private ?Translation $descriptionTranslation = null;
 
     /**
      * The email address of the association.
@@ -123,7 +123,7 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    private $mail;
+    private ?string $mail = null;
 
     /**
      * The phone number of the association.
@@ -136,7 +136,7 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    private $phoneNumber;
+    private ?string $phoneNumber = null;
 
     /**
      * The website of the association. It is optional.
@@ -149,7 +149,7 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    private $website;
+    private ?string $website = null;
 
     /**
      * Link to the logo of the association. It is optional.
@@ -162,7 +162,7 @@ class Asso
         'asso:read:some',
         'asso:read:one',
     ])]
-    private $logo;
+    private ?string $logo = null;
 
     /**
      * @ORM\Column(type="datetime")
@@ -171,19 +171,19 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface")
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
      */
-    private $deletedAt;
+    private ?\DateTimeInterface $deletedAt = null;
 
     /**
      * The relation to all Keywords of this Asso.
@@ -198,14 +198,14 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    private $keywords;
+    private Collection $keywords;
 
     /**
      * The relation to all assoMessages sent by this Asso.
      *
      * @ORM\OneToMany(targetEntity=AssoMessage::class, mappedBy="asso", orphanRemoval=true)
      */
-    private $assoMessages;
+    private Collection $assoMessages;
 
     /**
      * The relation to all events in which this Asso participate.
@@ -215,14 +215,14 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    private $events;
+    private Collection $events;
 
     /**
      * The relation to all Groups of this Asso.
      *
      * @ORM\OneToMany(targetEntity=Group::class, mappedBy="asso")
      */
-    private $groups;
+    private Collection $groups;
 
     /**
      * The relation to all AssoMemberships of this Asso.
@@ -232,7 +232,7 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    private $assoMemberships;
+    private Collection $assoMemberships;
 
     public function __construct()
     {

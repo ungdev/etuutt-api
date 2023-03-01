@@ -23,7 +23,7 @@ class UserBan
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the banned User.
@@ -31,7 +31,7 @@ class UserBan
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bans")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * The date until which the User can only read data on this app.
@@ -39,7 +39,7 @@ class UserBan
      * @ORM\Column(type="date", nullable=true)
      * @Assert\Date
      */
-    private $readOnlyExpiration;
+    private ?\DateTimeInterface $readOnlyExpiration = null;
 
     /**
      * The date until which the User is banned and can not access to this app.
@@ -47,7 +47,7 @@ class UserBan
      * @ORM\Column(type="date", nullable=true)
      * @Assert\Date
      */
-    private $bannedExpiration;
+    private ?\DateTimeInterface $bannedExpiration = null;
 
     public function getId(): ?Uuid
     {

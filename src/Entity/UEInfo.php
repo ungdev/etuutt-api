@@ -23,7 +23,7 @@ class UEInfo
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      * @Assert\Uuid
      */
-    private $id;
+    private ?Uuid $id = null;
 
     /**
      * The relation to the UE related to this info.
@@ -31,7 +31,7 @@ class UEInfo
      * @ORM\OneToOne(targetEntity=UE::class, inversedBy="info", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $UE;
+    private ?UE $UE = null;
 
     /**
      * The degree in which the UE is available.
@@ -39,7 +39,7 @@ class UEInfo
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
-    private $degree;
+    private ?string $degree = null;
 
     /**
      * The possible minor in which this UE is.
@@ -47,7 +47,7 @@ class UEInfo
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
-    private $minors;
+    private ?string $minors = null;
 
     /**
      * The possible UE that are necessary to take this one.
@@ -55,7 +55,7 @@ class UEInfo
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
-    private $antecedent;
+    private ?string $antecedent = null;
 
     /**
      * The languages spoken in ths UE, and their minimum level to understand.
@@ -63,7 +63,7 @@ class UEInfo
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
-    private $languages;
+    private ?string $languages = null;
 
     /**
      * A field to leave a free comment.
@@ -71,7 +71,7 @@ class UEInfo
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
-    private $comment;
+    private ?string $comment = null;
 
     /**
      * The objectives of the UE.
@@ -79,7 +79,7 @@ class UEInfo
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
-    private $objectives;
+    private ?string $objectives = null;
 
     /**
      * The programme of this UE.
@@ -87,7 +87,7 @@ class UEInfo
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Type("string")
      */
-    private $programme;
+    private ?string $programme = null;
 
     public function getId(): ?Uuid
     {

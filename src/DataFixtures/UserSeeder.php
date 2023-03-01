@@ -25,7 +25,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
         ];
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
 
@@ -162,8 +162,8 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
     /**
      * Cette fonction génère le login à partir du firstname et du lastname.
      *
-     * @param string         $firstName      Le prénom de l'utilisateur
-     * @param string         $lastName       Le nom de famille de l'utilisateur
+     * @param string|null $firstName Le prénom de l'utilisateur
+     * @param string|null $lastName Le nom de famille de l'utilisateur
      * @param UserRepository $userRepository Le repository pour accéder aux Users
      *
      * @return string $login Le login de l'utilisateur

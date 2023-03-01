@@ -23,7 +23,7 @@ class UTTFormation
      * @Assert\Type("string")
      * @Assert\Length(min=1, max=100)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * The Translation object that contains the translation of the description.
@@ -31,7 +31,7 @@ class UTTFormation
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
-    private $descriptionTranslation;
+    private ?Translation $descriptionTranslation = null;
 
     public function __construct(string $name = null)
     {
