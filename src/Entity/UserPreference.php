@@ -105,11 +105,8 @@ class UserPreference
 
     /**
      * This method permits to dynamically call visibility's getters and setters.
-     *
-     * @param mixed $to_call
-     * @param mixed $arg
      */
-    public function caller($to_call, $arg): void
+    public function caller(mixed $to_call, mixed $arg): void
     {
         if (\is_callable([$this, $to_call])) {
             $this->{$to_call}($arg);

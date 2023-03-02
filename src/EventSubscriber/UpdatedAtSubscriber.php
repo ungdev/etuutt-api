@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 final class UpdatedAtSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => ['update', EventPriorities::PRE_WRITE],

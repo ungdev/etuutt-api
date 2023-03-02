@@ -22,8 +22,9 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
-
+        
         //  Création de 40 badges
+        $serie = null;
         for ($i = 0; $i < 40; ++$i) {
             //  Créations d'un Badge
             $badge = new Badge();
