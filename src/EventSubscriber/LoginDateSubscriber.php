@@ -15,17 +15,11 @@ use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
  */
 class LoginDateSubscriber implements EventSubscriberInterface
 {
-    private Security $security;
-
-    private EntityManagerInterface $manager;
-
-    public function __construct(Security $security, EntityManagerInterface $manager)
+    public function __construct(private readonly Security $security, private readonly EntityManagerInterface $manager)
     {
-        $this->security = $security;
-        $this->manager = $manager;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             LoginSuccessEvent::class => ['update'],

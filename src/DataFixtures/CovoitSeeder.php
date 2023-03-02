@@ -24,31 +24,32 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
-
+        
         // Récupération des users
         $users = $manager->getRepository(User::class)->findAll();
-
+        
         // Création de 30 covoits
         for ($i = 0; $i < 30; ++$i) {
             // Créations d'un covoit
             $covoit = new Covoit();
-
+            
             // On ajoute un user en tant qu'auteur du covoit
             $covoit->setAuthor($faker->randomElement($users));
-
+            
             // Création d'une description
             $covoit->setDescription(Text::createRandomText(5, 9));
 
             $covoit->setCapacity($faker->numberBetween(1, 4));
-
+            
             $covoit->setPrice($faker->numberBetween(1000, 3000));
-
+            
             // On a 75% de chance d'avoir un URL
             if ($faker->boolean(75)) {
                 $covoit->setBlablacarUrl($faker->imageUrl());
             }
-
+            
             // On remplit la liste d'utilisateurs si IsFull est vrai, sinon on en met un nombre aléatoire inférieur
+            $subscribedUsers = [];
             $subscribedUsers[] = $covoit->getAuthor();
             for ($j = 0; $j < $faker->numberBetween(0, $covoit->getCapacity()); ++$j) {
                 do {

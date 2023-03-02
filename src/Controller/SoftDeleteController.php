@@ -13,11 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SoftDeleteController extends AbstractController
 {
-    private EntityManagerInterface $manager;
-
-    public function __construct(EntityManagerInterface $manager)
+    public function __construct(private readonly EntityManagerInterface $manager)
     {
-        $this->manager = $manager;
     }
 
     public function __invoke($data)
