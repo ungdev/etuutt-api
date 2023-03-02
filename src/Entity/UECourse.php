@@ -24,8 +24,8 @@ class UECourse
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -42,68 +42,68 @@ class UECourse
      * The day of the week during which this Course takes place.
      *
      * @ORM\Column(type="string", length=20)
-     * @Assert\Type("string")
-     * @Assert\Choice({"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"})
      */
     #[Groups([
         'user-edt:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Choice(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])]
     private ?string $day = null;
 
     /**
      * The starting hour of this Course.
      *
      * @ORM\Column(type="time")
-     * @Assert\Time
      */
     #[Groups([
         'user-edt:read:one',
     ])]
+    #[Assert\Time]
     private ?\DateTimeInterface $startHour = null;
 
     /**
      * The ending hour of this Course.
      *
      * @ORM\Column(type="time")
-     * @Assert\Time
      */
     #[Groups([
         'user-edt:read:one',
     ])]
+    #[Assert\Time]
     private ?\DateTimeInterface $endHour = null;
 
     /**
      * The week code during which the Course takes place.
      *
      * @ORM\Column(type="string", length=1, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Choice({"A", "B"})
      */
     #[Groups([
         'user-edt:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Choice(['A', 'B'])]
     private ?string $week = null;
 
     /**
      * @ORM\Column(type="string", length=2, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Choice({"CM", "TD", "TP"})
      */
     #[Groups([
         'user-edt:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Choice(['CM', 'TD', 'TP'])]
     private ?string $type = null;
 
     /**
      * The place where the Course takes place.
      *
      * @ORM\Column(type="string", length=50)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=50)
      */
     #[Groups([
         'user-edt:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 50)]
     private ?string $room = null;
 
     /**
@@ -128,8 +128,8 @@ class UECourse
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()

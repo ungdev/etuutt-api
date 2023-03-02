@@ -27,9 +27,9 @@ class UTTFormationFollowingMethod
         /**
          * @ORM\Id
          * @ORM\Column(type="string", length=100)
-         * @Assert\Type("string")
-         * @Assert\Length(min=1, max=100)
          */
+        #[Assert\Type('string')]
+        #[Assert\Length(min: 1, max: 100)]
         private ?string $name = null
     ) {
         $this->setDescriptionTranslation(new Translation());

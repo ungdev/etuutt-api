@@ -21,8 +21,8 @@ class UEStarVote
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -53,16 +53,16 @@ class UEStarVote
      * The number of stars of this vote.
      *
      * @ORM\Column(type="smallint")
-     * @Assert\Type("int")
-     * @Assert\LessThanOrEqual(5)
-     * @Assert\GreaterThanOrEqual(0)
      */
+    #[Assert\Type('int')]
+    #[Assert\LessThanOrEqual(5)]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $value = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()

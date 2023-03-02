@@ -21,8 +21,8 @@ class UEInfo
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -37,56 +37,56 @@ class UEInfo
      * The degree in which the UE is available.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
+    #[Assert\Type('string')]
     private ?string $degree = null;
 
     /**
      * The possible minor in which this UE is.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
+    #[Assert\Type('string')]
     private ?string $minors = null;
 
     /**
      * The possible UE that are necessary to take this one.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
+    #[Assert\Type('string')]
     private ?string $antecedent = null;
 
     /**
      * The languages spoken in ths UE, and their minimum level to understand.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
+    #[Assert\Type('string')]
     private ?string $languages = null;
 
     /**
      * A field to leave a free comment.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
+    #[Assert\Type('string')]
     private ?string $comment = null;
 
     /**
      * The objectives of the UE.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
+    #[Assert\Type('string')]
     private ?string $objectives = null;
 
     /**
      * The programme of this UE.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
+    #[Assert\Type('string')]
     private ?string $programme = null;
 
     public function getId(): ?Uuid

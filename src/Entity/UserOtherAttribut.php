@@ -18,10 +18,10 @@ class UserOtherAttribut
      * The type of value that this attribut is.
      *
      * @ORM\Column(type="string", length=50)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=50)
-     * @Assert\Choice({"bool", "int", "float", "string", "longtext", "date", "datetime"})
      */
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 50)]
+    #[Assert\Choice(['bool', 'int', 'float', 'string', 'longtext', 'date', 'datetime'])]
     private ?string $type = null;
 
     public function __construct(
@@ -30,9 +30,9 @@ class UserOtherAttribut
          *
          * @ORM\Id
          * @ORM\Column(type="string", length=100)
-         * @Assert\Type("string")
-         * @Assert\Length(min=1, max=100)
          */
+        #[Assert\Type('string')]
+        #[Assert\Length(min: 1, max: 100)]
         private ?string $name = null
     ) {}
 

@@ -18,26 +18,26 @@ class Semester
      * The starting date of the Semester.
      *
      * @ORM\Column(type="date")
-     * @Assert\Date
      */
+    #[Assert\Date]
     private ?\DateTimeInterface $start = null;
 
     /**
      * The ending date of the Semester.
      *
      * @ORM\Column(type="date")
-     * @Assert\Date
      */
+    #[Assert\Date]
     private ?\DateTimeInterface $end = null;
 
     public function __construct(
         /**
          * @ORM\Id
          * @ORM\Column(type="string", length=10)
-         * @Assert\Type("string")
-         * @Assert\Length(max=10)
-         * @Assert\Regex("/^(A|P)\d{2}$/")
          */
+        #[Assert\Type('string')]
+        #[Assert\Length(max: 10)]
+        #[Assert\Regex('/^(A|P)\d{2}$/')]
         private ?string $code = null
     )
     {

@@ -21,8 +21,8 @@ class UEAnnal
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -61,9 +61,9 @@ class UEAnnal
      * The path to the file.
      *
      * @ORM\Column(type="string", length=255)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=255)
      */
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 255)]
     private ?string $filename = null;
 
     /**
@@ -82,14 +82,14 @@ class UEAnnal
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTime $deletedAt = null;
 
     public function __construct()

@@ -24,8 +24,8 @@ class UserPreference
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -40,45 +40,45 @@ class UserPreference
      * The boolean that informs us if we show or not the birthday of this User.
      *
      * @ORM\Column(type="boolean")
-     * @Assert\Type("bool")
      */
     #[Groups([
         'user:write:update',
     ])]
+    #[Assert\Type('bool')]
     private ?bool $birthdayDisplayOnlyAge = null;
 
     /**
      * The language prefered by the User. It follows the ISO 639-1 convention.
      *
      * @ORM\Column(type="string", length=5)
-     * @Assert\Type("string")
-     * @Assert\Choice({"fr", "en", "es", "de", "zh"})
      */
     #[Groups([
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Choice(['fr', 'en', 'es', 'de', 'zh'])]
     private ?string $language = null;
 
     /**
      * The boolean that informs us if we send day mail to this User or not.
      *
      * @ORM\Column(type="boolean")
-     * @Assert\Type("bool")
      */
     #[Groups([
         'user:write:update',
     ])]
+    #[Assert\Type('bool')]
     private ?bool $wantDaymail = null;
 
     /**
      * The boolean that informs us if we send day notif to this User or not.
      *
      * @ORM\Column(type="boolean")
-     * @Assert\Type("bool")
      */
     #[Groups([
         'user:write:update',
     ])]
+    #[Assert\Type('bool')]
     private ?bool $wantDayNotif = null;
 
     /**

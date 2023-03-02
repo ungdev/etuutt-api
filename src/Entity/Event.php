@@ -56,13 +56,13 @@ class Event
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
     #[Groups([
         'event:read:some',
         'event:read:one',
         'asso:read:one',
     ])]
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -93,45 +93,45 @@ class Event
      * The starting date of the event.
      *
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
         'event:read:one',
     ])]
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $startAt = null;
 
     /**
      * The ending date of the event.
      *
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
         'event:read:one',
     ])]
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $endAt = null;
 
     /**
      * A boolean telling whether the event is from morning to evening or not.
      *
      * @ORM\Column(type="boolean")
-     * @Assert\Type("bool")
      */
     #[Groups([
         'event:read:one',
     ])]
+    #[Assert\Type('bool')]
     private ?bool $isAllDay = null;
 
     /**
      * The location of the event. It is optional.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(min=0, max=255)
      */
     #[Groups([
         'event:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 0, max: 255)]
     private ?string $location = null;
 
     /**
@@ -147,20 +147,20 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $deletedAt = null;
 
     /**

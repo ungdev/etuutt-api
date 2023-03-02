@@ -69,7 +69,6 @@ class Group
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid()
      */
     #[
         ApiProperty(
@@ -80,18 +79,19 @@ class Group
             'group:read:some',
         ])
     ]
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
      */
     #[Groups([
         'group:read:one',
         'group:read:some',
         'group:write:create',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
     private ?string $name = null;
 
     /**
@@ -123,9 +123,6 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
-     * @Assert\Regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/")
      */
     #[
         ApiProperty(
@@ -136,14 +133,15 @@ class Group
             'group:read:some',
         ])
     ]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
     private ?string $slug = null;
 
     /**
      * The path to the avatar of the Group.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=255)
      */
     #[Groups([
         'group:read:one',
@@ -151,17 +149,19 @@ class Group
         'group:write:update',
         'group:write:create',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 255)]
     private ?string $avatar = null;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\Type("bool")
      */
     #[Groups([
         'group:read:one',
         'group:write:update',
         'group:write:create',
     ])]
+    #[Assert\Type('bool')]
     private ?bool $isVisible = null;
 
     /**

@@ -22,8 +22,8 @@ class UserSocialNetwork
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -38,85 +38,85 @@ class UserSocialNetwork
      * The URL of the User's Facebook.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
-     * @Assert\Url
-     * @Assert\Regex("/^https:\/\/facebook\.com\/[a-z0-9]+(?:-[a-z0-9]+)*$/")
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
+    #[Assert\Url]
+    #[Assert\Regex('/^https:\/\/facebook\.com\/[a-z0-9]+(?:-[a-z0-9]+)*$/')]
     private ?string $facebook = null;
 
     /**
      * The URL of the User's Twitter.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
-     * @Assert\Url
-     * @Assert\Regex("/^https:\/\/twitter\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/")
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
+    #[Assert\Url]
+    #[Assert\Regex('/^https:\/\/twitter\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/')]
     private ?string $twitter = null;
 
     /**
      * The URL of the User's Instagram.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
-     * @Assert\Url
-     * @Assert\Regex("/^https:\/\/instagram\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/")
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
+    #[Assert\Url]
+    #[Assert\Regex('/^https:\/\/instagram\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/')]
     private ?string $instagram = null;
 
     /**
      * The URL of the User's LinkedIn.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
-     * @Assert\Url
-     * @Assert\Regex("/^https:\/\/linkedin\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/")
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
+    #[Assert\Url]
+    #[Assert\Regex('/^https:\/\/linkedin\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/')]
     private ?string $linkedin = null;
 
     /**
      * The Discord pseudo of the User. It is usefull to create a link to discord bot.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
     private ?string $pseudoDiscord = null;
 
     /**
      * A boolean to store if the User wants to be added to the UTT's discord.
      *
      * @ORM\Column(type="boolean")
-     * @Assert\Type("bool")
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('bool')]
     private bool $wantDiscordUTT = false;
 
     public function getId(): ?Uuid

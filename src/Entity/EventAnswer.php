@@ -19,8 +19,8 @@ class EventAnswer
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -43,9 +43,9 @@ class EventAnswer
      * The answer of the User to the Event (e.g. "je viens").
      *
      * @ORM\Column(type="string", length=20)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=20)
      */
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 20)]
     private ?string $answer = null;
 
     /**
@@ -57,20 +57,20 @@ class EventAnswer
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()

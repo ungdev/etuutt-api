@@ -18,9 +18,9 @@ class UEAnnalType
          *
          * @ORM\Id
          * @ORM\Column(type="string", length=50)
-         * @Assert\Type("string")
-         * @Assert\Length(min=1, max=50)
          */
+        #[Assert\Type('string')]
+        #[Assert\Length(min: 1, max: 50)]
         private ?string $name = null
     ) {}
 

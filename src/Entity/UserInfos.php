@@ -24,8 +24,8 @@ class UserInfos
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -38,14 +38,14 @@ class UserInfos
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Assert\Type("string")
-     * @Assert\Length(max=50)
-     * @Assert\Choice({"Masculin", "Féminin", "Autre"})
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 50)]
+    #[Assert\Choice(['Masculin', 'Féminin', 'Autre'])]
     private ?string $sex = null;
 
     /**
@@ -62,12 +62,12 @@ class UserInfos
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=50)
      */
     #[Groups([
         'user:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 50)]
     private ?string $nationality = null;
 
     /**
@@ -84,11 +84,11 @@ class UserInfos
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
         'user:read:one',
     ])]
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $birthday = null;
 
     /**
@@ -107,50 +107,50 @@ class UserInfos
      * The path to the avatar of the User.
      *
      * @ORM\Column(type="string", length=255)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=255)
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 255)]
     private ?string $avatar = null;
 
     /**
      * The User's nickname.
      *
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=50)
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 50)]
     private ?string $nickname = null;
 
     /**
      * A text given by the User to explicite his or her passions.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
     private ?string $passions = null;
 
     /**
      * The website of the User.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Url]
     private ?string $website = null;
 
     public function __construct()

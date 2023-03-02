@@ -21,8 +21,8 @@ class UserBan
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -37,16 +37,16 @@ class UserBan
      * The date until which the User can only read data on this app.
      *
      * @ORM\Column(type="date", nullable=true)
-     * @Assert\Date
      */
+    #[Assert\Date]
     private ?\DateTimeInterface $readOnlyExpiration = null;
 
     /**
      * The date until which the User is banned and can not access to this app.
      *
      * @ORM\Column(type="date", nullable=true)
-     * @Assert\Date
      */
+    #[Assert\Date]
     private ?\DateTimeInterface $bannedExpiration = null;
 
     public function getId(): ?Uuid

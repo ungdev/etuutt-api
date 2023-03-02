@@ -67,60 +67,60 @@ class User implements UserInterface
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid()
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
     ])]
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
      * The CAS login of the User.
      *
      * @ORM\Column(type="string", length=50, unique=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=50)
-     * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 50)]
+    #[Assert\Regex('/^[a-z_0-9]{1,50}$/')]
     private ?string $login = null;
 
     /**
      * For the User that are students, this is the UTT student number.
      *
      * @ORM\Column(type="integer", nullable=true, unique=true)
-     * @Assert\Type("int")
-     * @Assert\Positive
      */
     #[Groups([
         'user:read:one',
     ])]
+    #[Assert\Type('int')]
+    #[Assert\Positive]
     private ?int $studentId = null;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
     private ?string $firstName = null;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
     private ?string $lastName = null;
 
     /**
@@ -141,12 +141,12 @@ class User implements UserInterface
      * The relation to the entity that contains the User's SocialNetwork.
      *
      * @ORM\OneToOne(targetEntity=UserSocialNetwork::class, mappedBy="user", cascade={"persist", "remove"})
-     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Valid]
     private ?UserSocialNetwork $socialNetwork = null;
 
     /**
@@ -160,12 +160,12 @@ class User implements UserInterface
      * The relation to the entity that contains the User's RGPD.
      *
      * @ORM\OneToOne(targetEntity=UserRGPD::class, mappedBy="user", cascade={"persist", "remove"})
-     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Valid]
     private ?UserRGPD $RGPD = null;
 
     /**
@@ -244,50 +244,50 @@ class User implements UserInterface
      * The relation to the Preference of the User.
      *
      * @ORM\OneToOne(targetEntity=UserPreference::class, mappedBy="user", cascade={"persist", "remove"})
-     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Valid]
     private ?UserPreference $preference = null;
 
     /**
      * The relation to the Infos of the User.
      *
      * @ORM\OneToOne(targetEntity=UserInfos::class, mappedBy="user", cascade={"persist", "remove"})
-     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
         'user:write:update',
     ])]
+    #[Assert\Valid]
     private ?UserInfos $infos = null;
 
     /**
      * The relation to the Addresses of the User.
      *
      * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Valid]
     private Collection $addresses;
 
     /**
      * The relation to mails and phone number of the User.
      *
      * @ORM\OneToOne(targetEntity=UserMailsPhones::class, mappedBy="user", cascade={"persist", "remove"})
-     * @Assert\Valid()
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
         'user:write:update',
     ])]
+    #[Assert\Valid]
     private ?UserMailsPhones $mailsPhones = null;
 
     /**
