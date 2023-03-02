@@ -19,8 +19,8 @@ class CovoitAlert
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -35,53 +35,53 @@ class CovoitAlert
      * The maximum price in cents (x100). It is optional.
      *
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Type("int")
-     * @Assert\Positive
      */
+    #[Assert\Type('int')]
+    #[Assert\Positive]
     private ?int $priceMax = null;
 
     /**
      * The first boundary of the Covoit starting date.
      *
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $startAt = null;
 
     /**
      * The second boundary of the Covoit starting date.
      *
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $endAt = null;
 
     /**
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private $startCityId;
 
     /**
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private $endCityId;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $updatedAt = null;
 
     public function __construct()

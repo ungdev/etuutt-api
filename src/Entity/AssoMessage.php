@@ -20,8 +20,8 @@ class AssoMessage
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -52,30 +52,30 @@ class AssoMessage
      * The date of the event presented in the message.
      *
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $date = null;
 
     /**
      * Whether the message should be displayed on mobile or not.
      *
      * @ORM\Column(type="boolean")
-     * @Assert\Type("bool")
      */
+    #[Assert\Type('bool')]
     private ?bool $sendToMobile = null;
 
     /**
      * Whether the message should be send in the daymails or not.
      *
      * @ORM\Column(type="boolean")
-     * @Assert\Type("bool")
      */
+    #[Assert\Type('bool')]
     private ?bool $sendAsDaymail = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()

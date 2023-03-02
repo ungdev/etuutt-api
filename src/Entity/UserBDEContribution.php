@@ -21,8 +21,8 @@ class UserBDEContribution
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -53,16 +53,16 @@ class UserBDEContribution
      * The starting date of the BDEContribution.
      *
      * @ORM\Column(type="date")
-     * @Assert\Date
      */
+    #[Assert\Date]
     private ?\DateTimeInterface $start = null;
 
     /**
      * The ending date of the BDEContribution.
      *
      * @ORM\Column(type="date")
-     * @Assert\Date
      */
+    #[Assert\Date]
     private ?\DateTimeInterface $end = null;
 
     public function getId(): ?Uuid

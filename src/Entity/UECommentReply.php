@@ -21,8 +21,8 @@ class UECommentReply
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -45,26 +45,26 @@ class UECommentReply
      * The content of this Reply.
      *
      * @ORM\Column(type="text")
-     * @Assert\Type("string")
      */
+    #[Assert\Type('string')]
     private ?string $body = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()

@@ -61,33 +61,33 @@ class Asso
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
     #[Groups([
         'asso:read:one',
         'asso:read:some',
     ])]
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
      * The login used for the CAS.
      *
      * @ORM\Column(type="string", length=50, unique=true)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=50)
-     * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 50)]
+    #[Assert\Regex('/^[a-z_0-9]{1,50}$/')]
     private ?string $login = null;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=100)
      */
     #[Groups([
         'asso:read:one',
         'asso:read:some',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 100)]
     private ?string $name = null;
 
     /**
@@ -116,73 +116,73 @@ class Asso
      * The email address of the association.
      *
      * @ORM\Column(type="string", length=100)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=100)
-     * @Assert\Email
      */
     #[Groups([
         'asso:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 100)]
+    #[Assert\Email]
     private ?string $mail = null;
 
     /**
      * The phone number of the association.
      *
      * @ORM\Column(type="string", length=30, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(min=0, max=30)
-     * @Assert\Regex("/^0[0-9]{9}$/")
      */
     #[Groups([
         'asso:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 0, max: 30)]
+    #[Assert\Regex('/^0[0-9]{9}$/')]
     private ?string $phoneNumber = null;
 
     /**
      * The website of the association. It is optional.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(min=0, max=100)
-     * @Assert\Url
      */
     #[Groups([
         'asso:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 0, max: 100)]
+    #[Assert\Url]
     private ?string $website = null;
 
     /**
      * Link to the logo of the association. It is optional.
      *
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(min=0, max=100)
      */
     #[Groups([
         'asso:read:some',
         'asso:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 0, max: 100)]
     private ?string $logo = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
     #[Groups([
         'asso:read:one',
     ])]
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $deletedAt = null;
 
     /**

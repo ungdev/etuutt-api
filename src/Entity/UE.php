@@ -64,65 +64,65 @@ class UE
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
     #[Groups([
         'ue:read:one',
         'ue:read:some',
     ])]
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
      * The code of the UE (e.g. "MATH01").
      *
      * @ORM\Column(type="string", length=10)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=10)
-     * @Assert\Regex("/^[a-zA-Z]{1,5}[0-9]{1,2}$/")
      */
     #[Groups([
         'ue:read:one',
         'ue:read:some',
         'user-edt:read:one',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 10)]
+    #[Assert\Regex('/^[a-zA-Z]{1,5}[0-9]{1,2}$/')]
     private ?string $code = null;
 
     /**
      * The title of the UE (e.g. "Analyse : suites et fonctions d’une variable réelle pour les TC01 ou les TC05 aguerris.").
      *
      * @ORM\Column(type="string", length=255)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=255)
      */
     #[Groups([
         'ue:read:one',
         'ue:read:some',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 255)]
     private ?string $name = null;
 
     /**
      * The validation rate computed with data in our database.
      *
      * @ORM\Column(type="float", nullable=true)
-     * @Assert\Type("float")
-     * @Assert\LessThanOrEqual(100)
-     * @Assert\GreaterThanOrEqual(0)
      */
     #[Groups([
         'ue:read:one',
     ])]
+    #[Assert\Type('float')]
+    #[Assert\LessThanOrEqual(100)]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?float $validationRate = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $updatedAt = null;
 
     /**

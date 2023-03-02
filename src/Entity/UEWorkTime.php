@@ -21,8 +21,8 @@ class UEWorkTime
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -37,54 +37,54 @@ class UEWorkTime
      * The number of hours during the semester of CM (Cours Magistral).
      *
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Type("int")
-     * @Assert\PositiveOrZero
      */
+    #[Assert\Type('int')]
+    #[Assert\PositiveOrZero]
     private ?int $cm = null;
 
     /**
      * The number of hours during the semester of TD (Travaux Dirigés).
      *
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Type("int")
-     * @Assert\PositiveOrZero
      */
+    #[Assert\Type('int')]
+    #[Assert\PositiveOrZero]
     private ?int $td = null;
 
     /**
      * The number of hours during the semester of TP (Travaux Pratiques).
      *
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Type("int")
-     * @Assert\PositiveOrZero
      */
+    #[Assert\Type('int')]
+    #[Assert\PositiveOrZero]
     private ?int $tp = null;
 
     /**
      * The estimated number of hours during the semester of THE (Travail Hors Encadrement).
      *
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Type("int")
-     * @Assert\PositiveOrZero
      */
+    #[Assert\Type('int')]
+    #[Assert\PositiveOrZero]
     private ?int $the = null;
 
     /**
      * The estimated number of hours during the semester of project.
      *
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Type("int")
-     * @Assert\PositiveOrZero
      */
+    #[Assert\Type('int')]
+    #[Assert\PositiveOrZero]
     private ?int $projet = null;
 
     /**
      * The number of week that this internship has to lasts.
      *
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Type("int")
-     * @Assert\PositiveOrZero
      */
+    #[Assert\Type('int')]
+    #[Assert\PositiveOrZero]
     private ?int $internship = null;
 
     public function getId(): ?Uuid

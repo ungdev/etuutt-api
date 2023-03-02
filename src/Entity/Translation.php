@@ -21,15 +21,14 @@ class Translation
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?string $id = null;
 
     /**
      * The french translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
     #[Groups([
         'group:read:one',
@@ -38,13 +37,13 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
+    #[Assert\Type('string')]
     private ?string $french = null;
 
     /**
      * The english translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
     #[Groups([
         'group:read:one',
@@ -53,13 +52,13 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
+    #[Assert\Type('string')]
     private ?string $english = null;
 
     /**
      * The spanish translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
     #[Groups([
         'group:read:one',
@@ -68,13 +67,13 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
+    #[Assert\Type('string')]
     private ?string $spanish = null;
 
     /**
      * The german translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
     #[Groups([
         'group:read:one',
@@ -83,13 +82,13 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
+    #[Assert\Type('string')]
     private ?string $german = null;
 
     /**
      * The chinese translation of the element.
      *
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type("string")
      */
     #[Groups([
         'group:read:one',
@@ -98,6 +97,7 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
+    #[Assert\Type('string')]
     private ?string $chinese = null;
 
     public function getId(): ?string

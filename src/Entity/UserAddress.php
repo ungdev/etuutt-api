@@ -24,8 +24,8 @@ class UserAddress
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -38,49 +38,49 @@ class UserAddress
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
     private ?string $street = null;
 
     /**
      * The french postal code.
      *
      * @ORM\Column(type="string", length=20, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=20)
-     * @Assert\Regex("/^$|^\d{2}\s?\d{3}$/")
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 20)]
+    #[Assert\Regex('/^$|^\d{2}\s?\d{3}$/')]
     private ?string $postalCode = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=255)
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
     private ?string $city = null;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=50)
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 50)]
     private ?string $country = null;
 
     /**

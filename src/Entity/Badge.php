@@ -22,42 +22,42 @@ class Badge
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
      * The Serie is a group of Badge with the same idea (e.g. Badges that deal with being an asso member).
      *
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\Type("string")
-     * @Assert\Length(max=50)
      */
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 50)]
     private ?string $serie = null;
 
     /**
      * The Level is serves to determine which badge of a serie is more advanced.
      *
      * @ORM\Column(type="smallint", nullable=true)
-     * @Assert\Type("int")
-     * @Assert\Positive
      */
+    #[Assert\Type('int')]
+    #[Assert\Positive]
     private ?int $level = null;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=100)
      */
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 100)]
     private ?string $name = null;
 
     /**
      * The path to the picture of the badge.
      *
      * @ORM\Column(type="string", length=255)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=255)
      */
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 1, max: 255)]
     private ?string $picture = null;
 
     /**
@@ -70,14 +70,14 @@ class Badge
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $deletedAt = null;
 
     /**

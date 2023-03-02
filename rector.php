@@ -27,9 +27,8 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::PSR_4,
         SetList::TYPE_DECLARATION,
 
-        // SymfonyLevelSetList::UP_TO_SYMFONY_62,   //  No bug, assert to php attribute, security path, manual change to do
-        // SymfonySetList::SYMFONY_CODE_QUALITY,
-        // SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
+        SymfonyLevelSetList::UP_TO_SYMFONY_62,
+        SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
 
         // DoctrineSetList::DOCTRINE_CODE_QUALITY, //  Also calls SetList::TYPE_DECLARATION
         // DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,

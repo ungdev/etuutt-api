@@ -21,8 +21,8 @@ class Covoit
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -36,26 +36,26 @@ class Covoit
      * The maximum number of passengers of this Covoit.
      *
      * @ORM\Column(type="smallint")
-     * @Assert\Type("int")
-     * @Assert\Positive
      */
+    #[Assert\Type('int')]
+    #[Assert\Positive]
     private ?int $capacity = null;
 
     /**
      * The price in cents (x100).
      *
      * @ORM\Column(type="integer")
-     * @Assert\Type("int")
-     * @Assert\Positive
      */
+    #[Assert\Type('int')]
+    #[Assert\Positive]
     private ?int $price = null;
 
     /**
      * The URL of this Covoit on the blablacar website. It is optional.
      *
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
-     * @Assert\Url
      */
+    #[Assert\Url]
     private ?string $blablacarUrl = null;
 
     /**
@@ -76,44 +76,44 @@ class Covoit
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private Uuid $startCityId;
 
     /**
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      *
      * @ORM\Column(type="uuid", nullable=true)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private $endCityId;
 
     /**
      * The starting date of the Covoit.
      *
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $startAt = null;
 
     /**
      * The end date of the Covoit.
      *
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $endAt = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $updatedAt = null;
 
     /**

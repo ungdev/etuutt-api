@@ -23,8 +23,8 @@ class UEComment
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @Assert\Uuid
      */
+    #[Assert\Uuid]
     private ?Uuid $id = null;
 
     /**
@@ -47,16 +47,16 @@ class UEComment
      * The content of this Comment.
      *
      * @ORM\Column(type="text")
-     * @Assert\Type("string")
      */
+    #[Assert\Type('string')]
     private ?string $body = null;
 
     /**
      * A boolean that says if the author will be display next to his Comment.
      *
      * @ORM\Column(type="boolean")
-     * @Assert\Type("bool")
      */
+    #[Assert\Type('bool')]
     private ?bool $isAnonymous = null;
 
     /**
@@ -83,20 +83,20 @@ class UEComment
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Type("\DateTimeInterface")
      */
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()
