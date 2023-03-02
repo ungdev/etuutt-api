@@ -2,15 +2,11 @@
 
 namespace App\EventSubscriber;
 
-use ApiPlatform\Symfony\EventListener\EventPriorities;
-use App\Entity\User;
 use App\Entity\UserTimestamps;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\ViewEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 /**
  * The listener that sets the `firstLoginDate` and `lastLoginDate` properties of the user making the request, if any. It is called before sending the response.
@@ -28,11 +24,11 @@ class LoginDateSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::VIEW => ['update', EventPriorities::PRE_RESPOND],
+            LoginSuccessEvent::class => ['update'],
         ];
     }
 
-    public function update(ViewEvent $event): void
+    public function update(LoginSuccessEvent $event): void
     {
         if (null !== $this->security->getUser()) {
             /** @var UserTimestamps $userTimestamps */
