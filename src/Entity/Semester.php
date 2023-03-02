@@ -15,15 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Semester
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="string", length=10)
-     * @Assert\Type("string")
-     * @Assert\Length(max=10)
-     * @Assert\Regex("/^(A|P)\d{2}$/")
-     */
-    private ?string $code;
-
-    /**
      * The starting date of the Semester.
      *
      * @ORM\Column(type="date")
@@ -39,9 +30,17 @@ class Semester
      */
     private ?\DateTimeInterface $end = null;
 
-    public function __construct(string $code = null)
+    public function __construct(
+        /**
+         * @ORM\Id
+         * @ORM\Column(type="string", length=10)
+         * @Assert\Type("string")
+         * @Assert\Length(max=10)
+         * @Assert\Regex("/^(A|P)\d{2}$/")
+         */
+        private ?string $code = null
+    )
     {
-        $this->code = $code;
     }
 
     public function getCode(): ?string

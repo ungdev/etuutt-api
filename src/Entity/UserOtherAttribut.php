@@ -15,16 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserOtherAttribut
 {
     /**
-     * The name of this field.
-     *
-     * @ORM\Id
-     * @ORM\Column(type="string", length=100)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=100)
-     */
-    private ?string $name;
-
-    /**
      * The type of value that this attribut is.
      *
      * @ORM\Column(type="string", length=50)
@@ -34,10 +24,17 @@ class UserOtherAttribut
      */
     private ?string $type = null;
 
-    public function __construct(string $name = null)
-    {
-        $this->name = $name;
-    }
+    public function __construct(
+        /**
+         * The name of this field.
+         *
+         * @ORM\Id
+         * @ORM\Column(type="string", length=100)
+         * @Assert\Type("string")
+         * @Assert\Length(min=1, max=100)
+         */
+        private ?string $name = null
+    ) {}
 
     public function getName(): ?string
     {

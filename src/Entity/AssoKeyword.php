@@ -11,22 +11,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AssoKeywordRepository::class)
+ *
  * @ORM\Table(name="asso_keywords")
  */
 class AssoKeyword
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="string", length=30, unique=true)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=30)
-     * @Assert\Regex("/^[a-z]{1,30}$/")
-     */
-    #[Groups([
-        'asso:read:one',
-    ])]
-    private ?string $name = null;
-
     /**
      * The relation between Keywords and Assos.
      *
@@ -34,9 +23,19 @@ class AssoKeyword
      */
     private Collection $assos;
 
-    public function __construct(?string $name)
-    {
-        $this->name = $name;
+    public function __construct(
+        /**
+         * @ORM\Id
+         * @ORM\Column(type="string", length=30, unique=true)
+         * @Assert\Type("string")
+         * @Assert\Length(min=1, max=30)
+         * @Assert\Regex("/^[a-z]{1,30}$/")
+         */
+        #[Groups([
+            'asso:read:one',
+        ])]
+        private ?string $name
+    ) {
         $this->assos = new ArrayCollection();
     }
 

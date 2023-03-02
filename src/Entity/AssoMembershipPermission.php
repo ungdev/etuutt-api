@@ -12,21 +12,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class AssoMembershipPermission
 {
-    /**
-     * The permission accorded in the association (e.g. "daymail", "events", "edit_desc").
-     *
-     * @ORM\Id
-     * @ORM\Column(type="string", length=50)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=50)
-     * @Assert\Regex("/^[a-z_]{1,50}/")
-     */
-    private ?string $name = null;
-
-    public function __construct(?string $name)
-    {
-        $this->name = $name;
-    }
+    public function __construct(
+        /**
+         * The permission accorded in the association (e.g. "daymail", "events", "edit_desc").
+         *
+         * @ORM\Id
+         * @ORM\Column(type="string", length=50)
+         * @Assert\Type("string")
+         * @Assert\Length(min=1, max=50)
+         * @Assert\Regex("/^[a-z_]{1,50}/")
+         */
+        private ?string $name
+    ) {}
 
     public function getName(): ?string
     {

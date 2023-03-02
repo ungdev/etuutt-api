@@ -20,7 +20,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     //  Rules
     $rectorConfig->sets([
-        // LevelSetList::UP_TO_PHP_81, //  Type tous les attributs des objets, mais génère bcp de bug
+        LevelSetList::UP_TO_PHP_81,
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
         SetList::DEAD_CODE,

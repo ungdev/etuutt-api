@@ -18,17 +18,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UTTFiliere
 {
     /**
-     * The code of the Filiere.
-     *
-     * @ORM\Id
-     * @ORM\Column(type="string", length=10)
-     * @Assert\Type("string")
-     * @Assert\Length(max=10)
-     * @Assert\Regex("/^[A-Z\d]{1,10}$/")
-     */
-    private ?string $code;
-
-    /**
      * The complete name of the Filiere.
      *
      * @ORM\Column(type="string", length=255)
@@ -60,9 +49,18 @@ class UTTFiliere
      */
     private Collection $UEs;
 
-    public function __construct(string $code = null)
-    {
-        $this->code = $code;
+    public function __construct(
+        /**
+         * The code of the Filiere.
+         *
+         * @ORM\Id
+         * @ORM\Column(type="string", length=10)
+         * @Assert\Type("string")
+         * @Assert\Length(max=10)
+         * @Assert\Regex("/^[A-Z\d]{1,10}$/")
+         */
+        private ?string $code = null
+    ) {
         $this->UEs = new ArrayCollection();
         $this->setDescriptionTranslation(new Translation());
     }
