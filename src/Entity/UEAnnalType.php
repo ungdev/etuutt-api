@@ -12,20 +12,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UEAnnalType
 {
-    /**
-     * The type name (e.g. "Médian").
-     *
-     * @ORM\Id
-     * @ORM\Column(type="string", length=50)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=50)
-     */
-    private ?string $name;
-
-    public function __construct(string $name = null)
-    {
-        $this->name = $name;
-    }
+    public function __construct(
+        /**
+         * The type name (e.g. "Médian").
+         *
+         * @ORM\Id
+         * @ORM\Column(type="string", length=50)
+         * @Assert\Type("string")
+         * @Assert\Length(min=1, max=50)
+         */
+        private ?string $name = null
+    ) {}
 
     public function getName(): ?string
     {

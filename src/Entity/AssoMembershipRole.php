@@ -14,17 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class AssoMembershipRole
 {
     /**
-     * The name of the role in the association (e.g. "president"), not necessary for members.
-     *
-     * @ORM\Id
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=255)
-     * @Assert\Regex("/^[a-z_]{1,255}/")
-     */
-    private ?string $name = null;
-
-    /**
      * The Translation object that contains the translation of the description.
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
@@ -32,9 +21,18 @@ class AssoMembershipRole
     #[SerializedName('description')]
     private ?Translation $descriptionTranslation = null;
 
-    public function __construct(?string $name)
-    {
-        $this->name = $name;
+    public function __construct(
+        /**
+         * The name of the role in the association (e.g. "president"), not necessary for members.
+         *
+         * @ORM\Id
+         * @ORM\Column(type="string", length=255)
+         * @Assert\Type("string")
+         * @Assert\Length(min=1, max=255)
+         * @Assert\Regex("/^[a-z_]{1,255}/")
+         */
+        private ?string $name
+    ) {
         $this->setDescriptionTranslation(new Translation());
     }
 

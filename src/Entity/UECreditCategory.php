@@ -15,17 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UECreditCategory
 {
     /**
-     * The code of a category (e.g. 'CS', 'TM').
-     *
-     * @ORM\Id
-     * @ORM\Column(type="string", length=10)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=10)
-     * @Assert\Regex("/^[A-Z]{1,10}$/")
-     */
-    private ?string $code;
-
-    /**
      * The meaning of the code.
      *
      * @ORM\Column(type="string", length=255)
@@ -34,10 +23,18 @@ class UECreditCategory
      */
     private ?string $name = null;
 
-    public function __construct(string $code = null)
-    {
-        $this->code = $code;
-    }
+    public function __construct(
+        /**
+         * The code of a category (e.g. 'CS', 'TM').
+         *
+         * @ORM\Id
+         * @ORM\Column(type="string", length=10)
+         * @Assert\Type("string")
+         * @Assert\Length(min=1, max=10)
+         * @Assert\Regex("/^[A-Z]{1,10}$/")
+         */
+        private ?string $code = null
+    ) {}
 
     public function getCode(): ?string
     {

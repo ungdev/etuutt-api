@@ -16,14 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UTTFormationFollowingMethod
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="string", length=100)
-     * @Assert\Type("string")
-     * @Assert\Length(min=1, max=100)
-     */
-    private ?string $name;
-
-    /**
      * The Translation object that contains the translation of the description.
      *
      * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
@@ -31,9 +23,15 @@ class UTTFormationFollowingMethod
     #[SerializedName('description')]
     private ?Translation $descriptionTranslation = null;
 
-    public function __construct(string $name = null)
-    {
-        $this->name = $name;
+    public function __construct(
+        /**
+         * @ORM\Id
+         * @ORM\Column(type="string", length=100)
+         * @Assert\Type("string")
+         * @Assert\Length(min=1, max=100)
+         */
+        private ?string $name = null
+    ) {
         $this->setDescriptionTranslation(new Translation());
     }
 
