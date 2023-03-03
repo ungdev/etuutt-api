@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
 use App\Entity\Semester;
 use App\Entity\UE;
 use App\Entity\UEAnnal;
@@ -76,7 +75,7 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
             $annal->setFilename($faker->imageUrl());
             $annal->setValidatedBy($faker->randomElement($users));
             if ($faker->boolean(1)) {
-                $days = (new DateTime())->diff($annal->getCreatedAt())->days;
+                $days = (new \DateTime())->diff($annal->getCreatedAt())->days;
                 $annal->setCreatedAt($faker->dateTimeBetween('-'.$days.' years', 'now'));
             }
 

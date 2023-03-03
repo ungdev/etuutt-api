@@ -32,7 +32,8 @@ class UECreditCategory
         #[ORM\Id]
         #[ORM\Column(type: Types::STRING, length: 10)]
         private readonly ?string $code = null
-    ) {}
+    ) {
+    }
 
     public function getCode(): ?string
     {

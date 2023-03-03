@@ -21,7 +21,8 @@ class AssoMembershipPermission
         #[ORM\Id]
         #[ORM\Column(type: Types::STRING, length: 50)]
         private readonly ?string $name
-    ) {}
+    ) {
+    }
 
     public function getName(): ?string
     {

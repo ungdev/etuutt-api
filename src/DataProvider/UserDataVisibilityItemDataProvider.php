@@ -2,7 +2,6 @@
 
 namespace App\DataProvider;
 
-use DateTime;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Entity\Group;
@@ -51,7 +50,7 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
         }
 
         if (!$this->canAccessInfo($userToShow, $infos->getBirthdayVisibility(), $userLogged)) {
-            $infos->setBirthday(new DateTime('0000-01-01'));
+            $infos->setBirthday(new \DateTime('0000-01-01'));
         }
 
         if (!$this->canAccessInfo($userToShow, $infos->getNationalityVisibility(), $userLogged)) {
@@ -80,7 +79,7 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
             $userLoggedGroups = $userLogged->getGroups();
 
             //  Intersection of 2 arrays of object : https://stackoverflow.com/questions/2834607/array-intersect-for-object-array-php
-            $groupsIntersection = array_uintersect($fieldVisibility->toArray(), $userLoggedGroups->toArray(), static fn($a, $b): int => strcmp(spl_object_hash($a), spl_object_hash($b)));
+            $groupsIntersection = array_uintersect($fieldVisibility->toArray(), $userLoggedGroups->toArray(), static fn ($a, $b): int => strcmp(spl_object_hash($a), spl_object_hash($b)));
             $canAccess = [] !== $groupsIntersection;
         }
 

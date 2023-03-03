@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
 use App\Entity\GitHubIssue;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -35,7 +34,7 @@ class GitHubIssueSeeder extends Fixture implements DependentFixtureInterface
                 $githubIssue = new GitHubIssue();
                 $githubIssue->setUser($user);
                 $githubIssue->setGitHubIssueId($issueNumber);
-                $days = (new DateTime())->diff($user->getTimestamps()->getCreatedAt())->days;
+                $days = (new \DateTime())->diff($user->getTimestamps()->getCreatedAt())->days;
                 $githubIssue->setCreatedAt($faker->dateTimeBetween('-'.$days.' days'));
 
                 $manager->persist($githubIssue);

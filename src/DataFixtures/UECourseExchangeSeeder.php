@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
 use App\Entity\UECourse;
 use App\Entity\UECourseExchange;
 use App\Entity\UECourseExchangeReply;
@@ -39,11 +38,11 @@ class UECourseExchangeSeeder extends Fixture implements DependentFixtureInterfac
             $body = Text::createRandomText(5, 9);
             $exchange->setBody($body);
             $exchange->setCreatedAt($faker->dateTimeBetween('-3 years'));
-            $days = (new DateTime())->diff($exchange->getCreatedAt())->days;
+            $days = (new \DateTime())->diff($exchange->getCreatedAt())->days;
             $exchange->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             //  Soft delete aléatoire d'un échange (Avec une chance de 2%)
             if ($faker->boolean(2)) {
-                $days = (new DateTime())->diff($exchange->getUpdatedAt())->days;
+                $days = (new \DateTime())->diff($exchange->getUpdatedAt())->days;
                 $exchange->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
 
@@ -61,11 +60,11 @@ class UECourseExchangeSeeder extends Fixture implements DependentFixtureInterfac
             $body = Text::createRandomText(5, 9);
             $response->setBody($body);
             $response->setCreatedAt($faker->dateTimeBetween('-3 years'));
-            $days = (new DateTime())->diff($response->getCreatedAt())->days;
+            $days = (new \DateTime())->diff($response->getCreatedAt())->days;
             $response->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             //  Soft delete aléatoire d'une réponse (Avec une chance de 2%)
             if ($faker->boolean(2)) {
-                $days = (new DateTime())->diff($response->getUpdatedAt())->days;
+                $days = (new \DateTime())->diff($response->getUpdatedAt())->days;
                 $response->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
 
