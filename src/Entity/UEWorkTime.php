@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UEWorkTimeRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -10,81 +11,71 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that stores the worktime of a UE.
- *
- * @ORM\Entity(repositoryClass=UEWorkTimeRepository::class)
- * @ORM\Table(name="ue_work_times")
  */
+#[ORM\Entity(repositoryClass: UEWorkTimeRepository::class)]
+#[ORM\Table(name: 'ue_work_times')]
 class UEWorkTime
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The UE related to this Worktime.
-     *
-     * @ORM\OneToOne(targetEntity=UE::class, inversedBy="workTime", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\OneToOne(targetEntity: UE::class, inversedBy: 'workTime', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?UE $UE = null;
 
     /**
      * The number of hours during the semester of CM (Cours Magistral).
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
     #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $cm = null;
 
     /**
      * The number of hours during the semester of TD (Travaux Dirigés).
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
     #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $td = null;
 
     /**
      * The number of hours during the semester of TP (Travaux Pratiques).
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
     #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $tp = null;
 
     /**
      * The estimated number of hours during the semester of THE (Travail Hors Encadrement).
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
     #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $the = null;
 
     /**
      * The estimated number of hours during the semester of project.
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
     #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $projet = null;
 
     /**
      * The number of week that this internship has to lasts.
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
     #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $internship = null;
 
     public function getId(): ?Uuid

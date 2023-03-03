@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserUERepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -10,49 +11,41 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that represents a subscription of a User to a UE during a Semester.
- *
- * @ORM\Entity(repositoryClass=UserUERepository::class)
- * @ORM\Table(name="user_ue_subscriptions")
  */
+#[ORM\Entity(repositoryClass: UserUERepository::class)]
+#[ORM\Table(name: 'user_ue_subscriptions')]
 class UserUESubscription
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the User which is subscribing to a UE.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="UEsSubscriptions")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'UEsSubscriptions')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     /**
      * The relation to the UE that the User is subscribing to.
-     *
-     * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="usersSubscriptions")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: UE::class, inversedBy: 'usersSubscriptions')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?UE $UE = null;
 
     /**
      * The relation to the semester during which the subscription is made.
-     *
-     * @ORM\ManyToOne(targetEntity=Semester::class)
-     * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
+    #[ORM\ManyToOne(targetEntity: Semester::class)]
+    #[ORM\JoinColumn(name: 'semester_code', referencedColumnName: 'code')]
     private ?Semester $semester = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function __construct()

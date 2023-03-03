@@ -5,143 +5,120 @@ namespace App\Entity;
 use App\Repository\CovoitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=CovoitRepository::class)
- * @ORM\Table(name="covoits")
- */
+#[ORM\Entity(repositoryClass: CovoitRepository::class)]
+#[ORM\Table(name: 'covoits')]
 class Covoit
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The description of this Covoit. It is optional.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     /**
      * The maximum number of passengers of this Covoit.
-     *
-     * @ORM\Column(type="smallint")
      */
     #[Assert\Type('int')]
     #[Assert\Positive]
+    #[ORM\Column(type: Types::SMALLINT)]
     private ?int $capacity = null;
 
     /**
      * The price in cents (x100).
-     *
-     * @ORM\Column(type="integer")
      */
     #[Assert\Type('int')]
     #[Assert\Positive]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $price = null;
 
     /**
      * The URL of this Covoit on the blablacar website. It is optional.
-     *
-     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     #[Assert\Url]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: true)]
     private ?string $blablacarUrl = null;
 
     /**
      * The starting address of the Covoit.
-     *
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $startAddress = null;
 
     /**
      * The end address (destination) of the Covoit.
-     *
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $endAddress = null;
 
     /**
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
-     *
-     * @ORM\Column(type="uuid", nullable=true)
      */
     #[Assert\Uuid]
+    #[ORM\Column(type: 'uuid', nullable: true)]
     private Uuid $startCityId;
 
     /**
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
-     *
-     * @ORM\Column(type="uuid", nullable=true)
      */
     #[Assert\Uuid]
+    #[ORM\Column(type: 'uuid', nullable: true)]
     private $endCityId;
 
     /**
      * The starting date of the Covoit.
-     *
-     * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $startAt;
 
     /**
      * The end date of the Covoit.
-     *
-     * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endAt = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
     /**
      * The relation between the Covoit and its CovoitMessages.
      *
-     * @ORM\OneToMany(targetEntity=CovoitMessage::class, mappedBy="covoit", orphanRemoval=true)
      * @var Collection<int, CovoitMessage>|CovoitMessage[]
      */
+    #[ORM\OneToMany(targetEntity: CovoitMessage::class, mappedBy: 'covoit', orphanRemoval: true)]
     private Collection $covoitMessages;
 
     /**
      * The relation between the Covoit and the User that created it.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="createdCovoits")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'createdCovoits')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
     /**
      * The relation between the Covoit and the User that are subscribed to it.
-     *
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="passengerCovoits")
-     * @ORM\JoinTable(
-     *     name="covoits_users_passengers",
-     *     inverseJoinColumns={@ORM\JoinColumn(name="covoit_id", referencedColumnName="id")},
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'passengerCovoits')]
+    #[ORM\JoinTable(name: 'covoits_users_passengers', inverseJoinColumns: [new ORM\JoinColumn(name: 'covoit_id', referencedColumnName: 'id')], joinColumns: [new ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')])]
     private Collection $passengers;
 
     public function __construct()

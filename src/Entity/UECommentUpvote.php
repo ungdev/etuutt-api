@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UECommentUpvoteRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -10,48 +11,35 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This entity is a vote of a User to a Comment to bring it to the fore.
- *
- * @ORM\Entity(repositoryClass=UECommentUpvoteRepository::class)
- * @ORM\Table(
- *     name="ue_comment_upvotes",
- *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="assignment_unique", columns={"comment_id", "user_id"})
- *     }
- * )
- * Explanation uniqueConstraints :
- * A User's vote for a Comment is unique.
  */
+#[ORM\Entity(repositoryClass: UECommentUpvoteRepository::class)]
+#[ORM\Table(name: 'ue_comment_upvotes')]
+#[ORM\UniqueConstraint(name: 'assignment_unique', columns: ['comment_id', 'user_id'])]
 class UECommentUpvote
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the Comment that this Upvote is for.
-     *
-     * @ORM\ManyToOne(targetEntity=UEComment::class)
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: UEComment::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?UEComment $comment = null;
 
     /**
      * The relation to the User that this Upvote is from.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function __construct()

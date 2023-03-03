@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserEtuUTTTeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -12,47 +13,39 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that stores which User has been member of this project, what he or she has done, and when.
- *
- * @ORM\Entity(repositoryClass=UserEtuUTTTeamRepository::class)
- * @ORM\Table(name="user_etuutt_team")
  */
+#[ORM\Entity(repositoryClass: UserEtuUTTTeamRepository::class)]
+#[ORM\Table(name: 'user_etuutt_team')]
 class UserEtuUTTTeam
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the User.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     /**
      * The relation to the Semesters during which the User has worked on this project.
-     *
-     * @ORM\ManyToMany(targetEntity=Semester::class)
-     * @ORM\JoinTable(
-     *     name="user_etuutt_team_semesters",
-     *     joinColumns={@ORM\JoinColumn(name="user_etuutt_team_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="semester_code", referencedColumnName="code")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: Semester::class)]
+    #[ORM\JoinTable(name: 'user_etuutt_team_semesters')]
+    #[ORM\JoinColumn(name: 'user_etuutt_team_id')]
+    #[ORM\InverseJoinColumn(name: 'semester_code', referencedColumnName: 'code')]
     private Collection $semester;
 
     /**
      * The description of what the User has done.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $role = null;
 
     public function __construct()

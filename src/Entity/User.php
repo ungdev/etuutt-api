@@ -13,6 +13,7 @@ use App\DataProvider\UserDataVisibilityItemDataProvider;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,9 +23,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The main entity that represents all Users. It is related to UEs, Covoits, Assos and others.
- *
- * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="users")
  */
 #[
     ApiResource(
@@ -60,25 +58,23 @@ use Symfony\Component\Validator\Constraints as Assert;
         security: "is_granted('ROLE_USER')",
     )
 ]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: 'users')]
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Groups([
         'user:read:one',
         'user:read:some',
     ])]
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The CAS login of the User.
-     *
-     * @ORM\Column(type="string", length=50, unique=true)
      */
     #[Groups([
         'user:read:one',
@@ -87,180 +83,164 @@ class User implements UserInterface
     #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
     #[Assert\Regex('/^[a-z_0-9]{1,50}$/')]
+    #[ORM\Column(type: Types::STRING, length: 50, unique: true)]
     private ?string $login = null;
 
     /**
      * For the User that are students, this is the UTT student number.
-     *
-     * @ORM\Column(type="integer", nullable=true, unique=true)
      */
     #[Groups([
         'user:read:one',
     ])]
     #[Assert\Type('int')]
     #[Assert\Positive]
+    #[ORM\Column(type: Types::INTEGER, nullable: true, unique: true)]
     private ?int $studentId = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     #[Groups([
         'user:read:one',
         'user:read:some',
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $firstName = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     #[Groups([
         'user:read:one',
         'user:read:some',
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $lastName = null;
 
     /**
      * The roles of the user. Admin, UE editor, UE comment moderator...
-     *
-     * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
 
     /**
      * The relation to the entity that contains the User's Timestamps.
-     *
-     * @ORM\OneToOne(targetEntity=UserTimestamps::class, mappedBy="user", cascade={"persist", "remove"})
      */
+    #[ORM\OneToOne(targetEntity: UserTimestamps::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserTimestamps $timestamps = null;
 
     /**
      * The relation to the entity that contains the User's SocialNetwork.
-     *
-     * @ORM\OneToOne(targetEntity=UserSocialNetwork::class, mappedBy="user", cascade={"persist", "remove"})
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
     #[Assert\Valid]
+    #[ORM\OneToOne(targetEntity: UserSocialNetwork::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserSocialNetwork $socialNetwork = null;
 
     /**
      * The possibles relations to the entities that contains the User's Bans.
      *
-     * @ORM\OneToMany(targetEntity=UserBan::class, mappedBy="user", cascade={"persist", "remove"})
      * @var Collection<int, UserBan>|UserBan[]
      */
+    #[ORM\OneToMany(targetEntity: UserBan::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $bans;
 
     /**
      * The relation to the entity that contains the User's RGPD.
-     *
-     * @ORM\OneToOne(targetEntity=UserRGPD::class, mappedBy="user", cascade={"persist", "remove"})
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
     #[Assert\Valid]
+    #[ORM\OneToOne(targetEntity: UserRGPD::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserRGPD $RGPD = null;
 
     /**
      * The possibles relations to the entities that contains the User's BDEContributions.
      *
-     * @ORM\OneToMany(targetEntity=UserBDEContribution::class, mappedBy="user", cascade={"persist", "remove"})
      * @var Collection<int, UserBDEContribution>|UserBDEContribution[]
      */
+    #[ORM\OneToMany(targetEntity: UserBDEContribution::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $BDEContributions;
 
     /**
      * The relation to the badges that this User owns.
-     *
-     * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="users")
      */
     #[Groups([
         'user:read:one',
     ])]
+    #[ORM\ManyToMany(targetEntity: Badge::class, mappedBy: 'users')]
     private Collection $badges;
 
     /**
      * The relation to all Covoits created by this User.
      *
-     * @ORM\OneToMany(targetEntity=Covoit::class, mappedBy="author", orphanRemoval=true)
      * @var Collection<int, Covoit>|Covoit[]
      */
+    #[ORM\OneToMany(targetEntity: Covoit::class, mappedBy: 'author', orphanRemoval: true)]
     private Collection $createdCovoits;
 
     /**
      * The relation to all Covoits in which the User is subscribed.
-     *
-     * @ORM\ManyToMany(targetEntity=Covoit::class, mappedBy="passengers")
      */
+    #[ORM\ManyToMany(targetEntity: Covoit::class, mappedBy: 'passengers')]
     private Collection $passengerCovoits;
 
     /**
      * The relation to all alerts made by the User.
      *
-     * @ORM\OneToMany(targetEntity=CovoitAlert::class, mappedBy="user", orphanRemoval=true)
      * @var Collection<int, CovoitAlert>|CovoitAlert[]
      */
+    #[ORM\OneToMany(targetEntity: CovoitAlert::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $covoitAlerts;
 
     /**
-     * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="user", orphanRemoval=true)
-     * @var Collection<int, AssoMembership>|AssoMembership[]
+     * @var AssoMembership[]|Collection<int, AssoMembership>
      */
+    #[ORM\OneToMany(targetEntity: AssoMembership::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $assoMembership;
 
     /**
      * The relation to the Branche of the User.
-     *
-     * @ORM\OneToOne(targetEntity=UserBranche::class, mappedBy="user", cascade={"persist", "remove"})
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
     ])]
+    #[ORM\OneToOne(targetEntity: UserBranche::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserBranche $branche = null;
 
     /**
      * The relation to the Formation of the User.
-     *
-     * @ORM\OneToOne(targetEntity=UserFormation::class, mappedBy="user", cascade={"persist", "remove"})
      */
     #[Groups([
         'user:read:one',
         'user:read:some',
     ])]
+    #[ORM\OneToOne(targetEntity: UserFormation::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserFormation $formation = null;
 
     /**
      * The relation to all group in which there is this User.
-     *
-     * @ORM\ManyToMany(targetEntity=Group::class, mappedBy="members")
      */
+    #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'members')]
     private Collection $groups;
 
     /**
      * The relation to the Preference of the User.
-     *
-     * @ORM\OneToOne(targetEntity=UserPreference::class, mappedBy="user", cascade={"persist", "remove"})
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
     #[Assert\Valid]
+    #[ORM\OneToOne(targetEntity: UserPreference::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserPreference $preference = null;
 
     /**
      * The relation to the Infos of the User.
-     *
-     * @ORM\OneToOne(targetEntity=UserInfos::class, mappedBy="user", cascade={"persist", "remove"})
      */
     #[Groups([
         'user:read:one',
@@ -268,12 +248,12 @@ class User implements UserInterface
         'user:write:update',
     ])]
     #[Assert\Valid]
+    #[ORM\OneToOne(targetEntity: UserInfos::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserInfos $infos = null;
 
     /**
      * The relation to the Addresses of the User.
      *
-     * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var Collection<int, UserAddress>|UserAddress[]
      */
     #[Groups([
@@ -281,12 +261,11 @@ class User implements UserInterface
         'user:write:update',
     ])]
     #[Assert\Valid]
+    #[ORM\OneToMany(targetEntity: UserAddress::class, mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $addresses;
 
     /**
      * The relation to mails and phone number of the User.
-     *
-     * @ORM\OneToOne(targetEntity=UserMailsPhones::class, mappedBy="user", cascade={"persist", "remove"})
      */
     #[Groups([
         'user:read:one',
@@ -294,40 +273,40 @@ class User implements UserInterface
         'user:write:update',
     ])]
     #[Assert\Valid]
+    #[ORM\OneToOne(targetEntity: UserMailsPhones::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserMailsPhones $mailsPhones = null;
 
     /**
      * The relation to OtherAttributs made by the User.
      *
-     * @ORM\OneToMany(targetEntity=UserOtherAttributValue::class, mappedBy="user", orphanRemoval=true)
      * @var Collection<int, UserOtherAttributValue>|UserOtherAttributValue[]
      */
+    #[ORM\OneToMany(targetEntity: UserOtherAttributValue::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $otherAttributs;
 
     /**
      * The relation to all UEsSubscriptions of the User.
      *
-     * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="user", orphanRemoval=true)
      * @var Collection<int, UserUESubscription>|UserUESubscription[]
      */
+    #[ORM\OneToMany(targetEntity: UserUESubscription::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $UEsSubscriptions;
 
     /**
      * The relation to all UEVotes made by this User.
      *
-     * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="user", orphanRemoval=true)
      * @var Collection<int, UEStarVote>|UEStarVote[]
      */
+    #[ORM\OneToMany(targetEntity: UEStarVote::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $UEStarVotes;
 
     /**
      * The relation to all courses of this User.
-     *
-     * @ORM\ManyToMany(targetEntity=UECourse::class, mappedBy="students")
      */
     #[Groups([
         'user-edt:read:one',
     ])]
+    #[ORM\ManyToMany(targetEntity: UECourse::class, mappedBy: 'students')]
     private Collection $courses;
 
     public function __construct()

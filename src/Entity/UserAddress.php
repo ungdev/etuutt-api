@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserAdressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -13,44 +14,36 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity related to User that stores its address.
- *
- * @ORM\Entity(repositoryClass=UserAdressRepository::class)
- * @ORM\Table(name="user_address")
  */
+#[ORM\Entity(repositoryClass: UserAdressRepository::class)]
+#[ORM\Table(name: 'user_address')]
 class UserAddress
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the User which live at this address.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="addresses")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'addresses')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $street = null;
 
     /**
      * The french postal code.
-     *
-     * @ORM\Column(type="string", length=20, nullable=true)
      */
     #[Groups([
         'user:read:one',
@@ -59,40 +52,34 @@ class UserAddress
     #[Assert\Type('string')]
     #[Assert\Length(max: 20)]
     #[Assert\Regex('/^$|^\d{2}\s?\d{3}$/')]
+    #[ORM\Column(type: Types::STRING, length: 20, nullable: true)]
     private ?string $postalCode = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $city = null;
 
-    /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
+    #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $country = null;
 
     /**
      * Relations to all groups that can access to this data.
-     *
-     * @ORM\ManyToMany(targetEntity=Group::class)
-     * @ORM\JoinTable(
-     *     name="user_visibility_addresses",
-     *     joinColumns={@ORM\JoinColumn(name="user_address_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: Group::class)]
+    #[ORM\JoinTable(name: 'user_visibility_addresses')]
+    #[ORM\JoinColumn(name: 'user_address_id')]
+    #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'id')]
     private Collection $addressVisibility;
 
     public function __construct()

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UECommentReportRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -10,57 +11,48 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that is created whan a User report a Comment.
- *
- * @ORM\Entity(repositoryClass=UECommentReportRepository::class)
- * @ORM\Table(name="ue_comment_report")
  */
+#[ORM\Entity(repositoryClass: UECommentReportRepository::class)]
+#[ORM\Table(name: 'ue_comment_report')]
 class UECommentReport
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the reported Comment.
-     *
-     * @ORM\ManyToOne(targetEntity=UEComment::class, inversedBy="reports")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: UEComment::class, inversedBy: 'reports')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?UEComment $comment = null;
 
     /**
      * The relation to the User reporting the Comment.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     /**
      * The relation to the reason of reporting.
-     *
-     * @ORM\ManyToOne(targetEntity=UECommentReportReason::class)
-     * @ORM\JoinColumn(name="reason_name", referencedColumnName="name")
      */
+    #[ORM\ManyToOne(targetEntity: UECommentReportReason::class)]
+    #[ORM\JoinColumn(name: 'reason_name', referencedColumnName: 'name')]
     private ?UECommentReportReason $reason = null;
 
     /**
      * The text typed by the reporter to describe the reason.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $body = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function __construct()

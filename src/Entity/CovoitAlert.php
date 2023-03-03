@@ -3,85 +3,72 @@
 namespace App\Entity;
 
 use App\Repository\CovoitAlertRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=CovoitAlertRepository::class)
- * @ORM\Table(name="covoit_alerts")
- */
+#[ORM\Entity(repositoryClass: CovoitAlertRepository::class)]
+#[ORM\Table(name: 'covoit_alerts')]
 class CovoitAlert
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation between the CovoitAlert and the User that created it.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="covoitAlerts")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'covoitAlerts')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     /**
      * The maximum price in cents (x100). It is optional.
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
     #[Assert\Type('int')]
     #[Assert\Positive]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $priceMax = null;
 
     /**
      * The first boundary of the Covoit starting date.
-     *
-     * @ORM\Column(type="datetime", nullable=true)
      */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startAt = null;
 
     /**
      * The second boundary of the Covoit starting date.
-     *
-     * @ORM\Column(type="datetime", nullable=true)
      */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endAt = null;
 
     /**
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
-     *
-     * @ORM\Column(type="uuid", nullable=true)
      */
     #[Assert\Uuid]
+    #[ORM\Column(type: 'uuid', nullable: true)]
     private $startCityId;
 
     /**
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
-     *
-     * @ORM\Column(type="uuid", nullable=true)
      */
     #[Assert\Uuid]
+    #[ORM\Column(type: 'uuid', nullable: true)]
     private $endCityId;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
     public function __construct()

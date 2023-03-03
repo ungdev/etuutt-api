@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UECourseExchangeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -12,83 +13,69 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This entity represents a proposition of the author to exchange one of his courses.
- *
- * @ORM\Entity(repositoryClass=UECourseExchangeRepository::class)
- * @ORM\Table(name="ue_course_exchanges")
  */
+#[ORM\Entity(repositoryClass: UECourseExchangeRepository::class)]
+#[ORM\Table(name: 'ue_course_exchanges')]
 class UECourseExchange
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the author of this Exchange.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
     /**
      * The relation to the course the author wants to change.
-     *
-     * @ORM\ManyToOne(targetEntity=UECourse::class)
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: UECourse::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?UECourse $courseFrom = null;
 
     /**
      * The relation to the course the author may want in exchange.
-     *
-     * @ORM\ManyToOne(targetEntity=UECourse::class)
      */
+    #[ORM\ManyToOne(targetEntity: UECourse::class)]
     private ?UECourse $courseTo = null;
 
     /**
      * A boolean to know if this Exchange is still wanted by the author.
-     *
-     * @ORM\Column(type="boolean")
      */
     #[Assert\Type('bool')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $stillAvailable = null;
 
     /**
      * The content of the message that goes with the Exchange proposition.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $body = null;
 
     /**
      * The relation to the comments that reply to this exchange proposition.
      *
-     * @ORM\OneToMany(targetEntity=UECourseExchangeReply::class, mappedBy="exchange", orphanRemoval=true)
      * @var Collection<int, UECourseExchangeReply>|UECourseExchangeReply[]
      */
+    #[ORM\OneToMany(targetEntity: UECourseExchangeReply::class, mappedBy: 'exchange', orphanRemoval: true)]
     private Collection $responses;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()

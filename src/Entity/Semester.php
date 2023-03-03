@@ -3,42 +3,38 @@
 namespace App\Entity;
 
 use App\Repository\SemesterRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The Semester entity. It uniforms the way we deal with semesters.
- *
- * @ORM\Entity(repositoryClass=SemesterRepository::class)
- * @ORM\Table(name="semesters")
  */
+#[ORM\Entity(repositoryClass: SemesterRepository::class)]
+#[ORM\Table(name: 'semesters')]
 class Semester
 {
     /**
      * The starting date of the Semester.
-     *
-     * @ORM\Column(type="date")
      */
     #[Assert\Date]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $start = null;
 
     /**
      * The ending date of the Semester.
-     *
-     * @ORM\Column(type="date")
      */
     #[Assert\Date]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $end = null;
 
     public function __construct(
-        /**
-         * @ORM\Id
-         * @ORM\Column(type="string", length=10)
-         */
         #[Assert\Type('string')]
         #[Assert\Length(max: 10)]
         #[Assert\Regex('/^(A|P)\d{2}$/')]
-        private ?string $code = null
+        #[ORM\Id]
+        #[ORM\Column(type: Types::STRING, length: 10)]
+        private readonly ?string $code = null
     )
     {
     }

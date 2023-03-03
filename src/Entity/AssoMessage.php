@@ -3,79 +3,68 @@
 namespace App\Entity;
 
 use App\Repository\AssoMessageRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=AssoMessageRepository::class)
- * @ORM\Table(name="asso_messages")
- */
+#[ORM\Entity(repositoryClass: AssoMessageRepository::class)]
+#[ORM\Table(name: 'asso_messages')]
 class AssoMessage
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the Asso that sent this AssoMessage.
-     *
-     * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="assoMessages")
-     * @ORM\JoinColumn(name="asso_id", nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: Asso::class, inversedBy: 'assoMessages')]
+    #[ORM\JoinColumn(name: 'asso_id', nullable: false)]
     private ?Asso $asso = null;
 
     /**
      * The Translation object that contains the translation of the title.
-     *
-     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('title')]
+    #[ORM\ManyToOne(targetEntity: Translation::class, cascade: ['persist', 'remove'])]
     private ?Translation $titleTranslation = null;
 
     /**
      * The Translation object that contains the translation of the description.
-     *
-     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('body')]
+    #[ORM\ManyToOne(targetEntity: Translation::class, cascade: ['persist', 'remove'])]
     private ?Translation $bodyTranslation = null;
 
     /**
      * The date of the event presented in the message.
-     *
-     * @ORM\Column(type="datetime", nullable=true)
      */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
 
     /**
      * Whether the message should be displayed on mobile or not.
-     *
-     * @ORM\Column(type="boolean")
      */
     #[Assert\Type('bool')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $sendToMobile = null;
 
     /**
      * Whether the message should be send in the daymails or not.
-     *
-     * @ORM\Column(type="boolean")
      */
     #[Assert\Type('bool')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $sendAsDaymail = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function __construct()

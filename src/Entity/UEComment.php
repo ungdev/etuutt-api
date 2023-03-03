@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UECommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -12,93 +13,79 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity of a Comment on a UE. It allow Users to give feedback on a UE.
- *
- * @ORM\Entity(repositoryClass=UECommentRepository::class)
- * @ORM\Table(name="ue_comments")
  */
+#[ORM\Entity(repositoryClass: UECommentRepository::class)]
+#[ORM\Table(name: 'ue_comments')]
 class UEComment
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the UE this Commment is for.
-     *
-     * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: UE::class, inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?UE $UE = null;
 
     /**
      * The relation to the User who has created this Comment.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
     /**
      * The content of this Comment.
-     *
-     * @ORM\Column(type="text")
      */
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $body = null;
 
     /**
      * A boolean that says if the author will be display next to his Comment.
-     *
-     * @ORM\Column(type="boolean")
      */
     #[Assert\Type('bool')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $isAnonymous = null;
 
     /**
      * The relation to the semester in which this comment have been created.
-     *
-     * @ORM\ManyToOne(targetEntity=Semester::class)
-     * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
+    #[ORM\ManyToOne(targetEntity: Semester::class)]
+    #[ORM\JoinColumn(name: 'semester_code', referencedColumnName: 'code')]
     private ?Semester $semester = null;
 
     /**
      * The relation to all UECommentReply that are answering to this Comment.
      *
-     * @ORM\OneToMany(targetEntity=UECommentReply::class, mappedBy="comment")
      * @var Collection<int, UECommentReply>|UECommentReply[]
      */
+    #[ORM\OneToMany(targetEntity: UECommentReply::class, mappedBy: 'comment')]
     private Collection $answers;
 
     /**
      * The relation to all Reports of this Comment.
      *
-     * @ORM\OneToMany(targetEntity=UECommentReport::class, mappedBy="comment", orphanRemoval=true)
      * @var Collection<int, UECommentReport>|UECommentReport[]
      */
+    #[ORM\OneToMany(targetEntity: UECommentReport::class, mappedBy: 'comment', orphanRemoval: true)]
     private Collection $reports;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()

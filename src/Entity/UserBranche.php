@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserBrancheRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -11,73 +12,63 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that represents a Branch followed by a User. TC is also included.
- *
- * @ORM\Entity(repositoryClass=UserBrancheRepository::class)
- * @ORM\Table(name="user_branches")
  */
+#[ORM\Entity(repositoryClass: UserBrancheRepository::class)]
+#[ORM\Table(name: 'user_branches')]
 class UserBranche
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the User.
-     *
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="branche", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'branche', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     /**
      * The relation to the UTTBranche.
-     *
-     * @ORM\ManyToOne(targetEntity=UTTBranche::class)
-     * @ORM\JoinColumn(name="branche_code", referencedColumnName="code")
      */
     #[Groups([
         'user:read:some',
     ])]
+    #[ORM\ManyToOne(targetEntity: UTTBranche::class)]
+    #[ORM\JoinColumn(name: 'branche_code', referencedColumnName: 'code')]
     private ?UTTBranche $branche = null;
 
     /**
      * The relation to the Filiere, if the User has one.
-     *
-     * @ORM\ManyToOne(targetEntity=UTTFiliere::class)
-     * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
     #[Groups([
         'user:read:some',
     ])]
+    #[ORM\ManyToOne(targetEntity: UTTFiliere::class)]
+    #[ORM\JoinColumn(name: 'filiere_code', referencedColumnName: 'code')]
     private ?UTTFiliere $filiere = null;
 
     /**
      * The number of semesters done in this UTTBranche. (e.g. 2 in "TC02").
-     *
-     * @ORM\Column(type="smallint")
      */
     #[Groups([
         'user:read:some',
     ])]
+    #[ORM\Column(type: Types::SMALLINT)]
     private ?int $semesterNumber = null;
 
     /**
      * The relation to the semester during which the User follows this UserBranche.
-     *
-     * @ORM\ManyToOne(targetEntity=Semester::class)
-     * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
+    #[ORM\ManyToOne(targetEntity: Semester::class)]
+    #[ORM\JoinColumn(name: 'semester_code', referencedColumnName: 'code')]
     private ?Semester $semester = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function __construct()

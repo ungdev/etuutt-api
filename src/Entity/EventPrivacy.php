@@ -10,47 +10,38 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=EventPrivacyRepository::class)
- * @ORM\Table(name="event_privacies")
- */
+#[ORM\Entity(repositoryClass: EventPrivacyRepository::class)]
+#[ORM\Table(name: 'event_privacies')]
 class EventPrivacy
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the Event concerned by this EventPrivacy.
-     *
-     * @ORM\OneToOne(targetEntity=Event::class, inversedBy="eventPrivacy", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\OneToOne(targetEntity: Event::class, inversedBy: 'eventPrivacy', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Event $event = null;
 
     /**
      * The relation to the Assos allowed in the Event. If no Assos are added, the Event is public.
-     *
-     * @ORM\ManyToMany(targetEntity=Asso::class)
-     * @ORM\JoinTable(name="event_privacies_allowed_assos")
      */
+    #[ORM\ManyToMany(targetEntity: Asso::class)]
+    #[ORM\JoinTable(name: 'event_privacies_allowed_assos')]
     private Collection $allowedAssos;
 
     /**
      * The relation to the Roles allowed in the Event. If no Roles are added, every member of the Assos are allowed.
-     *
-     * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
-     * @ORM\JoinTable(
-     *     name="event_privacies_allowed_roles",
-     *     joinColumns={@ORM\JoinColumn(name="event_privacy_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="name")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: AssoMembershipRole::class)]
+    #[ORM\JoinTable(name: 'event_privacies_allowed_roles')]
+    #[ORM\JoinColumn(name: 'event_privacy_id')]
+    #[ORM\InverseJoinColumn(name: 'role', referencedColumnName: 'name')]
     private Collection $allowedRoles;
 
     public function __construct()
