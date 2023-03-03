@@ -203,7 +203,7 @@ class Group
         'group:read:one',
         'group:read:some',
     ])]
-    private ?\DateTimeInterface $createdAt = null;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
@@ -211,7 +211,7 @@ class Group
     #[Groups([
         'group:read:one',
     ])]
-    private ?\DateTimeInterface $updatedAt = null;
+    private \DateTimeInterface $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)

@@ -92,7 +92,7 @@ class Event
     /**
      * The starting date of the event.
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     #[Groups([
         'event:read:one',
@@ -149,13 +149,13 @@ class Event
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $createdAt = null;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $updatedAt = null;
+    private \DateTimeInterface $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)

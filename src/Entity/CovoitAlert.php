@@ -43,7 +43,7 @@ class CovoitAlert
     /**
      * The first boundary of the Covoit starting date.
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $startAt = null;
@@ -51,7 +51,7 @@ class CovoitAlert
     /**
      * The second boundary of the Covoit starting date.
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $endAt = null;
@@ -76,13 +76,13 @@ class CovoitAlert
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $createdAt = null;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $updatedAt = null;
+    private \DateTimeInterface $updatedAt;
 
     public function __construct()
     {

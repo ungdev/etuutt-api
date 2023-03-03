@@ -94,7 +94,7 @@ class Covoit
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $startAt = null;
+    private \DateTimeInterface $startAt;
 
     /**
      * The end date of the Covoit.
@@ -108,13 +108,13 @@ class Covoit
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $createdAt = null;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $updatedAt = null;
+    private \DateTimeInterface $updatedAt;
 
     /**
      * The relation between the Covoit and its CovoitMessages.

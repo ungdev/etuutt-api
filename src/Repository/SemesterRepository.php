@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Semester;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Validator\Constraints\Date;
 
@@ -46,7 +47,7 @@ class SemesterRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.start >= :end')
             ->setParameter('end', $semester->getEnd())
-            ->orderBy('s.start', 'ASC')
+            ->orderBy('s.start', Criteria::ASC)
             ->getQuery()
             ->getResult()[0]
         ;

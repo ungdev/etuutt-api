@@ -37,6 +37,11 @@ class EventCategory
      */
     private Collection $events;
 
+    public function __construct()
+    {
+        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;

@@ -51,7 +51,7 @@ class AssoMessage
     /**
      * The date of the event presented in the message.
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $date = null;
@@ -76,7 +76,7 @@ class AssoMessage
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $createdAt = null;
+    private \DateTimeInterface $createdAt;
 
     public function __construct()
     {
