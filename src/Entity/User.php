@@ -153,6 +153,7 @@ class User implements UserInterface
      * The possibles relations to the entities that contains the User's Bans.
      *
      * @ORM\OneToMany(targetEntity=UserBan::class, mappedBy="user", cascade={"persist", "remove"})
+     * @var Collection<int, UserBan>|UserBan[]
      */
     private Collection $bans;
 
@@ -172,6 +173,7 @@ class User implements UserInterface
      * The possibles relations to the entities that contains the User's BDEContributions.
      *
      * @ORM\OneToMany(targetEntity=UserBDEContribution::class, mappedBy="user", cascade={"persist", "remove"})
+     * @var Collection<int, UserBDEContribution>|UserBDEContribution[]
      */
     private Collection $BDEContributions;
 
@@ -189,6 +191,7 @@ class User implements UserInterface
      * The relation to all Covoits created by this User.
      *
      * @ORM\OneToMany(targetEntity=Covoit::class, mappedBy="author", orphanRemoval=true)
+     * @var Collection<int, Covoit>|Covoit[]
      */
     private Collection $createdCovoits;
 
@@ -203,11 +206,13 @@ class User implements UserInterface
      * The relation to all alerts made by the User.
      *
      * @ORM\OneToMany(targetEntity=CovoitAlert::class, mappedBy="user", orphanRemoval=true)
+     * @var Collection<int, CovoitAlert>|CovoitAlert[]
      */
     private Collection $covoitAlerts;
 
     /**
      * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="user", orphanRemoval=true)
+     * @var Collection<int, AssoMembership>|AssoMembership[]
      */
     private Collection $assoMembership;
 
@@ -269,6 +274,7 @@ class User implements UserInterface
      * The relation to the Addresses of the User.
      *
      * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var Collection<int, UserAddress>|UserAddress[]
      */
     #[Groups([
         'user:read:one',
@@ -294,6 +300,7 @@ class User implements UserInterface
      * The relation to OtherAttributs made by the User.
      *
      * @ORM\OneToMany(targetEntity=UserOtherAttributValue::class, mappedBy="user", orphanRemoval=true)
+     * @var Collection<int, UserOtherAttributValue>|UserOtherAttributValue[]
      */
     private Collection $otherAttributs;
 
@@ -301,6 +308,7 @@ class User implements UserInterface
      * The relation to all UEsSubscriptions of the User.
      *
      * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="user", orphanRemoval=true)
+     * @var Collection<int, UserUESubscription>|UserUESubscription[]
      */
     private Collection $UEsSubscriptions;
 
@@ -308,6 +316,7 @@ class User implements UserInterface
      * The relation to all UEVotes made by this User.
      *
      * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="user", orphanRemoval=true)
+     * @var Collection<int, UEStarVote>|UEStarVote[]
      */
     private Collection $UEStarVotes;
 
