@@ -117,13 +117,13 @@ class UE
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $createdAt = null;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $updatedAt = null;
+    private \DateTimeInterface $updatedAt;
 
     /**
      * The list of subscriptions to this UE by Users. A subscription is a student taking an UE during one semester.

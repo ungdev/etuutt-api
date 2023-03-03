@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Badge;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -29,7 +30,7 @@ class BadgeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('b')
             ->andWhere('b.serie = :serie')
             ->setParameter('serie', $serie)
-            ->orderBy('b.level', 'ASC')
+            ->orderBy('b.level', Criteria::ASC)
             ->getQuery()
             ->getResult()
         ;

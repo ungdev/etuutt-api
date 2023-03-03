@@ -52,13 +52,13 @@ class UECourseExchangeReply
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $createdAt = null;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
     #[Assert\Type('\DateTimeInterface')]
-    private ?\DateTimeInterface $updatedAt = null;
+    private \DateTimeInterface $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)

@@ -30,7 +30,7 @@ return static function (RectorConfig $rectorConfig): void {
         SymfonyLevelSetList::UP_TO_SYMFONY_62,
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
 
-        // DoctrineSetList::DOCTRINE_CODE_QUALITY, //  Also calls SetList::TYPE_DECLARATION
+        DoctrineSetList::DOCTRINE_CODE_QUALITY,
         // DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
     ]);
 };
