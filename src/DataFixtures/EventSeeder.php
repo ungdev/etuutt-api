@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use DateTime;
 use App\Entity\Asso;
 use App\Entity\AssoMembershipRole;
 use App\Entity\Event;
@@ -43,7 +44,7 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
 
             // Création des dates de début et de fin de event
             $event->setStartAt($faker->dateTimeThisYear);
-            $days = (new \DateTime())->diff($event->getStartAt())->days;
+            $days = (new DateTime())->diff($event->getStartAt())->days;
             $event->setEndAt($faker->dateTimeBetween('-'.$days.' days'));
 
             $event->setIsAllDay($faker->boolean(75));
@@ -71,11 +72,11 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
 
             // Création des timestamps
             $event->setCreatedAt($faker->dateTimeBetween('-3 years'));
-            $days = (new \DateTime())->diff($event->getCreatedAt())->days;
+            $days = (new DateTime())->diff($event->getCreatedAt())->days;
             $event->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             // Soft delete aléatoire d'un Event (Avec une chance de 10%)
             if ($faker->boolean(10)) {
-                $days = (new \DateTime())->diff($event->getCreatedAt())->days;
+                $days = (new DateTime())->diff($event->getCreatedAt())->days;
                 $event->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
 
@@ -142,11 +143,11 @@ class EventSeeder extends Fixture implements DependentFixtureInterface
 
             // Création des timestamps
             $eventAnswer->setCreatedAt($faker->dateTimeBetween('-3 years'));
-            $days = (new \DateTime())->diff($eventAnswer->getCreatedAt())->days;
+            $days = (new DateTime())->diff($eventAnswer->getCreatedAt())->days;
             $eventAnswer->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             // Soft delete aléatoire d'une Event_answer (Avec une chance de 10%)
             if ($faker->boolean(10)) {
-                $days = (new \DateTime())->diff($eventAnswer->getCreatedAt())->days;
+                $days = (new DateTime())->diff($eventAnswer->getCreatedAt())->days;
                 $eventAnswer->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
 

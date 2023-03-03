@@ -2,6 +2,7 @@
 
 namespace App\OpenApi;
 
+use ArrayObject;
 use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\OpenApi\Model\PathItem;
 use ApiPlatform\OpenApi\OpenApi;
@@ -32,7 +33,7 @@ class OpenApiFactory implements OpenApiFactoryInterface
 
         //  We add a part in the "Authorize" section to let the user give its login.
         $schemas = $openApi->getComponents()->getSecuritySchemes();
-        $schemas['CAS-Login'] = new \ArrayObject([
+        $schemas['CAS-Login'] = new ArrayObject([
             'type' => 'apiKey',
             'in' => 'header',
             'name' => 'CAS-LOGIN',

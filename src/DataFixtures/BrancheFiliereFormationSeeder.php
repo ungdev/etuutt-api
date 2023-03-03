@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use DateTime;
 use App\Entity\Semester;
 use App\Entity\UE;
 use App\Entity\User;
@@ -193,7 +194,7 @@ class BrancheFiliereFormationSeeder extends Fixture implements DependentFixtureI
             $userUTTFormation->setUser($user);
             $userUTTFormation->setUTTFormation($faker->randomElement($formations));
             $userUTTFormation->setFollowingMethod($faker->randomElement($followingMethod));
-            $days = (new \DateTime())->diff($user->getTimestamps()->getCreatedAt())->days;
+            $days = (new DateTime())->diff($user->getTimestamps()->getCreatedAt())->days;
             $userUTTFormation->setCreatedAt($faker->dateTimeBetween('-'.$days.' days'));
 
             $manager->persist($userUTTFormation);

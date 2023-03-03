@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use DateTime;
+use DateTimeInterface;
 use App\Entity\Semester;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -22,11 +24,11 @@ class SemesterRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $date The date of which we want to find the semester
+     * @param DateTime $date The date of which we want to find the semester
      *
      * @return Semester Returns the semester in which there is the input date
      */
-    public function getSemesterOfDate(\DateTimeInterface $date)
+    public function getSemesterOfDate(DateTimeInterface $date)
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.start <= :now')

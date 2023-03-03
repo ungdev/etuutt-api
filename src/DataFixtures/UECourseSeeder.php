@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use DateTime;
 use App\Entity\Semester;
 use App\Entity\UE;
 use App\Entity\UECourse;
@@ -36,8 +37,8 @@ class UECourseSeeder extends Fixture implements DependentFixtureInterface
             $course = new UECourse();
             $course->setUE($faker->randomElement($ues));
             $course->setDay($faker->randomElement(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']));
-            $course->setStartHour(new \DateTime($faker->time()));
-            $course->setEndHour(new \DateTime($faker->time()));
+            $course->setStartHour(new DateTime($faker->time()));
+            $course->setEndHour(new DateTime($faker->time()));
             if ($faker->boolean(30)) {
                 $course->setWeek($faker->randomElement(['A', 'B']));
             }

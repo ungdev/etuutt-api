@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use DateTime;
 use App\Entity\Semester;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -10,8 +11,8 @@ class SemesterGenerator extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $iteratorDate = new \DateTime('1994-01-31');
-        $limitDate = new \DateTime('2090-01-31');
+        $iteratorDate = new DateTime('1994-01-31');
+        $limitDate = new DateTime('2090-01-31');
 
         while ($iteratorDate < $limitDate) {
             $startDate = clone $iteratorDate;

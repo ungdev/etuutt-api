@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\Doctrine\GroupSetAdminAndMemberListener;
+use DateTimeInterface;
+use DateTime;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -60,7 +63,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     )
 ]
 #[ORM\Entity(repositoryClass: GroupRepository::class)]
-#[ORM\EntityListeners([\App\Doctrine\GroupSetAdminAndMemberListener::class])]
+#[ORM\EntityListeners([GroupSetAdminAndMemberListener::class])]
 #[ORM\Table(name: 'groups')]
 class Group
 {
@@ -184,22 +187,22 @@ class Group
         'group:read:some',
     ])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $createdAt;
+    private DateTimeInterface $createdAt;
 
     #[Groups([
         'group:read:one',
     ])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $updatedAt;
+    private DateTimeInterface $updatedAt;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deletedAt = null;
+    private ?DateTimeInterface $deletedAt = null;
 
     public function __construct()
     {
         $this->setDescriptionTranslation(new Translation());
-        $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
 
         $this->members = new ArrayCollection();
         $this->admins = new ArrayCollection();
@@ -351,36 +354,36 @@ class Group
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTimeInterface
+    public function getDeletedAt(): ?DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(\DateTimeInterface $deletedAt): self
+    public function setDeletedAt(DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 

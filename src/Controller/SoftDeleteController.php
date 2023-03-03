@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +27,7 @@ class SoftDeleteController extends AbstractController
 
         $deletedAt = $data->getDeletedAt();
         if (null === $deletedAt) {
-            $data->setDeletedAt(new \DateTime());
+            $data->setDeletedAt(new DateTime());
             $this->manager->persist($data);
             $this->manager->flush();
             $body = [

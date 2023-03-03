@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use DateTime;
 use App\Entity\Asso;
 use App\Entity\AssoKeyword;
 use App\Entity\AssoMembership;
@@ -64,11 +65,11 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
 
             // Création des timestamps
             $asso->setCreatedAt($faker->dateTimeBetween('-3 years'));
-            $days = (new \DateTime())->diff($asso->getCreatedAt())->days;
+            $days = (new DateTime())->diff($asso->getCreatedAt())->days;
             $asso->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             // Soft delete aléatoire d'un Timestamps (Avec une chance de 10%)
             if ($faker->boolean(10)) {
-                $days = (new \DateTime())->diff($asso->getCreatedAt())->days;
+                $days = (new DateTime())->diff($asso->getCreatedAt())->days;
                 $asso->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
 
@@ -154,7 +155,7 @@ class AssoSeeder extends Fixture implements DependentFixtureInterface
                 $assoMember->setAsso($faker->randomElement($assos));
 
                 $assoMember->setStartAt($faker->dateTimeBetween('-3 years'));
-                $days = (new \DateTime())->diff($asso->getCreatedAt())->days;
+                $days = (new DateTime())->diff($asso->getCreatedAt())->days;
                 $assoMember->setEndAt($faker->dateTimeBetween('-'.$days.' days'));
 
                 $assoMember->setCreatedAt($faker->dateTimeBetween('-3 years'));
