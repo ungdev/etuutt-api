@@ -18,6 +18,9 @@ return static function (RectorConfig $rectorConfig): void {
     //  Giving Rector all Symfony info
     $rectorConfig->symfonyContainerXml(__DIR__.'/var/cache/dev/App_KernelDevDebugContainer.xml');
 
+    //  To import a class with the use statement rather than indicating its namespace path each time
+    $rectorConfig->importNames();
+
     //  Rules
     $rectorConfig->sets([
         LevelSetList::UP_TO_PHP_81,

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
+use DateTime;
 use App\Repository\UserInfosRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -74,7 +76,7 @@ class UserInfos
     ])]
     #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $birthday = null;
+    private ?DateTimeInterface $birthday = null;
 
     /**
      * Relations to all groups that can access to this data.
@@ -135,7 +137,7 @@ class UserInfos
     {
         //  Default values
         $this->setSex('Autre');
-        $this->setBirthday(new \DateTime());
+        $this->setBirthday(new DateTime());
         $this->setAvatar('/default_user_avatar.png');
 
         $this->sexVisibility = new ArrayCollection();
@@ -239,12 +241,12 @@ class UserInfos
         return $this;
     }
 
-    public function getBirthday(): ?\DateTimeInterface
+    public function getBirthday(): ?DateTimeInterface
     {
         return $this->birthday;
     }
 
-    public function setBirthday(?\DateTimeInterface $birthday): self
+    public function setBirthday(?DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
 

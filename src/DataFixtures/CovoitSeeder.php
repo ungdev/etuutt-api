@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use DateTime;
 use App\Entity\Covoit;
 use App\Entity\CovoitAlert;
 use App\Entity\CovoitMessage;
@@ -63,16 +64,16 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             // Création des timestamps et des addresses
             $covoit->setCreatedAt($faker->dateTimeBetween('-3 years'));
 
-            $days = (new \DateTime())->diff($covoit->getCreatedAt())->days;
+            $days = (new DateTime())->diff($covoit->getCreatedAt())->days;
             $covoit->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
 
             $covoit->setStartAddress($faker->streetAddress);
             $covoit->setEndAddress($faker->streetAddress);
 
-            $days = (new \DateTime())->diff($covoit->getUpdatedAt())->days;
+            $days = (new DateTime())->diff($covoit->getUpdatedAt())->days;
             $covoit->setStartAt($faker->dateTimeBetween('-'.$days.' days'));
 
-            $days = (new \DateTime())->diff($covoit->getStartAt())->days;
+            $days = (new DateTime())->diff($covoit->getStartAt())->days;
             $covoit->setEndAt($faker->dateTimeBetween('-'.$days.' days'));
 
             // On persiste le covoit dans la base de données
@@ -93,13 +94,13 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
 
             // Création des timestamps
             $covoitAlert->setCreatedAt($faker->dateTimeThisYear);
-            $days = (new \DateTime())->diff($covoitAlert->getCreatedAt())->days;
+            $days = (new DateTime())->diff($covoitAlert->getCreatedAt())->days;
             $covoitAlert->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
 
-            $days = (new \DateTime())->diff($covoitAlert->getUpdatedAt())->days;
+            $days = (new DateTime())->diff($covoitAlert->getUpdatedAt())->days;
             $covoitAlert->setStartAt($faker->dateTimeBetween('-'.$days.' days'));
 
-            $days = (new \DateTime())->diff($covoitAlert->getStartAt())->days;
+            $days = (new DateTime())->diff($covoitAlert->getStartAt())->days;
             $covoitAlert->setEndAt($faker->dateTimeBetween('-'.$days.' days'));
 
             // Création des villes de départ et d'arrivée
@@ -131,11 +132,11 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
 
             // Création des timestamps
             $covoitMessage->setCreatedAt($faker->dateTimeBetween('-3 years'));
-            $days = (new \DateTime())->diff($covoitMessage->getCreatedAt())->days;
+            $days = (new DateTime())->diff($covoitMessage->getCreatedAt())->days;
             $covoitMessage->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             // Soft delete aléatoire d'un Timestamps (Avec une chance de 10%)
             if ($faker->boolean(10)) {
-                $days = (new \DateTime())->diff($covoitMessage->getCreatedAt())->days;
+                $days = (new DateTime())->diff($covoitMessage->getCreatedAt())->days;
                 $covoitMessage->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
 

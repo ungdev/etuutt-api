@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use DateTime;
 use ApiPlatform\Symfony\EventListener\EventPriorities;
 use App\Entity\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -33,7 +34,7 @@ final class UpdatedAtSubscriber implements EventSubscriberInterface
 
         if ($isUpdatedAtAble && $methodSupported) {
             $entity = User::class === $entity::class ? $entity->getTimestamps() : $entity;
-            $entity->setUpdatedAt(new \DateTime());
+            $entity->setUpdatedAt(new DateTime());
         }
     }
 }

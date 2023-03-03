@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\EventCategoryRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -34,7 +35,7 @@ class EventCategory
 
     public function __construct()
     {
-        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId()

@@ -2,6 +2,7 @@
 
 namespace App\DataProvider;
 
+use DateTime;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Entity\Group;
@@ -50,7 +51,7 @@ class UserDataVisibilityItemDataProvider implements ProviderInterface
         }
 
         if (!$this->canAccessInfo($userToShow, $infos->getBirthdayVisibility(), $userLogged)) {
-            $infos->setBirthday(new \DateTime('0000-01-01'));
+            $infos->setBirthday(new DateTime('0000-01-01'));
         }
 
         if (!$this->canAccessInfo($userToShow, $infos->getNationalityVisibility(), $userLogged)) {

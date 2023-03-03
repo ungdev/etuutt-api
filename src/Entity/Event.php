@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
+use DateTime;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -92,7 +94,7 @@ class Event
     ])]
     #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $startAt = null;
+    private ?DateTimeInterface $startAt = null;
 
     /**
      * The ending date of the event.
@@ -102,7 +104,7 @@ class Event
     ])]
     #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $endAt = null;
+    private ?DateTimeInterface $endAt = null;
 
     /**
      * A boolean telling whether the event is from morning to evening or not.
@@ -137,15 +139,15 @@ class Event
 
     #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $createdAt;
+    private DateTimeInterface $createdAt;
 
     #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $updatedAt;
+    private DateTimeInterface $updatedAt;
 
     #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deletedAt = null;
+    private ?DateTimeInterface $deletedAt = null;
 
     /**
      * The relation to the EventCategory the Event is classified as.
@@ -181,8 +183,8 @@ class Event
 
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
+        $this->setCreatedAt(new DateTime());
+        $this->setUpdatedAt(new DateTime());
         $this->setTitleTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
 
@@ -232,24 +234,24 @@ class Event
         return $this;
     }
 
-    public function getStartAt(): ?\DateTimeInterface
+    public function getStartAt(): ?DateTimeInterface
     {
         return $this->startAt;
     }
 
-    public function setStartAt(\DateTimeInterface $startAt): self
+    public function setStartAt(DateTimeInterface $startAt): self
     {
         $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEndAt(): ?\DateTimeInterface
+    public function getEndAt(): ?DateTimeInterface
     {
         return $this->endAt;
     }
 
-    public function setEndAt(\DateTimeInterface $endAt): self
+    public function setEndAt(DateTimeInterface $endAt): self
     {
         $this->endAt = $endAt;
 
@@ -292,36 +294,36 @@ class Event
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTimeInterface
+    public function getDeletedAt(): ?DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 
