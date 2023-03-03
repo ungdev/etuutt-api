@@ -182,6 +182,7 @@ class Event
      * The relation to the EventAnswers of the Event.
      *
      * @ORM\OneToMany(targetEntity=EventAnswer::class, mappedBy="event", orphanRemoval=true)
+     * @var Collection<int, EventAnswer>|EventAnswer[]
      */
     #[Groups([
         'event:read:one',

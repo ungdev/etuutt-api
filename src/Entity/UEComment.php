@@ -71,6 +71,7 @@ class UEComment
      * The relation to all UECommentReply that are answering to this Comment.
      *
      * @ORM\OneToMany(targetEntity=UECommentReply::class, mappedBy="comment")
+     * @var Collection<int, UECommentReply>|UECommentReply[]
      */
     private Collection $answers;
 
@@ -78,6 +79,7 @@ class UEComment
      * The relation to all Reports of this Comment.
      *
      * @ORM\OneToMany(targetEntity=UECommentReport::class, mappedBy="comment", orphanRemoval=true)
+     * @var Collection<int, UECommentReport>|UECommentReport[]
      */
     private Collection $reports;
 

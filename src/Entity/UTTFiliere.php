@@ -46,6 +46,7 @@ class UTTFiliere
      * The relation to all UEs contained in this Filiere.
      *
      * @ORM\OneToMany(targetEntity=UE::class, mappedBy="filiere")
+     * @var Collection<int, UE>|UE[]
      */
     private Collection $UEs;
 

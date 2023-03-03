@@ -56,6 +56,7 @@ class UTTBranche
 
     /**
      * @ORM\OneToMany(targetEntity=UTTFiliere::class, mappedBy="branche", orphanRemoval=true)
+     * @var Collection<int, UTTFiliere>|UTTFiliere[]
      */
     private Collection $filieres;
 

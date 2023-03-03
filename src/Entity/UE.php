@@ -129,6 +129,7 @@ class UE
      * The list of subscriptions to this UE by Users. A subscription is a student taking an UE during one semester.
      *
      * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="UE", orphanRemoval=true)
+     * @var Collection<int, UserUESubscription>|UserUESubscription[]
      */
     private Collection $usersSubscriptions;
 
@@ -144,6 +145,7 @@ class UE
      * The amount of UECredits of this UE. A UECredit object is a number of credit in a UECreditCategory.
      *
      * @ORM\OneToMany(targetEntity=UECredit::class, mappedBy="UE", orphanRemoval=true)
+     * @var Collection<int, UECredit>|UECredit[]
      */
     private Collection $credits;
 
@@ -151,6 +153,7 @@ class UE
      * All UEStarVote related to this UE.
      *
      * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="UE", orphanRemoval=true)
+     * @var Collection<int, UEStarVote>|UEStarVote[]
      */
     private Collection $starVotes;
 
@@ -184,6 +187,7 @@ class UE
      * The relation to all UEAnnals related to this UE.
      *
      * @ORM\OneToMany(targetEntity=UEAnnal::class, mappedBy="UE", orphanRemoval=true)
+     * @var Collection<int, UEAnnal>|UEAnnal[]
      */
     private Collection $annals;
 
@@ -191,6 +195,7 @@ class UE
      * The relation to all UEComments related to this UE.
      *
      * @ORM\OneToMany(targetEntity=UEComment::class, mappedBy="UE", orphanRemoval=true)
+     * @var Collection<int, UEComment>|UEComment[]
      */
     private Collection $comments;
 
@@ -198,6 +203,7 @@ class UE
      * The relation to all UECourses of this UE.
      *
      * @ORM\OneToMany(targetEntity=UECourse::class, mappedBy="UE")
+     * @var Collection<int, UECourse>|UECourse[]
      */
     private Collection $courses;
 

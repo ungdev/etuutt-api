@@ -69,6 +69,7 @@ class UECourseExchange
      * The relation to the comments that reply to this exchange proposition.
      *
      * @ORM\OneToMany(targetEntity=UECourseExchangeReply::class, mappedBy="exchange", orphanRemoval=true)
+     * @var Collection<int, UECourseExchangeReply>|UECourseExchangeReply[]
      */
     private Collection $responses;
 

@@ -204,6 +204,7 @@ class Asso
      * The relation to all assoMessages sent by this Asso.
      *
      * @ORM\OneToMany(targetEntity=AssoMessage::class, mappedBy="asso", orphanRemoval=true)
+     * @var Collection<int, AssoMessage>|AssoMessage[]
      */
     private Collection $assoMessages;
 
@@ -221,6 +222,7 @@ class Asso
      * The relation to all Groups of this Asso.
      *
      * @ORM\OneToMany(targetEntity=Group::class, mappedBy="asso")
+     * @var Collection<int, \App\Entity\Group>|\App\Entity\Group[]
      */
     private Collection $groups;
 
@@ -228,6 +230,7 @@ class Asso
      * The relation to all AssoMemberships of this Asso.
      *
      * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="asso", orphanRemoval=true)
+     * @var Collection<int, AssoMembership>|AssoMembership[]
      */
     #[Groups([
         'asso:read:one',

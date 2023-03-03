@@ -77,6 +77,7 @@ class UEAnnal
      * The relation to the potentials Reports of this UEAnnal by Users.
      *
      * @ORM\OneToMany(targetEntity=UEAnnalReport::class, mappedBy="annal", orphanRemoval=true)
+     * @var Collection<int, UEAnnalReport>|UEAnnalReport[]
      */
     private Collection $reports;
 

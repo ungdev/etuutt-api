@@ -120,6 +120,7 @@ class Covoit
      * The relation between the Covoit and its CovoitMessages.
      *
      * @ORM\OneToMany(targetEntity=CovoitMessage::class, mappedBy="covoit", orphanRemoval=true)
+     * @var Collection<int, CovoitMessage>|CovoitMessage[]
      */
     private Collection $covoitMessages;
 
