@@ -11,6 +11,7 @@ use App\Controller\SoftDeleteController;
 use App\Repository\EventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -18,10 +19,6 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=EventRepository::class)
- * @ORM\Table(name="events")
- */
 #[
     ApiResource(
         shortName: 'event',
@@ -49,37 +46,34 @@ use Symfony\Component\Validator\Constraints as Assert;
         security: "is_granted('ROLE_USER')",
     )
 ]
+#[ORM\Entity(repositoryClass: EventRepository::class)]
+#[ORM\Table(name: 'events')]
 class Event
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Groups([
         'event:read:some',
         'event:read:one',
         'asso:read:one',
     ])]
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation between the Event and the Assos that organize it.
-     *
-     * @ORM\ManyToMany(targetEntity=Asso::class, inversedBy="events")
-     * @ORM\JoinTable(name="events_assos")
      */
     #[Groups([
         'event:read:one',
     ])]
+    #[ORM\ManyToMany(targetEntity: Asso::class, inversedBy: 'events')]
+    #[ORM\JoinTable(name: 'events_assos')]
     private Collection $assos;
 
     /**
      * The Translation object that contains the translation of the title of the event.
-     *
-     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('title')]
     #[Groups([
@@ -87,116 +81,102 @@ class Event
         'event:read:one',
         'asso:read:one',
     ])]
+    #[ORM\ManyToOne(targetEntity: Translation::class, cascade: ['persist', 'remove'])]
     private ?Translation $titleTranslation = null;
 
     /**
      * The starting date of the event.
-     *
-     * @ORM\Column(type="datetime", nullable=true)
      */
     #[Groups([
         'event:read:one',
     ])]
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startAt = null;
 
     /**
      * The ending date of the event.
-     *
-     * @ORM\Column(type="datetime")
      */
     #[Groups([
         'event:read:one',
     ])]
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endAt = null;
 
     /**
      * A boolean telling whether the event is from morning to evening or not.
-     *
-     * @ORM\Column(type="boolean")
      */
     #[Groups([
         'event:read:one',
     ])]
     #[Assert\Type('bool')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $isAllDay = null;
 
     /**
      * The location of the event. It is optional.
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Groups([
         'event:read:one',
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(min: 0, max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $location = null;
 
     /**
      * The Translation object that contains the translation of the description.
-     *
-     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[Groups([
         'event:read:one',
     ])]
     #[SerializedName('description')]
+    #[ORM\ManyToOne(targetEntity: Translation::class, cascade: ['persist', 'remove'])]
     private ?Translation $descriptionTranslation = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
 
     /**
      * The relation to the EventCategory the Event is classified as.
-     *
-     * @ORM\ManyToMany(targetEntity=EventCategory::class, inversedBy="events")
-     * @ORM\JoinTable(
-     *     name="events_categories",
-     *     joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
-     * )
      */
     #[Groups([
         'event:read:one',
     ])]
+    #[ORM\ManyToMany(targetEntity: EventCategory::class, inversedBy: 'events')]
+    #[ORM\JoinTable(name: 'events_categories')]
+    #[ORM\JoinColumn(name: 'event_id')]
+    #[ORM\InverseJoinColumn(name: 'category_id', referencedColumnName: 'id')]
     private Collection $categories;
 
     /**
      * The relation to the EventAnswers of the Event.
      *
-     * @ORM\OneToMany(targetEntity=EventAnswer::class, mappedBy="event", orphanRemoval=true)
      * @var Collection<int, EventAnswer>|EventAnswer[]
      */
     #[Groups([
         'event:read:one',
     ])]
+    #[ORM\OneToMany(targetEntity: EventAnswer::class, mappedBy: 'event', orphanRemoval: true)]
     private Collection $eventAnswers;
 
     /**
      * The privacy of the Event.
-     *
-     * @ORM\OneToOne(targetEntity=EventPrivacy::class, mappedBy="event", cascade={"persist", "remove"})
      */
     #[Groups([
         'event:read:one',
     ])]
+    #[ORM\OneToOne(targetEntity: EventPrivacy::class, mappedBy: 'event', cascade: ['persist', 'remove'])]
     private ?EventPrivacy $eventPrivacy = null;
 
     public function __construct()

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TranslationRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -10,25 +11,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that contains the translations in french, english, spanish, german and chinese of the field that reference it.
- *
- * @ORM\Entity(repositoryClass=TranslationRepository::class)
- * @ORM\Table(name="translations")
  */
+#[ORM\Entity(repositoryClass: TranslationRepository::class)]
+#[ORM\Table(name: 'translations')]
 class Translation
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id = null;
 
     /**
      * The french translation of the element.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Groups([
         'group:read:one',
@@ -38,12 +34,11 @@ class Translation
         'asso:read:some',
     ])]
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $french = null;
 
     /**
      * The english translation of the element.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Groups([
         'group:read:one',
@@ -53,12 +48,11 @@ class Translation
         'asso:read:some',
     ])]
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $english = null;
 
     /**
      * The spanish translation of the element.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Groups([
         'group:read:one',
@@ -68,12 +62,11 @@ class Translation
         'asso:read:some',
     ])]
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $spanish = null;
 
     /**
      * The german translation of the element.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Groups([
         'group:read:one',
@@ -83,12 +76,11 @@ class Translation
         'asso:read:some',
     ])]
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $german = null;
 
     /**
      * The chinese translation of the element.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Groups([
         'group:read:one',
@@ -98,6 +90,7 @@ class Translation
         'asso:read:some',
     ])]
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $chinese = null;
 
     public function getId(): ?string

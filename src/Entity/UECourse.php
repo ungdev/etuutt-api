@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UECourseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -13,123 +14,106 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that represente a Course of a UE.
- *
- * @ORM\Entity(repositoryClass=UECourseRepository::class)
- * @ORM\Table(name="ue_courses")
  */
+#[ORM\Entity(repositoryClass: UECourseRepository::class)]
+#[ORM\Table(name: 'ue_courses')]
 class UECourse
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the UE related to this Course.
-     *
-     * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="courses")
      */
     #[Groups([
         'user-edt:read:one',
     ])]
+    #[ORM\ManyToOne(targetEntity: UE::class, inversedBy: 'courses')]
     private ?UE $UE = null;
 
     /**
      * The day of the week during which this Course takes place.
-     *
-     * @ORM\Column(type="string", length=20)
      */
     #[Groups([
         'user-edt:read:one',
     ])]
     #[Assert\Type('string')]
     #[Assert\Choice(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])]
+    #[ORM\Column(type: Types::STRING, length: 20)]
     private ?string $day = null;
 
     /**
      * The starting hour of this Course.
-     *
-     * @ORM\Column(type="time")
      */
     #[Groups([
         'user-edt:read:one',
     ])]
     #[Assert\Time]
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $startHour = null;
 
     /**
      * The ending hour of this Course.
-     *
-     * @ORM\Column(type="time")
      */
     #[Groups([
         'user-edt:read:one',
     ])]
     #[Assert\Time]
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $endHour = null;
 
     /**
      * The week code during which the Course takes place.
-     *
-     * @ORM\Column(type="string", length=1, nullable=true)
      */
     #[Groups([
         'user-edt:read:one',
     ])]
     #[Assert\Type('string')]
     #[Assert\Choice(['A', 'B'])]
+    #[ORM\Column(type: Types::STRING, length: 1, nullable: true)]
     private ?string $week = null;
 
-    /**
-     * @ORM\Column(type="string", length=2, nullable=true)
-     */
     #[Groups([
         'user-edt:read:one',
     ])]
     #[Assert\Type('string')]
     #[Assert\Choice(['CM', 'TD', 'TP'])]
+    #[ORM\Column(type: Types::STRING, length: 2, nullable: true)]
     private ?string $type = null;
 
     /**
      * The place where the Course takes place.
-     *
-     * @ORM\Column(type="string", length=50)
      */
     #[Groups([
         'user-edt:read:one',
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 50)]
+    #[ORM\Column(type: Types::STRING, length: 50)]
     private ?string $room = null;
 
     /**
      * The relation to the Semester during which the Course takes place.
-     *
-     * @ORM\ManyToOne(targetEntity=Semester::class)
-     * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
+    #[ORM\ManyToOne(targetEntity: Semester::class)]
+    #[ORM\JoinColumn(name: 'semester_code', referencedColumnName: 'code')]
     private ?Semester $semester = null;
 
     /**
      * The relation with User to have all students of this Course.
-     *
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="courses")
-     * @ORM\JoinTable(
-     *     name="user_ue_courses",
-     *     joinColumns={@ORM\JoinColumn(name="course_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'courses')]
+    #[ORM\JoinTable(name: 'user_ue_courses')]
+    #[ORM\JoinColumn(name: 'course_id')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private Collection $students;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function __construct()

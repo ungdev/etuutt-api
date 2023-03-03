@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UEInfoRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -10,83 +11,72 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that stores the additional info of a UE.
- *
- * @ORM\Entity(repositoryClass=UEInfoRepository::class)
- * @ORM\Table(name="ue_infos")
  */
+#[ORM\Entity(repositoryClass: UEInfoRepository::class)]
+#[ORM\Table(name: 'ue_infos')]
 class UEInfo
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the UE related to this info.
-     *
-     * @ORM\OneToOne(targetEntity=UE::class, inversedBy="info", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\OneToOne(targetEntity: UE::class, inversedBy: 'info', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?UE $UE = null;
 
     /**
      * The degree in which the UE is available.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $degree = null;
 
     /**
      * The possible minor in which this UE is.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $minors = null;
 
     /**
      * The possible UE that are necessary to take this one.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $antecedent = null;
 
     /**
      * The languages spoken in ths UE, and their minimum level to understand.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $languages = null;
 
     /**
      * A field to leave a free comment.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
 
     /**
      * The objectives of the UE.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $objectives = null;
 
     /**
      * The programme of this UE.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $programme = null;
 
     public function getId(): ?Uuid

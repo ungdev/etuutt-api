@@ -13,16 +13,13 @@ use App\Controller\SoftDeleteController;
 use App\Repository\UERepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=UERepository::class)
- * @ORM\Table(name="ues")
- */
 #[
     ApiResource(
         shortName: 'ue',
@@ -57,25 +54,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ApiFilter(SearchFilter::class, properties : ['code' => 'partial'])
 ]
+#[ORM\Entity(repositoryClass: UERepository::class)]
+#[ORM\Table(name: 'ues')]
 class UE
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Groups([
         'ue:read:one',
         'ue:read:some',
     ])]
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The code of the UE (e.g. "MATH01").
-     *
-     * @ORM\Column(type="string", length=10)
      */
     #[Groups([
         'ue:read:one',
@@ -85,12 +80,11 @@ class UE
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 10)]
     #[Assert\Regex('/^[a-zA-Z]{1,5}[0-9]{1,2}$/')]
+    #[ORM\Column(type: Types::STRING, length: 10)]
     private ?string $code = null;
 
     /**
      * The title of the UE (e.g. "Analyse : suites et fonctions d’une variable réelle pour les TC01 ou les TC05 aguerris.").
-     *
-     * @ORM\Column(type="string", length=255)
      */
     #[Groups([
         'ue:read:one',
@@ -98,12 +92,11 @@ class UE
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
 
     /**
      * The validation rate computed with data in our database.
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
     #[Groups([
         'ue:read:one',
@@ -111,100 +104,91 @@ class UE
     #[Assert\Type('float')]
     #[Assert\LessThanOrEqual(100)]
     #[Assert\GreaterThanOrEqual(0)]
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $validationRate = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
     /**
      * The list of subscriptions to this UE by Users. A subscription is a student taking an UE during one semester.
      *
-     * @ORM\OneToMany(targetEntity=UserUESubscription::class, mappedBy="UE", orphanRemoval=true)
      * @var Collection<int, UserUESubscription>|UserUESubscription[]
      */
+    #[ORM\OneToMany(targetEntity: UserUESubscription::class, mappedBy: 'UE', orphanRemoval: true)]
     private Collection $usersSubscriptions;
 
     /**
      * The potential UTTFiliere of which this UE belongs to. It is optional.
-     *
-     * @ORM\ManyToOne(targetEntity=UTTFiliere::class, inversedBy="UEs")
-     * @ORM\JoinColumn(name="filiere_code", referencedColumnName="code")
      */
+    #[ORM\ManyToOne(targetEntity: UTTFiliere::class, inversedBy: 'UEs')]
+    #[ORM\JoinColumn(name: 'filiere_code', referencedColumnName: 'code')]
     private ?UTTFiliere $filiere = null;
 
     /**
      * The amount of UECredits of this UE. A UECredit object is a number of credit in a UECreditCategory.
      *
-     * @ORM\OneToMany(targetEntity=UECredit::class, mappedBy="UE", orphanRemoval=true)
      * @var Collection<int, UECredit>|UECredit[]
      */
+    #[ORM\OneToMany(targetEntity: UECredit::class, mappedBy: 'UE', orphanRemoval: true)]
     private Collection $credits;
 
     /**
      * All UEStarVote related to this UE.
      *
-     * @ORM\OneToMany(targetEntity=UEStarVote::class, mappedBy="UE", orphanRemoval=true)
      * @var Collection<int, UEStarVote>|UEStarVote[]
      */
+    #[ORM\OneToMany(targetEntity: UEStarVote::class, mappedBy: 'UE', orphanRemoval: true)]
     private Collection $starVotes;
 
     /**
      * The relation that allow to know that many UEs can be open during many Semesters.
-     *
-     * @ORM\ManyToMany(targetEntity=Semester::class)
-     * @ORM\JoinTable(
-     *     name="ue_open_semesters",
-     *     joinColumns={@ORM\JoinColumn(name="ue_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="semester_code", referencedColumnName="code")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: Semester::class)]
+    #[ORM\JoinTable(name: 'ue_open_semesters')]
+    #[ORM\JoinColumn(name: 'ue_id')]
+    #[ORM\InverseJoinColumn(name: 'semester_code', referencedColumnName: 'code')]
     private Collection $openSemester;
 
     /**
      * The relation to the entity that store the work time of this UE.
-     *
-     * @ORM\OneToOne(targetEntity=UEWorkTime::class, mappedBy="UE", cascade={"persist", "remove"})
      */
+    #[ORM\OneToOne(targetEntity: UEWorkTime::class, mappedBy: 'UE', cascade: ['persist', 'remove'])]
     private ?UEWorkTime $workTime = null;
 
     /**
      * The relation to the entity that store the info of this UE given by UTT.
-     *
-     * @ORM\OneToOne(targetEntity=UEInfo::class, mappedBy="UE", cascade={"persist", "remove"})
      */
+    #[ORM\OneToOne(targetEntity: UEInfo::class, mappedBy: 'UE', cascade: ['persist', 'remove'])]
     private ?UEInfo $info = null;
 
     /**
      * The relation to all UEAnnals related to this UE.
      *
-     * @ORM\OneToMany(targetEntity=UEAnnal::class, mappedBy="UE", orphanRemoval=true)
      * @var Collection<int, UEAnnal>|UEAnnal[]
      */
+    #[ORM\OneToMany(targetEntity: UEAnnal::class, mappedBy: 'UE', orphanRemoval: true)]
     private Collection $annals;
 
     /**
      * The relation to all UEComments related to this UE.
      *
-     * @ORM\OneToMany(targetEntity=UEComment::class, mappedBy="UE", orphanRemoval=true)
      * @var Collection<int, UEComment>|UEComment[]
      */
+    #[ORM\OneToMany(targetEntity: UEComment::class, mappedBy: 'UE', orphanRemoval: true)]
     private Collection $comments;
 
     /**
      * The relation to all UECourses of this UE.
      *
-     * @ORM\OneToMany(targetEntity=UECourse::class, mappedBy="UE")
      * @var Collection<int, UECourse>|UECourse[]
      */
+    #[ORM\OneToMany(targetEntity: UECourse::class, mappedBy: 'UE')]
     private Collection $courses;
 
     public function __construct()

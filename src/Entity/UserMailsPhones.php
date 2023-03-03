@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserMailsPhonesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -13,84 +14,71 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity related to a User that stores mails and phone of a User.
- *
- * @ORM\Entity(repositoryClass=UserMailsPhonesRepository::class)
- * @ORM\Table(name="user_mails_phones")
  */
+#[ORM\Entity(repositoryClass: UserMailsPhonesRepository::class)]
+#[ORM\Table(name: 'user_mails_phones')]
 class UserMailsPhones
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the User related to this info.
-     *
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="mailsPhones", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'mailsPhones', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     /**
      * The UTT email address of the User. It ends by "@utt.fr".
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Assert\Email]
     #[Assert\Regex('/^.+@utt\.fr$/')]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $mailUTT = null;
 
     /**
      * The personal mail fo the User. Elle ne peut pas finir par "@utt.fr".
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
     #[Assert\Email]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $mailPersonal = null;
 
     /**
      * Relations to all groups that can access to this data.
-     *
-     * @ORM\ManyToMany(targetEntity=Group::class)
-     * @ORM\JoinTable(
-     *     name="user_visibility_mail_perso",
-     *     joinColumns={@ORM\JoinColumn(name="user_mails_phones_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: Group::class)]
+    #[ORM\JoinTable(name: 'user_visibility_mail_perso')]
+    #[ORM\JoinColumn(name: 'user_mails_phones_id')]
+    #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'id')]
     private Collection $mailPersonalVisibility;
 
     /**
      * The phone number of the User. It must have this form : 0647935003, +33 6 47 93 50 03, or with . and - as separator.
-     *
-     * @ORM\Column(type="string", length=100, nullable=true)
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
     #[Assert\Regex('/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/')]
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $phoneNumber = null;
 
     /**
      * Relations to all groups that can access to this data.
-     *
-     * @ORM\ManyToMany(targetEntity=Group::class)
-     * @ORM\JoinTable(
-     *     name="user_visibility_phone_number",
-     *     joinColumns={@ORM\JoinColumn(name="user_mails_phones_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: Group::class)]
+    #[ORM\JoinTable(name: 'user_visibility_phone_number')]
+    #[ORM\JoinColumn(name: 'user_mails_phones_id')]
+    #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'id')]
     private Collection $phoneNumberVisibility;
 
     public function __construct()

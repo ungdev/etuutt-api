@@ -31,6 +31,6 @@ return static function (RectorConfig $rectorConfig): void {
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
 
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
-        // DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
+        DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
     ]);
 };

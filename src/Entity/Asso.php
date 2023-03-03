@@ -13,18 +13,17 @@ use App\Controller\SoftDeleteController;
 use App\Repository\AssoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Group;
 
 /**
- *  The main entity that represents all Assos.
- *
- * @ORM\Entity(repositoryClass=AssoRepository::class)
- * @ORM\Table(name="assos")
+ * The main entity that represents all Assos.
  */
 #[
     ApiResource(
@@ -54,68 +53,61 @@ use Symfony\Component\Validator\Constraints as Assert;
     ),
     ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'keywords' => 'exact']),
 ]
+#[ORM\Entity(repositoryClass: AssoRepository::class)]
+#[ORM\Table(name: 'assos')]
 class Asso
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Groups([
         'asso:read:one',
         'asso:read:some',
     ])]
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The login used for the CAS.
-     *
-     * @ORM\Column(type="string", length=50, unique=true)
      */
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 50)]
     #[Assert\Regex('/^[a-z_0-9]{1,50}$/')]
+    #[ORM\Column(type: Types::STRING, length: 50, unique: true)]
     private ?string $login = null;
 
-    /**
-     * @ORM\Column(type="string", length=100, unique=true)
-     */
     #[Groups([
         'asso:read:one',
         'asso:read:some',
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
     private ?string $name = null;
 
     /**
      * The Translation object that contains the translation of the short description.
-     *
-     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('descriptionShort')]
     #[Groups([
         'asso:read:some',
     ])]
+    #[ORM\ManyToOne(targetEntity: Translation::class, cascade: ['persist', 'remove'])]
     private ?Translation $descriptionShortTranslation = null;
 
     /**
      * The Translation object that contains the translation of the complete description.
-     *
-     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
     #[Groups([
         'asso:read:one',
     ])]
+    #[ORM\ManyToOne(targetEntity: Translation::class, cascade: ['persist', 'remove'])]
     private ?Translation $descriptionTranslation = null;
 
     /**
      * The email address of the association.
-     *
-     * @ORM\Column(type="string", length=100)
      */
     #[Groups([
         'asso:read:one',
@@ -123,12 +115,11 @@ class Asso
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 100)]
     #[Assert\Email]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $mail = null;
 
     /**
      * The phone number of the association.
-     *
-     * @ORM\Column(type="string", length=30, nullable=true)
      */
     #[Groups([
         'asso:read:one',
@@ -136,12 +127,11 @@ class Asso
     #[Assert\Type('string')]
     #[Assert\Length(min: 0, max: 30)]
     #[Assert\Regex('/^0[0-9]{9}$/')]
+    #[ORM\Column(type: Types::STRING, length: 30, nullable: true)]
     private ?string $phoneNumber = null;
 
     /**
      * The website of the association. It is optional.
-     *
-     * @ORM\Column(type="string", length=100, nullable=true)
      */
     #[Groups([
         'asso:read:one',
@@ -149,12 +139,11 @@ class Asso
     #[Assert\Type('string')]
     #[Assert\Length(min: 0, max: 100)]
     #[Assert\Url]
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $website = null;
 
     /**
      * Link to the logo of the association. It is optional.
-     *
-     * @ORM\Column(type="string", length=100, nullable=true)
      */
     #[Groups([
         'asso:read:some',
@@ -162,79 +151,70 @@ class Asso
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(min: 0, max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $logo = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Groups([
         'asso:read:one',
     ])]
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
 
     /**
      * The relation to all Keywords of this Asso.
-     *
-     * @ORM\ManyToMany(targetEntity=AssoKeyword::class, inversedBy="assos")
-     * @ORM\JoinTable(
-     *     name="assos_keywords",
-     *     joinColumns={@ORM\JoinColumn(name="asso_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="keyword", referencedColumnName="name")}
-     * )
      */
     #[Groups([
         'asso:read:one',
     ])]
+    #[ORM\ManyToMany(targetEntity: AssoKeyword::class, inversedBy: 'assos')]
+    #[ORM\JoinTable(name: 'assos_keywords')]
+    #[ORM\JoinColumn(name: 'asso_id')]
+    #[ORM\InverseJoinColumn(name: 'keyword', referencedColumnName: 'name')]
     private Collection $keywords;
 
     /**
      * The relation to all assoMessages sent by this Asso.
      *
-     * @ORM\OneToMany(targetEntity=AssoMessage::class, mappedBy="asso", orphanRemoval=true)
-     * @var Collection<int, AssoMessage>|AssoMessage[]
+     * @var AssoMessage[]|Collection<int, AssoMessage>
      */
+    #[ORM\OneToMany(targetEntity: AssoMessage::class, mappedBy: 'asso', orphanRemoval: true)]
     private Collection $assoMessages;
 
     /**
      * The relation to all events in which this Asso participate.
-     *
-     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="assos")
      */
     #[Groups([
         'asso:read:one',
     ])]
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'assos')]
     private Collection $events;
 
     /**
      * The relation to all Groups of this Asso.
      *
-     * @ORM\OneToMany(targetEntity=Group::class, mappedBy="asso")
-     * @var Collection<int, \App\Entity\Group>|\App\Entity\Group[]
+     * @var Group[]|Collection<int, Group>
      */
+    #[ORM\OneToMany(targetEntity: Group::class, mappedBy: 'asso')]
     private Collection $groups;
 
     /**
      * The relation to all AssoMemberships of this Asso.
      *
-     * @ORM\OneToMany(targetEntity=AssoMembership::class, mappedBy="asso", orphanRemoval=true)
-     * @var Collection<int, AssoMembership>|AssoMembership[]
+     * @var AssoMembership[]|Collection<int, AssoMembership>
      */
     #[Groups([
         'asso:read:one',
     ])]
+    #[ORM\OneToMany(targetEntity: AssoMembership::class, mappedBy: 'asso', orphanRemoval: true)]
     private Collection $assoMemberships;
 
     public function __construct()

@@ -3,74 +3,61 @@
 namespace App\Entity;
 
 use App\Repository\EventAnswerRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=EventAnswerRepository::class)
- * @ORM\Table(name="event_answers")
- */
+#[ORM\Entity(repositoryClass: EventAnswerRepository::class)]
+#[ORM\Table(name: 'event_answers')]
 class EventAnswer
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation between the EventAnswer and its Event.
-     *
-     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="eventAnswers")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'eventAnswers')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Event $event = null;
 
     /**
      * The relation to the User that wrote the EventAnswer.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     /**
      * The answer of the User to the Event (e.g. "je viens").
-     *
-     * @ORM\Column(type="string", length=20)
      */
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 20)]
+    #[ORM\Column(type: Types::STRING, length: 20)]
     private ?string $answer = null;
 
     /**
      * The comment of the User concerning the Event. It is optional.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()

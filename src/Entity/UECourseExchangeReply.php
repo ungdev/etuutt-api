@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UECourseExchangeReplyRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -10,60 +11,48 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This entity represents a comment replying to a UECourseExchange.
- *
- * @ORM\Entity(repositoryClass=UECourseExchangeReplyRepository::class)
- * @ORM\Table(name="ue_course_exchange_replies")
  */
+#[ORM\Entity(repositoryClass: UECourseExchangeReplyRepository::class)]
+#[ORM\Table(name: 'ue_course_exchange_replies')]
 class UECourseExchangeReply
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the author of this reply.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
     /**
      * The relation to the exchange this message is replying to.
-     *
-     * @ORM\ManyToOne(targetEntity=UECourseExchange::class, inversedBy="responses")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: UECourseExchange::class, inversedBy: 'responses')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?UECourseExchange $exchange = null;
 
     /**
      * The content of the reply message.
-     *
-     * @ORM\Column(type="text")
      */
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $body = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()

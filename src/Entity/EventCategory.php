@@ -4,37 +4,32 @@ namespace App\Entity;
 
 use App\Repository\EventCategoryRepository;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=EventCategoryRepository::class)
- * @ORM\Table(name="event_categories")
- */
+#[ORM\Entity(repositoryClass: EventCategoryRepository::class)]
+#[ORM\Table(name: 'event_categories')]
 class EventCategory
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private $id;
 
     /**
      * The name of the event category.
-     *
-     * @ORM\Column(type="string", length=100, unique=true)
      */
+    #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
     private ?string $name = null;
 
     /**
      * All events related to that category.
-     *
-     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="categories")
      */
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'categories')]
     private Collection $events;
 
     public function __construct()
@@ -60,7 +55,7 @@ class EventCategory
     }
 
     /**
-     * @return Event[]|Collection
+     * @return Collection|Event[]
      */
     public function getEvents(): Collection
     {

@@ -5,91 +5,75 @@ namespace App\Entity;
 use App\Repository\BadgeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=BadgeRepository::class)
- * @ORM\Table(name="badges")
- */
+#[ORM\Entity(repositoryClass: BadgeRepository::class)]
+#[ORM\Table(name: 'badges')]
 class Badge
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The Serie is a group of Badge with the same idea (e.g. Badges that deal with being an asso member).
-     *
-     * @ORM\Column(type="string", length=50, nullable=true)
      */
     #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
+    #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $serie = null;
 
     /**
      * The Level is serves to determine which badge of a serie is more advanced.
-     *
-     * @ORM\Column(type="smallint", nullable=true)
      */
     #[Assert\Type('int')]
     #[Assert\Positive]
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $level = null;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $name = null;
 
     /**
      * The path to the picture of the badge.
-     *
-     * @ORM\Column(type="string", length=255)
      */
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $picture = null;
 
     /**
      * The Translation object that contains the translation of the description.
-     *
-     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[SerializedName('description')]
+    #[ORM\ManyToOne(targetEntity: Translation::class, cascade: ['persist', 'remove'])]
     private ?Translation $descriptionTranslation = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
 
     /**
      * The relation that allow to add many Badges to many Users.
-     *
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="badges")
-     * @ORM\JoinTable(
-     *     name="users_badges",
-     *     joinColumns={@ORM\JoinColumn(name="badge_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'badges')]
+    #[ORM\JoinTable(name: 'users_badges')]
+    #[ORM\JoinColumn(name: 'badge_id')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private Collection $users;
 
     public function __construct()

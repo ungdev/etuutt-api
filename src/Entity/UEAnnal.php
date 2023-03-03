@@ -5,92 +5,79 @@ namespace App\Entity;
 use App\Repository\UEAnnalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=UEAnnalRepository::class)
- * @ORM\Table(name="ue_annals")
- */
+#[ORM\Entity(repositoryClass: UEAnnalRepository::class)]
+#[ORM\Table(name: 'ue_annals')]
 class UEAnnal
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the UE of this UEAnnal.
-     *
-     * @ORM\ManyToOne(targetEntity=UE::class, inversedBy="annals")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: UE::class, inversedBy: 'annals')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?UE $UE = null;
 
     /**
      * The relation to the User that sent this UEAnnal.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $sender = null;
 
     /**
      * The relation to the Semester during which the UEAnnal was an exam.
-     *
-     * @ORM\ManyToOne(targetEntity=Semester::class)
-     * @ORM\JoinColumn(name="semester_code", referencedColumnName="code")
      */
+    #[ORM\ManyToOne(targetEntity: Semester::class)]
+    #[ORM\JoinColumn(name: 'semester_code', referencedColumnName: 'code')]
     private ?Semester $semester = null;
 
     /**
      * A relation to the type of exam that this UEAnnal is.
-     *
-     * @ORM\ManyToOne(targetEntity=UEAnnalType::class)
-     * @ORM\JoinColumn(name="type_name", referencedColumnName="name")
      */
+    #[ORM\ManyToOne(targetEntity: UEAnnalType::class)]
+    #[ORM\JoinColumn(name: 'type_name', referencedColumnName: 'name')]
     private ?UEAnnalType $type = null;
 
     /**
      * The path to the file.
-     *
-     * @ORM\Column(type="string", length=255)
      */
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $filename = null;
 
     /**
      * The relation to the User who has validated this UEAnnal.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class)
      */
+    #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $validatedBy = null;
 
     /**
      * The relation to the potentials Reports of this UEAnnal by Users.
      *
-     * @ORM\OneToMany(targetEntity=UEAnnalReport::class, mappedBy="annal", orphanRemoval=true)
      * @var Collection<int, UEAnnalReport>|UEAnnalReport[]
      */
+    #[ORM\OneToMany(targetEntity: UEAnnalReport::class, mappedBy: 'annal', orphanRemoval: true)]
     private Collection $reports;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $deletedAt = null;
 
     public function __construct()

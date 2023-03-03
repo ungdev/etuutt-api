@@ -5,84 +5,67 @@ namespace App\Entity;
 use App\Repository\AssoMembershipRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=AssoMembershipRepository::class)
- * @ORM\Table(name="asso_memberships")
- */
+#[ORM\Entity(repositoryClass: AssoMembershipRepository::class)]
+#[ORM\Table(name: 'asso_memberships')]
 class AssoMembership
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the User that is subscribed to an Asso.
-     *
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="assoMembership")
-     * @ORM\JoinColumn(nullable=false)
      */
     #[Groups([
         'asso:read:one',
     ])]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'assoMembership')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     /**
      * The Asso in which the User is subscribed.
-     *
-     * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="assoMemberships")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: Asso::class, inversedBy: 'assoMemberships')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Asso $asso = null;
 
     /**
      * The relation to the roles accorded to the User in an Asso.
-     *
-     * @ORM\ManyToMany(targetEntity=AssoMembershipRole::class)
-     * @ORM\JoinTable(
-     *     name="asso_memberships_roles",
-     *     joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="name")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: AssoMembershipRole::class)]
+    #[ORM\JoinTable(name: 'asso_memberships_roles')]
+    #[ORM\JoinColumn(name: 'member_id')]
+    #[ORM\InverseJoinColumn(name: 'role', referencedColumnName: 'name')]
     private Collection $roles;
 
     /**
      * The relation to the permissions accorded to the User in an Asso.
-     *
-     * @ORM\ManyToMany(targetEntity=AssoMembershipPermission::class)
-     * @ORM\JoinTable(
-     *     name="asso_memberships_permissions",
-     *     joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="permission", referencedColumnName="name")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: AssoMembershipPermission::class)]
+    #[ORM\JoinTable(name: 'asso_memberships_permissions')]
+    #[ORM\JoinColumn(name: 'member_id')]
+    #[ORM\InverseJoinColumn(name: 'permission', referencedColumnName: 'name')]
     private Collection $permissions;
 
-    /**
-     * @ORM\Column(type="date")
-     */
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $startAt = null;
 
-    /**
-     * @ORM\Column(type="date")
-     */
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $endAt = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function __construct()

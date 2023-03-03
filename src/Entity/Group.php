@@ -15,6 +15,7 @@ use App\Repository\GroupRepository;
 use App\Util\Slug;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -24,10 +25,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A Group of User for friends, Course... Only user can see it, only god can judge me.
- *
- * @ORM\Entity(repositoryClass=GroupRepository::class)
- * @ORM\Table(name="groups")
- * @ORM\EntityListeners({"App\Doctrine\GroupSetAdminAndMemberListener"})
  */
 #[
     ApiResource(
@@ -62,14 +59,11 @@ use Symfony\Component\Validator\Constraints as Assert;
         security: "is_granted('ROLE_USER')",
     )
 ]
+#[ORM\Entity(repositoryClass: GroupRepository::class)]
+#[ORM\EntityListeners([\App\Doctrine\GroupSetAdminAndMemberListener::class])]
+#[ORM\Table(name: 'groups')]
 class Group
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[
         ApiProperty(
             identifier: false
@@ -80,11 +74,12 @@ class Group
         ])
     ]
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
     #[Groups([
         'group:read:one',
         'group:read:some',
@@ -92,12 +87,11 @@ class Group
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     private ?string $name = null;
 
     /**
      * The Translation object that contains the translation of the description.
-     *
-     * @ORM\ManyToOne(targetEntity=Translation::class, cascade={"persist", "remove"})
      */
     #[
         Groups([
@@ -108,22 +102,19 @@ class Group
         ]),
         SerializedName('description')
     ]
+    #[ORM\ManyToOne(targetEntity: Translation::class, cascade: ['persist', 'remove'])]
     private ?Translation $descriptionTranslation = null;
 
     /**
      * If the group is related to an Asso, this field own the relation.
-     *
-     * @ORM\ManyToOne(targetEntity=Asso::class, inversedBy="groups")
      */
     #[Groups([
         'group:read:one',
         'group:read:some',
     ])]
+    #[ORM\ManyToOne(targetEntity: Asso::class, inversedBy: 'groups')]
     private ?Asso $asso = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
     #[
         ApiProperty(
             identifier: true
@@ -136,12 +127,11 @@ class Group
     #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     private ?string $slug = null;
 
     /**
      * The path to the avatar of the Group.
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Groups([
         'group:read:one',
@@ -151,71 +141,58 @@ class Group
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $avatar = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
     #[Groups([
         'group:read:one',
         'group:write:update',
         'group:write:create',
     ])]
     #[Assert\Type('bool')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $isVisible = null;
 
     /**
      * The relation that allow to add many Users into many Groups.
-     *
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="groups")
-     * @ORM\JoinTable(
-     *     name="users_groups",
-     *     joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")}
-     * )
      */
     #[Groups([
         'group:read:one',
         'group:write:update',
     ])]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'groups')]
+    #[ORM\JoinTable(name: 'users_groups')]
+    #[ORM\JoinColumn(name: 'group_id')]
+    #[ORM\InverseJoinColumn(name: 'member_id', referencedColumnName: 'id')]
     private Collection $members;
 
     /**
      * The relation that allow to add many admins to this group. Admins of a group can update and delete it.
-     *
-     * @ORM\ManyToMany(targetEntity=User::class)
-     * @ORM\JoinTable(
-     *     name="users_groups_admins",
-     *     joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="admin_id", referencedColumnName="id")}
-     * )
      */
     #[Groups([
         'group:write:update',
         'group:write:create',
     ])]
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    #[ORM\JoinTable(name: 'users_groups_admins')]
+    #[ORM\JoinColumn(name: 'group_id')]
+    #[ORM\InverseJoinColumn(name: 'admin_id', referencedColumnName: 'id')]
     private Collection $admins;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Groups([
         'group:read:one',
         'group:read:some',
     ])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Groups([
         'group:read:one',
     ])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()

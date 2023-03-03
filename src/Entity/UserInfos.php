@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserInfosRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -13,32 +14,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity related to User that stores its Infos.
- *
- * @ORM\Entity(repositoryClass=UserInfosRepository::class)
- * @ORM\Table(name="user_infos")
  */
+#[ORM\Entity(repositoryClass: UserInfosRepository::class)]
+#[ORM\Table(name: 'user_infos')]
 class UserInfos
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the User which have those Infos.
-     *
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="infos", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'infos', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
     #[Groups([
         'user:read:one',
         'user:write:update',
@@ -46,67 +40,53 @@ class UserInfos
     #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
     #[Assert\Choice(['Masculin', 'Féminin', 'Autre'])]
+    #[ORM\Column(type: Types::STRING, length: 50)]
     private ?string $sex = null;
 
     /**
      * Relations to all groups that can access to this data.
-     *
-     * @ORM\ManyToMany(targetEntity=Group::class)
-     * @ORM\JoinTable(
-     *     name="user_visibility_sex",
-     *     joinColumns={@ORM\JoinColumn(name="user_infos_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: Group::class)]
+    #[ORM\JoinTable(name: 'user_visibility_sex')]
+    #[ORM\JoinColumn(name: 'user_infos_id')]
+    #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'id')]
     private Collection $sexVisibility;
 
-    /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
     #[Groups([
         'user:read:one',
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
+    #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $nationality = null;
 
     /**
      * Relations to all groups that can access to this data.
-     *
-     * @ORM\ManyToMany(targetEntity=Group::class)
-     * @ORM\JoinTable(
-     *     name="user_visibility_nationality",
-     *     joinColumns={@ORM\JoinColumn(name="user_infos_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: Group::class)]
+    #[ORM\JoinTable(name: 'user_visibility_nationality')]
+    #[ORM\JoinColumn(name: 'user_infos_id')]
+    #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'id')]
     private Collection $nationalityVisibility;
 
-    /**
-     * @ORM\Column(type="date")
-     */
     #[Groups([
         'user:read:one',
     ])]
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthday = null;
 
     /**
      * Relations to all groups that can access to this data.
-     *
-     * @ORM\ManyToMany(targetEntity=Group::class)
-     * @ORM\JoinTable(
-     *     name="user_visibility_birthday",
-     *     joinColumns={@ORM\JoinColumn(name="user_infos_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
      */
+    #[ORM\ManyToMany(targetEntity: Group::class)]
+    #[ORM\JoinTable(name: 'user_visibility_birthday')]
+    #[ORM\JoinColumn(name: 'user_infos_id')]
+    #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'id')]
     private Collection $birthdayVisibility;
 
     /**
      * The path to the avatar of the User.
-     *
-     * @ORM\Column(type="string", length=255)
      */
     #[Groups([
         'user:read:one',
@@ -114,12 +94,11 @@ class UserInfos
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $avatar = null;
 
     /**
      * The User's nickname.
-     *
-     * @ORM\Column(type="string", length=50, nullable=true)
      */
     #[Groups([
         'user:read:one',
@@ -127,30 +106,29 @@ class UserInfos
     ])]
     #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
+    #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $nickname = null;
 
     /**
      * A text given by the User to explicite his or her passions.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
     #[Assert\Type('string')]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $passions = null;
 
     /**
      * The website of the User.
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Groups([
         'user:read:one',
         'user:write:update',
     ])]
     #[Assert\Url]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $website = null;
 
     public function __construct()

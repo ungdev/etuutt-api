@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserFormationRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -10,49 +11,41 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity related to a User to track the formation and the following method.
- *
- * @ORM\Entity(repositoryClass=UserFormationRepository::class)
- * @ORM\Table(name="user_formations")
  */
+#[ORM\Entity(repositoryClass: UserFormationRepository::class)]
+#[ORM\Table(name: 'user_formations')]
 class UserFormation
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     #[Assert\Uuid]
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     /**
      * The relation to the User.
-     *
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="formation", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'formation', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     /**
      * The relation to the Formation.
-     *
-     * @ORM\ManyToOne(targetEntity=UTTFormation::class)
-     * @ORM\JoinColumn(name="formation_name", referencedColumnName="name")
      */
+    #[ORM\ManyToOne(targetEntity: UTTFormation::class)]
+    #[ORM\JoinColumn(name: 'formation_name', referencedColumnName: 'name')]
     private ?UTTFormation $formation = null;
 
     /**
      * The relation to the FollowingMethod.
-     *
-     * @ORM\ManyToOne(targetEntity=UTTFormationFollowingMethod::class)
-     * @ORM\JoinColumn(name="following_method_name", referencedColumnName="name")
      */
+    #[ORM\ManyToOne(targetEntity: UTTFormationFollowingMethod::class)]
+    #[ORM\JoinColumn(name: 'following_method_name', referencedColumnName: 'name')]
     private ?UTTFormationFollowingMethod $followingMethod = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
     #[Assert\Type('\DateTimeInterface')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function __construct()
