@@ -32,7 +32,8 @@ class UserOtherAttribut
         #[ORM\Id]
         #[ORM\Column(type: Types::STRING, length: 100)]
         private readonly ?string $name = null
-    ) {}
+    ) {
+    }
 
     public function getName(): ?string
     {

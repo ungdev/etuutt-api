@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
-use DateTime;
 use App\Repository\AssoMessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -49,7 +47,7 @@ class AssoMessage
      */
     #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?DateTimeInterface $date = null;
+    private ?\DateTimeInterface $date = null;
 
     /**
      * Whether the message should be displayed on mobile or not.
@@ -67,11 +65,11 @@ class AssoMessage
 
     #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->setTitleTranslation(new Translation());
         $this->setBodyTranslation(new Translation());
@@ -118,12 +116,12 @@ class AssoMessage
         return $this;
     }
 
-    public function getDate(): ?DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -154,12 +152,12 @@ class AssoMessage
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

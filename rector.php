@@ -8,7 +8,6 @@ use Rector\Symfony\Set\SymfonyLevelSetList;
 use Rector\Symfony\Set\SymfonySetList;
 
 return static function (RectorConfig $rectorConfig): void {
-
     //  Path to fix
     $rectorConfig->paths([
         __DIR__.'/src',
@@ -18,8 +17,9 @@ return static function (RectorConfig $rectorConfig): void {
     //  Giving Rector all Symfony info
     $rectorConfig->symfonyContainerXml(__DIR__.'/var/cache/dev/App_KernelDevDebugContainer.xml');
 
-    //  To import a class with the use statement rather than indicating its namespace path each time
+    //  To import a class with the use statement rather than indicating its namespace path each time, except short classes like "DateTime"
     $rectorConfig->importNames();
+    $rectorConfig->importShortClasses(false);
 
     //  Rules
     $rectorConfig->sets([

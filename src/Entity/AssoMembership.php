@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
-use DateTime;
 use App\Repository\AssoMembershipRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -61,18 +59,18 @@ class AssoMembership
     private Collection $permissions;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?DateTimeInterface $startAt = null;
+    private ?\DateTimeInterface $startAt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?DateTimeInterface $endAt = null;
+    private ?\DateTimeInterface $endAt = null;
 
     #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->roles = new ArrayCollection();
         $this->permissions = new ArrayCollection();
@@ -155,36 +153,36 @@ class AssoMembership
         return $this;
     }
 
-    public function getStartAt(): ?DateTimeInterface
+    public function getStartAt(): ?\DateTimeInterface
     {
         return $this->startAt;
     }
 
-    public function setStartAt(DateTimeInterface $startAt): self
+    public function setStartAt(\DateTimeInterface $startAt): self
     {
         $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEndAt(): ?DateTimeInterface
+    public function getEndAt(): ?\DateTimeInterface
     {
         return $this->endAt;
     }
 
-    public function setEndAt(DateTimeInterface $endAt): self
+    public function setEndAt(\DateTimeInterface $endAt): self
     {
         $this->endAt = $endAt;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

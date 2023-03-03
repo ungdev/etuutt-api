@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
-use DateTime;
 use App\Repository\UECourseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -56,7 +54,7 @@ class UECourse
     ])]
     #[Assert\Time]
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?DateTimeInterface $startHour = null;
+    private ?\DateTimeInterface $startHour = null;
 
     /**
      * The ending hour of this Course.
@@ -66,7 +64,7 @@ class UECourse
     ])]
     #[Assert\Time]
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?DateTimeInterface $endHour = null;
+    private ?\DateTimeInterface $endHour = null;
 
     /**
      * The week code during which the Course takes place.
@@ -116,11 +114,11 @@ class UECourse
 
     #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTime());
+        $this->setCreatedAt(new \DateTime());
 
         $this->students = new ArrayCollection();
     }
@@ -154,24 +152,24 @@ class UECourse
         return $this;
     }
 
-    public function getStartHour(): ?DateTimeInterface
+    public function getStartHour(): ?\DateTimeInterface
     {
         return $this->startHour;
     }
 
-    public function setStartHour(DateTimeInterface $startHour): self
+    public function setStartHour(\DateTimeInterface $startHour): self
     {
         $this->startHour = $startHour;
 
         return $this;
     }
 
-    public function getEndHour(): ?DateTimeInterface
+    public function getEndHour(): ?\DateTimeInterface
     {
         return $this->endHour;
     }
 
-    public function setEndHour(DateTimeInterface $endHour): self
+    public function setEndHour(\DateTimeInterface $endHour): self
     {
         $this->endHour = $endHour;
 
@@ -250,12 +248,12 @@ class UECourse
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

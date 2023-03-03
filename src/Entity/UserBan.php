@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
 use App\Repository\UserBanRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,14 +35,14 @@ class UserBan
      */
     #[Assert\Date]
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?DateTimeInterface $readOnlyExpiration = null;
+    private ?\DateTimeInterface $readOnlyExpiration = null;
 
     /**
      * The date until which the User is banned and can not access to this app.
      */
     #[Assert\Date]
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?DateTimeInterface $bannedExpiration = null;
+    private ?\DateTimeInterface $bannedExpiration = null;
 
     public function getId(): ?Uuid
     {
@@ -62,24 +61,24 @@ class UserBan
         return $this;
     }
 
-    public function getReadOnlyExpiration(): ?DateTimeInterface
+    public function getReadOnlyExpiration(): ?\DateTimeInterface
     {
         return $this->readOnlyExpiration;
     }
 
-    public function setReadOnlyExpiration(?DateTimeInterface $readOnlyExpiration): self
+    public function setReadOnlyExpiration(?\DateTimeInterface $readOnlyExpiration): self
     {
         $this->readOnlyExpiration = $readOnlyExpiration;
 
         return $this;
     }
 
-    public function getBannedExpiration(): ?DateTimeInterface
+    public function getBannedExpiration(): ?\DateTimeInterface
     {
         return $this->bannedExpiration;
     }
 
-    public function setBannedExpiration(?DateTimeInterface $bannedExpiration): self
+    public function setBannedExpiration(?\DateTimeInterface $bannedExpiration): self
     {
         $this->bannedExpiration = $bannedExpiration;
 

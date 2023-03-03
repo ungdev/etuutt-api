@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
 use App\Entity\Badge;
 use App\Entity\User;
 use App\Util\Text;
@@ -23,7 +22,7 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
-        
+
         //  Création de 40 badges
         $serie = null;
         for ($i = 0; $i < 40; ++$i) {
@@ -67,7 +66,7 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
             $badge->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
             //  Soft delete aléatoire d'un Timestamps (Avec une chance de 10%)
             if ($faker->boolean(10)) {
-                $days = (new DateTime())->diff($badge->getCreatedAt())->days;
+                $days = (new \DateTime())->diff($badge->getCreatedAt())->days;
                 $badge->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             }
 

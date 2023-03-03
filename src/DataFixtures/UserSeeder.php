@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
 use App\Entity\Semester;
 use App\Entity\User;
 use App\Entity\UserBan;
@@ -56,15 +55,15 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
             $createdAt = $faker->dateTimeBetween('-3 years');
             $timestamps = $user->getTimestamps();
             $timestamps->setCreatedAt($createdAt);
-            $days = (new DateTime())->diff($timestamps->getCreatedAt())->days;
+            $days = (new \DateTime())->diff($timestamps->getCreatedAt())->days;
             $timestamps->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             //  First and last login
             $timestamps->setFirstLoginDate($faker->dateTimeBetween('-30 days'));
-            $days = (new DateTime())->diff($timestamps->getFirstLoginDate())->days;
+            $days = (new \DateTime())->diff($timestamps->getFirstLoginDate())->days;
             $timestamps->setLastLoginDate($faker->dateTimeBetween('-'.$days.' days'));
             //  Soft delete aléatoire d'un User (Avec une chance de 1%)
             if ($faker->boolean(1)) {
-                $days = (new DateTime())->diff($timestamps->getLastLoginDate())->days;
+                $days = (new \DateTime())->diff($timestamps->getLastLoginDate())->days;
                 $timestamps->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
 
@@ -110,7 +109,7 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
                 $user->addBan($userBan);
 
                 //  Random durée ban
-                $days = (new DateTime())->diff($timestamps->getLastLoginDate())->days;
+                $days = (new \DateTime())->diff($timestamps->getLastLoginDate())->days;
 
                 //  50% de chance de ReadOnly, 50% de Banned
                 if ($faker->boolean()) {
@@ -163,8 +162,8 @@ class UserSeeder extends Fixture implements DependentFixtureInterface
     /**
      * Cette fonction génère le login à partir du firstname et du lastname.
      *
-     * @param string|null $firstName Le prénom de l'utilisateur
-     * @param string|null $lastName Le nom de famille de l'utilisateur
+     * @param null|string    $firstName      Le prénom de l'utilisateur
+     * @param null|string    $lastName       Le nom de famille de l'utilisateur
      * @param UserRepository $userRepository Le repository pour accéder aux Users
      *
      * @return string $login Le login de l'utilisateur

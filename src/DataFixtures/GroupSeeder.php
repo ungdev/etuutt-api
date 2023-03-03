@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
 use App\Entity\Group;
 use App\Entity\User;
 use App\Util\Slug;
@@ -56,11 +55,11 @@ class GroupSeeder extends Fixture implements DependentFixtureInterface
 
             //  Création des timestamps
             $group->setCreatedAt($faker->dateTimeBetween('-5 years'));
-            $days = (new DateTime())->diff($group->getCreatedAt())->days;
+            $days = (new \DateTime())->diff($group->getCreatedAt())->days;
             $group->setUpdatedAt($faker->dateTimeBetween('-'.$days.' days'));
             //  Soft delete aléatoire d'un User (Avec une chance de 1%)
             if ($faker->boolean(10)) {
-                $days = (new DateTime())->diff($group->getUpdatedAt())->days;
+                $days = (new \DateTime())->diff($group->getUpdatedAt())->days;
                 $group->setDeletedAt($faker->dateTimeBetween('-'.$days.' days'));
             }
 

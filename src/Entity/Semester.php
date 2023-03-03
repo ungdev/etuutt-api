@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
 use App\Repository\SemesterRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,14 +19,14 @@ class Semester
      */
     #[Assert\Date]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?DateTimeInterface $start = null;
+    private ?\DateTimeInterface $start = null;
 
     /**
      * The ending date of the Semester.
      */
     #[Assert\Date]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?DateTimeInterface $end = null;
+    private ?\DateTimeInterface $end = null;
 
     public function __construct(
         #[Assert\Type('string')]
@@ -36,8 +35,7 @@ class Semester
         #[ORM\Id]
         #[ORM\Column(type: Types::STRING, length: 10)]
         private readonly ?string $code = null
-    )
-    {
+    ) {
     }
 
     public function getCode(): ?string
@@ -45,24 +43,24 @@ class Semester
         return $this->code;
     }
 
-    public function getStart(): ?DateTimeInterface
+    public function getStart(): ?\DateTimeInterface
     {
         return $this->start;
     }
 
-    public function setStart(DateTimeInterface $start): self
+    public function setStart(\DateTimeInterface $start): self
     {
         $this->start = $start;
 
         return $this;
     }
 
-    public function getEnd(): ?DateTimeInterface
+    public function getEnd(): ?\DateTimeInterface
     {
         return $this->end;
     }
 
-    public function setEnd(DateTimeInterface $end): self
+    public function setEnd(\DateTimeInterface $end): self
     {
         $this->end = $end;
 
