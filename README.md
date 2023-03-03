@@ -268,7 +268,7 @@ Here is a list of commands to interact with the database, entities, tests, `php-
   ```
 - To call `php-cs-fixer` to modify the PHP code on `src` folder so that it follows the conventions described in the `.php-cs-fixer.dist.php` file.
   ```sh
-  php vendor/bin/php-cs-fixer fix src
+  vendor/bin/php-cs-fixer fix
   ```
 - To install all PHP dependencies.
   ```sh
@@ -295,7 +295,7 @@ For those who are member of the team, there are the steps to add your changes to
 1. You will be added to the team, with admin access to [the repo](https://github.com/ungdev/etuutt-api).
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Write your code
-4. Let PHP-cs_fixer do its job (`vendor/bin/php-cs-fixer.bat fix src` or `php vendor/bin/php-cs-fixer fix src`)
+4. Let PHP-cs_fixer do its job (`vendor/bin/php-cs-fixer fix`)
 5. Commit your Changes using Commitizen (`cz`)
 6. Push to the Branch (`git push origin feature/AmazingFeature`)
 7. Open a Pull Request
