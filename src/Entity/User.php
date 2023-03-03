@@ -2,11 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
+use App\ApiPlatform\IsStudentFilter;
+use App\ApiPlatform\SearchInNamesFilter;
+use App\ApiPlatform\UEFilter;
 use App\Controller\GetEDTController;
 use App\Controller\SoftDeleteController;
 use App\DataProvider\UserDataVisibilityItemDataProvider;
@@ -24,6 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The main entity that represents all Users. It is related to UEs, Covoits, Assos and others.
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
  * @ORM\Table(name="users")
  */
 #[
@@ -58,15 +64,33 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
         paginationItemsPerPage: 10,
         security: "is_granted('ROLE_USER')",
-    )
+    ),
+    ApiFilter(
+        SearchFilter::class,
+        properties: [
+            'studentId' => 'exact',
+            'mailsPhones.mailPersonal' => 'exact',
+            'mailsPhones.phoneNumber' => 'exact',
+            'branche.branche.code' => 'exact',
+            'branche.filiere.code' => 'exact',
+            'branche.semesterNumber' => 'exact',
+        ]
+    ),
+    ApiFilter(UEFilter::class),
+    ApiFilter(SearchInNamesFilter::class),
+    ApiFilter(IsStudentFilter::class),
 ]
 class User implements UserInterface
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     *
      * @Assert\Uuid()
      */
     #[Groups([
@@ -79,8 +103,11 @@ class User implements UserInterface
      * The CAS login of the User.
      *
      * @ORM\Column(type="string", length=50, unique=true)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=50)
+     *
      * @Assert\Regex("/^[a-z_0-9]{1,50}$/")
      */
     #[Groups([
@@ -93,7 +120,9 @@ class User implements UserInterface
      * For the User that are students, this is the UTT student number.
      *
      * @ORM\Column(type="integer", nullable=true, unique=true)
+     *
      * @Assert\Type("int")
+     *
      * @Assert\Positive
      */
     #[Groups([
@@ -103,7 +132,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=255)
      */
     #[Groups([
@@ -114,7 +145,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\Type("string")
+     *
      * @Assert\Length(max=255)
      */
     #[Groups([
@@ -141,6 +174,7 @@ class User implements UserInterface
      * The relation to the entity that contains the User's SocialNetwork.
      *
      * @ORM\OneToOne(targetEntity=UserSocialNetwork::class, mappedBy="user", cascade={"persist", "remove"})
+     *
      * @Assert\Valid()
      */
     #[Groups([
@@ -160,6 +194,7 @@ class User implements UserInterface
      * The relation to the entity that contains the User's RGPD.
      *
      * @ORM\OneToOne(targetEntity=UserRGPD::class, mappedBy="user", cascade={"persist", "remove"})
+     *
      * @Assert\Valid()
      */
     #[Groups([
@@ -244,6 +279,7 @@ class User implements UserInterface
      * The relation to the Preference of the User.
      *
      * @ORM\OneToOne(targetEntity=UserPreference::class, mappedBy="user", cascade={"persist", "remove"})
+     *
      * @Assert\Valid()
      */
     #[Groups([
@@ -256,6 +292,7 @@ class User implements UserInterface
      * The relation to the Infos of the User.
      *
      * @ORM\OneToOne(targetEntity=UserInfos::class, mappedBy="user", cascade={"persist", "remove"})
+     *
      * @Assert\Valid()
      */
     #[Groups([
@@ -269,6 +306,7 @@ class User implements UserInterface
      * The relation to the Addresses of the User.
      *
      * @ORM\OneToMany(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     *
      * @Assert\Valid()
      */
     #[Groups([
@@ -281,6 +319,7 @@ class User implements UserInterface
      * The relation to mails and phone number of the User.
      *
      * @ORM\OneToOne(targetEntity=UserMailsPhones::class, mappedBy="user", cascade={"persist", "remove"})
+     *
      * @Assert\Valid()
      */
     #[Groups([

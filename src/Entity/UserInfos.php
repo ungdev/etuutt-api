@@ -125,6 +125,7 @@ class UserInfos
      */
     #[Groups([
         'user:read:one',
+        'user:read:some',
         'user:write:update',
     ])]
     private $nickname;
