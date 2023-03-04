@@ -8,6 +8,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use App\Controller\SoftDeleteController;
+use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\EventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -48,8 +51,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 #[ORM\Table(name: 'events')]
+#[ORM\HasLifecycleCallbacks]
 class Event
 {
+    use SoftDeletableTrait;
+    use TimestampsTrait;
+    use UUIDTrait;
+
     #[Groups([
         'event:read:some',
         'event:read:one',
@@ -60,7 +68,7 @@ class Event
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    private Uuid $id;
 
     /**
      * The relation between the Event and the Assos that organize it.
@@ -135,18 +143,6 @@ class Event
     #[ORM\ManyToOne(targetEntity: Translation::class, cascade: ['persist', 'remove'])]
     private ?Translation $descriptionTranslation = null;
 
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $createdAt;
-
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $updatedAt;
-
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deletedAt = null;
-
     /**
      * The relation to the EventCategory the Event is classified as.
      */
@@ -182,18 +178,12 @@ class Event
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
         $this->setTitleTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
 
         $this->assos = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->eventAnswers = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     /**
@@ -290,47 +280,6 @@ class Event
         $this->descriptionTranslation = $descriptionTranslation;
 
         return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?\DateTimeInterface
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    public function isSoftDeleted(): bool
-    {
-        return null !== $this->deletedAt;
     }
 
     /**

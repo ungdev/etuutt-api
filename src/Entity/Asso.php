@@ -10,6 +10,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use App\Controller\SoftDeleteController;
+use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\AssoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -54,8 +57,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 #[ORM\Entity(repositoryClass: AssoRepository::class)]
 #[ORM\Table(name: 'assos')]
+#[ORM\HasLifecycleCallbacks]
 class Asso
 {
+    use SoftDeletableTrait;
+    use TimestampsTrait;
+    use UUIDTrait;
+
     #[Groups([
         'asso:read:one',
         'asso:read:some',
@@ -65,10 +73,10 @@ class Asso
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    private Uuid $id;
 
     /**
-     * The login used for the CAS.
+     * The login used by the CAS.
      */
     #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 50)]
@@ -160,14 +168,6 @@ class Asso
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $updatedAt;
-
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deletedAt = null;
-
     /**
      * The relation to all Keywords of this Asso.
      */
@@ -221,18 +221,12 @@ class Asso
         $this->setDescriptionShortTranslation(new Translation());
         $this->setDescriptionTranslation(new Translation());
         $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
 
         $this->keywords = new ArrayCollection();
         $this->assoMessages = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->assoMemberships = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getLogin(): ?string
@@ -329,47 +323,6 @@ class Asso
         $this->logo = $logo;
 
         return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?\DateTimeInterface
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    public function isSoftDeleted(): bool
-    {
-        return null !== $this->deletedAt;
     }
 
     /**

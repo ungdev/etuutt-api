@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECreditRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,12 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'ue_credits')]
 class UECredit
 {
-    #[Assert\Uuid]
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    use UUIDTrait;
 
     /**
      * The relation to the UE the credits are for.
@@ -44,11 +38,6 @@ class UECredit
     #[Assert\Positive]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $credits = null;
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
-    }
 
     public function getUE(): ?UE
     {

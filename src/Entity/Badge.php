@@ -2,26 +2,23 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\BadgeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BadgeRepository::class)]
 #[ORM\Table(name: 'badges')]
+#[ORM\HasLifecycleCallbacks]
 class Badge
 {
-    #[Assert\Uuid]
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    use TimestampsTrait;
+    use UUIDTrait;
 
     /**
      * The Serie is a group of Badge with the same idea (e.g. Badges that deal with being an asso member).
@@ -59,10 +56,6 @@ class Badge
     #[ORM\ManyToOne(targetEntity: Translation::class, cascade: ['persist', 'remove'])]
     private ?Translation $descriptionTranslation = null;
 
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $createdAt;
-
     /**
      * The relation that allow to add many Badges to many Users.
      */
@@ -78,11 +71,6 @@ class Badge
         $this->setDescriptionTranslation(new Translation());
 
         $this->users = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getSerie(): ?string
@@ -141,18 +129,6 @@ class Badge
     public function setDescriptionTranslation(?Translation $descriptionTranslation): self
     {
         $this->descriptionTranslation = $descriptionTranslation;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

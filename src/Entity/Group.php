@@ -12,6 +12,9 @@ use ApiPlatform\Metadata\Post;
 use App\Controller\SoftDeleteController;
 use App\DataProvider\MyGroupsCollectionDataProvider;
 use App\Doctrine\GroupSetAdminAndMemberListener;
+use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\GroupRepository;
 use App\Util\Slug;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -63,8 +66,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: GroupRepository::class)]
 #[ORM\EntityListeners([GroupSetAdminAndMemberListener::class])]
 #[ORM\Table(name: 'groups')]
+#[ORM\HasLifecycleCallbacks]
 class Group
 {
+    use SoftDeletableTrait;
+    use TimestampsTrait;
+    use UUIDTrait;
+
     #[
         ApiProperty(
             identifier: false
@@ -79,7 +87,7 @@ class Group
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    private Uuid $id;
 
     #[Groups([
         'group:read:one',
@@ -193,22 +201,13 @@ class Group
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deletedAt = null;
-
     public function __construct()
     {
         $this->setDescriptionTranslation(new Translation());
         $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
 
         $this->members = new ArrayCollection();
         $this->admins = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getName(): ?string
@@ -348,42 +347,6 @@ class Group
     public function removeAdmin(User $user): self
     {
         $this->admins->removeElement($user);
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?\DateTimeInterface
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(\DateTimeInterface $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
 
         return $this;
     }

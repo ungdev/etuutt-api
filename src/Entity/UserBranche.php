@@ -2,27 +2,23 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserBrancheRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that represents a Branch followed by a User. TC is also included.
  */
 #[ORM\Entity(repositoryClass: UserBrancheRepository::class)]
 #[ORM\Table(name: 'user_branches')]
+#[ORM\HasLifecycleCallbacks]
 class UserBranche
 {
-    #[Assert\Uuid]
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    use TimestampsTrait;
+    use UUIDTrait;
 
     /**
      * The relation to the User.
@@ -67,18 +63,9 @@ class UserBranche
     #[ORM\JoinColumn(name: 'semester_code', referencedColumnName: 'code')]
     private ?Semester $semester = null;
 
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $createdAt;
-
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getUser(): ?User
@@ -137,18 +124,6 @@ class UserBranche
     public function setSemester(?Semester $semester): self
     {
         $this->semester = $semester;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

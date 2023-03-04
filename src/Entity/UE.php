@@ -10,6 +10,8 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use App\Controller\SoftDeleteController;
+use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UERepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -56,8 +58,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 #[ORM\Entity(repositoryClass: UERepository::class)]
 #[ORM\Table(name: 'ues')]
+#[ORM\HasLifecycleCallbacks]
 class UE
 {
+    use TimestampsTrait;
+    use UUIDTrait;
+
     #[Groups([
         'ue:read:one',
         'ue:read:some',
@@ -67,7 +73,7 @@ class UE
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    private Uuid $id;
 
     /**
      * The code of the UE (e.g. "MATH01").
@@ -106,14 +112,6 @@ class UE
     #[Assert\GreaterThanOrEqual(0)]
     #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $validationRate = null;
-
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $createdAt;
-
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $updatedAt;
 
     /**
      * The list of subscriptions to this UE by Users. A subscription is a student taking an UE during one semester.
@@ -194,7 +192,6 @@ class UE
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
 
         $this->usersSubscriptions = new ArrayCollection();
         $this->credits = new ArrayCollection();
@@ -203,11 +200,6 @@ class UE
         $this->annals = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->courses = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getCode(): ?string
@@ -242,30 +234,6 @@ class UE
     public function setValidationRate(?float $validationRate): self
     {
         $this->validationRate = $validationRate;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

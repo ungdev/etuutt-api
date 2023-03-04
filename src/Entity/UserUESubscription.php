@@ -2,26 +2,21 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserUERepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that represents a subscription of a User to a UE during a Semester.
  */
 #[ORM\Entity(repositoryClass: UserUERepository::class)]
 #[ORM\Table(name: 'user_ue_subscriptions')]
+#[ORM\HasLifecycleCallbacks]
 class UserUESubscription
 {
-    #[Assert\Uuid]
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    use TimestampsTrait;
+    use UUIDTrait;
 
     /**
      * The relation to the User which is subscribing to a UE.
@@ -44,18 +39,9 @@ class UserUESubscription
     #[ORM\JoinColumn(name: 'semester_code', referencedColumnName: 'code')]
     private ?Semester $semester = null;
 
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $createdAt;
-
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getUser(): ?User
@@ -90,18 +76,6 @@ class UserUESubscription
     public function setSemester(?Semester $semester): self
     {
         $this->semester = $semester;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -2,30 +2,28 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\CovoitAlertRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CovoitAlertRepository::class)]
 #[ORM\Table(name: 'covoit_alerts')]
+#[ORM\HasLifecycleCallbacks]
 class CovoitAlert
 {
-    #[Assert\Uuid]
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    use TimestampsTrait;
+    use UUIDTrait;
 
     /**
      * The relation between the CovoitAlert and the User that created it.
      */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'covoitAlerts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private User $user;
 
     /**
      * The maximum price in cents (x100). It is optional.
@@ -77,11 +75,6 @@ class CovoitAlert
         $this->setUpdatedAt(new \DateTime());
     }
 
-    public function getId(): ?Uuid
-    {
-        return $this->id;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -102,30 +95,6 @@ class CovoitAlert
     public function setPriceMax(int $priceMax): self
     {
         $this->priceMax = $priceMax;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }
