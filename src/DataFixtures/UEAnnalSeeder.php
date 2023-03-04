@@ -77,7 +77,7 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
             $annal->setValidatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             if ($faker->boolean(1)) {
                 $days = (new \DateTime())->diff($annal->getCreatedAt())->days;
-                $annal->setCreatedAt($faker->dateTimeBetween('-'.$days.' years', 'now'));
+                $annal->setCreatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             }
 
             $manager->persist($annal);
