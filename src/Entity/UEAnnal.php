@@ -59,10 +59,11 @@ class UEAnnal
     private ?string $filename = null;
 
     /**
-     * The relation to the User who has validated this UEAnnal.
+     * The timestamp of validation by a User.
      */
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    private ?User $validatedBy = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\Type('\DateTimeInterface')]
+    private ?\DateTimeInterface $validatedAt = null;
 
     /**
      * The relation to the potentials Reports of this UEAnnal by Users.
