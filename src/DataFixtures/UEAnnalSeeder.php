@@ -73,7 +73,8 @@ class UEAnnalSeeder extends Fixture implements DependentFixtureInterface
             $annal->setSemester($semesterRepository->getSemesterOfDate($annal->getCreatedAt()));
             $annal->setType($faker->randomElement($types));
             $annal->setFilename($faker->imageUrl());
-            $annal->setValidatedBy($faker->randomElement($users));
+            $days = (new \DateTime())->diff($annal->getCreatedAt())->days;
+            $annal->setValidatedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
             if ($faker->boolean(1)) {
                 $days = (new \DateTime())->diff($annal->getCreatedAt())->days;
                 $annal->setCreatedAt($faker->dateTimeBetween('-'.$days.' years', 'now'));
