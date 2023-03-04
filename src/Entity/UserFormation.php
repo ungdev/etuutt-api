@@ -2,26 +2,21 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserFormationRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity related to a User to track the formation and the following method.
  */
 #[ORM\Entity(repositoryClass: UserFormationRepository::class)]
 #[ORM\Table(name: 'user_formations')]
+#[ORM\HasLifecycleCallbacks]
 class UserFormation
 {
-    #[Assert\Uuid]
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    use TimestampsTrait;
+    use UUIDTrait;
 
     /**
      * The relation to the User.
@@ -44,18 +39,9 @@ class UserFormation
     #[ORM\JoinColumn(name: 'following_method_name', referencedColumnName: 'name')]
     private ?UTTFormationFollowingMethod $followingMethod = null;
 
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $createdAt;
-
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getUser(): ?User
@@ -90,18 +76,6 @@ class UserFormation
     public function setFollowingMethod(?UTTFormationFollowingMethod $followingMethod): self
     {
         $this->followingMethod = $followingMethod;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

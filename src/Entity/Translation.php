@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\TranslationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,12 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'translations')]
 class Translation
 {
-    #[Assert\Uuid]
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?string $id = null;
+    use UUIDTrait;
 
     /**
      * The french translation of the element.
@@ -92,11 +87,6 @@ class Translation
     #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $chinese = null;
-
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
 
     public function getFrench(): ?string
     {

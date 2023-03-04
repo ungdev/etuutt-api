@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Patch;
 use App\Controller\GetEDTController;
 use App\Controller\SoftDeleteController;
 use App\DataProvider\UserDataVisibilityItemDataProvider;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -60,8 +61,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface
 {
+    use UUIDTrait;
+
     #[Groups([
         'user:read:one',
         'user:read:some',
@@ -71,7 +75,7 @@ class User implements UserInterface
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    private Uuid $id;
 
     /**
      * The CAS login of the User.
@@ -334,11 +338,6 @@ class User implements UserInterface
         $this->setMailsPhones(new UserMailsPhones());
     }
 
-    public function getId(): ?Uuid
-    {
-        return $this->id;
-    }
-
     /**
      * A unique identifier that represents this user. This method is used by the Symfony User system.
      *
@@ -488,6 +487,17 @@ class User implements UserInterface
         }
 
         $this->timestamps = $userTimestamps;
+
+        return $this;
+    }
+
+    /**
+     * Method called by ORM before inserting changes on the user into the DB. It updates the `updatedAt` property.
+     */
+    #[ORM\PreUpdate]
+    public function updateTimestamp(): self
+    {
+        $this->getTimestamps()->updateTimestamp();
 
         return $this;
     }

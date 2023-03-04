@@ -2,25 +2,27 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampsTrait;
+use App\Entity\Traits\UUIDTrait;
 use App\Repository\UEAnnalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * The entity associated to an annal sent by a User. Annals are files that contain the subject of a UE's exam.
+ */
 #[ORM\Entity(repositoryClass: UEAnnalRepository::class)]
 #[ORM\Table(name: 'ue_annals')]
+#[ORM\HasLifecycleCallbacks]
 class UEAnnal
 {
-    #[Assert\Uuid]
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?Uuid $id = null;
+    use SoftDeletableTrait;
+    use TimestampsTrait;
+    use UUIDTrait;
 
     /**
      * The relation to the UE of this UEAnnal.
@@ -73,24 +75,11 @@ class UEAnnal
     #[ORM\OneToMany(targetEntity: UEAnnalReport::class, mappedBy: 'annal', orphanRemoval: true)]
     private Collection $reports;
 
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $createdAt;
-
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTime $deletedAt = null;
-
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
 
         $this->reports = new ArrayCollection();
-    }
-
-    public function getId(): ?Uuid
-    {
-        return $this->id;
     }
 
     public function getUE(): ?UE
@@ -153,14 +142,14 @@ class UEAnnal
         return $this;
     }
 
-    public function getValidatedBy(): ?User
+    public function getValidatedAt(): ?\DateTimeInterface
     {
-        return $this->validatedBy;
+        return $this->validatedAt;
     }
 
-    public function setValidatedBy(?User $validatedBy): self
+    public function setValidatedAt(\DateTimeInterface $validatedAt): self
     {
-        $this->validatedBy = $validatedBy;
+        $this->validatedAt = $validatedAt;
 
         return $this;
     }
@@ -191,34 +180,5 @@ class UEAnnal
         }
 
         return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?\DateTime
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(?\DateTime $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    public function isSoftDeleted(): bool
-    {
-        return null !== $this->deletedAt;
     }
 }
