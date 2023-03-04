@@ -64,11 +64,6 @@ class BadgeSeeder extends Fixture implements DependentFixtureInterface
 
             //  Création des timestamps
             $badge->setCreatedAt($faker->dateTimeBetween('-3 years', 'now'));
-            //  Soft delete aléatoire d'un Timestamps (Avec une chance de 10%)
-            if ($faker->boolean(10)) {
-                $days = (new \DateTime())->diff($badge->getCreatedAt())->days;
-                $badge->setDeletedAt($faker->dateTimeBetween('-'.$days.' days', 'now'));
-            }
 
             //  On persiste le Badge dans la base de données
             $manager->persist($badge);

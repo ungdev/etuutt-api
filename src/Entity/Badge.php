@@ -63,10 +63,6 @@ class Badge
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deletedAt = null;
-
     /**
      * The relation that allow to add many Badges to many Users.
      */
@@ -159,23 +155,6 @@ class Badge
         $this->createdAt = $createdAt;
 
         return $this;
-    }
-
-    public function getDeletedAt(): ?\DateTimeInterface
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    public function isSoftDeleted(): bool
-    {
-        return null !== $this->deletedAt;
     }
 
     /**
