@@ -23,7 +23,6 @@ class Badge
     /**
      * The Serie is a group of Badge with the same idea (e.g. Badges that deal with being an asso member).
      */
-    #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $serie = null;
@@ -31,12 +30,10 @@ class Badge
     /**
      * The Level is serves to determine which badge of a serie is more advanced.
      */
-    #[Assert\Type('int')]
     #[Assert\Positive]
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $level = null;
 
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 100)]
     #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $name = null;
@@ -44,7 +41,6 @@ class Badge
     /**
      * The path to the picture of the badge.
      */
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $picture = null;

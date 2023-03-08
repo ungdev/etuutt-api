@@ -6,7 +6,6 @@ use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserOtherAttributValueRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This entity gives a value to a profil attribut of a User.
@@ -34,7 +33,6 @@ class UserOtherAttributValue
     /**
      * The value given to the attribut.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $value = null;
 

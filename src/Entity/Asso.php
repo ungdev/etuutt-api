@@ -68,7 +68,6 @@ class Asso
         'asso:read:one',
         'asso:read:some',
     ])]
-    #[Assert\Uuid]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -78,7 +77,6 @@ class Asso
     /**
      * The login used by the CAS.
      */
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 50)]
     #[Assert\Regex('/^[a-z_0-9]{1,50}$/')]
     #[ORM\Column(type: Types::STRING, length: 50, unique: true)]
@@ -88,7 +86,6 @@ class Asso
         'asso:read:one',
         'asso:read:some',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 100)]
     #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
     private ?string $name = null;
@@ -119,7 +116,6 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 100)]
     #[Assert\Email]
     #[ORM\Column(type: Types::STRING, length: 100)]
@@ -131,7 +127,6 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 0, max: 30)]
     #[Assert\Regex('/^0[0-9]{9}$/')]
     #[ORM\Column(type: Types::STRING, length: 30, nullable: true)]
@@ -143,7 +138,6 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 0, max: 100)]
     #[Assert\Url]
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
@@ -156,7 +150,6 @@ class Asso
         'asso:read:some',
         'asso:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 0, max: 100)]
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $logo = null;
@@ -164,7 +157,6 @@ class Asso
     #[Groups([
         'asso:read:one',
     ])]
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 

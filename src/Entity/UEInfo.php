@@ -6,7 +6,6 @@ use App\Entity\Traits\UUIDTrait;
 use App\Repository\UEInfoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that stores the additional info of a UE.
@@ -27,49 +26,42 @@ class UEInfo
     /**
      * The degree in which the UE is available.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $degree = null;
 
     /**
      * The possible minor in which this UE is.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $minors = null;
 
     /**
      * The possible UE that are necessary to take this one.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $antecedent = null;
 
     /**
      * The languages spoken in ths UE, and their minimum level to understand.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $languages = null;
 
     /**
      * A field to leave a free comment.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
 
     /**
      * The objectives of the UE.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $objectives = null;
 
     /**
      * The programme of this UE.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $programme = null;
 

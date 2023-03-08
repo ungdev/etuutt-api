@@ -82,7 +82,6 @@ class Group
             'group:read:some',
         ])
     ]
-    #[Assert\Uuid]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -94,7 +93,6 @@ class Group
         'group:read:some',
         'group:write:create',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     private ?string $name = null;
@@ -133,7 +131,6 @@ class Group
             'group:read:some',
         ])
     ]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
     #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
@@ -148,7 +145,6 @@ class Group
         'group:write:update',
         'group:write:create',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $avatar = null;
@@ -158,9 +154,8 @@ class Group
         'group:write:update',
         'group:write:create',
     ])]
-    #[Assert\Type('bool')]
     #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $isVisible = null;
+    private bool $isVisible = true;
 
     /**
      * The relation that allow to add many Users into many Groups.
@@ -276,7 +271,7 @@ class Group
         return $this;
     }
 
-    public function getIsVisible(): ?bool
+    public function getIsVisible(): bool
     {
         return $this->isVisible;
     }

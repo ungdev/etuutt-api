@@ -23,7 +23,6 @@ class AssoMembershipRole
         /**
          * The name of the role in the association (e.g. "president"), not necessary for members.
          */
-        #[Assert\Type('string')]
         #[Assert\Length(min: 1, max: 255)]
         #[Assert\Regex('/^[a-z_]{1,255}/')]
         #[ORM\Id]

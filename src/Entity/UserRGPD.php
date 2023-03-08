@@ -7,7 +7,6 @@ use App\Repository\UserRGPDRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity related to User that stores its RGPD's infos.
@@ -31,9 +30,8 @@ class UserRGPD
     #[Groups([
         'user:write:update',
     ])]
-    #[Assert\Type('bool')]
-    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
-    private ?bool $isKeepingAccount = null;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $isKeepingAccount = true;
 
     /**
      * A boolean to store if we delete all info about this User in our database.
@@ -41,9 +39,8 @@ class UserRGPD
     #[Groups([
         'user:write:update',
     ])]
-    #[Assert\Type('bool')]
-    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
-    private ?bool $isDeletingEverything = null;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $isDeletingEverything = false;
 
     public function getUser(): ?User
     {
@@ -57,24 +54,24 @@ class UserRGPD
         return $this;
     }
 
-    public function getIsKeepingAccount(): ?bool
+    public function getIsKeepingAccount(): bool
     {
         return $this->isKeepingAccount;
     }
 
-    public function setIsKeepingAccount(?bool $isKeepingAccount): self
+    public function setIsKeepingAccount(bool $isKeepingAccount): self
     {
         $this->isKeepingAccount = $isKeepingAccount;
 
         return $this;
     }
 
-    public function getIsDeletingEverything(): ?bool
+    public function getIsDeletingEverything(): bool
     {
         return $this->isDeletingEverything;
     }
 
-    public function setIsDeletingEverything(?bool $isDeletingEverything): self
+    public function setIsDeletingEverything(bool $isDeletingEverything): self
     {
         $this->isDeletingEverything = $isDeletingEverything;
 

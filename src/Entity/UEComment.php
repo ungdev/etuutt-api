@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity of a Comment on a UE. It allow Users to give feedback on a UE.
@@ -41,16 +40,14 @@ class UEComment
     /**
      * The content of this Comment.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $body = null;
 
     /**
      * A boolean that says if the author will be display next to his Comment.
      */
-    #[Assert\Type('bool')]
     #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $isAnonymous = null;
+    private bool $isAnonymous = false;
 
     /**
      * The relation to the semester in which this comment have been created.
@@ -119,7 +116,7 @@ class UEComment
         return $this;
     }
 
-    public function getIsAnonymous(): ?bool
+    public function getIsAnonymous(): bool
     {
         return $this->isAnonymous;
     }

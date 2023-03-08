@@ -55,7 +55,6 @@ class UEAnnal
     /**
      * The path to the file.
      */
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $filename = null;
@@ -64,7 +63,6 @@ class UEAnnal
      * The timestamp of validation by a User.
      */
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $validatedAt = null;
 
     /**

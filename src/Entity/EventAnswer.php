@@ -36,7 +36,6 @@ class EventAnswer
     /**
      * The answer of the User to the Event (e.g. "je viens").
      */
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 20)]
     #[ORM\Column(type: Types::STRING, length: 20)]
     private ?string $answer = null;

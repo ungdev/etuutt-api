@@ -33,9 +33,8 @@ class UserPreference
     #[Groups([
         'user:write:update',
     ])]
-    #[Assert\Type('bool')]
     #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $birthdayDisplayOnlyAge = null;
+    private bool $birthdayDisplayOnlyAge = false;
 
     /**
      * The language prefered by the User. It follows the ISO 639-1 convention.
@@ -43,7 +42,6 @@ class UserPreference
     #[Groups([
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Choice(['fr', 'en', 'es', 'de', 'zh'])]
     #[ORM\Column(type: Types::STRING, length: 5)]
     private ?string $language = null;
@@ -54,9 +52,8 @@ class UserPreference
     #[Groups([
         'user:write:update',
     ])]
-    #[Assert\Type('bool')]
     #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $wantDaymail = null;
+    private bool $wantDaymail = true;
 
     /**
      * The boolean that informs us if we send day notif to this User or not.
@@ -64,9 +61,8 @@ class UserPreference
     #[Groups([
         'user:write:update',
     ])]
-    #[Assert\Type('bool')]
     #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $wantDayNotif = null;
+    private bool $wantDayNotif = true;
 
     /**
      * Relations to all groups that can access to this data.
@@ -109,7 +105,7 @@ class UserPreference
         return $this;
     }
 
-    public function getBirthdayDisplayOnlyAge(): ?bool
+    public function getBirthdayDisplayOnlyAge(): bool
     {
         return $this->birthdayDisplayOnlyAge;
     }
@@ -133,7 +129,7 @@ class UserPreference
         return $this;
     }
 
-    public function getWantDaymail(): ?bool
+    public function getWantDaymail(): bool
     {
         return $this->wantDaymail;
     }
@@ -145,7 +141,7 @@ class UserPreference
         return $this;
     }
 
-    public function getWantDayNotif(): ?bool
+    public function getWantDayNotif(): bool
     {
         return $this->wantDayNotif;
     }

@@ -70,7 +70,6 @@ class User implements UserInterface
         'user:read:one',
         'user:read:some',
     ])]
-    #[Assert\Uuid]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -84,7 +83,6 @@ class User implements UserInterface
         'user:read:one',
         'user:read:some',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
     #[Assert\Regex('/^[a-z_0-9]{1,50}$/')]
     #[ORM\Column(type: Types::STRING, length: 50, unique: true)]
@@ -96,7 +94,6 @@ class User implements UserInterface
     #[Groups([
         'user:read:one',
     ])]
-    #[Assert\Type('int')]
     #[Assert\Positive]
     #[ORM\Column(type: Types::INTEGER, nullable: true, unique: true)]
     private ?int $studentId = null;
@@ -105,7 +102,6 @@ class User implements UserInterface
         'user:read:one',
         'user:read:some',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $firstName = null;
@@ -114,7 +110,6 @@ class User implements UserInterface
         'user:read:one',
         'user:read:some',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $lastName = null;

@@ -24,7 +24,6 @@ class AssoKeyword
         #[Groups([
             'asso:read:one',
         ])]
-        #[Assert\Type('string')]
         #[Assert\Length(min: 1, max: 30)]
         #[Assert\Regex('/^[a-z]{1,30}$/')]
         #[ORM\Id]

@@ -31,7 +31,6 @@ class UserInfos
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
     #[Assert\Choice(['Masculin', 'Féminin', 'Autre'])]
     #[ORM\Column(type: Types::STRING, length: 50)]
@@ -49,7 +48,6 @@ class UserInfos
     #[Groups([
         'user:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $nationality = null;
@@ -66,7 +64,6 @@ class UserInfos
     #[Groups([
         'user:read:one',
     ])]
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthday = null;
 
@@ -86,7 +83,6 @@ class UserInfos
         'user:read:one',
         'user:read:some',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $avatar = null;
@@ -98,7 +94,6 @@ class UserInfos
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $nickname = null;
@@ -110,7 +105,6 @@ class UserInfos
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $passions = null;
 

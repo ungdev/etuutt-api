@@ -28,7 +28,6 @@ class CovoitAlert
     /**
      * The maximum price in cents (x100). It is optional.
      */
-    #[Assert\Type('int')]
     #[Assert\Positive]
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $priceMax = null;
@@ -36,43 +35,30 @@ class CovoitAlert
     /**
      * The first boundary of the Covoit starting date.
      */
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startAt = null;
 
     /**
      * The second boundary of the Covoit starting date.
      */
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endAt = null;
 
     /**
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      */
-    #[Assert\Uuid]
     #[ORM\Column(type: 'uuid', nullable: true)]
-    private $startCityId;
+    private Uuid $startCityId;
 
     /**
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      */
-    #[Assert\Uuid]
     #[ORM\Column(type: 'uuid', nullable: true)]
-    private $endCityId;
-
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $createdAt;
-
-    #[Assert\Type('\DateTimeInterface')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTimeInterface $updatedAt;
+    private Uuid $endCityId;
 
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
     }
 
     public function getUser(): ?User
@@ -123,24 +109,24 @@ class CovoitAlert
         return $this;
     }
 
-    public function getStartCityId()
+    public function getStartCityId(): Uuid
     {
         return $this->startCityId;
     }
 
-    public function setStartCityId($startCityId): self
+    public function setStartCityId(Uuid $startCityId): self
     {
         $this->startCityId = $startCityId;
 
         return $this;
     }
 
-    public function getEndCityId()
+    public function getEndCityId(): Uuid
     {
         return $this->endCityId;
     }
 
-    public function setEndCityId($endCityId): self
+    public function setEndCityId(Uuid $endCityId): self
     {
         $this->endCityId = $endCityId;
 

@@ -17,7 +17,6 @@ class UserOtherAttribut
     /**
      * The type of value that this attribut is.
      */
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 50)]
     #[Assert\Choice(['bool', 'int', 'float', 'string', 'longtext', 'date', 'datetime'])]
     #[ORM\Column(type: Types::STRING, length: 50)]
@@ -27,7 +26,6 @@ class UserOtherAttribut
         /**
          * The name of this field.
          */
-        #[Assert\Type('string')]
         #[Assert\Length(min: 1, max: 100)]
         #[ORM\Id]
         #[ORM\Column(type: Types::STRING, length: 100)]

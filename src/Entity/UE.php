@@ -68,7 +68,6 @@ class UE
         'ue:read:one',
         'ue:read:some',
     ])]
-    #[Assert\Uuid]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -83,7 +82,6 @@ class UE
         'ue:read:some',
         'user-edt:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 10)]
     #[Assert\Regex('/^[a-zA-Z]{1,5}[0-9]{1,2}$/')]
     #[ORM\Column(type: Types::STRING, length: 10)]
@@ -96,7 +94,6 @@ class UE
         'ue:read:one',
         'ue:read:some',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
@@ -107,7 +104,6 @@ class UE
     #[Groups([
         'ue:read:one',
     ])]
-    #[Assert\Type('float')]
     #[Assert\LessThanOrEqual(100)]
     #[Assert\GreaterThanOrEqual(0)]
     #[ORM\Column(type: Types::FLOAT, nullable: true)]

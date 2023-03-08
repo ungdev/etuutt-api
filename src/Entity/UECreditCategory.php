@@ -17,7 +17,6 @@ class UECreditCategory
     /**
      * The meaning of the code.
      */
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 10)]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
@@ -26,7 +25,6 @@ class UECreditCategory
         /**
          * The code of a category (e.g. 'CS', 'TM').
          */
-        #[Assert\Type('string')]
         #[Assert\Length(min: 1, max: 10)]
         #[Assert\Regex('/^[A-Z]{1,10}$/')]
         #[ORM\Id]

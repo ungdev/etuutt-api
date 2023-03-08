@@ -43,13 +43,13 @@ class UserBDEContribution
      */
     #[Assert\Date]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $start = null;
+    private \DateTimeInterface $start;
 
     /**
-     * The ending date of the BDEContribution.
+     * The ending date of the BDEContribution. "Membres d'honneur" have infite contribution, so the field is nullable.
      */
     #[Assert\Date]
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $end = null;
 
     public function getUser(): ?User
@@ -88,7 +88,7 @@ class UserBDEContribution
         return $this;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getStart(): \DateTimeInterface
     {
         return $this->start;
     }
@@ -105,7 +105,7 @@ class UserBDEContribution
         return $this->end;
     }
 
-    public function setEnd(\DateTimeInterface $end): self
+    public function setEnd(?\DateTimeInterface $end): self
     {
         $this->end = $end;
 
