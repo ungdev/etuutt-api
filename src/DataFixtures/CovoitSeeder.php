@@ -11,6 +11,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\Uid\Uuid;
 
 class CovoitSeeder extends Fixture implements DependentFixtureInterface
 {
@@ -103,8 +104,8 @@ class CovoitSeeder extends Fixture implements DependentFixtureInterface
             $covoitAlert->setEndAt($faker->dateTimeBetween('-'.$days.' days'));
 
             // Création des villes de départ et d'arrivée
-            $covoitAlert->setStartCityId($faker->uuid);
-            $covoitAlert->setEndCityid($faker->uuid);
+            $covoitAlert->setStartCityId(Uuid::fromString($faker->uuid));
+            $covoitAlert->setEndCityid(Uuid::fromString($faker->uuid));
 
             // On persiste l'alerte dans la base de données
             $manager->persist($covoitAlert);
