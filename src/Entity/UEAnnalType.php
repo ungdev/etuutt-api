@@ -15,7 +15,6 @@ class UEAnnalType
         /**
          * The type name (e.g. "Médian").
          */
-        #[Assert\Type('string')]
         #[Assert\Length(min: 1, max: 50)]
         #[ORM\Id]
         #[ORM\Column(type: Types::STRING, length: 50)]

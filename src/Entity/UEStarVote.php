@@ -44,11 +44,10 @@ class UEStarVote
     /**
      * The number of stars of this vote.
      */
-    #[Assert\Type('int')]
     #[Assert\LessThanOrEqual(5)]
     #[Assert\GreaterThanOrEqual(0)]
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $value = null;
+    private int $value;
 
     public function __construct()
     {
@@ -91,7 +90,7 @@ class UEStarVote
         return $this;
     }
 
-    public function getValue(): ?int
+    public function getValue(): int
     {
         return $this->value;
     }

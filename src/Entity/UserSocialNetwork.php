@@ -32,7 +32,6 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[Assert\Url]
     #[Assert\Regex('/^https:\/\/facebook\.com\/[a-z0-9]+(?:-[a-z0-9]+)*$/')]
@@ -46,7 +45,6 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[Assert\Url]
     #[Assert\Regex('/^https:\/\/twitter\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/')]
@@ -60,7 +58,6 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[Assert\Url]
     #[Assert\Regex('/^https:\/\/instagram\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/')]
@@ -74,7 +71,6 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[Assert\Url]
     #[Assert\Regex('/^https:\/\/linkedin\.com\/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/')]
@@ -88,7 +84,6 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $pseudoDiscord = null;
@@ -100,7 +95,6 @@ class UserSocialNetwork
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('bool')]
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $wantDiscordUTT = false;
 
@@ -176,7 +170,7 @@ class UserSocialNetwork
         return $this;
     }
 
-    public function getWantDiscordUTT(): ?bool
+    public function getWantDiscordUTT(): bool
     {
         return $this->wantDiscordUTT;
     }

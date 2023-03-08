@@ -29,18 +29,16 @@ class Covoit
     /**
      * The maximum number of passengers of this Covoit.
      */
-    #[Assert\Type('int')]
     #[Assert\Positive]
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $capacity = null;
+    private int $capacity;
 
     /**
      * The price in cents (x100).
      */
-    #[Assert\Type('int')]
     #[Assert\Positive]
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $price = null;
+    private int $price;
 
     /**
      * The URL of this Covoit on the blablacar website. It is optional.
@@ -64,28 +62,24 @@ class Covoit
     /**
      * The ID of the start city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      */
-    #[Assert\Uuid]
     #[ORM\Column(type: 'uuid', nullable: true)]
     private Uuid $startCityId;
 
     /**
      * The ID of the end city based on this website : https://geoservices.ign.fr/services-web-essentiels.
      */
-    #[Assert\Uuid]
     #[ORM\Column(type: 'uuid', nullable: true)]
-    private $endCityId;
+    private Uuid $endCityId;
 
     /**
      * The starting date of the Covoit.
      */
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $startAt;
 
     /**
      * The end date of the Covoit.
      */
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endAt = null;
 
@@ -143,7 +137,7 @@ class Covoit
         return $this;
     }
 
-    public function getCapacity(): ?int
+    public function getCapacity(): int
     {
         return $this->capacity;
     }
@@ -155,7 +149,7 @@ class Covoit
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): int
     {
         return $this->price;
     }
@@ -299,12 +293,12 @@ class Covoit
         return $this;
     }
 
-    public function getEndCityId()
+    public function getEndCityId(): Uuid
     {
         return $this->endCityId;
     }
 
-    public function setEndCityId($endCityId): self
+    public function setEndCityId(Uuid $endCityId): self
     {
         $this->endCityId = $endCityId;
 

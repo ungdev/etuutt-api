@@ -8,7 +8,6 @@ use App\Entity\Traits\UUIDTrait;
 use App\Repository\UserTimestampsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity related to User that stores its Timestamps.
@@ -29,11 +28,9 @@ class UserTimestamps
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $firstLoginDate = null;
 
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastLoginDate = null;
 

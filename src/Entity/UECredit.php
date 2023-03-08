@@ -34,9 +34,8 @@ class UECredit
     /**
      * The amount of credit.
      */
-    #[Assert\Type('int')]
     #[Assert\Positive]
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $credits = null;
 
     public function getUE(): ?UE
@@ -68,7 +67,7 @@ class UECredit
         return $this->credits;
     }
 
-    public function setCredits(int $credits): self
+    public function setCredits(?int $credits): self
     {
         $this->credits = $credits;
 

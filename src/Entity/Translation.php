@@ -7,7 +7,6 @@ use App\Repository\TranslationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that contains the translations in french, english, spanish, german and chinese of the field that reference it.
@@ -28,7 +27,6 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $french = null;
 
@@ -42,7 +40,6 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $english = null;
 
@@ -56,7 +53,6 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $spanish = null;
 
@@ -70,7 +66,6 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $german = null;
 
@@ -84,7 +79,6 @@ class Translation
         'asso:read:one',
         'asso:read:some',
     ])]
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $chinese = null;
 

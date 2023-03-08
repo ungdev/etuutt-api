@@ -19,17 +19,16 @@ class Semester
      */
     #[Assert\Date]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $start = null;
+    private \DateTimeInterface $start;
 
     /**
      * The ending date of the Semester.
      */
     #[Assert\Date]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $end = null;
+    private \DateTimeInterface $end;
 
     public function __construct(
-        #[Assert\Type('string')]
         #[Assert\Length(max: 10)]
         #[Assert\Regex('/^(A|P)\d{2}$/')]
         #[ORM\Id]
@@ -43,7 +42,7 @@ class Semester
         return $this->code;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getStart(): \DateTimeInterface
     {
         return $this->start;
     }
@@ -55,7 +54,7 @@ class Semester
         return $this;
     }
 
-    public function getEnd(): ?\DateTimeInterface
+    public function getEnd(): \DateTimeInterface
     {
         return $this->end;
     }

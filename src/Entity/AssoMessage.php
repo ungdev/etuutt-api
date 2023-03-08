@@ -8,7 +8,6 @@ use App\Repository\AssoMessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AssoMessageRepository::class)]
 #[ORM\Table(name: 'asso_messages')]
@@ -42,23 +41,20 @@ class AssoMessage
     /**
      * The date of the event presented in the message.
      */
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
 
     /**
      * Whether the message should be displayed on mobile or not.
      */
-    #[Assert\Type('bool')]
     #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $sendToMobile = null;
+    private bool $sendToMobile = false;
 
     /**
      * Whether the message should be send in the daymails or not.
      */
-    #[Assert\Type('bool')]
     #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $sendAsDaymail = null;
+    private bool $sendAsDaymail = false;
 
     public function __construct()
     {
@@ -116,7 +112,7 @@ class AssoMessage
         return $this;
     }
 
-    public function getSendToMobile(): ?bool
+    public function getSendToMobile(): bool
     {
         return $this->sendToMobile;
     }
@@ -128,7 +124,7 @@ class AssoMessage
         return $this;
     }
 
-    public function getSendAsDaymail(): ?bool
+    public function getSendAsDaymail(): bool
     {
         return $this->sendAsDaymail;
     }

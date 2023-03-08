@@ -38,7 +38,6 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Choice(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])]
     #[ORM\Column(type: Types::STRING, length: 20)]
     private ?string $day = null;
@@ -50,7 +49,7 @@ class UECourse
         'user-edt:read:one',
     ])]
     #[Assert\Time]
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startHour = null;
 
     /**
@@ -60,7 +59,7 @@ class UECourse
         'user-edt:read:one',
     ])]
     #[Assert\Time]
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endHour = null;
 
     /**
@@ -69,7 +68,6 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Choice(['A', 'B'])]
     #[ORM\Column(type: Types::STRING, length: 1, nullable: true)]
     private ?string $week = null;
@@ -77,7 +75,6 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Choice(['CM', 'TD', 'TP'])]
     #[ORM\Column(type: Types::STRING, length: 2, nullable: true)]
     private ?string $type = null;
@@ -88,7 +85,6 @@ class UECourse
     #[Groups([
         'user-edt:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 50)]
     #[ORM\Column(type: Types::STRING, length: 50)]
     private ?string $room = null;
@@ -145,7 +141,7 @@ class UECourse
         return $this->startHour;
     }
 
-    public function setStartHour(\DateTimeInterface $startHour): self
+    public function setStartHour(?\DateTimeInterface $startHour): self
     {
         $this->startHour = $startHour;
 
@@ -157,7 +153,7 @@ class UECourse
         return $this->endHour;
     }
 
-    public function setEndHour(\DateTimeInterface $endHour): self
+    public function setEndHour(?\DateTimeInterface $endHour): self
     {
         $this->endHour = $endHour;
 

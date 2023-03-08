@@ -23,7 +23,6 @@ class UTTFormationFollowingMethod
     private ?Translation $descriptionTranslation = null;
 
     public function __construct(
-        #[Assert\Type('string')]
         #[Assert\Length(min: 1, max: 100)]
         #[ORM\Id]
         #[ORM\Column(type: Types::STRING, length: 100)]

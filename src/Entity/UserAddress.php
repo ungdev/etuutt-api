@@ -31,7 +31,6 @@ class UserAddress
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $street = null;
@@ -43,7 +42,6 @@ class UserAddress
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 20)]
     #[Assert\Regex('/^$|^\d{2}\s?\d{3}$/')]
     #[ORM\Column(type: Types::STRING, length: 20, nullable: true)]
@@ -53,7 +51,6 @@ class UserAddress
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $city = null;
@@ -62,7 +59,6 @@ class UserAddress
         'user:read:one',
         'user:write:update',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $country = null;

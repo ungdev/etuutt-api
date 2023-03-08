@@ -27,7 +27,6 @@ class UEWorkTime
     /**
      * The number of hours during the semester of CM (Cours Magistral).
      */
-    #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $cm = null;
@@ -35,7 +34,6 @@ class UEWorkTime
     /**
      * The number of hours during the semester of TD (Travaux Dirigés).
      */
-    #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $td = null;
@@ -43,7 +41,6 @@ class UEWorkTime
     /**
      * The number of hours during the semester of TP (Travaux Pratiques).
      */
-    #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $tp = null;
@@ -51,7 +48,6 @@ class UEWorkTime
     /**
      * The estimated number of hours during the semester of THE (Travail Hors Encadrement).
      */
-    #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $the = null;
@@ -59,7 +55,6 @@ class UEWorkTime
     /**
      * The estimated number of hours during the semester of project.
      */
-    #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $projet = null;
@@ -67,7 +62,6 @@ class UEWorkTime
     /**
      * The number of week that this internship has to lasts.
      */
-    #[Assert\Type('int')]
     #[Assert\PositiveOrZero]
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $internship = null;

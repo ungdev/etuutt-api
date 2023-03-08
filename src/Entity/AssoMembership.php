@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AssoMembershipRepository::class)]
 #[ORM\Table(name: 'asso_memberships')]
@@ -56,11 +55,9 @@ class AssoMembership
     private Collection $permissions;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\Type('\DateTimeInterface')]
     private \DateTimeInterface $startAt;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\Type('\DateTimeInterface')]
     private \DateTimeInterface $endAt;
 
     public function __construct()

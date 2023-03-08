@@ -8,7 +8,6 @@ use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECommentReplyRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity of a reply to a Comment on a UE.
@@ -39,7 +38,6 @@ class UECommentReply
     /**
      * The content of this Reply.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $body = null;
 

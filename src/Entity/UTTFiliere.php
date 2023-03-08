@@ -20,7 +20,6 @@ class UTTFiliere
     /**
      * The complete name of the Filiere.
      */
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
@@ -51,7 +50,6 @@ class UTTFiliere
         /**
          * The code of the Filiere.
          */
-        #[Assert\Type('string')]
         #[Assert\Length(max: 10)]
         #[Assert\Regex('/^[A-Z\d]{1,10}$/')]
         #[ORM\Id]

@@ -21,7 +21,6 @@ class UEStarCriterion
     /**
      * The name of the criterion.
      */
-    #[Assert\Type('string')]
     #[Assert\Length(min: 1, max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;

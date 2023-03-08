@@ -4,7 +4,6 @@ namespace App\Entity\Traits;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A trait that entities can use to have timestamps. It adds a `createdAt` and an `updatedAt` property with their getters and setters.
@@ -12,11 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait TimestampsTrait
 {
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Type('\DateTimeInterface')]
     private \DateTimeInterface $createdAt;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Type('\DateTimeInterface')]
     private \DateTimeInterface $updatedAt;
 
     public function getCreatedAt(): \DateTimeInterface

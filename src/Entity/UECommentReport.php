@@ -7,7 +7,6 @@ use App\Entity\Traits\UUIDTrait;
 use App\Repository\UECommentReportRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entity that is created whan a User report a Comment.
@@ -44,7 +43,6 @@ class UECommentReport
     /**
      * The text typed by the reporter to describe the reason.
      */
-    #[Assert\Type('string')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $body = null;
 

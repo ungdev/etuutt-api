@@ -4,7 +4,6 @@ namespace App\Entity\Traits;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A trait that entities can use to be soft deletable. It adds a `deletedAt` property with its getter and setter, with a `isSoftDeleted()` method.
@@ -12,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait SoftDeletableTrait
 {
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $deletedAt = null;
 
     public function getDeletedAt(): ?\DateTimeInterface

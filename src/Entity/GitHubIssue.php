@@ -30,10 +30,9 @@ class GitHubIssue
     /**
      * The id of the GitHub issue.
      */
-    #[Assert\Type(type: 'integer')]
     #[Assert\Positive]
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $gitHubIssueId = null;
+    private int $gitHubIssueId;
 
     public function __construct()
     {
@@ -52,7 +51,7 @@ class GitHubIssue
         return $this;
     }
 
-    public function getGitHubIssueId(): ?int
+    public function getGitHubIssueId(): int
     {
         return $this->gitHubIssueId;
     }

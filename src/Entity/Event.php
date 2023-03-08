@@ -63,7 +63,6 @@ class Event
         'event:read:one',
         'asso:read:one',
     ])]
-    #[Assert\Uuid]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -98,7 +97,6 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startAt = null;
 
@@ -108,7 +106,6 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    #[Assert\Type('\DateTimeInterface')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endAt = null;
 
@@ -118,9 +115,8 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    #[Assert\Type('bool')]
     #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $isAllDay = null;
+    private bool $isAllDay = false;
 
     /**
      * The location of the event. It is optional.
@@ -128,7 +124,6 @@ class Event
     #[Groups([
         'event:read:one',
     ])]
-    #[Assert\Type('string')]
     #[Assert\Length(min: 0, max: 255)]
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $location = null;
@@ -246,7 +241,7 @@ class Event
         return $this;
     }
 
-    public function getIsAllDay(): ?bool
+    public function getIsAllDay(): bool
     {
         return $this->isAllDay;
     }

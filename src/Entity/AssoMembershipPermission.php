@@ -15,7 +15,6 @@ class AssoMembershipPermission
         /**
          * The permission accorded in the association (e.g. "daymail", "events", "edit_desc").
          */
-        #[Assert\Type('string')]
         #[Assert\Length(min: 1, max: 50)]
         #[Assert\Regex('/^[a-z_]{1,50}/')]
         #[ORM\Id]

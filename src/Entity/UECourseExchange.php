@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This entity represents a proposition of the author to exchange one of his courses.
@@ -47,9 +46,8 @@ class UECourseExchange
     /**
      * A boolean to know if this Exchange is still wanted by the author.
      */
-    #[Assert\Type('bool')]
     #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $stillAvailable = null;
+    private bool $stillAvailable = true;
 
     /**
      * The content of the message that goes with the Exchange proposition.
@@ -108,7 +106,7 @@ class UECourseExchange
         return $this;
     }
 
-    public function getStillAvailable(): ?bool
+    public function getStillAvailable(): bool
     {
         return $this->stillAvailable;
     }
