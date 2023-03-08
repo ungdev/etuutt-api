@@ -251,7 +251,7 @@ All following commands should be executed into the application's container. To d
 ```sh
 docker exec -it application /bin/bash
 ```
-Here is a list of commands to interact with the database, entities, tests, `php-cs-fixer` and `composer`.
+Here is a list of commands to interact with the database, entities, tests, `php-cs-fixer`, `rector` and `composer`.
 - To update the database schema to match all entities without migrations.
   ```sh
   php bin/console doctrine:schema:update --force
@@ -268,9 +268,13 @@ Here is a list of commands to interact with the database, entities, tests, `php-
   ```sh
   php bin/phpunit
   ```
-- To call `php-cs-fixer` to modify the PHP code on `src` folder so that it follows the conventions described in the `.php-cs-fixer.dist.php` file.
+- To call `php-cs-fixer` to modify the PHP code of the project so that it follows the conventions described in the `.php-cs-fixer.dist.php` file.
   ```sh
   vendor/bin/php-cs-fixer fix
+  ```
+- To call `rector` to refactor the PHP code in both `src` and `tests` folders so that it uses the latest PHP, Symfony and Doctrine features described in the `rector.php` file.
+  ```sh
+  vendor/bin/rector --clear-cache
   ```
 - To install all PHP dependencies.
   ```sh
