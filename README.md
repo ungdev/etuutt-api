@@ -171,7 +171,6 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 ├── migrations/             # DB migrations files, to version the DB without data loss
 ├── public/                 # All public files, includes the entry point
 ├── src/                    # The project's PHP source files
-|   ├── ApiPlatform/        # Filters on data applied by API Platform
 |   ├── Controller/         # Symfony controllers. It helps us to perform custom operations
 |   ├── DataFixtures/       # Files that fill the DB with fake data to test
 |   ├── DataProvider/       # Customized ways of retrieving data
@@ -179,6 +178,7 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 |   ├── Entity/             # All Symfony entities
 |   |   └── Traits/         # Properties and methods of entities factorized in PHP traits
 |   ├── EventSubscriber/    # API Platform event listeners
+|   ├── Filter/             # Filters on data applied by API Platform
 |   ├── OpenApi/            # Swagger decorator for custom behavior
 |   ├── Repository/         # Files to retrieve entities
 |   ├── Security/           # Login process and Voters

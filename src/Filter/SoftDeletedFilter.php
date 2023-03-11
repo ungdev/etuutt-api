@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Filter;
 
 use ApiPlatform\Doctrine\Orm\Filter\FilterInterface;
@@ -34,8 +32,12 @@ final class SoftDeletedFilter implements FilterInterface
             throw new \InvalidArgumentException(sprintf("Can't apply the SoftDeleted filter on a resource (%s) not implementing the SoftDeletableTrait.", $resourceClass));
         }
 
-        //  Parameter not provided or not supported
-        $wantSeeSoftDeleted = $this->normalizeValue($context['filters'][self::PARAMETER_NAME] ?? false);
+        //  Parameter not provided or not supported, default value to false
+        $wantSeeSoftDeleted = \in_array(
+            $context['filters'][self::PARAMETER_NAME] ?? false,
+            [true, 'true', '1', 1],
+            true
+        );
 
         //  Only admin can see softDeleted
         $wantSeeSoftDeleted = $this->security->isGranted('ROLE_ADMIN') ? $wantSeeSoftDeleted : false;
@@ -76,10 +78,5 @@ final class SoftDeletedFilter implements FilterInterface
                 ],
             ],
         ];
-    }
-
-    private function normalizeValue(mixed $value): ?bool
-    {
-        return \in_array($value, [true, 'true', '1', 1], true);
     }
 }

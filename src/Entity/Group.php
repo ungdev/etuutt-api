@@ -17,6 +17,7 @@ use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
 use App\Filter\SoftDeletedFilter;
+use App\Filter\VisibleGroupFilter;
 use App\Repository\GroupRepository;
 use App\Util\Slug;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -66,6 +67,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     )
 ]
 #[ApiFilter(SoftDeletedFilter::class)]
+#[ApiFilter(VisibleGroupFilter::class)]
 #[ORM\Entity(repositoryClass: GroupRepository::class)]
 #[ORM\EntityListeners([GroupSetAdminAndMemberListener::class])]
 #[ORM\Table(name: 'groups')]
