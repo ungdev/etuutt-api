@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
+use App\Filter\SoftDeletedFilter;
 use App\Repository\CovoitMessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiFilter(SoftDeletedFilter::class)]
 #[ORM\Entity(repositoryClass: CovoitMessageRepository::class)]
 #[ORM\Table(name: 'covoit_messages')]
 #[ORM\HasLifecycleCallbacks]

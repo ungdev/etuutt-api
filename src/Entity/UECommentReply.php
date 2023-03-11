@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
+use App\Filter\SoftDeletedFilter;
 use App\Repository\UECommentReplyRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * The entity of a reply to a Comment on a UE.
  */
+#[ApiFilter(SoftDeletedFilter::class)]
 #[ORM\Entity(repositoryClass: UECommentReplyRepository::class)]
 #[ORM\Table(name: 'ue_comment_replies')]
 #[ORM\HasLifecycleCallbacks]

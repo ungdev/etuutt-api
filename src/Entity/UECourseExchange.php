@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
+use App\Filter\SoftDeletedFilter;
 use App\Repository\UECourseExchangeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * This entity represents a proposition of the author to exchange one of his courses.
  */
+#[ApiFilter(SoftDeletedFilter::class)]
 #[ORM\Entity(repositoryClass: UECourseExchangeRepository::class)]
 #[ORM\Table(name: 'ue_course_exchanges')]
 #[ORM\HasLifecycleCallbacks]

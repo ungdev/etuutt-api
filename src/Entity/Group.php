@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -15,6 +16,7 @@ use App\Doctrine\GroupSetAdminAndMemberListener;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
+use App\Filter\SoftDeletedFilter;
 use App\Repository\GroupRepository;
 use App\Util\Slug;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -63,6 +65,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         security: "is_granted('ROLE_USER')",
     )
 ]
+#[ApiFilter(SoftDeletedFilter::class)]
 #[ORM\Entity(repositoryClass: GroupRepository::class)]
 #[ORM\EntityListeners([GroupSetAdminAndMemberListener::class])]
 #[ORM\Table(name: 'groups')]

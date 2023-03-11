@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
+use App\Filter\SoftDeletedFilter;
 use App\Repository\UEAnnalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * The entity associated to an annal sent by a User. Annals are files that contain the subject of a UE's exam.
  */
+#[ApiFilter(SoftDeletedFilter::class)]
 #[ORM\Entity(repositoryClass: UEAnnalRepository::class)]
 #[ORM\Table(name: 'ue_annals')]
 #[ORM\HasLifecycleCallbacks]

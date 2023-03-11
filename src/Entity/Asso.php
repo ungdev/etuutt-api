@@ -13,6 +13,7 @@ use App\Controller\SoftDeleteController;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
+use App\Filter\SoftDeletedFilter;
 use App\Repository\AssoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -52,9 +53,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
         order: ['name'],
         paginationItemsPerPage: 10,
-    ),
-    ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'keywords' => 'exact']),
+    )
 ]
+#[ApiFilter(SoftDeletedFilter::class)]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'keywords' => 'exact'])]
 #[ORM\Entity(repositoryClass: AssoRepository::class)]
 #[ORM\Table(name: 'assos')]
 #[ORM\HasLifecycleCallbacks]

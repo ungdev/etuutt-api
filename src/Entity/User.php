@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -11,6 +12,7 @@ use App\Controller\GetEDTController;
 use App\Controller\SoftDeleteController;
 use App\DataProvider\UserDataVisibilityItemDataProvider;
 use App\Entity\Traits\UUIDTrait;
+use App\Filter\SoftDeletedFilter;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -59,6 +61,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         security: "is_granted('ROLE_USER')",
     )
 ]
+#[ApiFilter(SoftDeletedFilter::class)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
 #[ORM\HasLifecycleCallbacks]

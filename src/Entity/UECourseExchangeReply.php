@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampsTrait;
 use App\Entity\Traits\UUIDTrait;
+use App\Filter\SoftDeletedFilter;
 use App\Repository\UECourseExchangeReplyRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * This entity represents a comment replying to a UECourseExchange.
  */
+#[ApiFilter(SoftDeletedFilter::class)]
 #[ORM\Entity(repositoryClass: UECourseExchangeReplyRepository::class)]
 #[ORM\Table(name: 'ue_course_exchange_replies')]
 #[ORM\HasLifecycleCallbacks]
